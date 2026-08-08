@@ -34,10 +34,22 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 .icon { text-align: center; font-size: 24px !important; cursor: pointer; color: #0f172a; }
 .icon:hover { color: #3BB4EC; }
 .icon span { display: block; font-size: 12px !important; font-weight: 600; margin-top: 3px; color: #475569; }
-.cart-icon b {
-  background: #22c55e !important; color: #fff; font-size: 10px; padding: 2px 6px;
-  border-radius: 50px; position: absolute; top: -8px; right: -8px; font-weight: 700;
+.cart-icon {
+  position: relative; /* Yeh zaroori hai taake badge icon ke hisab se theek jagah par rahe */
 }
+
+.cart-icon b {
+  background: #22c55e !important;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50px;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-weight: 700;
+}
+
 
 @media (max-width: 768px) {
   body {
