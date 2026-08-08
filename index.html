@@ -386,6 +386,7 @@ updateCart();
   }
 </script>
 <script>
+  // Yeh function checkout button par click hone par form dikhaye ga
   function showCheckoutForm() {
     const cartContent = document.querySelector('.cart-content') || document.querySelector('.cart-sidebar');
     if (cartContent) {
@@ -398,7 +399,15 @@ updateCart();
           <button onclick="sendWhatsAppOrder()" style="width:100%; padding:12px; background:#25D366; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Confirm Order (COD) 💬</button>
         </div>
       `;
-    
+    }
+  }
+
+  // Yeh code khud check karega ke checkout button dab gaya hai ya nahi
+  document.addEventListener('click', function(event) {
+    if (event.target && (event.target.classList.contains('checkout-btn') || event.target.innerText === 'Checkout')) {
+      showCheckoutForm();
+    }
+  });
 
   function sendWhatsAppOrder() {
     const name = document.getElementById('cust-name').value;
@@ -412,5 +421,16 @@ updateCart();
     
     const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 Name: ${name}%0A🏠 Address: ${address}%0A📞 Phone: ${phone}`;
     window.open(`https://wa.me/923376454384?text=${message}`, '_blank');
+  }
+
+  function sendContactWhatsApp() {
+    const myNumber = "923376454384";
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const msg = document.getElementById('contact-msg').value;
+
+    const text = `💬 *New Customer Message*%0A%0A👤 *Name:* ${name}%0A📧 *Email:* ${email}%0A📝 *Message:* ${msg}`;
+    
+    window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
 </script>
