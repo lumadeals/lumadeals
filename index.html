@@ -385,3 +385,32 @@ updateCart();
     window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
 </script>
+<script>
+  function showCheckoutForm() {
+    const cartContent = document.querySelector('.cart-content') || document.querySelector('.cart-sidebar');
+    if (cartContent) {
+      cartContent.innerHTML = `
+        <div style="padding: 15px;">
+          <h3 style="margin-bottom: 15px; font-size:16px;">Delivery Details (COD)</h3>
+          <input type="text" id="cust-name" placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;">
+          <input type="text" id="cust-address" placeholder="Full Address" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;">
+          <input type="text" id="cust-phone" placeholder="Phone Number" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;">
+          <button onclick="sendWhatsAppOrder()" style="width:100%; padding:12px; background:#25D366; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Confirm Order (COD) 💬</button>
+        </div>
+      `;
+    
+
+  function sendWhatsAppOrder() {
+    const name = document.getElementById('cust-name').value;
+    const address = document.getElementById('cust-address').value;
+    const phone = document.getElementById('cust-phone').value;
+    
+    if(!name || !address || !phone) {
+      alert("Please fill all fields!");
+      return;
+    }
+    
+    const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 Name: ${name}%0A🏠 Address: ${address}%0A📞 Phone: ${phone}`;
+    window.open(`https://wa.me/923376454384?text=${message}`, '_blank');
+  }
+</script>
