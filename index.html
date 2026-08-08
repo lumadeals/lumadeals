@@ -438,12 +438,14 @@ updateCart();
   }
 }
 
-  // Yeh code khud check karega ke checkout button dab gaya hai ya nahi
-  document.addEventListener('click', function(event) {
-    if (event.target && (event.target.classList.contains('checkout-btn') || event.target.innerText === 'Checkout')) {
+  document.addEventListener("DOMContentLoaded", function() {
+  const checkoutBtn = document.querySelector('.checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.onclick = function() {
       showCheckoutForm();
-    }
-  });
+    };
+  }
+});
 
   function sendWhatsAppOrder() {
     const name = document.getElementById('cust-name').value;
