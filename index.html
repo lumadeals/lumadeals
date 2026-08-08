@@ -226,12 +226,13 @@ footer { text-align:center; padding:26px; background:#14171A; color:#bbb; margin
 <section id="page-contact" class="page">
   <div class="info-page">
     <h2>Contact Us</h2>
-    <form class="contact-form" onsubmit="submitContact(event)">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Email Address" required>
-      <textarea placeholder="Message" rows="5" required></textarea>
-      <button type="submit">Send Message </button>
-    </form>
+    <form class="contact-form" onsubmit="event.preventDefault(); sendContactWhatsApp();">
+  <input type="text" id="contact-name" placeholder="Your Name" required>
+  <input type="email" id="contact-email" placeholder="Email Address" required>
+  <textarea id="contact-msg" placeholder="Message" rows="5" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+
     <p class="contact-info">📍 Lahore, Pakistan &nbsp;|&nbsp; 📞 +92 337 6454384 &nbsp;|&nbsp; ✉️ info.lumadeals@gmail.com</p>
   </div>
 </section>
@@ -368,6 +369,19 @@ function submitLogin(e) {
 
 renderProducts();
 updateCart();
+
+  renderProducts();
+  updateCart();
+
+  // Yeh function yahan script tag ke andar aana chahiye
+  function sendContactWhatsApp() {
+    const myNumber = "923376454384";
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const msg = document.getElementById('contact-msg').value;
+
+    const text = `💬 *New Customer Message*%0A%0A👤 *Name:* ${name}%0A📧 *Email:* ${email}%0A📝 *Message:* ${msg}`;
+    
+    window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
+  }
 </script>
-</body>
-</html>
