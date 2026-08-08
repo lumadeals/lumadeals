@@ -127,11 +127,11 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 .switch-text a { color:#3BB4EC; text-decoration:none; font-weight:600; }
 
 .cart-sidebar {
-  position:fixed; top:0; right:-360px; width:340px; height:100%;
-  background:#fff; box-shadow:-4px 0 20px rgba(0,0,0,0.15);
-  transition:.35s; padding:24px; z-index:999; overflow-y:auto;
+  position: fixed; top: 0; right: -100%; width: 100%; max-width: 420px;
+  height: 100%; background: #ffffff; box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+  transition: 0.35s ease-in-out; padding: 20px; z-index: 9999; overflow-y: auto;
 }
-.cart-sidebar.active { right:0; }
+.cart-sidebar.active { right: 0; }
 
 .cart-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
 .cart-header h3 { color:#14171A; }
