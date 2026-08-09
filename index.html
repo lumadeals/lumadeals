@@ -297,7 +297,21 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
     <div class="product-grid" id="shop-product-grid"></div>
   </section>
 </section>
-
+<!-- PRODUCT DETAIL -->
+<section id="page-product-detail" class="page">
+  <div class="info-page" style="max-width:600px;">
+    <button onclick="showPage('shop')" style="background:none; border:none; color:#3BB4EC; cursor:pointer; font-size:14px; margin-bottom:15px;">← Back to Shop</button>
+    <img id="detail-img" src="" style="width:100%; border-radius:10px; margin-bottom:15px;">
+    <h2 id="detail-name"></h2>
+    <div id="detail-rating" class="rating"></div>
+    <div style="margin:10px 0;">
+      <span class="price" id="detail-price" style="font-size:22px;"></span>
+      <span class="old-price" id="detail-oldprice"></span>
+    </div>
+    <div class="discount" id="detail-discount"></div>
+    <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
+  </div>
+</section>
 <!-- ABOUT -->
 <section id="page-about" class="page">
   <div class="info-page">
@@ -526,6 +540,17 @@ function selectSuggestion(id) {
   document.getElementById('search-suggestions').style.display = 'none';
   document.getElementById('search-input').value = products.find(p => p.id === id).name;
   searchProducts();
+}
+    function showProductDetail(id) {
+  const p = products.find(x => x.id === id);
+  document.getElementById('detail-img').src = p.img;
+  document.getElementById('detail-name').innerText = p.name;
+  document.getElementById('detail-rating').innerText = p.rating;
+  document.getElementById('detail-price').innerText = "Rs " + p.price;
+  document.getElementById('detail-oldprice').innerText = "Rs " + p.oldPrice;
+  document.getElementById('detail-discount').innerText = p.discount + " OFF";
+  document.getElementById('detail-addcart-btn').onclick = function() { addToCart(p.id); };
+  showPage('product-detail');
 }
 renderProducts();
 updateCart();
