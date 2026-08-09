@@ -636,19 +636,21 @@ updateCart();
     window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
   function filterCat(category) {
-  // Yeh code khud hi check kar lega ke container ka ID kya hai
-  const container = document.getElementById('products-container') || document.getElementById('products') || document.querySelector('.products-grid');
-  
-  if (!container) {
-    alert("Products container nahi mila!");
-    return;
-  }
+  // Yeh dono grids ko target karega
+  const containers = [
+    document.getElementById('home-product-grid'),
+    document.getElementById('shop-product-grid')
+  ];
 
   const filtered = category === 'All' 
     ? products 
     : products.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
 
-  container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
+  containers.forEach(container => {
+    if (container) {
+      container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
+    }
+  });
 }
 
   </script>
