@@ -714,10 +714,21 @@ function submitSignup(event) {
 }
 
 // Jab user Login karega toh check hoga
+function submitSignup(event) {
+  event.preventDefault();
+  const inputs = event.target.querySelectorAll('input');
+  const email = inputs[1].value; // Email input
+  const password = inputs[2].value; // Password input
+
+  localStorage.setItem('lumadeals_email', email);
+  localStorage.setItem('lumadeals_password', password);
+
+  alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
+  showPage('login');
+}
+
 function submitLogin(event) {
   event.preventDefault();
-  
-  // Form ke andar se email aur password lena
   const inputs = event.target.querySelectorAll('input');
   const emailInput = inputs[0].value;
   const passwordInput = inputs[1].value;
@@ -728,11 +739,12 @@ function submitLogin(event) {
   if (emailInput === savedEmail && passwordInput === savedPassword) {
     alert('Login Successful!');
     localStorage.setItem('isLoggedIn', 'true');
-    showPage('home'); // Home page par redirect kar dein
+    showPage('home');
   } else {
-    alert('Ghalat Email ya Password hai!');
+    alert('Wrong Email or Password!');
   }
 }
+
   
 
   </script>
