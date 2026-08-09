@@ -758,13 +758,19 @@ function submitSignup(event) {
 
     const fullName = document.getElementById("su_name").value;
     const email = document.getElementById("su_email").value;
-    const password = document.getElementById("su_pass").value;
+    const password = document.getElementById("su_password").value;
 
     // Data save
-    localStorage.setItem("lumadeals_email", email);
-    localStorage.setItem("lumadeals_password", password);
-    localStorage.setItem("lumadeals_loggedin", "true");
-    localStorage.setItem("lumadeals_name", fullName);
+    localStorage.setItem('lumadeals_email', email);
+localStorage.setItem('lumadeals_password', password);
+localStorage.setItem('lumadeals_loggedin', 'true');
+localStorage.setItem('lumadeals_name', fullname);
+
+// Yeh line add karein taake header foran update ho jaye
+if(document.getElementById('username-display')) {
+    document.getElementById('username-display').innerText = name;
+}
+
 
     // EmailJS (agar load hai toh email chali jaye gi)
     if (typeof emailjs !== 'undefined') {
