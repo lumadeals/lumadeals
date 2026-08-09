@@ -434,9 +434,9 @@ let cart = [];
     function productCardHTML(p) {
   return `
     <div class="product-card">
-      <img src="${p.img}" alt="${p.name}">
+      <img src="${p.img}" alt="${p.name}" onclick="showProductDetail(${p.id})" style="cursor:pointer;">
       <div class="product-info">
-        <h4>${p.name}</h4>
+        <h4 onclick="showProductDetail(${p.id})" style="cursor:pointer;">${p.name}</h4>
         <div class="rating">${p.rating}</div>
         <div>
           <span class="price">Rs ${p.price}</span>
