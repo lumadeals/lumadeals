@@ -754,22 +754,19 @@ updateCart();
 }
 // Jab user Sign Up karega toh data save ho jayega
 function submitSignup(event) {
-    event.preventDefault();
+function submitSignup(event) {
+  event.preventDefault();
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
 
-    const fullName = document.getElementById("su_name").value;
-    const email = document.getElementById("su_email").value;
-    const password = document.getElementById("su_password").value;
+  // Browser ki memory (localStorage) mein save karna
+  localStorage.setItem('lumadeals_email', email);
+  localStorage.setItem('lumadeals_password', password);
 
-    // Data save
-    localStorage.setItem('lumadeals_email', email);
-localStorage.setItem('lumadeals_password', password);
-localStorage.setItem('lumadeals_loggedin', 'true');
-localStorage.setItem('lumadeals_name', fullname);
-
-// Yeh line add karein taake header foran update ho jaye
-if(document.getElementById('username-display')) {
-    document.getElementById('username-display').innerText = name;
+  alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
+  showPage('login'); // Login page par bhej dein
 }
+
 
 
     // EmailJS (agar load hai toh email chali jaye gi)
