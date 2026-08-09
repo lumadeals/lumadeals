@@ -727,8 +727,11 @@ updateCart();
 // Jab user Sign Up karega toh data save ho jayega
 function submitSignup(event) {
     event.preventDefault();
-
+    alert("Function chal gaya!"); // Yeh laga kar check karein
+  
     const inputs = event.target.querySelectorAll('input');
+    ...
+
     const fullName = inputs[0].value;
     const email = inputs[1].value;
     const password = inputs[2].value;
