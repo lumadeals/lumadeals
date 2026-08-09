@@ -635,21 +635,16 @@ updateCart();
     
     window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
-  function filterCategory(category) {
-  const container = document.getElementById('products-container'); // jahan products show hotay hain
+  function filterCat(category) {
+  const container = document.getElementById('products-container');
   if (!container) return;
-  
-  // Agar 'All' select ho toh saare products dikhayein, warna filter karein
+
   const filtered = category === 'All' 
     ? products 
     : products.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
-  
-  // Products ko dubara render karein
-  container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
-    }
-  
 
-</script>
+  container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
+}
   </script>
 
 <footer>
