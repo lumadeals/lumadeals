@@ -728,7 +728,16 @@ function submitSignup(event) {
   // Browser ki memory (localStorage) mein save karna
   localStorage.setItem('lumadeals_email', email);
   localStorage.setItem('lumadeals_password', password);
-
+emailjs.send("service_2gzvpcb", "template_rzeref6", {
+    to_email: email,
+    to_name: email.split('@')[0]
+})
+.then(function(response) {
+    console.log('SUCCESS!', response.status, response.text);
+}, function(error) {
+    console.log('FAILED...', error);
+});
+  
   alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
   showPage('login'); // Login page par bhej dein
 }
