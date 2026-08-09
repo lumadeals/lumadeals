@@ -367,14 +367,86 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
     
 <script>
 const products = [
-  { id:1, name:"Wireless Bluetooth Earbuds", price:1499, oldPrice:3000, discount:"50%", rating:"⭐⭐⭐⭐", img:"https://picsum.photos/id/1/220/180" category: "Electronics" },
-  { id:2, name:"Smart Watch Fitness Band", price:2299, oldPrice:4500, discount:"49%", rating:"⭐⭐⭐⭐⭐", img:"https://picsum.photos/id/2/220/180" category: "Electronics"},
-  { id:3, name:"Men's Casual Sneakers", price:1899, oldPrice:3200, discount:"41%", rating:"⭐⭐⭐⭐", img:"https://picsum.photos/id/3/220/180" category: "Fashion"},
-  { id:4, name:"Ladies Handbag Stylish", price:1299, oldPrice:2500, discount:"48%", rating:"⭐⭐⭐⭐", img:"https://picsum.photos/id/4/220/180" category: "Fashion"},
-  { id:5, name:"LED Desk Lamp", price:799, oldPrice:1500, discount:"47%", rating:"⭐⭐⭐", img:"https://picsum.photos/id/5/220/180" category: "Home & Living"},
-  { id:6, name:"Kitchen Blender Machine", price:3499, oldPrice:5999, discount:"42%", rating:"⭐⭐⭐⭐", img:"https://picsum.photos/id/6/220/180" category: "Home & Living"},
-  { id:7, name:"Kids Toy Car Remote", price:999, oldPrice:1999, discount:"50%", rating:"⭐⭐⭐⭐", img:"https://picsum.photos/id/7/220/180" category: "Electronics"},
-  { id:8, name:"Skin Care Beauty Set", price:1599, oldPrice:2800, discount:"43%", rating:"⭐⭐⭐⭐⭐", img:"https://picsum.photos/id/8/220/180" category: "Beauty"},
+  { 
+    id: 1, 
+    name: "Wireless Bluetooth Earbuds", 
+    price: 1499, 
+    oldPrice: 1999, 
+    discount: "25%", 
+    rating: "★★★★★", 
+    img: "https://picsum.photos/id/1/220/180", 
+    category: "Electronics" 
+  },
+  { 
+    id: 2, 
+    name: "Smart Watch Fitness Band", 
+    price: 2299, 
+    oldPrice: 3999, 
+    discount: "42%", 
+    rating: "★★★★☆", 
+    img: "https://picsum.photos/id/2/220/180", 
+    category: "Electronics" 
+  },
+  { 
+    id: 3, 
+    name: "Men's Casual Sneakers", 
+    price: 1899, 
+    oldPrice: 2999, 
+    discount: "36%", 
+    rating: "★★★★★", 
+    img: "https://picsum.photos/id/3/220/180", 
+    category: "Fashion" 
+  },
+  { 
+    id: 4, 
+    name: "Ladies Handbag Stylish", 
+    price: 1299, 
+    oldPrice: 2499, 
+    discount: "48%", 
+    rating: "★★★★☆", 
+    img: "https://picsum.photos/id/4/220/180", 
+    category: "Fashion" 
+  },
+  { 
+    id: 5, 
+    name: "LED Desk Lamp", 
+    price: 799, 
+    oldPrice: 1499, 
+    discount: "46%", 
+    rating: "★★★★★", 
+    img: "https://picsum.photos/id/5/220/180", 
+    category: "Home" 
+  },
+  { 
+    id: 6, 
+    name: "Kitchen Blender Machine", 
+    price: 3499, 
+    oldPrice: 5999, 
+    discount: "41%", 
+    rating: "★★★★☆", 
+    img: "https://picsum.photos/id/6/220/180", 
+    category: "Home" 
+  },
+  { 
+    id: 7, 
+    name: "Kids Toy Car Remote", 
+    price: 999, 
+    oldPrice: 1999, 
+    discount: "50%", 
+    rating: "★★★★★", 
+    img: "https://picsum.photos/id/7/220/180", 
+    category: "Electronics" 
+  },
+  { 
+    id: 8, 
+    name: "Skin Care Beauty Set", 
+    price: 1599, 
+    oldPrice: 2800, 
+    discount: "43%", 
+    rating: "★★★★★", 
+    img: "https://picsum.photos/id/8/220/180", 
+    category: "Beauty" 
+  }
 ];
 
 let cart = [];
