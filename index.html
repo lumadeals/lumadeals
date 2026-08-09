@@ -386,12 +386,13 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 <section id="page-signup" class="page">
     <div class="info-page login-box">
         <h2>Create new account</h2>
-        <form class="contact-form" onsubmit="submitSignup(event)">
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email Address" required>
-            <input type="password" placeholder="Password" required>
-            <button type="submit">Sign Up</button>
-        </form>
+        <form class="contact-form" id="signup-form">
+    <input type="text" id="signup-name" placeholder="Full Name" required>
+    <input type="email" id="signup-email" placeholder="Email Address" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+</form>
+
         <p class="switch-text">Already have account? <a href="#" onclick="showPage('login')">Login</a></p>
     </div>
 </section>
@@ -725,14 +726,14 @@ updateCart();
 }
 // Jab user Sign Up karega toh data save ho jayega
 document.addEventListener("DOMContentLoaded", function () {
-    const signupForm = document.querySelector(".contact-form");
+    const signupForm = document.getElementById("signup-form");
+    if (signupForm) {
         signupForm.addEventListener("submit", function (event) {
             event.preventDefault();
 
-            const inputs = event.target.querySelectorAll("input");
-            const fullName = inputs[0].value;
-            const email = inputs[1].value;
-            const password = inputs[2].value;
+            const fullName = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
 
             // Data save karein
             localStorage.setItem("lumadeals_email", email);
@@ -761,6 +762,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 
 
 
