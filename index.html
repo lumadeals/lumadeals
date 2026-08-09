@@ -727,41 +727,15 @@ updateCart();
 }
 // Jab user Sign Up karega toh data save ho jayega
 function submitSignup(event) {
-  event.preventDefault();
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
-
-  // Browser ki memory (localStorage) mein save karna
-  localStorage.setItem('lumadeals_email', email);
-  localStorage.setItem('lumadeals_password', password);
-emailjs.send("service_2gzvpcb", "template_rzeref6", {
-    to_email: email,
-    to_name: email.split('@')[0]
-})
-.then(function(response) {
-    console.log('SUCCESS!', response.status, response.text);
-}, function(error) {
-    console.log('FAILED...', error);
-});
-  
-  alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
-  showPage('login'); // Login page par bhej dein
-}
-
-// Jab user Login karega toh check hoga
-function showToast(message) {
-  const toast = document.getElementById('custom-toast');
-  if (!toast) return;
-  toast.innerText = message;
-  toast.classList.add('show');
-  
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
-
-function submitSignup(event) {
     event.preventDefault();
+    
+    // Check karein ke reCAPTCHA verify hua hai ya nahi
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) {
+        showToast('Pehle reCAPTCHA verify karein!');
+        return;
+    }
+
     const inputs = event.target.querySelectorAll('input');
     const fullName = inputs[0].value;
     const email = inputs[1].value;
@@ -771,9 +745,9 @@ function submitSignup(event) {
     localStorage.setItem('lumadeals_password', password);
 
     emailjs.send("service_2gzvpcb", "template_rzeref6", {
-    email: email,
-    to_name: fullName
-})
+        email: email,
+        to_name: fullName
+    })
     .then(function(response) {
         console.log('SUCCESS!', response.status, response.text);
     }, function(error) {
