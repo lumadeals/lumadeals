@@ -730,28 +730,34 @@ updateCart();
     window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
   function filterCat(category, element) {
-  const containers = [
-    document.getElementById('home-product-grid'),
-    document.getElementById('shop-product-grid')
-  ];
 
-  const filtered = category === 'All' 
-    ? products 
-    : products.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
+  const filtered = category === 'All'
+    ? products
+    : products.filter(p =>
+        String(p.category || '').trim().toLowerCase() ===
+        String(category || '').trim().toLowerCase()
+      );
 
-  containers.forEach(container => {
-    if (container) {
-      container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
-    }
+  const homeGrid = document.getElementById('home-product-grid');
+  const shopGrid = document.getElementById('shop-product-grid');
+
+  const html = filtered.length
+    ? filtered.map(productCardHTML).join('')
+    : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
+
+  if (homeGrid) homeGrid.innerHTML = html;
+  if (shopGrid) shopGrid.innerHTML = html;
+
+  document.querySelectorAll('.categories li').forEach(li => {
+    li.classList.remove('active');
   });
-    // Active class manage karne ke liye
-  const items = document.querySelectorAll('.categories li');
-  items.forEach(li => li.classList.remove('active'));
-  
+
   if (element) {
     element.classList.add('active');
   }
-}
+
+  showPage('shop');
+  }
 // Jab user Sign Up karega toh data save ho jayega
 function submitSignup(event) {
   event.preventDefault();
@@ -786,7 +792,7 @@ function showToast(message) {
   localStorage.setItem('lumadeals_email', email);
   localStorage.setItem('lumadeals_password', password);
 
-  showToast('Account created successfully! You can now login...
+  showToast('Account created successfully! You can now login...');
   setTimeout(() => {
     showPage('login');
   }, 1500);
