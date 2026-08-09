@@ -390,7 +390,6 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
   <input type="text" placeholder="Full Name" required>
 <input type="email" placeholder="Email Address" required>
 <input type="password" placeholder="Password" required>
-<div class="g-recaptcha" data-sitekey="6LckxXwtAAAAAEQG7jyoXRMA4teEtU1ZXKtvinEf" style="margin-bottom: 15px;"></div>
 <button type="submit">Sign Up</button>
 </form>
     <p class="switch-text">Already have account? <a href="#" onclick="showPage('login')">Login 
@@ -728,13 +727,6 @@ updateCart();
 // Jab user Sign Up karega toh data save ho jayega
 function submitSignup(event) {
     event.preventDefault();
-    
-    // Check karein ke reCAPTCHA verify hua hai ya nahi
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (recaptchaResponse.length === 0) {
-        showToast('Pehle reCAPTCHA verify karein!');
-        return;
-    }
 
     const inputs = event.target.querySelectorAll('input');
     const fullName = inputs[0].value;
@@ -760,26 +752,6 @@ function submitSignup(event) {
     }, 1500);
 }
 
-
-function submitLogin(event) {
-  event.preventDefault();
-  const inputs = event.target.querySelectorAll('input');
-  const emailInput = inputs[0].value;
-  const passwordInput = inputs[1].value;
-
-  const savedEmail = localStorage.getItem('lumadeals_email');
-  const savedPassword = localStorage.getItem('lumadeals_password');
-
-  if (emailInput === savedEmail && passwordInput === savedPassword) {
-    showToast('Login Successful!');
-    localStorage.setItem('isLoggedIn', 'true');
-    setTimeout(() => {
-      showPage('home');
-    }, 1500);
-  } else {
-    showToast('Ghalat Email ya Password hai!');
-  }
-}
 
 
   </script>
