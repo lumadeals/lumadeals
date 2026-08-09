@@ -725,7 +725,7 @@ updateCart();
 }
 // Jab user Sign Up karega toh data save ho jayega
 document.addEventListener("DOMContentLoaded", function () {
-    const signupForm = document.getElementById("signup-form");
+    const signupForm = document.querySelector(".contact-form");
     if (signupForm) {
         signupForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -738,8 +738,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Data save karein
             localStorage.setItem("lumadeals_email", email);
             localStorage.setItem("lumadeals_password", password);
-            
-            // Yeh batayein ke user ab login ho chuka hai
             localStorage.setItem("lumadeals_loggedin", "true");
             localStorage.setItem("lumadeals_name", fullName);
 
@@ -755,10 +753,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             showToast("Account ban gaya aur login ho gaye!");
             
-            // Foran main page ya dashboard par bhej dein (login page par nahi)
             setTimeout(() => {
-                showPage("home"); // Ya jo bhi aapke main page ki id hai (jaise 'shop' ya 'home')
-                // Agar aapke paas page refresh karke login state show karne ka function hai toh wo call kar dein
+                showPage("home"); 
                 if (typeof updateAuthUI === 'function') {
                     updateAuthUI();
                 }
@@ -766,6 +762,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 
 
   </script>
