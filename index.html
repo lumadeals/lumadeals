@@ -137,10 +137,17 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 
 .banner {
   background:linear-gradient(135deg,#3BB4EC,#14171A);
-  color:#fff; text-align:center; padding:30px 20px;
+  color:#fff; text-align:center; padding:90px 25px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
-.banner h1 { font-size:9px; margin-bottom:30px; font-weight:700; }
-.banner p { margin-bottom:20px; opacity:.9; font-size:9px; }
+.banner h1 { font-size:30px; line-height:1.3; margin-bottom:16px; font-weight:800; max-width:600px; }
+.banner p { margin-bottom:28px; opacity:.85; font-size:16px; max-width:500px; }
+.shop-now-btn {
+  background:#fff; color:#14171A; border:none; padding:15px 36px;
+  border-radius:30px; font-weight:700; cursor:pointer; font-size:15px; transition:.2s;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+.shop-now-btn:hover { background:#3BB4EC; color:#fff; transform:translateY(-2px); }
 
   .shop-now-btn {
   background:#fff; color:#14171A; border:none; padding:4px 8px;
