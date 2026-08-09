@@ -636,8 +636,13 @@ updateCart();
     window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
   }
   function filterCat(category) {
-  const container = document.getElementById('products-container');
-  if (!container) return;
+  // Yeh code khud hi check kar lega ke container ka ID kya hai
+  const container = document.getElementById('products-container') || document.getElementById('products') || document.querySelector('.products-grid');
+  
+  if (!container) {
+    alert("Products container nahi mila!");
+    return;
+  }
 
   const filtered = category === 'All' 
     ? products 
@@ -645,6 +650,7 @@ updateCart();
 
   container.innerHTML = filtered.map(p => productCardHTML(p)).join('');
 }
+
   </script>
 
 <footer>
