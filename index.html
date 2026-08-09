@@ -4,6 +4,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
     emailjs.init("5qQElfDcca1Rjzt7O");
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </script>
   <meta charset="UTF-8">
 <title>Luma Deals</title>
@@ -387,9 +388,10 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
     <h2>Create new account </h2>
     <form class="contact-form" onsubmit="submitSignup(event)">
   <input type="text" placeholder="Full Name" required>
-  <input type="email" placeholder="Email Address" required>
-  <input type="password" placeholder="Password" required>
-  <button type="submit">Sign Up</button>
+<input type="email" placeholder="Email Address" required>
+<input type="password" placeholder="Password" required>
+<div class="g-recaptcha" data-sitekey="6LckxXwtAAAAAEQG7jyoXRMA4teEtU1ZXKtvinEf" style="margin-bottom: 15px;"></div>
+<button type="submit">Sign Up</button>
 </form>
     <p class="switch-text">Already have account? <a href="#" onclick="showPage('login')">Login 
   </a></p>
