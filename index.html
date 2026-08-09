@@ -276,12 +276,22 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 <section id="page-contact" class="page">
   <div class="info-page">
     <h2>Contact Us</h2>
-    <form class="contact-form" onsubmit="event.preventDefault(); sendContactWhatsApp();">
-  <input type="text" id="contact-name" placeholder="Your Name" required>
-  <input type="email" id="contact-email" placeholder="Email Address" required>
-  <textarea id="contact-msg" placeholder="Message" rows="5" required></textarea>
-  <button type="submit">Send Message</button>
+    <form action="https://formspree.io/f/xkjwoekr" method="POST">
+  <div style="margin-bottom: 10px;">
+    <input type="text" name="name" id="contact-name" placeholder="Full Name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+  </div>
+  
+  <div style="margin-bottom: 10px;">
+    <input type="email" name="email" id="contact-email" placeholder="Email Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <textarea name="message" id="contact-msg" placeholder="Your Message" required rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+  </div>
+
+  <button type="submit" style="width: 100%; background: #3BB4EC; color: #fff; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">Send Message</button>
 </form>
+
 
     <p class="contact-info">📍 Lahore, Pakistan &nbsp;|&nbsp; 📞 +92 337 6454384 &nbsp;|&nbsp; ✉️ info.lumadeals@gmail.com</p>
   </div>
