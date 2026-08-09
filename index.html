@@ -20,9 +20,43 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 .logo-img { width:52px; height:52px; object-fit:contain; border-radius:6px; }
 .logo-text { font-size:22px; font-weight:600; color:#14171A; }
 .logo-text b { color:#3BB4EC; font-weight:800; }
-.search-box { display:flex; flex:1 1 auto; min-width:0; margin:0 15px; }
-.search-box input { flex:1; padding:12px 18px; border:2px solid #3BB4EC; border-right:none; border-radius:25px 0 0 25px; outline:none; font-size:14px; min-width:0; }
-.search-box button { background:#3BB4EC; color:#fff; border:none; padding:0 20px; border-radius:0 23px 23px 0; cursor:pointer; font-size:15px; }
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #3bb4ec;
+    border-radius: 30px;
+    padding: 3px 6px;
+    max-width: 260px;
+    width: 100%;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 6px 10px;
+    font-size: 13px;
+    background: transparent;
+    color: #333;
+}
+
+.search-box button {
+    background: #3bb4ec;
+    color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
 .nav-icons { display:flex; flex-wrap:nowrap; gap:16px; align-items:center; flex-shrink:0; }
 .icon { text-align: center; font-size: 18px !important; cursor: pointer; color: #0f172a; }
 .icon:hover { color: #3BB4EC; }
@@ -45,15 +79,20 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 
 
 @media (max-width: 768px) {
-  body {
-    padding: 0 4px;
-  }
     .navbar {
-    padding: 10px 12px !important;
-    gap: 10px !important;
-  }
-  .search-box { margin:0 8px; }
-.nav-icons { gap:9px !important; }
+        padding: 10px 10px !important;
+        gap: 8px !important;
+    }
+    .search-box {
+        max-width: 100% !important;
+        order: 3;
+        margin-top: 5px;
+    }
+    .nav-icons {
+        gap: 12px !important;
+    }
+}
+
   
   .product-card, .best-selling, section {
     margin-bottom: 15px;
