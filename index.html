@@ -310,7 +310,23 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
     </div>
     <div class="discount" id="detail-discount"></div>
     <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
-  </div>
+    <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
+  <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
+  <p id="detail-description" style="color:#555; line-height:1.7; font-size:14px;"></p>
+</div>
+
+<div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
+  <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">Customer Reviews</h3>
+  <div id="reviews-list" style="margin-bottom:15px;"></div>
+
+  <textarea id="review-text" placeholder="Apna review likhain..." rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;"></textarea>
+  <select id="review-rating" style="width:100%; margin-top:8px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+    <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ Excellent</option>
+    <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ Good</option>
+    <option value="⭐⭐⭐">⭐⭐⭐ Average</option>
+  </select>
+  <button onclick="submitReview()" style="width:100%; margin-top:10px; background:#3BB4EC; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Submit Review</button>
+</div>
 </section>
 <!-- ABOUT -->
 <section id="page-about" class="page">
@@ -460,7 +476,49 @@ function addToCart(id) {
   cart.push(product);
   updateCart();
 }
+function showProductDetail(id) {
+  const p = products.find(x => x.id === id);
+  document.getElementById('detail-img').src = p.img;
+  document.getElementById('detail-name').innerText = p.name;
+  document.getElementById('detail-rating').innerText = p.rating;
+  document.getElementById('detail-price').innerText = "Rs " + p.price;
+  document.getElementById('detail-oldprice').innerText = "Rs " + p.oldPrice;
+  document.getElementById('detail-discount').innerText = p.discount + " OFF";
+  document.getElementById('detail-addcart-btn').onclick = function() { addToCart(p.id); };
+  document.getElementById('detail-description').innerText = p.description || `${p.name} — Luma Deals se behtareen quality aur qeemat par. ${p.category} category mein sab se pasandeeda product.`;
+  loadReviews(p.id);
+  showPage('product-detail');
+}
 
+function loadReviews(productId) {
+  const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
+  const list = document.getElementById('reviews-list');
+  if (reviews.length === 0) {
+    list.innerHTML = "<p style='color:#999; font-size:13px;'>Abhi tak koi review nahi. Pehla review aap likhain!</p>";
+  } else {
+    list.innerHTML = reviews.map(r => `
+      <div style="border-bottom:1px solid #f0f0f0; padding:10px 0;">
+        <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
+        <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
+      </div>
+    `).join('');
+  }
+  document.getElementById('review-text').dataset.productId = productId;
+}
+
+function submitReview() {
+  const productId = document.getElementById('review-text').dataset.productId;
+  const text = document.getElementById('review-text').value.trim();
+  const rating = document.getElementById('review-rating').value;
+  if (!text) { alert('Review likhna zaroori hai'); return; }
+
+  const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
+  reviews.push({ text, rating });
+  localStorage.setItem('reviews_' + productId, JSON.stringify(reviews));
+
+  document.getElementById('review-text').value = '';
+  loadReviews(productId);
+}
 function removeFromCart(index) {
   cart.splice(index, 1);
   updateCart();
