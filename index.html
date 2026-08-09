@@ -245,8 +245,8 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
     <span class="logo-text">LUMA<b>DEALS</b></span>
   </div>
   <div class="search-box">
-    <input type="text" placeholder="Search Products...">
-    <button>🔍</button>
+    <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()">
+<button onclick="searchProducts()">🔍</button>
   </div>
   <div class="nav-icons">
     <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
@@ -489,12 +489,24 @@ function submitLogin(e) {
   alert("Welcome to Luma Deals!");
   showPage('home');
 }
+function searchProducts() {
+  const query = document.getElementById('search-input').value.trim().toLowerCase();
+  if (!query) return;
 
+  const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+  const grid = document.getElementById('shop-product-grid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = "<p style='padding:20px; color:#888;'>Koi product nahi mila.</p>";
+  } else {
+    grid.innerHTML = filtered.map(productCardHTML).join('');
+  }
+
+  showPage('shop');
+}
 renderProducts();
 updateCart();
 
-  renderProducts();
-  updateCart();
 
   // Yeh function yahan script tag ke andar aana chahiye
   function sendContactWhatsApp() {
