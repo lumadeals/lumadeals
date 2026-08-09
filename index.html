@@ -725,46 +725,32 @@ updateCart();
   }
 }
 // Jab user Sign Up karega toh data save ho jayega
-document.addEventListener("DOMContentLoaded", function () {
-    const signupForm = document.getElementById("signup-form");
-    if (signupForm) {
-        signupForm.addEventListener("submit", function (event) {
-            event.preventDefault();
+function handleSignup(event) {
+    event.preventDefault();
 
-            const fullName = document.getElementById("signup-name").value;
-            const email = document.getElementById("signup-email").value;
-            const password = document.getElementById("signup-password").value;
+    const fullName = document.getElementById("s-name").value;
+    const email = document.getElementById("s-email").value;
+    const password = document.getElementById("s-password").value;
 
-            // Data save karein
-            localStorage.setItem("lumadeals_email", email);
-            localStorage.setItem("lumadeals_password", password);
-            localStorage.setItem("lumadeals_loggedin", "true");
-            localStorage.setItem("lumadeals_name", fullName);
+    localStorage.setItem("lumadeals_email", email);
+    localStorage.setItem("lumadeals_password", password);
+    localStorage.setItem("lumadeals_loggedin", "true");
+    localStorage.setItem("lumadeals_name", fullName);
 
-            emailjs.send("service_2gzvpcb", "template_rzeref6", {
-                email: email,
-                to_name: fullName
-            })
-            .then(function(response) {
-                console.log("SUCCESS!", response.status, response.text);
-            }, function(error) {
-                console.log("FAILED...", error);
-            });
+    emailjs.send("service_2gzvpcb", "template_rzeref6", {
+        email: email,
+        to_name: fullName
+    });
 
-            showToast("Account ban gaya aur login ho gaye!");
-            
-            setTimeout(() => {
-                showPage("home"); 
-                if (typeof updateAuthUI === 'function') {
-                    updateAuthUI();
-                }
-            }, 1000);
-        });
-    }
-});
-
-
-
+    showToast("Account ban gaya aur login ho gaye!");
+    
+    setTimeout(() => {
+        showPage("home");
+        if (typeof updateAuthUI === 'function') {
+            updateAuthUI();
+        }
+    }, 1000);
+}
 
   </script>
 
