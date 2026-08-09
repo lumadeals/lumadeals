@@ -371,15 +371,29 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 
 <!-- LOGIN -->
 <section id="page-login" class="page">
-  <div class="info-page login-box">
-    <h2>Login to Luma Deals</h2>
-    <form class="contact-form" onsubmit="submitLogin(event)">
-  <input type="email" placeholder="Email Address" required>
-  <input type="password" placeholder="Password" required>
-  <button type="submit">Login</button>
-</form>
-    <p class="switch-text">Don't you have an account? <a href="#" onclick="showPage('signup')">Sign Up </a></p>
-  </div>
+  <div class="contact-form" style="display: flex; flex-direction: column; gap: 10px;">
+    <input type="email" id="login_email" placeholder="Email Address" required style="padding: 10px;">
+    <input type="password" id="login_pass" placeholder="Password" required style="padding: 10px;">
+    
+    <button type="button" onclick="
+        var email = document.getElementById('login_email').value.trim();
+        var pass = document.getElementById('login_pass').value.trim();
+        
+        var savedEmail = localStorage.getItem('lumadeals_email');
+        var savedPass = localStorage.getItem('lumadeals_password');
+        
+        if(email === '' || pass === '') {
+            alert('Pehle email aur password likhein!');
+        } else if(email === savedEmail && pass === savedPass) {
+            localStorage.setItem('lumadeals_loggedin', 'true');
+            alert('Login ho gaye!');
+            window.location.reload();
+        } else {
+            alert('Ghalat email ya password hai!');
+        }
+    " style="padding: 10px; background: #ff3366; color: white; border: none; cursor: pointer;">Login</button>
+</div>
+
 </section>
 
 <!-- SIGNUP -->
