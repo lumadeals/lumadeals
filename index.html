@@ -759,28 +759,31 @@ function showToast(message) {
 }
 
 function submitSignup(event) {
-  event.preventDefault();
-  const inputs = event.target.querySelectorAll('input');
-  const email = inputs[1].value;
-  const password = inputs[2].value;
+    event.preventDefault();
+    const inputs = event.target.querySelectorAll('input');
+    const fullName = inputs[0].value;
+    const email = inputs[1].value;
+    const password = inputs[2].value;
 
-  localStorage.setItem('lumadeals_email', email);
-  localStorage.setItem('lumadeals_password', password);
-emailjs.send("service_2gzvpcb", "template_rzeref6", {
-    to_email: email,
-    to_name: email.split('@')[0]
-})
-.then(function(response) {
-    console.log('SUCCESS!', response.status, response.text);
-}, function(error) {
-    console.log('FAILED...', error);
-});
-  
-  showToast('Account successfully ban gaya! Ab aap login kar sakte hain.');
-  setTimeout(() => {
-    showPage('login');
-  }, 1500);
+    localStorage.setItem('lumadeals_email', email);
+    localStorage.setItem('lumadeals_password', password);
+
+    emailjs.send("service_2gzvpcb", "template_rzeref6", {
+        to_email: email,
+        to_name: fullName
+    })
+    .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+    }, function(error) {
+        console.log('FAILED...', error);
+    });
+
+    showToast('Account successfully ban gaya! Ab aap login karein');
+    setTimeout(() => {
+        showPage('login');
+    }, 1500);
 }
+
 
 function submitLogin(event) {
   event.preventDefault();
