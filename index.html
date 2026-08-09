@@ -229,7 +229,26 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
   font-size: 13px;
   margin-top: 30px;
 }
-
+#custom-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #14171A;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  font-size: 14px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 1000;
+}
+#custom-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+  
 
 </style>
 </head>
@@ -403,7 +422,8 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
   </div>
 </div>
 
-    
+    <div id="custom-toast"></div>
+  
 <script>
 const products = [
   { 
@@ -714,17 +734,30 @@ function submitSignup(event) {
 }
 
 // Jab user Login karega toh check hoga
+function showToast(message) {
+  const toast = document.getElementById('custom-toast');
+  if (!toast) return;
+  toast.innerText = message;
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
 function submitSignup(event) {
   event.preventDefault();
   const inputs = event.target.querySelectorAll('input');
-  const email = inputs[1].value; // Email input
-  const password = inputs[2].value; // Password input
+  const email = inputs[1].value;
+  const password = inputs[2].value;
 
   localStorage.setItem('lumadeals_email', email);
   localStorage.setItem('lumadeals_password', password);
 
-  alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
-  showPage('login');
+  showToast('Account successfully ban gaya! Ab aap login kar sakte hain.');
+  setTimeout(() => {
+    showPage('login');
+  }, 1500);
 }
 
 function submitLogin(event) {
@@ -737,15 +770,16 @@ function submitLogin(event) {
   const savedPassword = localStorage.getItem('lumadeals_password');
 
   if (emailInput === savedEmail && passwordInput === savedPassword) {
-    alert('Login Successful!');
+    showToast('Login Successful!');
     localStorage.setItem('isLoggedIn', 'true');
-    showPage('home');
+    setTimeout(() => {
+      showPage('home');
+    }, 1500);
   } else {
-    alert('Wrong Email or Password!');
+    showToast('Ghalat Email ya Password hai!');
   }
 }
 
-  
 
   </script>
 
