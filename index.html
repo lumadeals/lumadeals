@@ -724,36 +724,6 @@ updateCart();
   }
 }
 // Jab user Sign Up karega toh data save ho jayega
-function submitSignup(event) {
-function submitSignup(event) {
-    event.preventDefault();
-
-    const inputs = event.target.querySelectorAll('input');
-    const fullName = inputs[0].value;
-    const email = inputs[1].value;
-    const password = inputs[2].value;
-
-    localStorage.setItem('lumadeals_email', email);
-    localStorage.setItem('lumadeals_password', password);
-
-    emailjs.send("service_2gzvpcb", "template_rzeref6", {
-        email: email,
-        to_name: fullName
-    })
-    .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-    }, function(error) {
-        console.log('FAILED...', error);
-    });
-
-    showToast('Account successfully ban gaya! Ab aap login karein');
-    setTimeout(() => {
-        showPage('login');
-    }, 1500);
-}
-
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault();
 document.addEventListener("DOMContentLoaded", function () {
     const signupForm = document.getElementById("signup-form");
     if (signupForm) {
@@ -765,8 +735,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = inputs[1].value;
             const password = inputs[2].value;
 
+            // Data save karein
             localStorage.setItem("lumadeals_email", email);
             localStorage.setItem("lumadeals_password", password);
+            
+            // Yeh batayein ke user ab login ho chuka hai
+            localStorage.setItem("lumadeals_loggedin", "true");
+            localStorage.setItem("lumadeals_name", fullName);
 
             emailjs.send("service_2gzvpcb", "template_rzeref6", {
                 email: email,
@@ -778,10 +753,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("FAILED...", error);
             });
 
-            showToast("Account successfully ban gaya! Ab aap login karein");
+            showToast("Account ban gaya aur login ho gaye!");
+            
+            // Foran main page ya dashboard par bhej dein (login page par nahi)
             setTimeout(() => {
-                showPage("login");
-            }, 1500);
+                showPage("home"); // Ya jo bhi aapke main page ki id hai (jaise 'shop' ya 'home')
+                // Agar aapke paas page refresh karke login state show karne ka function hai toh wo call kar dein
+                if (typeof updateAuthUI === 'function') {
+                    updateAuthUI();
+                }
+            }, 1000);
         });
     }
 });
