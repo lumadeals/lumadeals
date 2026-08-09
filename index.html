@@ -233,7 +233,7 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 <body>
 
     <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #006633, #ffffff, #006633); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #006633; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-    🇵🇰 Jashn-e-Azadi Mubarak! Use code <span style="color: #d32f2f;">AZADI14</span> for Flat 14% OFF! 🇵🇰
+    🇵🇰 Jashn-e-Azadi Mubarak! Use code <span style="color: #d32f2f;">DAVID14</span> for Flat 14% OFF! 🇵🇰
 </div>
 
 <header class="navbar">
@@ -280,7 +280,7 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 <section id="page-home" class="page active">
   <section class="banner">
     <h1>Luma Deals — Smart Shopping, Best Prices</h1>
-    <p>Har cheez ek hi jaga, trusted aur asaan</p>
+<p>Everything you need, all in one trusted place
     <button class="shop-now-btn" onclick="showPage('shop')">Shop Now →</button>
   </section>
 
@@ -340,7 +340,6 @@ Curated Trending Products: We stay ahead of the trends to bring you unique, high
       
 Direct WhatsApp Support: No complicated ticket systems or long waits. Chat with us directly, ask questions, and place your orders instantly through WhatsApp.
 
-      
 Customer-First Approach: Your trust is our greatest asset. We ensure that every product meets our strict quality checks before it reaches you.
 Get in Touch With Us  
    <p>Have questions about a product or need help tracking your order? We are always here to help! Reach out to us via WhatsApp, and our friendly support team will assist you right away.</p>
@@ -411,7 +410,7 @@ Get in Touch With Us
     <p>Total: Rs <span id="cart-total">0</span></p>
     <button class="checkout-btn" onclick="showCheckoutForm()">Checkout</button>
 
-<div id="priceoye-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+<div id=lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
   <h3 style="margin-bottom: 12px; font-size: 16px; color: #0f172a; font-weight: 700;">Delivery Details (COD)</h3>
   
   <div style="margin-bottom: 10px;">
@@ -510,7 +509,7 @@ function submitReview() {
   const productId = document.getElementById('review-text').dataset.productId;
   const text = document.getElementById('review-text').value.trim();
   const rating = document.getElementById('review-rating').value;
-  if (!text) { alert('Review likhna zaroori hai'); return; }
+  if (!text) { alert('Review is required'); return; }
 
   const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
   reviews.push({ text, rating });
@@ -583,7 +582,7 @@ function searchProducts() {
   const matches = products.filter(p => p.name.toLowerCase().includes(query)).slice(0, 6);
 
   if (matches.length === 0) {
-    box.innerHTML = "<div style='padding:10px; color:#888;'>Koi product nahi mila</div>";
+    box.innerHTML = "<div style='padding:10px; color:#888;'>Product Not Found</div>";
   } else {
     box.innerHTML = matches.map(p => `
       <div style="padding:10px; cursor:pointer; border-bottom:1px solid #f0f0f0;" onclick="selectSuggestion(${p.id})">
@@ -775,7 +774,7 @@ function showToast(message) {
   localStorage.setItem('lumadeals_email', email);
   localStorage.setItem('lumadeals_password', password);
 
-  showToast('Account successfully ban gaya! Ab aap login kar sakte hain.');
+  showToast('Account created successfully! You can now login...
   setTimeout(() => {
     showPage('login');
   }, 1500);
@@ -797,7 +796,7 @@ function submitLogin(event) {
       showPage('home');
     }, 1500);
   } else {
-    showToast('Ghalat Email ya Password hai!');
+    showToast('Wrong Email or Password!');
   }
 }
 
