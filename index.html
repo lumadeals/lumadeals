@@ -265,7 +265,17 @@ p {
 .cart-item { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #eee; font-size:13px; }
 .cart-total { margin-top:22px; border-top:2px solid #eee; padding-top:18px; }
 .cart-total p { font-size:17px; font-weight:700; margin-bottom:12px; color:#14171A; }
-
+.floating-badge {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    background-color: #28a745; /* Top wale badge jaisa green color */
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
 .checkout-btn {
   width:100%; background:#3BB4EC; color:#fff; border:none;
   padding:14px; border-radius:8px; cursor:pointer; font-size:15px; font-weight:600; transition:.2s;
@@ -637,6 +647,8 @@ function updateCart() {
       </div>
     `).join('');
     document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none'; 
+      <span id="floating-cart-count" class="floating-badge">0</span>
+    </div>
   }
   const total = cart.reduce((sum, item) => sum + item.price, 0);
   document.getElementById('cart-total').innerText = total;
