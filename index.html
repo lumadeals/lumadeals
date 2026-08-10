@@ -518,9 +518,12 @@ p {
     <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
   </div>
 
-  <div style="margin-bottom: 10px;">
-    <input type="text" id="cust-address" placeholder="Full Address (House, Street, City)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
-  </div>
+<div style="margin-bottom: 10px;">
+  <input type="text" id="cust-house" placeholder="House / Flat No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+  <input type="text" id="cust-street" placeholder="Street / Road No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+  <input type="text" id="cust-area" placeholder="Area" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+  <input type="text" id="cust-city" placeholder="City" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+</div>
 
   <div style="margin-bottom: 15px;">
     <input type="text" id="cust-phone" placeholder="Phone Number (03XXXXXXXXX)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
@@ -822,15 +825,33 @@ updateCart();
     window.open(`https://wa.me/923376454384?text=${message}`, '_blank');
   }
 
-  function sendContactWhatsApp() {
-    const myNumber = "923376454384";
-    const name = document.getElementById('contact-name').value;
-    const email = document.getElementById('contact-email').value;
-    const msg = document.getElementById('contact-msg').value;
+  function sendWhatsAppOrder() {
+  const name = document.getElementById('cust-name').value;
+  const house = document.getElementById('cust-house').value;
+  const street = document.getElementById('cust-street').value;
+  const area = document.getElementById('cust-area').value;
+  const city = document.getElementById('cust-city').value;
+  const phone = document.getElementById('cust-phone').value;
 
-    const text = `💬 *New Customer Message*%0A%0A👤 *Name:* ${name}%0A📧 *Email:* ${email}%0A📝 *Message:* ${msg}`;
-    
-    window.open(`https://wa.me/${myNumber}?text=${text}`, '_blank');
+  if(!name || !house || !street || !area || !city || !phone) {
+    alert("Please fill all fields!");
+    return;
+  }
+
+  let productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
+
+  window.open(`https://wa.me/923376454384?text=${message}`);
+  }
+
+  let productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📍 *Address:* ${address}%0A📞 *Phone:* ${phone}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
+
+  window.open(`https://wa.me/923376454384?text=${message}`);
   }
   function filterCat(category, element) {
 
