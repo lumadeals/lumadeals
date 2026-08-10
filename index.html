@@ -20,7 +20,7 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 .logo-img { width:42px; height:42px; object-fit:contain; border-radius:6px; }
 .logo-text { font-size:22px; font-weight:600; color:#14171A; letter-spacing:.5px; }
 .logo-text b { color:#3BB4EC; font-weight:800; }
-.search-box { display:flex; flex:1; max-width:520px; }
+.search-box { display:flex; flex:1; max-width:450px; }
 .search-box input {
   flex:1; padding:12px 18px; border:2px solid #3BB4EC; border-right:none;
   border-radius:25px 0 0 25px; outline:none; font-size:14px;
@@ -152,7 +152,7 @@ p {
 
   .shop-now-btn {
   background:#fff; color:#14171A; border:none; padding:4px 8px;
-  border-radius:100px; font-weight:600; cursor:pointer; font-size:14px; transition:.2s;
+  border-radius:100px; font-weight:600; cursor:pointer; font-size:10px; transition:.2s;
 }
 .shop-now-btn:hover { background:#14171A; color:#fff; }
 
@@ -228,7 +228,7 @@ p {
   padding: 15px !important;
 }
   footer {
-  text-align: center;
+  text-align: left;
   padding: 25px 10px 0;
   background: #0f172a;
   color: #ffffff;
@@ -259,7 +259,7 @@ p {
   color: #000;
   width: 36px;
   height: 36px;
-  text-align: center;
+  text-align: left;
   line-height: 36px;
   border-radius: 50%;
   font-size: 16px;
@@ -365,11 +365,12 @@ p {
   <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">Customer Reviews</h3>
   <div id="reviews-list" style="margin-bottom:15px;"></div>
 
-  <textarea id="review-text" placeholder="Apna review likhain..." rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;"></textarea>
+  <textarea id="review-text" placeholder="Your Review..." rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;"></textarea>
   <select id="review-rating" style="width:100%; margin-top:8px; padding:10px; border:1px solid #ddd; border-radius:8px;">
     <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ Excellent</option>
     <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ Good</option>
     <option value="⭐⭐⭐">⭐⭐⭐ Average</option>
+    <option value="⭐⭐">⭐⭐ Bad</option> 
   </select>
   <button onclick="submitReview()" style="width:100%; margin-top:10px; background:#3BB4EC; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Submit Review</button>
 </div>
@@ -383,13 +384,10 @@ p {
 Why Choose Us?</p>
 <p>100% Cash on Delivery (COD): Shop with complete peace of mind. Pay only when your order safely arrives at your doorstep anywhere in Pakistan.</p>
 Curated Trending Products: We stay ahead of the trends to bring you unique, high-quality items that make your life easier and more stylish.
-      
 Direct WhatsApp Support: No complicated ticket systems or long waits. Chat with us directly, ask questions, and place your orders instantly through WhatsApp.
-
 Customer-First Approach: Your trust is our greatest asset. We ensure that every product meets our strict quality checks before it reaches you.
 Get in Touch With Us  
    <p>Have questions about a product or need help tracking your order? We are always here to help! Reach out to us via WhatsApp, and our friendly support team will assist you right away.</p>
-      
 <p>Thank you for choosing Luma Deals—where smart deals meet happy customers!</p>
   </div>
 </section>
@@ -814,7 +812,7 @@ function submitSignup(event) {
   localStorage.setItem('lumadeals_email', email);
   localStorage.setItem('lumadeals_password', password);
 
-  alert('Account successfully ban gaya! Ab aap login kar sakte hain.');
+  alert('Account created successfully! Now you can login.');
   showPage('login'); // Login page par bhej dein
 }
 
@@ -874,8 +872,8 @@ function submitLogin(event) {
     <p>✉ info.lumadeals@gmail.com</p>
     <p>📍 Lahore, Pakistan</p>
     <div class="footer-socials">
-      <a href="#" target="_blank"><i class="fa fa-Tiktok"></i></a>
-      <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m2o09ZsLl" target="_blank"><i class="fa fa-Tiktok"></i></a>
+      <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank"><i class="fa fa-instagram"></i></a>
       <a href="#" target="_blank"><i class="fa fa-whatsapp"></i></a>
     </div>
   </div>
