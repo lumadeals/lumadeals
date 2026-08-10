@@ -195,8 +195,8 @@ p {
   color: #14171A;
   border: none;
   padding: 13px 32px;
-  border-radius: 100px;
-  font-weight: 600;
+  border-radius: 60px;
+  font-weight: 400;
   font-size: 14px;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(0,0,0,0.2);
@@ -915,9 +915,23 @@ function submitLogin(event) {
 
   const savedEmail = localStorage.getItem('lumadeals_email');
   const savedPassword = localStorage.getItem('lumadeals_password');
+
+  if (emailInput === savedEmail && passwordInput === savedPassword) {
+    showToast('Login Successful!');
+    localStorage.setItem('isLoggedIn', 'true');
+    setTimeout(() => {
+      showPage('home');
+    }, 1500);
+  } else {
+    showToast('Wrong Email or Password!');
+  }
+}
+</script>
+
 <div id="floating-checkout" onclick="toggleCart()" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#14171A; color:#fff; padding:14px 28px; border-radius:30px; font-size:15px; font-weight:600; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9998; align-items:center; gap:8px;">
   🛒 View Cart & Checkout
 </div>
+
 <footer>
   <div class="footer-container">
     <h4>Contact Info</h4>
@@ -934,7 +948,6 @@ function submitLogin(event) {
     <p>&copy; 2026 Luma Deals. All rights reserved. Developed by AR David</p>
   </div>
 </footer>
-
 </body>
 </html>
         
