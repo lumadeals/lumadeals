@@ -811,21 +811,8 @@ updateCart();
     showCheckoutForm();
   }
 });
-  function sendWhatsAppOrder() {
-    const name = document.getElementById('cust-name').value;
-    const address = document.getElementById('cust-address').value;
-    const phone = document.getElementById('cust-phone').value;
-    
-    if(!name || !address || !phone) {
-      alert("Please fill all fields!");
-      return;
-    }
-    
-    const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 Name: ${name}%0A🏠 Address: ${address}%0A📞 Phone: ${phone}`;
-    window.open(`https://wa.me/923376454384?text=${message}`, '_blank');
-  }
 
-  function sendWhatsAppOrder() {
+function sendWhatsAppOrder() {
   const name = document.getElementById('cust-name').value;
   const house = document.getElementById('cust-house').value;
   const street = document.getElementById('cust-street').value;
@@ -833,26 +820,18 @@ updateCart();
   const city = document.getElementById('cust-city').value;
   const phone = document.getElementById('cust-phone').value;
 
-  if(!name || !house || !street || !area || !city || !phone) {
+  if (!name || !house || !street || !area || !city || !phone) {
     alert("Please fill all fields!");
     return;
   }
 
-  let productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
+  const productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
 
   window.open(`https://wa.me/923376454384?text=${message}`);
-  }
-
-  let productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-  const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📍 *Address:* ${address}%0A📞 *Phone:* ${phone}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
-
-  window.open(`https://wa.me/923376454384?text=${message}`);
-  }
+}
   function filterCat(category, element) {
 
   const filtered = category === 'All'
