@@ -31,7 +31,7 @@ body { background:#f4f8fb; color:#14171A; text-align: left; margin: 0; padding: 
 .logo-img { width:42px; height:42px; object-fit:contain; border-radius:6px; }
 .logo-text { font-size:22px; font-weight:600; color:#14171A; letter-spacing:.5px; }
 .logo-text b { color:#3BB4EC; font-weight:800; }
-.search-box { display:flex; flex:1; max-width:400px; }
+.search-box { display:flex; flex:1; max-width:300px; }
 .search-box input {
   flex:1; padding:12px 18px; border:2px solid #3BB4EC; border-right:none;
   border-radius:25px 0 0 25px; outline:none; font-size:14px;
@@ -240,11 +240,11 @@ p {
 }
   footer {
   text-align: left;
-  padding: 25px 10px 0;
+  padding: 30px 15px 0;
   background: #0f172a;
   color: #ffffff;
-  font-size: 13px;
-  margin-top: 30px;
+  font-size: 16px;
+  margin-top: 40px;
   flex-shrink: 0;
 }
 
@@ -267,10 +267,10 @@ p {
   display: inline-block;
   margin: 0 6px;
   background: #4db8ff;
-  color: #000;
+  color: #fff;
   width: 36px;
   height: 36px;
-  text-align: left;
+  text-align: center;
   line-height: 36px;
   border-radius: 50%;
   font-size: 16px;
@@ -391,16 +391,23 @@ p {
 <section id="page-about" class="page">
   <div class="info-page">
     <h2>About Us - Luma Deals</h2>
-    <p>Welcome to Luma Deals, we believe that smart shopping should be simple, exciting, and accessible to everyone across Pakistan. Founded with a passion for bringing the latest trending products straight to your doorstep, we are your go-to destination for everyday innovation, style, and convenience.</p>
-<p>Our mission is simple: to bridge the gap between quality and affordability. We handpick high-demand gadgets, lifestyle essentials, and trending accessories so you never miss out on what's modern and useful. We strive to provide a seamless shopping experience where customer satisfaction is always our top priority.
-Why Choose Us?</p>
-<p>100% Cash on Delivery (COD): Shop with complete peace of mind. Pay only when your order safely arrives at your doorstep anywhere in Pakistan.</p>
-Curated Trending Products: We stay ahead of the trends to bring you unique, high-quality items that make your life easier and more stylish.
-Direct WhatsApp Support: No complicated ticket systems or long waits. Chat with us directly, ask questions, and place your orders instantly through WhatsApp.
-Customer-First Approach: Your trust is our greatest asset. We ensure that every product meets our strict quality checks before it reaches you.
-Get in Touch With Us  
-   <p>Have questions about a product or need help tracking your order? We are always here to help! Reach out to us via WhatsApp, and our friendly support team will assist you right away.</p>
-<p>Thank you for choosing Luma Deals—where smart deals meet happy customers!</p>
+
+<p>Welcome to Luma Deals — where smart shopping meets everyday convenience. We're on a mission to bring you the latest trending products, straight to your doorstep, across Pakistan.</p>
+
+<p>Our goal is simple: bridge the gap between quality and affordability. We handpick high-demand gadgets, lifestyle essentials, and trending accessories so you never miss out on what's modern and useful — all while keeping customer satisfaction our top priority.</p>
+
+<h3 style="margin-top:25px; font-size:18px; color:#14171A;">Why Choose Us?</h3>
+<ul style="margin:10px 0 20px 20px; line-height:1.8; color:#333;">
+  <li><b>100% Cash on Delivery:</b> Shop with complete peace of mind — pay only when your order arrives at your doorstep.</li>
+  <li><b>Curated Trending Products:</b> We stay ahead of trends to bring you unique, high-quality items.</li>
+  <li><b>Direct WhatsApp Support:</b> No complicated ticket systems — chat with us directly and place orders instantly.</li>
+  <li><b>Customer-First Approach:</b> Every product passes our strict quality checks before it reaches you.</li>
+</ul>
+
+<h3 style="margin-top:25px; font-size:18px; color:#14171A;">Get in Touch With Us</h3>
+<p>Have questions about a product or need help tracking your order? We're always here to help — reach out via WhatsApp and our friendly support team will assist you right away.</p>
+
+<p style="margin-top:15px; font-weight:600;">Thank you for choosing Luma Deals — where smart deals meet happy customers!</p>
   </div>
 </section>
   
@@ -591,6 +598,7 @@ function updateCart() {
         <span>Rs ${item.price} <span style="color:#ff5c5c; cursor:pointer; margin-left:8px;" onclick="removeFromCart(${index})">✖</span></span>
       </div>
     `).join('');
+    document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none';
   }
   const total = cart.reduce((sum, item) => sum + item.price, 0);
   document.getElementById('cart-total').innerText = total;
@@ -876,7 +884,9 @@ function submitLogin(event) {
 
 
   </script>
-
+<div id="floating-checkout" onclick="toggleCart()" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#14171A; color:#fff; padding:14px 28px; border-radius:30px; font-size:15px; font-weight:600; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9998; cursor:pointer; display:flex; align-items:center; gap:8px;">
+  🛒 View Cart & Checkout
+</div>
 <footer>
   <div class="footer-container">
     <h4>Contact Info</h4>
