@@ -622,12 +622,11 @@ p {
 <section id="page-login" class="page">
   <div class="info-page login-box">
     <h2>Login to Luma Deals</h2>
-    <form class="contact-form" onsubmit="submitLogin(event)">
-  <input type="email" placeholder="Email Address" required>
-  <input type="password" placeholder="Password" required>
+    <form class="contact-form" autocomplete="off" onsubmit="submitLogin(event)">
+  <input type="email" placeholder="Email Address" autocomplete="off" required>
+  <input type="password" placeholder="Password" autocomplete="new-password" required>
   <button type="submit">Login</button>
-<p class="switch-text" style="margin-top:10px;"><a href="#" onclick="showPage('forgot-password')">Forgot Password?</a></p>
-</form>
+    </form>
     <p class="switch-text">Don't you have an account? <a href="#" onclick="showPage('signup')">Sign Up </a></p>
   </div>
 </section>
@@ -850,6 +849,11 @@ function showPage(pageName) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + pageName).classList.add('active');
   window.scrollTo(0, 0);
+
+  if (pageName === 'login') {
+    const loginInputs = document.querySelectorAll('#page-login input');
+    loginInputs.forEach(input => input.value = '');
+  }
     }
     function submitContact(e) {
   e.preventDefault();
