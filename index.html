@@ -367,7 +367,10 @@ p {
 <li onclick="filterCat('Electronics', this)">Electronics</li>
 <li onclick="filterCat('Home & Living', this)">Home & Living</li>
 <li onclick="filterCat('Beauty', this)">Beauty</li>
-
+<li onclick="filterCat('Hand Made', this)">Hand Made</li>
+    <li onclick="filterCat('Kitchen', this)">Kitchen</li>
+    <li onclick="filterCat('Boutique', this)">Boutique</li>
+    <li onclick="filterCat('Shoes', this)">Shoes</li>
   </ul>
 </nav>
 
@@ -381,7 +384,7 @@ p {
   </section>
 
   <section class="products-section">
-    <h2>Best Selling Products</h2>
+    <h2 id="home-heading">Best Selling Products</h2>
     <div class="product-grid" id="home-product-grid"></div>
   </section>
 </section>
@@ -389,7 +392,7 @@ p {
 <!-- SHOP -->
 <section id="page-shop" class="page">
   <section class="products-section">
-    <h2>Products</h2>
+    <h2 id="shop-heading">Products</h2>
     <div class="product-grid" id="shop-product-grid"></div>
   </section>
 </section>
@@ -905,7 +908,8 @@ function sendWhatsAppOrder() {
 
   if (homeGrid) homeGrid.innerHTML = html;
   if (shopGrid) shopGrid.innerHTML = html;
-
+const shopHeading = document.getElementById('shop-heading');
+if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : category;
   document.querySelectorAll('.categories li').forEach(li => {
     li.classList.remove('active');
   });
