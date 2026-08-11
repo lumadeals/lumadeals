@@ -911,6 +911,7 @@ function selectSuggestion(id) {
   searchProducts();
 }
     function filterByCategory(category) {
+      document.getElementById('search-input').value = '';
   const filtered = products.filter(p => p.category === category);
   const grid = document.getElementById('shop-product-grid');
 
