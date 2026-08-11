@@ -326,7 +326,12 @@ p {
   font-size: 26px;
   cursor: pointer;
   padding: 5px 10px;
-}
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  }
 
 .mobile-sidebar {
   position: fixed;
@@ -388,6 +393,15 @@ p {
   }
   .main-nav, .categories {
     display: none;
+  }
+  .navbar {
+    justify-content: center;
+    position: relative;
+  }
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 </style>
