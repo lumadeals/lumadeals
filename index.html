@@ -390,18 +390,30 @@ p {
 @media (max-width: 768px) {
   .hamburger {
     display: block;
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    z-index: 10;
   }
   .main-nav, .categories {
     display: none;
   }
   .navbar {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     position: relative;
+    padding-top: 45px;
   }
   .logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    order: 1;
+  }
+  .search-box {
+    order: 2;
+    width: 100%;
+  }
+  .nav-icons {
+    order: 3;
+    width: 100%;
   }
 }
 </style>
