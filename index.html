@@ -450,7 +450,7 @@ p {
   "name": "Abdul Rehman Imtiaz",
   "jobTitle": "CEO & Founder",
   "worksFor": {
-    "@type": "Organization",
+    "@type": "Retail Shop",
     "name": "Luma Deals",
     "url": "https://lumadeals.shop"
   },
@@ -474,7 +474,8 @@ p {
   
 </head>
 <body>
-
+<button id="installButton" style="display:none;">Install App</button>
+  
     <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #006633, #ffffff, #006633); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #006633; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
     🇵🇰 Jashn-e-Azadi Mubarak! Use code <span style="color: #d32f2f;">DAVID14</span> for Flat 14% OFF! 🇵🇰
 </div>
@@ -1268,6 +1269,28 @@ function submitLogin(event) {
     <p>&copy; 2026 Luma Deals. All rights reserved. Developed by AR David</p>
   </div>
 </footer>
+      
+    <script>
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installButton').style.display = 'block';
+      });
+
+      document.getElementById('installButton').addEventListener('click', () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+          });
+        }
+      });
+    </script>
+
 </body>
 </html>
         
