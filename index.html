@@ -709,7 +709,11 @@ p {
       <input type="email" id="login-email" placeholder="Email Address" autocomplete="off" required>
       <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" required>
       <button type="submit">Login</button>
-      <button type="button" onclick="signInWithGoogle()" style="margin-top:10px; background-color:#4285F4; color:white;">Sign in with Google</button>
+      <button type="button" onclick="signInWithGoogle()" style="width: 100%; background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
+  Sign in with Google
+</button>
+
     </form>
     <p class="switch-text">Don't you have an account? <a href="#" onclick="showPage('signup')">Sign Up </a></p>
   </div>
