@@ -863,7 +863,7 @@ function showProductDetail(id) {
   document.getElementById('detail-oldprice').innerText = "Rs " + p.oldPrice;
   document.getElementById('detail-discount').innerText = p.discount + " OFF";
   document.getElementById('detail-addcart-btn').onclick = function() { addToCart(p.id); };
-  document.getElementById('detail-description').innerText = p.description || `${p.name} — Luma Deals se behtareen quality aur qeemat par. ${p.category} category mein sab se pasandeeda product.`;
+  document.getElementById('detail-description').innerText = p.description || `${p.name} — Best quality and price, only at Luma Deals. A top favorite in our ${p.category} category.`;
 
   if (typeof loadReviews === 'function') loadReviews(p.id);
   if (typeof showPage === 'function') showPage('product-detail');
@@ -873,7 +873,7 @@ function loadReviews(productId) {
   const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
   const list = document.getElementById('reviews-list');
   if (reviews.length === 0) {
-    list.innerHTML = "<p style='color:#999; font-size:13px;'>Abhi tak koi review nahi. Pehla review aap likhain!</p>";
+    list.innerHTML = "<p style='color:#999; font-size:13px;'>No reviews yet. Be the first to write one!</p>";
   } else {
     list.innerHTML = reviews.map(r => `
       <div style="border-bottom:1px solid #f0f0f0; padding:10px 0;">
