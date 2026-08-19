@@ -7,15 +7,9 @@
   <meta name="keywords" content="Luma Deals, online shopping Pakistan, smart gadgets, home utilities, cash on delivery">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Firebase Core & Auth CDN (v8) -->
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
@@ -27,14 +21,6 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // Make these available to your other script (non-module)
-  window.firebaseAuth = auth;
-  window.firebaseCreateUser = createUserWithEmailAndPassword;
-  window.firebaseSignIn = signInWithEmailAndPassword;
-  window.firebaseResetPassword = sendPasswordResetEmail;
-  window.firebaseOnAuthChange = onAuthStateChanged;
 </script>
 <style>
   body {
