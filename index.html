@@ -578,8 +578,14 @@ p {
 <section id="page-product-detail" class="page">
   <div class="info-page" style="max-width:600px;">
     <button onclick="showPage('shop')" style="background:none; border:none; color:#3BB4EC; cursor:pointer; font-size:14px; margin-bottom:15px;">← Back to Shop</button>
-    <img id="detail-img" src="" style="width:100%; border-radius:10px; margin-bottom:15px;">
-    <h2 id="detail-name"></h2>
+
+    <img id="detail-img" src="" style="width:100%; border-radius:10px;">
+    <div id="detail-thumbnails" style="display:flex; gap:8px; margin-top:10px; overflow-x:auto; padding-bottom:5px;"></div>
+    <div id="detail-video-wrap" style="margin-top:15px; display:none;">
+      <video id="detail-video" controls style="width:100%; border-radius:10px;"></video>
+    </div>
+
+    <h2 id="detail-name" style="margin-top:15px;"></h2>
     <div id="detail-rating" class="rating"></div>
     <div style="margin:10px 0;">
       <span class="price" id="detail-price" style="font-size:22px;"></span>
@@ -587,24 +593,25 @@ p {
     </div>
     <div class="discount" id="detail-discount"></div>
     <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
+
     <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
-  <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
-  <p id="detail-description" style="color:#555; line-height:1.7; font-size:14px;"></p>
-</div>
+      <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
+      <p id="detail-description" style="color:#555; line-height:1.7; font-size:14px;"></p>
+    </div>
 
-<div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
-  <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">Customer Reviews</h3>
-  <div id="reviews-list" style="margin-bottom:15px;"></div>
+    <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
+      <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">Customer Reviews</h3>
+      <div id="reviews-list" style="margin-bottom:15px;"></div>
 
-  <textarea id="review-text" placeholder="Your Review..." rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;"></textarea>
-  <select id="review-rating" style="width:100%; margin-top:8px; padding:10px; border:1px solid #ddd; border-radius:8px;">
-    <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ Excellent</option>
-    <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ Good</option>
-    <option value="⭐⭐⭐">⭐⭐⭐ Average</option>
-    <option value="⭐⭐">⭐⭐ Bad</option> 
-  </select>
-  <button onclick="submitReview()" style="width:100%; margin-top:10px; background:#3BB4EC; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Submit Review</button>
-</div>
+      <textarea id="review-text" placeholder="Write your review..." rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;"></textarea>
+      <select id="review-rating" style="width:100%; margin-top:8px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ Excellent</option>
+        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ Good</option>
+        <option value="⭐⭐⭐">⭐⭐⭐ Average</option>
+      </select>
+      <button onclick="submitReview()" style="width:100%; margin-top:10px; background:#3BB4EC; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Submit Review</button>
+    </div>
+  </div>
 </section>
 <!-- ABOUT -->
 <section id="page-about" class="page">
@@ -830,7 +837,20 @@ function addToCart(id) {
 }
 function showProductDetail(id) {
   const p = products.find(x => x.id === id);
-  document.getElementById('detail-img').src = p.img;
+  const images = p.images && p.images.length ? p.images : [p.img];
+document.getElementById('detail-img').src = images[0];
+document.getElementById('detail-thumbnails').innerHTML = images.map((img, i) => `
+  <img src="${img}" onclick="document.getElementById('detail-img').src='${img}'" style="width:60px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${i===0?'#3BB4EC':'#eee'};">
+`).join('');
+
+const videoWrap = document.getElementById('detail-video-wrap');
+const videoEl = document.getElementById('detail-video');
+if (p.video) {
+  videoEl.src = p.video;
+  videoWrap.style.display = 'block';
+} else {
+  videoWrap.style.display = 'none';
+}
   document.getElementById('detail-name').innerText = p.name;
   document.getElementById('detail-rating').innerText = p.rating;
   document.getElementById('detail-price').innerText = "Rs " + p.price;
