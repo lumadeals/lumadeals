@@ -10,6 +10,14 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
@@ -21,6 +29,15 @@
   };
 
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Make available to your other (non-module) script
+  window.firebaseAuth = auth;
+  window.firebaseCreateUser = createUserWithEmailAndPassword;
+  window.firebaseSignIn = signInWithEmailAndPassword;
+  window.firebaseResetPassword = sendPasswordResetEmail;
+  window.firebaseOnAuthChange = onAuthStateChanged;
+  window.firebaseSignOut = signOut;
 </script>
 <style>
   body {
