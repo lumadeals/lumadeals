@@ -1185,13 +1185,19 @@ function showToast(message) {
   }
   function submitSignup(event) {
   event.preventDefault();
-  const inputs = event.target.querySelectorAll('input');
-  const name = inputs[0].value;
-  const email = inputs[1].value;
-  const password = inputs[2].value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
 
-  localStorage.setItem('lumadeals_email', email);
-  localStorage.setItem('lumadeals_password', password);
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      showToast('Account created successfully!');
+      showPage('login');
+    })
+    .catch((error) => {
+      showToast('Error: ' + error.message);
+    });
+}
+
 
   
   fetch('https://formspree.io/f/xkjwoekr', {
@@ -1220,48 +1226,36 @@ function submitLogin(event) {
   const emailInput = inputs[0].value;
   const passwordInput = inputs[1].value;
 
-  const savedEmail = localStorage.getItem('lumadeals_email');
-  const savedPassword = localStorage.getItem('lumadeals_password');
-
-  if (emailInput === savedEmail && passwordInput === savedPassword) {
-    showToast('Login Successful!');
-    localStorage.setItem('isLoggedIn', 'true');
-    setTimeout(() => {
-      showPage('home');
-    }, 1500);
-  } else {
-    showToast('Wrong Email or Password!');
-  }
+  firebase.auth().signInWithEmailAndPassword(emailInput, passwordInput)
+    .then((userCredential) => {
+      showToast('Login Successful!');
+      localStorage.setItem('isLoggedIn', 'true');
+      setTimeout(() => {
+        showPage('home');
+      }, 1500);
+    })
+    .catch((error) => {
+      showToast('Wrong Email or Password!');
+    });
 }
+
   function submitForgotPassword(event) {
   event.preventDefault();
   const inputs = event.target.querySelectorAll('input');
   const email = inputs[0].value;
-  const newPassword = inputs[1].value;
 
-  const savedEmail = localStorage.getItem('lumadeals_email');
-
-  if (email !== savedEmail) {
-    showToast('Email not found!');
-    return;
-  }
-
-  localStorage.setItem('lumadeals_password', newPassword);
-
-  fetch('https://formspree.io/f/xkjwoekr', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      subject: 'Password Reset on Luma Deals',
-      email: email
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      showToast('Password reset email sent to your inbox!');
+      setTimeout(() => {
+        showPage('login');
+      }, 1500);
     })
-  });
+    .catch((error) => {
+      showToast('Email not found!');
+    });
+}
 
-  showToast('Password reset successful!');
-  setTimeout(() => {
-    showPage('login');
-  }, 1500);
-  }
   function toggleSidebar() {
   document.getElementById('mobile-sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
