@@ -1013,21 +1013,7 @@ function selectSuggestion(id) {
     showPage('shop');
 }
 
-    function showProductDetail(id) {
-  const p = products.find(x => x.id === id);
-  document.getElementById('detail-img').src = p.img;
-  document.getElementById('detail-name').innerText = p.name;
-  document.getElementById('detail-rating').innerText = p.rating;
-  document.getElementById('detail-price').innerText = "Rs " + p.price;
-  document.getElementById('detail-oldprice').innerText = "Rs " + p.oldPrice;
-  document.getElementById('detail-discount').innerText = p.discount + " OFF";
-  document.getElementById('detail-addcart-btn').onclick = function() { addToCart(p.id); };
-  showPage('product-detail');
-}
-renderProducts();
-updateCart();
-
-
+    
   function sendContactWhatsApp() {
     const myNumber = "923376454384";
     const name = document.getElementById('contact-name').value;
