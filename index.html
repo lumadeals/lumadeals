@@ -9,6 +9,11 @@
   <!-- Firebase Core & Auth CDN (v8) -->
 
 <script type="module">
+  import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+// (isay existing firebase-auth.js import line ke sath comma se jode dein, ya alag line pe rakhein)
+
+window.firebaseGoogleProvider = new GoogleAuthProvider();
+window.firebaseSignInWithPopup = signInWithPopup;
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
     getAuth,
@@ -701,9 +706,9 @@ p {
   <div class="info-page login-box">
     <h2>Login to Luma Deals</h2>
     <form class="contact-form" autocomplete="off" onsubmit="submitLogin(event)">
-  <input type="email" placeholder="Email Address" autocomplete="off" required>
-  <input type="password" placeholder="Password" autocomplete="new-password" required>
-  <button type="submit">Login</button>
+      <input type="email" id="login-email" placeholder="Email Address" autocomplete="off" required>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" required>
+      <button type="submit">Login</button>
       <button type="button" onclick="signInWithGoogle()" style="margin-top:10px; background-color:#4285F4; color:white;">Sign in with Google</button>
     </form>
     <p class="switch-text">Don't you have an account? <a href="#" onclick="showPage('signup')">Sign Up </a></p>
@@ -1273,21 +1278,6 @@ function submitLogin(event) {
   document.getElementById('mobile-sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
   }
-  function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-
-  firebase.auth().signInWithPopup(provider)
-    .then((result) => {
-      showToast('Google Sign-In Successful!');
-      localStorage.setItem('isLoggedIn', 'true');
-      setTimeout(() => {
-        showPage('home');
-      }, 1500);
-    })
-    .catch((error) => {
-      showToast('Login Failed!');
-    });
-  }
   
 </script>
 
@@ -1336,6 +1326,31 @@ function submitLogin(event) {
       document.addEventListener('DOMContentLoaded', function() {
   filterCat('All');
 });
+      function submitLogin(event) {
+  event.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  window.firebaseSignIn(window.firebaseAuth, email, password)
+    .then((userCredential) => {
+      alert('Login successful!');
+      showPage('home'); // ya jahan bhi login ke baad bhejna hai
+    })
+    .catch((error) => {
+      alert('Login failed: ' + error.message);
+    });
+}
+
+function signInWithGoogle() {
+  window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider)
+    .then((result) => {
+      alert('Google login successful!');
+      showPage('home');
+    })
+    .catch((error) => {
+      alert('Google login failed: ' + error.message);
+    });
+}
  </script>
 </body>
 </html>
