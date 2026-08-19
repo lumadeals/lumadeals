@@ -1203,7 +1203,7 @@ function showToast(message) {
     toast.classList.remove('show');
   }, 3000);
   }
-  function submitSignup(event) {
+function submitSignup(event) {
   event.preventDefault();
   const email = document.getElementById('signup-email').value;
   const password = document.getElementById('signup-password').value;
@@ -1216,28 +1216,6 @@ function showToast(message) {
     .catch((error) => {
       showToast('Error: ' + error.message);
     });
-}
-
-
-  
-  fetch('https://formspree.io/f/xkjwoekr', {
-    method: 'POST',
-    headers: { 'Accept': 'application/json' },
-    body: JSON.stringify({
-      subject: 'New Signup on Luma Deals',
-      name: name,
-      email: email
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-  });
-
-  showToast('Account created successfully! You can now...');
-  setTimeout(() => {
-    showPage('login');
-  }, 1500);
 }
 
 function submitLogin(event) {
