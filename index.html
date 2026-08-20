@@ -1287,15 +1287,23 @@ function submitLogin(event) {
   document.getElementById('sidebar-overlay').classList.toggle('show');
   }
   async function uploadProductsToFirestore() {
-  try {
-    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    const db = getFirestore(window.firebaseApp);
+  const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
 
-    await setDoc(doc(db, "products", "test1"), { name: "Test Product" });
-    alert("SUCCESS! Test product uploaded.");
-  } catch (error) {
-    alert("ERROR: " + error.message);
+  let successCount = 0;
+  let failCount = 0;
+
+  for (const product of products) {
+    try {
+      await setDoc(doc(db, "products", String(product.id)), product);
+      successCount++;
+    } catch (error) {
+      failCount++;
+      console.log("Failed:", product.id, error.message);
+    }
   }
+
+  alert(`Done! Success: ${successCount}, Failed: ${failCount}`);
   }
 </script>
 
