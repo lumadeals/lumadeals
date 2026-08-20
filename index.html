@@ -640,39 +640,25 @@ p {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 </style>
+  <style>
+/* Fix Header for Desktop without breaking Mobile */
+@media screen and (min-width: 768px) {
+    header {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+    header img, .logo-text, header a {
+        display: inline-block !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+    }
+    .search-box {
+        max-width: 550px !important;
+        margin: 10px auto !important;
+    }
+}
+  </style>
   
-<style>
-/* Header Layout Clean Fix */
-header {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 10px 15px !important;
-    gap: 10px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.logo-text {
-    display: inline-block !important;
-    white-space: nowrap !important;
-}
-
-.search-box {
-    flex: 1 1 auto !important;
-    max-width: 450px !important;
-    margin: 0 10px !important;
-}
-
-.nav-icons {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    gap: 12px !important;
-    flex-shrink: 0 !important;
-}
-</style>
   
     
   
