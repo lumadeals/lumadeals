@@ -392,60 +392,73 @@ p {
   font-size: 13px;
   color: #aaa;
 }
-
-
-@media (max-width: 768px) {
   .hamburger {
-    display: block;
-    position: absolute;
-    left: 10px;
-    top: 34px;
-    z-index: 10;
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 5px 10px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   }
-  .main-nav {
-    display: none;
-  }
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding-top: 45px;
-  }
-  .logo {
-    order: 1;
-  }
-  .search-box {
-    order: 2;
-    width: 100%;
-  }
-  .nav-icons {
-    order: 3;
-    width: 100%;
-  }
-}
-  #custom-toast {
+
+.mobile-sidebar {
   position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
+  top: 0;
+  left: -280px;
+  width: 260px;
+  height: 100%;
   background: #14171A;
   color: #fff;
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  z-index: 100000;
-  opacity: 0;
-  visibility: hidden;
+  z-index: 10000;
   transition: 0.3s;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-#custom-toast.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-  }
+.mobile-sidebar.open {
+  left: 0;
+}
+
+.mobile-sidebar .sidebar-header {
+  text-align: right;
+  font-size: 22px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.mobile-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-sidebar li {
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.mobile-sidebar hr {
+  border-color: #333;
+  margin: 15px 0;
+}
+
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+#sidebar-overlay.show {
+  display: block;
+}
+
+
   
 /* Updated Luma Deals Brand Hero Banner */
 .hero-banner {
