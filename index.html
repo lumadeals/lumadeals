@@ -392,71 +392,7 @@ p {
   font-size: 13px;
   color: #aaa;
 }
-  .hamburger {
-  display: none;
-  font-size: 26px;
-  cursor: pointer;
-  padding: 5px 10px;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  }
 
-.mobile-sidebar {
-  position: fixed;
-  top: 0;
-  left: -280px;
-  width: 260px;
-  height: 100%;
-  background: #14171A;
-  color: #fff;
-  z-index: 10000;
-  transition: 0.3s;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.mobile-sidebar.open {
-  left: 0;
-}
-
-.mobile-sidebar .sidebar-header {
-  text-align: right;
-  font-size: 22px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.mobile-sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.mobile-sidebar li {
-  padding: 12px 0;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.mobile-sidebar hr {
-  border-color: #333;
-  margin: 15px 0;
-}
-
-#sidebar-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 9999;
-}
-
-#sidebar-overlay.show {
-  display: block;
-}
 
 @media (max-width: 768px) {
   .hamburger {
