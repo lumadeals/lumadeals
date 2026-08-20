@@ -714,6 +714,30 @@ p {
     }
 }
 </style>
+  <style>
+/* Desktop Cleanup: Hide Hamburger & Fix Logo */
+@media screen and (min-width: 768px) {
+    /* 1. Hamburger menu ko chupane ke liye */
+    .hamburger, .menu-toggle, .sidebar-icon {
+        display: none !important;
+    }
+
+    /* 2. Logo aur Text ko set karne ke liye */
+    .logo-container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        white-space: nowrap !important;
+    }
+
+    .logo-text {
+        font-size: 22px !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+    }
+}
+  </style>
   
 
 </head>
