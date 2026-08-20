@@ -642,55 +642,40 @@ p {
 </style>
   
 <style>
-/* Ultimate Desktop Header Fix - Single Professional Line */
+/* Clean & Full-Width Desktop Header */
 @media screen and (min-width: 768px) {
     header {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important; /* کسی بھی چیز کو نیچے گرنے سے روکے گا */
+        flex-wrap: nowrap !important;
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 15px 5% !important;
-        max-width: 1400px !important;
-        margin: 0 auto !important;
+        padding: 12px 40px !important; /* دائیں بائیں مناسب فاصلہ */
+        width: 100% !important; /* ہیڈر کو پوری سکرین پر پھیلانے کے لیے */
+        box-sizing: border-box !important;
+        background-color: #ffffff !important;
     }
 
-    /* 1. Logo Layout */
-    header > div:first-child, .logo-container {
-        display: flex !important;
-        align-items: center !important;
-        flex: 0 0 auto !important; /* لوگو کا سائز فکس رکھے گا */
-    }
-
-    /* 2. Search Bar Layout */
     .search-box {
-        flex: 1 1 auto !important;
-        max-width: 600px !important;
-        margin: 0 40px !important; /* ارد گرد کھلی پروفیشنل سپیس */
+        flex-grow: 1 !important;
+        max-width: 550px !important;
+        margin: 0 30px !important;
     }
 
-    /* 3. Icons Layout (Account, Contact, Cart) */
     .nav-icons {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 35px !important; /* آئیکنز کے درمیان مناسب فاصلہ */
-        flex: 0 0 auto !important;
-        margin: 0 !important;
-        width: auto !important;
-    }
-
-    .nav-icons .icon {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
+        gap: 30px !important;
         margin: 0 !important;
     }
 }
 </style>
   
-  
 
+
+    
+  
 <style>
 /* Clean & Compact Professional Mobile Sidebar */
 #mobile-sidebar, .mobile-sidebar {
