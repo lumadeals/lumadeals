@@ -44,6 +44,22 @@ window.firebaseApp = app;
   snapshot.forEach((doc) => window.products.push(doc.data()));
   filterCat('All');
 }
+  async function deleteBase64Products() {
+  const { getFirestore, collection, getDocs, deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+  const snapshot = await getDocs(collection(db, "products"));
+
+  let deletedCount = 0;
+  for (const docSnap of snapshot.docs) {
+    const data = docSnap.data();
+    if (data.img && data.img.startsWith("data:image")) {
+      await deleteDoc(doc(db, "products", docSnap.id));
+      deletedCount++;
+    }
+  }
+  alert(`Deleted ${deletedCount} slow products!`);
+}
+window.deleteBase64Products = deleteBase64Products;
 window.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
   window.firebaseAuth = auth;
   window.firebaseCreateUser = createUserWithEmailAndPassword;
@@ -525,7 +541,7 @@ p {
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
-
+<button onclick="deleteBase64Products()" style="position:fixed; top:70px; left:10px; z-index:99999; background:orange; color:white; padding:10px;">Delete Slow Products</button>
     <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #38b6ff, #ffffff, #38b6ff); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #38b6ff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
     Order Now and get upto 20% off 📢 <span style="color: #d32f2f;" > </span>
 </div>
