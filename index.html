@@ -640,49 +640,41 @@ p {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 </style>
-  <style>
-/* Desktop Header Layout Fix */
-@media (min-width: 768px) {
-    header {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 10px 25px !important;
-        gap: 20px !important;
-    }
-
-    /* Fix Logo and Text stacking */
-    header > div:first-child, .logo-container {
-        display: flex !important;
-        align-items: center !important;
-        white-space: nowrap !important;
-        flex-shrink: 0 !important;
-        gap: 8px !important;
-    }
-
-    .logo-text {
-        display: inline-block !important;
-        font-size: 20px !important;
-    }
-
-    /* Limit Search Bar Width on Desktop */
-    .search-box {
-        max-width: 480px !important;
-        width: 100% !important;
-        margin: 0 auto !important;
-        flex-grow: 1 !important;
-    }
-
-    /* Keep Nav Icons in line */
-    .nav-icons {
-        display: flex !important;
-        align-items: center !important;
-        gap: 20px !important;
-        flex-shrink: 0 !important;
-    }
-}
-  </style>
   
+<style>
+/* Header Layout Clean Fix */
+header {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 15px !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.logo-text {
+    display: inline-block !important;
+    white-space: nowrap !important;
+}
+
+.search-box {
+    flex: 1 1 auto !important;
+    max-width: 450px !important;
+    margin: 0 10px !important;
+}
+
+.nav-icons {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+</style>
+  
+    
   
 </head>
 <body>
