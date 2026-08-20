@@ -627,7 +627,20 @@ p {
     cursor: pointer !important;
 }
 </style>
+<style>
+/* Disable blue tap highlight on click/touch for all elements */
+*, a, button, div, span, img {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    outline: none !important;
+}
 
+*:focus, *:active {
+    outline: none !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+</style>
+  
   
 </head>
 <body>
