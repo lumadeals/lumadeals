@@ -458,7 +458,58 @@ p {
   display: block;
 }
 
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    position: absolute;
+    left: 10px;
+    top: 34px;
+    z-index: 10;
+  }
+  .main-nav {
+    display: none;
+  }
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 45px;
+  }
+  .logo {
+    order: 1;
+  }
+  .search-box {
+    order: 2;
+    width: 100%;
+  }
+  .nav-icons {
+    order: 3;
+    width: 100%;
+  }
+}
+  #custom-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #14171A;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 100000;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
 
+#custom-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
   
 /* Updated Luma Deals Brand Hero Banner */
 .hero-banner {
