@@ -73,6 +73,13 @@ window.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
   window.firebaseResetPassword = sendPasswordResetEmail;
   window.firebaseOnAuthChange = onAuthStateChanged;
   window.firebaseSignOut = signOut;
+  async function deleteTestProduct() {
+  const { getFirestore, doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+  await deleteDoc(doc(db, "products", "test1"));
+  alert("Test product deleted!");
+}
+window.deleteTestProduct = deleteTestProduct;
 </script>
 <style>
   body {
@@ -547,7 +554,7 @@ p {
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
-
+<button onclick="deleteTestProduct()" style="position:fixed; top:120px; left:10px; z-index:99999; background:purple; color:white; padding:10px;">Delete Test</button>
     <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #38b6ff, #ffffff, #38b6ff); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #38b6ff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
     Order Now and get upto 20% off 📢 <span style="color: #d32f2f;" > </span>
 </div>
