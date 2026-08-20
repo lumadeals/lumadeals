@@ -604,17 +604,21 @@ p {
   }
   </script>
   <style>
-.category-btn {
-    transition: all 0.3s ease;
+/* Category buttons pop & hover effect */
+[onclick*="filterCat"], [onclick*="showPage"], .category, .tab {
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
 }
 
-.category-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-    background-color: #38bdf8;
-    color: white;
+[onclick*="filterCat"]:hover, .category:hover, .tab:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+    background-color: #38bdf8 !important;
+    color: white !important;
+    cursor: pointer !important;
 }
-  </style>
+</style>
+
   
 </head>
 <body>
