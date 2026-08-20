@@ -35,7 +35,7 @@ window.firebaseSignInWithPopup = signInWithPopup;
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+window.firebaseApp = app;
   // Make available to your other (non-module) script
   window.firebaseAuth = auth;
   window.firebaseCreateUser = createUserWithEmailAndPassword;
@@ -517,7 +517,7 @@ p {
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
-
+<button onclick="uploadProductsToFirestore()" style="position:fixed; bottom:10px; right:10px; z-index:9999; background:red; color:white; padding:10px;">Upload Products (One Time)</button>
   
     <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #38b6ff, #ffffff, #38b6ff); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #38b6ff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
     Order Now and get upto 20% off 📢 <span style="color: #d32f2f;" > </span>
@@ -1286,7 +1286,16 @@ function submitLogin(event) {
   document.getElementById('mobile-sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
   }
-  
+  async function uploadProductsToFirestore() {
+  const { getFirestore, collection, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  for (const product of products) {
+    await setDoc(doc(db, "products", String(product.id)), product);
+    console.log("Uploaded:", product.name);
+  }
+  alert("All products uploaded to Firestore!");
+  }
 </script>
 
 <div id="floating-checkout" onclick="toggleCart()" style="display:none; position:fixed; bottom:20px; right:20px; background:#14171A; color:#fff; width:56px; height:56px; border-radius:50%; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9998; align-items:center; justify-content:center; font-size:22px; cursor:pointer;">
