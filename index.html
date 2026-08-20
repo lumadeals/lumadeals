@@ -1287,14 +1287,18 @@ function submitLogin(event) {
   document.getElementById('sidebar-overlay').classList.toggle('show');
   }
   async function uploadProductsToFirestore() {
-  const { getFirestore, collection, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const db = getFirestore(window.firebaseApp);
+  try {
+    alert("Starting upload...");
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const db = getFirestore(window.firebaseApp);
 
-  for (const product of products) {
-    await setDoc(doc(db, "products", String(product.id)), product);
-    console.log("Uploaded:", product.name);
+    for (const product of products) {
+      await setDoc(doc(db, "products", String(product.id)), product);
+    }
+    alert("All products uploaded to Firestore!");
+  } catch (error) {
+    alert("ERROR: " + error.message);
   }
-  alert("All products uploaded to Firestore!");
   }
 </script>
 
