@@ -672,45 +672,50 @@ p {
 }
 </style>
   
-
-
-    
-  
 <style>
-/* Clean & Compact Professional Mobile Sidebar */
-#mobile-sidebar, .mobile-sidebar {
-    padding: 15px 12px !important;
-}
+/* Final Bulletproof Desktop Header Fix */
+@media (min-width: 768px) {
+    header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 15px 40px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        background: #ffffff !important;
+    }
 
-#mobile-sidebar ul, .mobile-sidebar ul {
-    display: block !important;
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
+    /* 1. Logo Area */
+    header > div:first-of-type {
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+        flex: 0 0 auto !important;
+    }
 
-#mobile-sidebar li, .mobile-sidebar li {
-    display: block !important;
-    width: 100% !important;
-    margin: 0 !important;
-    text-align: left !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-}
+    /* 2. Search Bar Area */
+    header > .search-box {
+        flex: 1 1 auto !important;
+        max-width: 500px !important;
+        margin: 0 30px !important;
+        width: 100% !important;
+    }
 
-#mobile-sidebar a, .mobile-sidebar a, #mobile-sidebar span, .mobile-sidebar span {
-    display: block !important;
-    width: 100% !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    padding: 8px 5px !important;
-    color: #e2e8f0 !important;
-    box-sizing: border-box !important;
+    /* 3. Icons Area */
+    header > .nav-icons {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 35px !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+    }
 }
 </style>
   
-  
-    
-  
+
 </head>
 <body>
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
