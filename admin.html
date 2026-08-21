@@ -866,4 +866,464 @@
 
         loginStatus.textContent = "Logging in...";
         loginStatus.style.display = "block";
-  
+  loginStatus.style.marginTop = "15px";
+        loginStatus.style.color = "#0284c7";
+
+        try {
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            loginStatus.textContent = "";
+
+        } catch (error) {
+
+            console.error(error);
+
+            loginStatus.textContent =
+                "Login failed: " + getFirebaseError(error);
+
+            loginStatus.style.color = "#dc2626";
+
+        }
+
+    });
+        /* ================= LOGOUT ================= */
+
+    logoutBtn.addEventListener("click", async () => {
+
+        await signOut(auth);
+
+    });
+
+
+    /* ================= IMAGE SELECTION ================= */
+    imageInput.addEventListener("change", (e) => {
+
+        const files = Array.from(e.target.files);
+
+        if (files.length > 8) {
+
+            showStatus(
+                "Maximum 8 images are allowed.",
+                "error"
+            );
+
+            imageInput.value = "";
+
+            return;
+
+        }
+
+        selectedImages = files;
+
+        renderPreviews();
+
+    });
+
+
+    /* ================= PREVIEWS ================= */
+
+    function renderPreviews() {
+
+        previewGrid.innerHTML = "";
+
+        selectedImages.forEach((file, index) => {
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+
+                const div =
+                    document.createElement("div");
+
+                div.className = "preview";
+
+                div.innerHTML = `
+
+                    <img src="${e.target.result}" alt="Product image">
+
+                    <button
+                        type="button"
+                        class="remove-image"
+                        data-index="${index}"
+                    >
+                        ×
+                    </button>
+
+                `;
+
+                previewGrid.appendChild(div);
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+    }
+    /* ================= REMOVE IMAGE ================= */
+
+    previewGrid.addEventListener("click", (e) => {
+
+        if (
+            e.target.classList.contains("remove-image")
+        ) {
+
+            const index =
+                Number(e.target.dataset.index);
+
+            selectedImages.splice(index, 1);
+
+            renderPreviews();
+
+        }
+
+    });
+
+
+    /* ================= ADD PRODUCT ================= */
+
+    productForm.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        if (!auth.currentUser) {
+
+            showStatus(
+                "Please login first.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const name =
+            document.getElementById("productName").value.trim();
+
+        const price =
+            Number(document.getElementById("productPrice").value);
+
+        const oldPriceValue =
+            document.getElementById("oldPrice").value;
+
+        const oldPrice =
+            oldPriceValue
+                ? Number(oldPriceValue)
+                : null;
+
+        const category =
+            document.getElementById("productCategory").value;
+
+        const stock =
+            Number(document.getElementById("productStock").value);
+
+        const description =
+            document.getElementById("productDescription").value.trim();
+
+        const verified =
+            document.getElementById("verifiedProduct").checked;
+
+
+        if (!name || !category || !description) {
+
+            showStatus(
+                "Please fill all required fields.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (selectedImages.length === 0) {
+
+            showStatus(
+                "Please select at least one product image.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            submitBtn.disabled = true;
+
+            progressWrap.style.display = "block";
+
+            progressFill.style.width = "0%";
+
+            progressText.textContent =
+                "Starting upload...";
+
+        /* ================= UPLOAD IMAGES ================= */
+
+            const imageUrls = [];
+
+            for (
+                let i = 0;
+                i < selectedImages.length;
+                i++
+            ) {
+
+                const file = selectedImages[i];
+
+                const safeName =
+                    file.name
+                        .replace(/[^a-zA-Z0-9.-]/g, "_");
+
+                const uniqueName =
+                    Date.now() +
+                    "_" +
+                    i +
+                    "_" +
+                    safeName;
+
+
+                const storageRef =
+                    ref(
+                        storage,
+                        `products/${uniqueName}`
+                    );
+
+
+                const uploadTask =
+                    uploadBytesResumable(
+                        storageRef,
+                        file
+                    );
+
+
+                const url =
+                    await new Promise(
+                        (resolve, reject) => {
+
+                            uploadTask.on(
+
+                                "state_changed",
+
+                                (snapshot) => {
+
+                                    const fileProgress =
+                                        (
+                                            snapshot.bytesTransferred /
+                                            snapshot.totalBytes
+                                        ) * 100;
+
+                                    const totalProgress =
+                                        (
+                                            (i + fileProgress / 100) /
+                                            selectedImages.length
+                                        ) * 100;
+
+                                    progressFill.style.width =
+                                        totalProgress + "%";
+
+                                    progressText.textContent =
+                                        `Uploading image ${i + 1} of ${selectedImages.length}...`;
+
+                                },
+
+                                (error) => {
+
+                                    reject(error);
+
+                                },
+
+                                async () => {
+
+                                    try {
+
+                                        const downloadURL =
+                                            await getDownloadURL(
+                                                uploadTask.snapshot.ref
+                                            );
+
+                                        resolve(downloadURL);
+
+                                    } catch (error) {
+
+                                        reject(error);
+
+                                    }
+
+                                }
+
+                            );
+
+                        }
+                    );
+
+
+                imageUrls.push(url);
+
+            }
+            /* ================= FIRESTORE ================= */
+
+            progressText.textContent =
+                "Saving product information...";
+
+
+            const productData = {
+
+                name: name,
+
+                price: price,
+
+                oldPrice: oldPrice,
+
+                category: category,
+
+                description: description,
+
+                stock: stock,
+
+                images: imageUrls,
+
+                image: imageUrls[0],
+
+                verified: verified,
+
+                createdAt: serverTimestamp(),
+
+                createdBy: auth.currentUser.uid
+
+            };
+
+
+            const docRef =
+                await addDoc(
+                    collection(db, "products"),
+                    productData
+                );
+
+
+            /* ================= SUCCESS ================= */
+
+            progressFill.style.width = "100%";
+
+            progressText.textContent =
+                "Product uploaded successfully!";
+
+            showStatus(
+                `✅ Product added successfully! Product ID: ${docRef.id}`,
+                "success"
+            );
+
+
+            productForm.reset();
+
+            selectedImages = [];
+
+            previewGrid.innerHTML = "";
+
+            setTimeout(() => {
+
+                progressWrap.style.display = "none";
+
+            }, 3000);
+
+
+        } catch (error) {
+
+            console.error(
+                "Product upload error:",
+                error
+            );
+
+            showStatus(
+                "Upload failed: " +
+                getFirebaseError(error),
+                "error"
+            );
+
+        } finally {
+
+            submitBtn.disabled = false;
+
+        }
+
+    });
+    /* ================= RESET ================= */
+
+    resetBtn.addEventListener("click", () => {
+
+        productForm.reset();
+
+        selectedImages = [];
+
+        imageInput.value = "";
+
+        previewGrid.innerHTML = "";
+
+        statusBox.style.display = "none";
+
+        progressWrap.style.display = "none";
+
+        progressFill.style.width = "0%";
+
+    });
+
+
+    /* ================= STATUS ================= */
+
+    function showStatus(message, type) {
+
+        statusBox.textContent = message;
+
+        statusBox.className = type;
+
+        statusBox.style.display = "block";
+
+    }
+
+
+    /* ================= FIREBASE ERRORS ================= */
+
+    function getFirebaseError(error) {
+
+        const code = error?.code || "";
+
+        const messages = {
+
+            "auth/invalid-credential":
+                "Incorrect email or password.",
+
+            "auth/user-not-found":
+                "Admin account not found.",
+
+            "auth/wrong-password":
+                "Incorrect password.",
+
+            "auth/invalid-email":
+                "Invalid email address.",
+
+            "storage/unauthorized":
+                "Storage permission denied. Check Firebase Storage Rules.",
+
+            "permission-denied":
+                "Firestore permission denied. Check Firestore Rules."
+
+        };
+
+        return (
+            messages[code] ||
+            error?.message ||
+            "Something went wrong."
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
