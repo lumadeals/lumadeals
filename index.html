@@ -581,16 +581,18 @@ p {
 }
   .verified-badge {
     display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     width: 18px !important;
     height: 18px !important;
     margin-left: 5px !important;
     vertical-align: -3px !important;
-    flex-shrink: 0 !important;
+    flex: 0 0 18px !important;
 }
 
 .verified-badge svg {
-    width: 100% !important;
-    height: 100% !important;
+    width: 18px !important;
+    height: 18px !important;
     display: block !important;
   }
 </style>
@@ -988,13 +990,15 @@ let cart = [];
         <h4 onclick="showProductDetail(${p.id})" style="cursor:pointer;">
     ${p.name}
     <span class="verified-badge" title="Verified by Luma Deals">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="10" cy="10" r="9" fill="#1877F2"/>
         <path
-            fill="#1877F2"
-            d="M12 2.5l2.05 1.15 2.35-.1 1.25 1.98 2.12 1.02-.1 2.35L20.5 11l-.83 2.2.1 2.35-1.98 1.25-1.02 2.12-2.35-.1L12 20.5l-2.2-.83-2.35.1-1.25-1.98-2.12-1.02.1-2.35L3.5 13 4.33 10.8l-.1-2.35 1.98-1.25 1.02-2.12 2.35.1L12 2.5z"/>
-        <path
-            fill="#fff"
-            d="M10.25 15.8 6.9 12.45l1.45-1.45 1.9 1.9 4.4-4.4 1.45 1.45z"/>
+            d="M6 10.2 L8.5 12.7 L14.2 7.5"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
     </svg>
 </span>
 </h4>
