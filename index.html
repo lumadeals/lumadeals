@@ -579,31 +579,20 @@ p {
 .product-card:hover img {
     transform: scale(1.05);
 }
-  /* Professional Luma Deals Verified Badge */
-.verified-badge {
+  .verified-badge {
     display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 17px !important;
-    height: 17px !important;
+    width: 18px !important;
+    height: 18px !important;
     margin-left: 5px !important;
-    background: #1877F2 !important;
-    border-radius: 50% !important;
-    vertical-align: -2px !important;
-    position: relative !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.12) !important;
+    vertical-align: -3px !important;
+    flex-shrink: 0 !important;
 }
 
-/* White professional check */
-.verified-badge::after {
-    content: "" !important;
-    width: 7px !important;
-    height: 4px !important;
-    border-left: 2px solid #ffffff !important;
-    border-bottom: 2px solid #ffffff !important;
-    transform: rotate(-45deg) translateY(-1px) !important;
+.verified-badge svg {
+    width: 100% !important;
+    height: 100% !important;
     display: block !important;
-}
+  }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
@@ -998,7 +987,16 @@ let cart = [];
       <div class="product-info">
         <h4 onclick="showProductDetail(${p.id})" style="cursor:pointer;">
     ${p.name}
-    <span class="verified-badge" title="Verified by Luma Deals"></span>
+    <span class="verified-badge" title="Verified by Luma Deals">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+            fill="#1877F2"
+            d="M12 2.5l2.05 1.15 2.35-.1 1.25 1.98 2.12 1.02-.1 2.35L20.5 11l-.83 2.2.1 2.35-1.98 1.25-1.02 2.12-2.35-.1L12 20.5l-2.2-.83-2.35.1-1.25-1.98-2.12-1.02.1-2.35L3.5 13 4.33 10.8l-.1-2.35 1.98-1.25 1.02-2.12 2.35.1L12 2.5z"/>
+        <path
+            fill="#fff"
+            d="M10.25 15.8 6.9 12.45l1.45-1.45 1.9 1.9 4.4-4.4 1.45 1.45z"/>
+    </svg>
+</span>
 </h4>
         <div class="rating">${p.rating}</div>
         <div>
