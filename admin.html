@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma Deals — Admin Panel</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* LOGIN */
+        #loginPage {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.18);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-logo img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+        }
+
+        .login-logo h1 {
+            margin-top: 8px;
+            font-size: 25px;
+            color: #0284c7;
+        }
+
+        .login-logo p {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ADMIN */
+        #adminPage {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #ffffff;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            color: #0284c7;
+            font-size: 20px;
+        }
+
+        .admin-label {
+            font-size: 12px;
+            color: #64748b;
+            display: block;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 9px 15px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* CARDS */
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 5px 20px rgba(15,23,42,.07);
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        /* FORM */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 13px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2,132,199,.12);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* IMAGE UPLOAD */
+        .upload-box {
+            border: 2px dashed #94a3b8;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        .upload-box:hover {
+            border-color: #0284c7;
+            background: #f0f9ff;
+        }
+
+        .upload-box strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .upload-box span {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+
+        .preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            width: 25px;
+            height: 25px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(220,38,38,.9);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* VERIFIED */
+        .verify-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+
+        .verify-row input {
+            width: 20px;
+            height: 20px;
+        }
+
+        .verify-text strong {
+            display: block;
+        }
+
+        .verify-text span {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* BUTTON */
+        .submit-btn {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg,#0284c7,#0369a1);
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn {
+            border: none;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 11px 17px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* STATUS */
+        #status {
+            margin-top: 15px;
+            padding: 13px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #status.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        #status.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        #status.info {
+            display: block;
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .progress-wrap {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #0284c7;
+            transition: width .2s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 7px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 700px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand strong {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 20px 13px 50px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .preview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .login-box {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+            <img src="luma-deals-logo.png" alt="Luma Deals">
+            <h1>Luma Deals</h1>
+            <p>Administrator Login</p>
+        </div>
+
+        <form id="loginForm">
+
+            <div class="field">
+                <label>Admin Email</label>
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="admin@example.com"
+                    required
+                >
+            </div>
+
+            <br>
+
+            <div class="field">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                    required
+                >
+            </div>
+
+            <button class="submit-btn" type="submit">
+                Login to Admin Panel
+            </button>
+
+            <div id="loginStatus"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ADMIN PANEL ================= -->
+
+<div id="adminPage" class="hidden">
+
+    <header class="topbar">
+
+        <div class="brand">
+            <img src="luma-deals-logo.png" alt="Luma Deals">
+
+            <div>
+                <strong>Luma Deals</strong>
+                <span class="admin-label">Admin Panel</span>
+            </div>
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+            Logout
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="page-title">
+            <h2>Add New Product</h2>
+            <p>Create a new product and publish it to Luma Deals.</p>
+        </div>
+
+
+        <!-- PRODUCT FORM -->
+
+        <form id="productForm">
+
+            <div class="card">
+
+                <div class="card-title">
+                    📦 Product Information
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field full">
+                        <label>Product Name *</label>
+                        <input
+                            type="text"
+                            id="productName"
+                            placeholder="e.g. Wireless Bluetooth Headphones"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Price (PKR) *</label>
+                        <input
+                            type="number"
+                            id="productPrice"
+                            min="0"
+                            placeholder="1299"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Old Price / MRP</label>
+                        <input
+                            type="number"
+                            id="oldPrice"
+                            min="0"
+                            placeholder="1599"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Category *</label>
+
+                        <select id="productCategory" required>
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="Electronics">
+                                Electronics
+                            </option>
+
+                            <option value="Fashion">
+                                Fashion
+                            </option>
+
+                            <option value="Beauty">
+                                Beauty
+                            </option>
+
+                            <option value="Home">
+                                Home
+                            </option>
+
+                            <option value="Accessories">
+                                Accessories
+                            </option>
+
+                            <option value="Sports">
+                                Sports
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="field">
+                        <label>Stock Quantity *</label>
+
+                        <input
+                            type="number"
+                            id="productStock"
+                            min="0"
+                            placeholder="25"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>Description *</label>
+
+                        <textarea
+                            id="productDescription"
+                            placeholder="Write detailed product description..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGES -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    🖼️ Product Images
+                </div>
+
+                <label class="upload-box" for="imageInput">
+
+                    <strong>
+                        📸 Click to select product images
+                    </strong>
+
+                    <span>
+                        You can select up to 8 images
+                    </span>
+
+                </label>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    multiple
+                >
+
+                <div id="previewGrid" class="preview-grid"></div>
+
+            </div>
+
+
+            <!-- VERIFIED -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    ✓ Verification
+                </div>
+
+                <label class="verify-row">
+
+                    <input
+                        type="checkbox"
+                        id="verifiedProduct"
+                    >
+
+                    <div class="verify-text">
+
+                        <strong>
+                            ✓ Verified by Luma Deals
+                        </strong>
+
+                        <span>
+                            Show the Luma Deals verification badge on this product.
+                        </span>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="card">
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="submitBtn"
+                >
+                    🚀 Add Product to Luma Deals
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="resetBtn"
+                    style="width:100%; margin-top:10px;"
+                >
+                    Clear Form
+                </button>
+
+                <div id="progressWrap" class="progress-wrap">
+
+                    <div class="progress-bar">
+                        <div
+                            id="progressFill"
+                            class="progress-fill"
+                        ></div>
+                    </div>
+
+                    <div
+                        id="progressText"
+                        class="progress-text"
+                    >
+                        Uploading...
+                    </div>
+
+                </div>
+
+                <div id="status"></div>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+    import {
+        getStorage,
+        ref,
+        uploadBytesResumable,
+        getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
+    /* ================= FIREBASE CONFIG ================= */
+
+    const firebaseConfig = {
+
+        apiKey: "AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
+
+        authDomain: "luma-deals.firebaseapp.com",
+
+        projectId: "luma-deals",
+
+        storageBucket: "luma-deals.firebasestorage.app",
+
+        messagingSenderId: "572054053043",
+
+        appId: "1:572054053043:web:fdd6e36d53d339bd6b90c6"
+
+    };
+
+
+    /* ================= INITIALIZE ================= */
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+    const storage = getStorage(app);
+
+
+    /* ================= ELEMENTS ================= */
+
+    const loginPage =
+        document.getElementById("loginPage");
+
+    const adminPage =
+        document.getElementById("adminPage");
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const loginStatus =
+        document.getElementById("loginStatus");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const productForm =
+        document.getElementById("productForm");
+
+    const imageInput =
+        document.getElementById("imageInput");
+
+    const previewGrid =
+        document.getElementById("previewGrid");
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+    const resetBtn =
+        document.getElementById("resetBtn");
+
+    const statusBox =
+        document.getElementById("status");
+
+    const progressWrap =
+        document.getElementById("progressWrap");
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const progressText =
+        document.getElementById("progressText");
+
+
+    let selectedImages = [];
+
+
+    /* ================= AUTH STATE ================= */
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (user) {
+
+            loginPage.classList.add("hidden");
+
+            adminPage.classList.remove("hidden");
+
+        } else {
+
+            loginPage.classList.remove("hidden");
+
+            adminPage.classList.add("hidden");
+
+        }
+
+    });
+
+
+    /* ================= LOGIN ================= */
+
+    loginForm.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const email =
+            document.getElementById("loginEmail").value.trim();
+
+        const password =
+            document.getElementById("loginPassword").value;
+
+        loginStatus.textContent = "Logging in...";
+        loginStatus.style.display = "block";
+  
