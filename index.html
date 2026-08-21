@@ -579,7 +579,22 @@ p {
 .product-card:hover img {
     transform: scale(1.05);
 }
-  
+  /* Luma Deals Verified Product Badge */
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    background: #1877F2;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    vertical-align: middle;
+    box-shadow: 0 1px 3px rgba(24,119,242,0.3);
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
@@ -972,7 +987,10 @@ let cart = [];
     <div class="product-card">
       <img src="${p.img}" alt="${p.name}" onclick="showProductDetail(${p.id})" style="cursor:pointer;">
       <div class="product-info">
-        <h4 onclick="showProductDetail(${p.id})" style="cursor:pointer;">${p.name}</h4>
+        <h4 onclick="showProductDetail(${p.id})" style="cursor:pointer;">
+    ${p.name}
+    <span class="verified-badge" title="Verified by Luma Deals">✓</span>
+</h4>
         <div class="rating">${p.rating}</div>
         <div>
           <span class="price">Rs ${p.price}</span>
