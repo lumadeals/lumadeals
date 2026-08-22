@@ -22,7 +22,11 @@
 <div class="field"><label>Image 7</label><input id="image7" type="url"><div class="prev" id="preview7">Image preview</div></div>
 </div></div>
 <div class="card"><div class="ct">✓ Verification</div><label class="verify"><input type="checkbox" id="verifiedProduct"><span><b>✓ Verified by Luma Deals</b><small class="small">Show verification badge.</small></span></label></div>
-<div class="card"><button class="btn" id="submitBtn">🚀 Add Product to Luma Deals</button><button type="button" class="btn secondary" id="resetBtn">Clear Form</button><div id="status" class="status"></div></div>
+<div class="rating">
+    ${stars} <span>(${product.reviews || 0})</span>
+</div>
+    ${product.discount > 0 ? `<span class="discount-badge">${product.discount}% OFF</span>` : ""}
+    <div class="card"><button class="btn" id="submitBtn">🚀 Add Product to Luma Deals</button><button type="button" class="btn secondary" id="resetBtn">Clear Form</button><div id="status" class="status"></div></div>
 </form></main></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -36,7 +40,9 @@ $('logoutBtn').onclick=()=>signOut(auth);
 for(let i=1;i<=7;i++){$('image'+i).addEventListener('input',()=>{let u=$('image'+i).value.trim();$('preview'+i).innerHTML=u?'<img src="'+u.replace(/"/g,'&quot;')+'" onerror="this.parentElement.textContent=\'Image could not be loaded\'">':'Image preview'})}
 $('productForm').addEventListener('submit',async e=>{e.preventDefault();if(!auth.currentUser)return show('Please login first.','error');let images=[];for(let i=1;i<=7;i++){let v=$('image'+i).value.trim();if(v)images.push(v)}if(!images.length)return show('Please add at least one image URL.','error');let data={name:$('productName').value.trim(),price:Number($('productPrice').value),oldPrice:$('oldPrice').value?Number($('oldPrice').value):null,category:$('productCategory').value,description:$('productDescription').value.trim(),stock:Number($('productStock').value),images,image:images[0],verified:$('verifiedProduct').checked,createdAt:serverTimestamp(),createdBy:auth.currentUser.uid};try{$('submitBtn').disabled=true;$('submitBtn').textContent='Saving Product...';let ref=await addDoc(collection(db,'products'),data);show('✅ Product added successfully! Product ID: '+ref.id,'success');$('productForm').reset();for(let i=1;i<=7;i++)$('preview'+i).textContent='Image preview'}catch(err){console.error(err);show('Failed to add product: '+err.message,'error')}finally{$('submitBtn').disabled=false;$('submitBtn').textContent='🚀 Add Product to Luma Deals'}});
 $('resetBtn').onclick=()=>{$('productForm').reset();for(let i=1;i<=7;i++)$('preview'+i).textContent='Image preview';$('status').style.display='none'};function show(m,c){$('status').textContent=m;$('status').className='status '+c;$('status').style.display='block'}
-function calculateDiscount() {
+const stars = "★".repeat(Math.round(product.rating || 5)) +
+              "☆".repeat(5 - Math.round(product.rating || 5));
+    function calculateDiscount() {
     const oldPrice = parseFloat(document.getElementById("oldPrice")?.value) || 0;
     const price = parseFloat(document.getElementById("price")?.value) || 0;
 
