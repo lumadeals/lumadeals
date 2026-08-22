@@ -5,7 +5,13 @@
 </style></head><body>
 <div id="loginPage"><div class="box"><div class="center"><h1 class="blue">Luma Deals</h1><p>Administrator Login</p></div><form id="loginForm"><div class="field"><label>Admin Email</label><input id="loginEmail" type="email" placeholder="admin@example.com" required></div><br><div class="field"><label>Password</label><input id="loginPassword" type="password" required></div><br><button class="btn">Login to Admin Panel</button><div id="loginStatus"></div></form></div></div>
 <div id="adminPage" class="hidden"><header class="top"><div class="brand">Luma Deals<span class="small">Admin Panel</span></div><button class="logout" id="logoutBtn">Logout</button></header><main class="container"><div class="title"><h2>Add New Product</h2><p>Create a product and save it to Firestore.</p></div><form id="productForm">
-<div class="card"><div class="ct">📦 Product Information</div><div class="grid"><div class="field full"><label>Product Name *</label><input id="productName" required placeholder="Wireless Bluetooth Headphones"></div><div class="field"><label>Price (PKR) *</label><input id="productPrice" type="number" min="0" required></div><div class="field"><label>Old Price / MRP</label><input id="oldPrice" type="number" min="0"></div><div class="field"><label>Category *</label><select id="productCategory" required><option value="">Select Category</option><option>Electronics</option><option>Fashion</option><option>Beauty</option><option>Home</option><option>Accessories</option><option>Sports</option><option>Other</option></select></div><div class="field"><label>Stock Quantity *</label><input id="productStock" type="number" min="0" required></div><div class="field full"><label>Description *</label><textarea id="productDescription" required></textarea></div></div></div>
+<div class="card"><div class="ct">📦 Product Information</div><div class="grid"><div class="field full"><label>Product Name *</label><input id="productName" required placeholder="Wireless Bluetooth Headphones"></div><div class="field"><label>Price (PKR) *</label><input id="productPrice" type="number" min="0" required></div><div class="field"><label>Old Price / MRP</label><input id="oldPrice" type="number" min="0"></div> <label>Rating</label>
+<input type="number" id="rating" min="0" max="5" step="0.1" value="5">
+
+<label>Reviews</label>
+<input type="number" id="reviews" min="0" value="0">
+
+<div id="discountPreview"></div><div class="field"><label>Category *</label><select id="productCategory" required><option value="">Select Category</option><option>Electronics</option><option>Fashion</option><option>Beauty</option><option>Home</option><option>Accessories</option><option>Sports</option><option>Other</option></select></div><div class="field"><label>Stock Quantity *</label><input id="productStock" type="number" min="0" required></div><div class="field full"><label>Description *</label><textarea id="productDescription" required></textarea></div></div></div>
 <div class="card"><div class="ct">🖼️ Product Images — GitHub</div><div class="help"><b>Firebase Storage is NOT used.</b><br>GitHub par image upload karke us ka direct image URL yahan paste karo. 1 se 7 images allowed hain. Image 1 main image hogi.<br><br>Example: https://raw.githubusercontent.com/lumadeals/lumadeals/main/images/electronics/headphones-1.jpg</div><div class="images">
 <div class="field"><label>Image 1 *</label><input id="image1" type="url" required placeholder="https://raw.githubusercontent.com/..."><div class="prev" id="preview1">Image preview</div></div>
 <div class="field"><label>Image 2</label><input id="image2" type="url" placeholder="https://raw.githubusercontent.com/..."><div class="prev" id="preview2">Image preview</div></div>
@@ -30,4 +36,25 @@ $('logoutBtn').onclick=()=>signOut(auth);
 for(let i=1;i<=7;i++){$('image'+i).addEventListener('input',()=>{let u=$('image'+i).value.trim();$('preview'+i).innerHTML=u?'<img src="'+u.replace(/"/g,'&quot;')+'" onerror="this.parentElement.textContent=\'Image could not be loaded\'">':'Image preview'})}
 $('productForm').addEventListener('submit',async e=>{e.preventDefault();if(!auth.currentUser)return show('Please login first.','error');let images=[];for(let i=1;i<=7;i++){let v=$('image'+i).value.trim();if(v)images.push(v)}if(!images.length)return show('Please add at least one image URL.','error');let data={name:$('productName').value.trim(),price:Number($('productPrice').value),oldPrice:$('oldPrice').value?Number($('oldPrice').value):null,category:$('productCategory').value,description:$('productDescription').value.trim(),stock:Number($('productStock').value),images,image:images[0],verified:$('verifiedProduct').checked,createdAt:serverTimestamp(),createdBy:auth.currentUser.uid};try{$('submitBtn').disabled=true;$('submitBtn').textContent='Saving Product...';let ref=await addDoc(collection(db,'products'),data);show('✅ Product added successfully! Product ID: '+ref.id,'success');$('productForm').reset();for(let i=1;i<=7;i++)$('preview'+i).textContent='Image preview'}catch(err){console.error(err);show('Failed to add product: '+err.message,'error')}finally{$('submitBtn').disabled=false;$('submitBtn').textContent='🚀 Add Product to Luma Deals'}});
 $('resetBtn').onclick=()=>{$('productForm').reset();for(let i=1;i<=7;i++)$('preview'+i).textContent='Image preview';$('status').style.display='none'};function show(m,c){$('status').textContent=m;$('status').className='status '+c;$('status').style.display='block'}
+function calculateDiscount() {
+    const oldPrice = parseFloat(document.getElementById("oldPrice")?.value) || 0;
+    const price = parseFloat(document.getElementById("price")?.value) || 0;
+
+    const discountPreview = document.getElementById("discountPreview");
+
+    if (oldPrice > price && price > 0) {
+        const discount = Math.round(((oldPrice - price) / oldPrice) * 100);
+        discountPreview.innerHTML = `<strong>${discount}% OFF</strong>`;
+        return discount;
+    }
+
+    discountPreview.innerHTML = "";
+    return 0;
+}
+
+document.getElementById("oldPrice")?.addEventListener("input", calculateDiscount);
+document.getElementById("price")?.addEventListener("input", calculateDiscount);
+rating: parseFloat(document.getElementById("rating").value) || 5,
+reviews: parseInt(document.getElementById("reviews").value) || 0,
+discount: calculateDiscount(),
 </script></body></html>
