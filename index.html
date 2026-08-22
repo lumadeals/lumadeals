@@ -1058,8 +1058,8 @@ function showProductDetail(id) {
   document.getElementById('detail-img').src = images[0];
 
   document.getElementById('detail-thumbnails').innerHTML = images.map((img, i) => `
-    <img src="${img}" onclick="document.getElementById('detail-img').src='${img}'" style="width:60px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${i===0?'#3BB4EC':'#eee'};">
-  `).join('');
+  <img src="${img}" data-index="${i}" onclick="selectDetailImage(this, '${img}')" style="width:60px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${i===0?'#3BB4EC':'#eee'};">
+`).join('');
 
   const videoWrap = document.getElementById('detail-video-wrap');
   const videoEl = document.getElementById('detail-video');
@@ -1474,6 +1474,13 @@ function submitLogin(event) {
     }
   }
     alert(`Done! Success: ${successCount}, Failed: ${failCount}`);
+  }
+  function selectDetailImage(el, img) {
+  document.getElementById('detail-img').src = img;
+
+  const thumbs = document.getElementById('detail-thumbnails').querySelectorAll('img');
+  thumbs.forEach(t => t.style.border = '2px solid #eee');
+  el.style.border = '2px solid #3BB4EC';
   }
 </script>
 
