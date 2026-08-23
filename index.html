@@ -1188,13 +1188,27 @@ function addToCart(id) {
 
   if (!product) return;
 
-  const quantity = window.productQuantity || 1;
+  // 1. Screen se actual quantity uthana
+  let quantityDisplay = document.getElementById("qty-input") || document.getElementById("productQuantity");
+  let quantity = 0;
+  
+  if (quantityDisplay) {
+    // Agar input tag hai toh value read karega, warna text
+    quantity = parseInt(quantityDisplay.value || quantityDisplay.textContent) || 0;
+  } else {
+    quantity = window.productQuantity || 0;
+  }
+
+  // Agar user ne 0 select kiya hai toh add na kare aur alert de
+  if (quantity === 0) {
+    alert("Please select at least 1 quantity!");
+    return;
+  }
 
   const existingItem = cart.find(item => item.id === id);
 
   if (existingItem) {
-    existingItem.quantity =
-      (existingItem.quantity || 1) + quantity;
+    existingItem.quantity = (existingItem.quantity || 1) + quantity;
   } else {
     cart.push({
       ...product,
@@ -1204,16 +1218,19 @@ function addToCart(id) {
 
   updateCart();
 
-  // Reset quantity after adding
-  window.productQuantity = 1;
-
-  const display =
-    document.getElementById("productQuantity");
-
-  if (display) {
-    display.textContent = "1";
+  // 2. Add hone ke baad quantity wapas 0 kar dena
+  if (quantityDisplay) {
+    if (quantityDisplay.tagName === "INPUT") {
+      quantityDisplay.value = "0";
+    } else {
+      quantityDisplay.textContent = "0";
+    }
   }
+  
+  // Purane variable ko bhi 0 kar diya taake koi masla na aaye
+  window.productQuantity = 0; 
 }
+
 function showProductDetail(id) {
   const p = products.find(x => x.id == id);
   if (!p) return;
