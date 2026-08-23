@@ -1066,20 +1066,27 @@ p {
   
 <div class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
-    <h3> Your Cart</h3>
-    <span onclick="toggleCart()">✖</span>
+    <h3>Your Cart</h3>
+    <!-- event.preventDefault() add kiya hai taake kisi bhi haal mein page reload na ho -->
+    <span style="cursor: pointer;" onclick="event.preventDefault(); toggleCart();">✖</span>
   </div>
+  
   <div id="cart-items"></div>
+  
   <div class="cart-total">
     <p>Total: Rs <span id="cart-total">0</span></p>
-    <button class="checkout-btn" onclick="showCheckoutForm()">Checkout</button>
+    <!-- type="button" add kiya hai -->
+    <button type="button" class="checkout-btn" onclick="showCheckoutForm()">Checkout</button>
+  </div>
 
-<div id=lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+<!-- id wala masla theek kar diya -->
+<div id="lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
   <h3 style="margin-bottom: 12px; font-size: 16px; color: #0f172a; font-weight: 700;">Delivery Details (COD)</h3>
   
   <div style="margin-bottom: 10px;">
     <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
   </div>
+
 
 <div style="margin-bottom: 10px;">
   <input type="text" id="cust-house" placeholder="House / Flat No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
@@ -1558,6 +1565,7 @@ function selectSuggestion(id) {
 });
 
 function sendWhatsAppOrder() {
+function sendWhatsAppOrder() {
   const name = document.getElementById('cust-name').value;
   const house = document.getElementById('cust-house').value;
   const street = document.getElementById('cust-street').value;
@@ -1570,13 +1578,20 @@ function sendWhatsAppOrder() {
     return;
   }
 
-  const productsList = cart.map(item => `- ${item.name} (Rs ${item.price})`).join('%0A');
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  // Yahan item ki quantity add ki gayi hai aur price ko quantity se multiply kiya gaya hai
+  const productsList = cart.map(item => {
+    const qty = item.quantity || 1;
+    return `- ${item.name} (x${qty}) (Rs ${item.price * qty})`;
+  }).join('%0A');
+
+  // Yahan grand total calculate karte waqt quantity ko consider kiya gaya hai
+  const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
   const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
+
   function filterCat(category, element) {
 
   const filtered = category === 'All'
