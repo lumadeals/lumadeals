@@ -1267,8 +1267,7 @@ function selectSuggestion(id) {
             grid.innerHTML = filtered.map(productCardHTML).join('');
         }
     }
-      showPage('shop');
-}
+      
 
     
   function sendContactWhatsApp() {
@@ -1413,8 +1412,7 @@ if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : categ
     element.classList.add('active');
   }
 
-  showPage('shop');
-  }
+  
 
 function submitSignup(event) {
   event.preventDefault();
@@ -1592,7 +1590,9 @@ function signInWithGoogle() {
       alert('Google login failed: ' + error.message);
     });
 }
-      
+     document.addEventListener('DOMContentLoaded', function() {
+    showPage('home');
+}); 
  </script>
 </body>
 </html>                     
