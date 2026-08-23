@@ -1166,11 +1166,15 @@ function submitLogin(e) {
   showPage('home');
 }
 function searchProducts() {
-  const query = document.getElementById('search-input').value.trim().toLowerCase();
+  // 1. Sab kuch function ke andar hi pakdo
+  const searchInput = document.getElementById('search-input');
+  const searchSuggestions = document.getElementById('search-suggestions');
+  const grid = document.getElementById('shop-product-grid');
+  
+  const query = searchInput.value.trim().toLowerCase();
   if (!query) return;
 
   const filtered = products.filter(p => p.name.toLowerCase().includes(query));
-  const grid = document.getElementById('shop-product-grid');
 
   if (filtered.length === 0) {
     grid.innerHTML = "<p style='padding:20px; color:#888;'>Koi product nahi mila.</p>";
@@ -1178,8 +1182,21 @@ function searchProducts() {
     grid.innerHTML = filtered.map(productCardHTML).join('');
   }
 
-  showPage('shop');
+  // 2. Search ke baad bar khali
+  searchInput.value = ""; 
+  
+  // 3. Suggestions band
+  searchSuggestions.style.display = 'none';
 }
+
+// Enter dabane par
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search-input').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') {
+      searchProducts();
+    }
+  });
+});
     function showSuggestions() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
   const box = document.getElementById('search-suggestions');
