@@ -653,6 +653,43 @@ p {
   border-radius: 8px !important;
   display: block;
 }
+  .quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 15px 0;
+}
+
+.quantity-selector button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: #14171A;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quantity-selector button:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.quantity-selector button:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.quantity-selector span {
+  width: 55px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  font-size: 16px;
+  font-weight: 700;
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
@@ -883,6 +920,11 @@ p {
       <span class="old-price" id="detail-oldprice"></span>
     </div>
     <div class="discount" id="detail-discount"></div>
+    <div class="quantity-selector">
+  <button type="button" onclick="changeProductQuantity(-1)">−</button>
+  <span id="productQuantity">1</span>
+  <button type="button" onclick="changeProductQuantity(1)">+</button>
+    </div>
     <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
      <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
       <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
@@ -1106,10 +1148,52 @@ function renderProducts() {
   document.getElementById('shop-product-grid').innerHTML = html;
 }
 
+window.productQuantity = 1;
+
+function changeProductQuantity(change) {
+  window.productQuantity += change;
+
+  if (window.productQuantity < 1) {
+    window.productQuantity = 1;
+  }
+
+  const display = document.getElementById("productQuantity");
+
+  if (display) {
+    display.textContent = window.productQuantity;
+  }
+}
+
 function addToCart(id) {
   const product = products.find(p => p.id === id);
-  cart.push(product);
+
+  if (!product) return;
+
+  const quantity = window.productQuantity || 1;
+
+  const existingItem = cart.find(item => item.id === id);
+
+  if (existingItem) {
+    existingItem.quantity =
+      (existingItem.quantity || 1) + quantity;
+  } else {
+    cart.push({
+      ...product,
+      quantity: quantity
+    });
+  }
+
   updateCart();
+
+  // Reset quantity after adding
+  window.productQuantity = 1;
+
+  const display =
+    document.getElementById("productQuantity");
+
+  if (display) {
+    display.textContent = "1";
+  }
 }
 function showProductDetail(id) {
   const p = products.find(x => x.id == id);
@@ -1181,21 +1265,31 @@ function removeFromCart(index) {
 function updateCart() {
   document.getElementById('cart-count').innerText = cart.length;
   const cartItemsDiv = document.getElementById('cart-items');
+  
   if (cart.length === 0) {
     cartItemsDiv.innerHTML = "<p style='color:#888; text-align:center; margin-top:20px;'>Cart is empty</p>";
   } else {
-    cartItemsDiv.innerHTML = cart.map((item, index) => `
+    cartItemsDiv.innerHTML = cart.map((item, index) => {
+      // Agar kisi item mein quantity nahi hai, toh default 1 consider karega
+      const qty = item.quantity || 1; 
+      const itemTotalPrice = item.price * qty;
+      
+      return `
       <div class="cart-item">
-        <span>${item.name}</span>
-        <span>Rs ${item.price} <span style="color:#ff5c5c; cursor:pointer; margin-left:8px;" onclick="removeFromCart(${index})">✖</span></span>
+        <span>${item.name} <b>(x${qty})</b></span>
+        <span>Rs ${itemTotalPrice} <span style="color:#ff5c5c; cursor:pointer; margin-left:8px;" onclick="removeFromCart(${index})">✖</span></span>
       </div>
-    `).join('');
+    `}).join('');
+    
     document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none'; 
     document.getElementById('floating-cart-badge').innerText = cart.length;
   }
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  
+  // Grand total calculate karte waqt price ko quantity se multiply kiya gaya hai
+  const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   document.getElementById('cart-total').innerText = total;
 }
+
 
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
