@@ -1267,7 +1267,8 @@ function selectSuggestion(id) {
             grid.innerHTML = filtered.map(productCardHTML).join('');
         }
     }
-      
+      showPage('shop');
+    }
 
     
   function sendContactWhatsApp() {
@@ -1411,7 +1412,8 @@ if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : categ
   if (element) {
     element.classList.add('active');
   }
-
+showPage('shop');
+  }
   
 
 function submitSignup(event) {
