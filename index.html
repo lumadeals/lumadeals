@@ -1308,7 +1308,7 @@ function updateCart() {
     cartItemsDiv.innerHTML = "<p style='color:#888; text-align:center; margin-top:20px;'>Cart is empty</p>";
   } else {
     cartItemsDiv.innerHTML = cart.map((item, index) => {
-      // Agar kisi item mein quantity nahi hai, toh default 1 consider karega
+      
       const qty = item.quantity || 1; 
       const itemTotalPrice = item.price * qty;
       
@@ -1323,7 +1323,7 @@ function updateCart() {
     document.getElementById('floating-cart-badge').innerText = cart.length;
   }
   
-  // Grand total calculate karte waqt price ko quantity se multiply kiya gaya hai
+  
   const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   document.getElementById('cart-total').innerText = total;
 }
@@ -1348,20 +1348,20 @@ function showPage(pageName, updateUrl = true) {
     loginInputs.forEach(input => input.value = '');
   }
 
-  // URL ko page ke mutabiq update karein (browser history mein)
+  
   if (updateUrl) {
     const url = pageName === 'home' ? '/' : '/?page=' + pageName;
     history.pushState({ page: pageName }, '', url);
   }
 }
 
-// Browser ka back/forward button dabane par sahi page dikhayein
+
 window.addEventListener('popstate', function(event) {
   const pageName = (event.state && event.state.page) ? event.state.page : 'home';
   showPage(pageName, false);
 });
 
-// Page load hote hi URL check karein aur sahi page kholein
+
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   const requestedPage = params.get('page');
@@ -1381,7 +1381,7 @@ function submitLogin(e) {
   showPage('home');
 }
 function searchProducts() {
-  // 1. Sab kuch function ke andar hi pakdo
+  
   const searchInput = document.getElementById('search-input');
   const searchSuggestions = document.getElementById('search-suggestions');
   const grid = document.getElementById('shop-product-grid');
@@ -1397,14 +1397,14 @@ function searchProducts() {
     grid.innerHTML = filtered.map(productCardHTML).join('');
   }
 
-  // 2. Search ke baad bar khali
+  
   searchInput.value = ""; 
   
-  // 3. Suggestions band
+  
   searchSuggestions.style.display = 'none';
 }
 
-// Enter dabane par
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input').addEventListener('keypress', (e) => {
     if(e.key === 'Enter') {
@@ -1439,20 +1439,20 @@ function selectSuggestion(id) {
 }
     
     function filterByCategory(category) {
-    // 1. Search bar aur suggestions box ko khali karein
+    
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = '';
     
     const suggestions = document.getElementById('search-suggestions');
     if (suggestions) suggestions.style.display = 'none';
 
-    // 2. Agar 'All' select ho toh saare products dikhain, warna category match karein
+    
     let filtered = products;
     if (category && category !== 'All' && category !== 'all') {
         filtered = products.filter(p => p.category.toLowerCase() === category.toLowerCase());
     }
 
-    // 3. Grid update karein
+    
     const grid = document.getElementById('shop-products-grid');
     if (grid) {
         if (filtered.length === 0) {
@@ -1582,7 +1582,7 @@ function sendWhatsAppOrder() {
   // Yahan grand total calculate karte waqt quantity ko consider kiya gaya hai
   const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
-  const message = `🛍️ *New Order From Customer*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
+  const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
