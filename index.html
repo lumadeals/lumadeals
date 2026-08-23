@@ -1137,7 +1137,7 @@ function updateCart() {
 
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
-function showPage(pageName) {
+function showPage(pageName, updateUrl = true) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + pageName).classList.add('active');
 
@@ -1153,7 +1153,28 @@ function showPage(pageName) {
     const loginInputs = document.querySelectorAll('#page-login input');
     loginInputs.forEach(input => input.value = '');
   }
-    }
+
+  // URL ko page ke mutabiq update karein (browser history mein)
+  if (updateUrl) {
+    const url = pageName === 'home' ? '/' : '/?page=' + pageName;
+    history.pushState({ page: pageName }, '', url);
+  }
+}
+
+// Browser ka back/forward button dabane par sahi page dikhayein
+window.addEventListener('popstate', function(event) {
+  const pageName = (event.state && event.state.page) ? event.state.page : 'home';
+  showPage(pageName, false);
+});
+
+// Page load hote hi URL check karein aur sahi page kholein
+window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  const requestedPage = params.get('page');
+  if (requestedPage && document.getElementById('page-' + requestedPage)) {
+    showPage(requestedPage, false);
+  }
+});
      function submitContact(e) {
   e.preventDefault();
   alert("Message has been sent to Luma Deals");
