@@ -1582,7 +1582,7 @@ function sendWhatsAppOrder() {
   // Yahan grand total calculate karte waqt quantity ko consider kiya gaya hai
   const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
-  const message = `🛍️ *New Order From Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
+  const message = `🛍️ *New Order From Customer*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
