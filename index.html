@@ -1166,7 +1166,9 @@ function submitLogin(e) {
   showPage('home');
 }
 function searchProducts() {
-  const query = document.getElementById('search-input').value.trim().toLowerCase();
+  const searchInput = document.getElementById('search-input');
+  const searchSuggestions = document.getElementById('search-suggestions');
+  const query = searchInput.value.trim().toLowerCase();
   if (!query) return;
 
   const filtered = products.filter(p => p.name.toLowerCase().includes(query));
@@ -1177,9 +1179,14 @@ function searchProducts() {
   } else {
     grid.innerHTML = filtered.map(productCardHTML).join('');
   }
-searchInput.value = "";
-  showPage('shop');
+
+  searchInput.value = "";
+  searchSuggestions.style.display = 'none';
 }
+
+document.getElementById('search-input').addEventListener('keypress', (e) => {
+  if(e.key === 'Enter') searchProducts();
+});
     function showSuggestions() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
   const box = document.getElementById('search-suggestions');
@@ -1482,31 +1489,7 @@ function submitLogin(event) {
   thumbs.forEach(t => t.style.border = '2px solid #eee');
   el.style.border = '2px solid #3BB4EC';
   }
-  // ===== SEARCH FUNCTIONALITY =====
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-
-function handleSearch() {
-  const query = searchInput.value.trim();
   
-  if(query === "") return; 
-  
-  searchProducts(query); // tumhara existing function call hoga
-  
-  searchInput.value = ""; // search ke baad bar khali
-}
-
-// Enter dabane par
-searchInput.addEventListener('keypress', (e) => {
-  if(e.key === 'Enter') {
-    handleSearch();
-  }
-});
-
-// Search icon click par
-searchBtn.addEventListener('click', handleSearch);
-</script>
-
 <div id="floating-checkout" onclick="toggleCart()" style="display:none; position:fixed; bottom:20px; right:20px; background:#14171A; color:#fff; width:56px; height:56px; border-radius:50%; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9998; align-items:center; justify-content:center; font-size:22px; cursor:pointer;">
   🛒
   <span id="floating-cart-badge" style="position:absolute; top:-4px; right:-4px; background:#ff5c5c; color:#fff; font-size:11px; font-weight:700; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
