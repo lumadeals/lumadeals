@@ -653,43 +653,58 @@ p {
   border-radius: 8px !important;
   display: block;
 }
-  .quantity-selector {
+.quantity-wrapper {
   display: flex;
+  justify-content: flex-end; /* Yeh code isko side (right) par align karega */
   align-items: center;
-  justify-content: center;
-  gap: 0;
+  gap: 12px;
   margin: 15px 0;
 }
 
-.quantity-selector button {
-  width: 42px;
-  height: 42px;
-  border: none;
-  background: #14171A;
-  color: white;
-  font-size: 22px;
-  font-weight: 700;
-  cursor: pointer;
+.qty-text {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
 }
 
-.quantity-selector button:first-child {
-  border-radius: 8px 0 0 8px;
-}
-
-.quantity-selector button:last-child {
-  border-radius: 0 8px 8px 0;
-}
-
-.quantity-selector span {
-  width: 55px;
-  height: 42px;
+.qty-selector {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #f1f5f9;
-  font-size: 16px;
-  font-weight: 700;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
 }
+
+.qty-btn {
+  /* YAHAN LUMA DEALS KE LOGO KA COLOR CODE DAALEIN */
+  background-color: #38b6ff; /* Example ke liye Blue hai, isko change karein */
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s ease;
+}
+
+.qty-btn:hover {
+  opacity: 0.8;
+}
+
+#qty-input {
+  width: 35px;
+  text-align: center;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none; /* User isko type karke change nahi kar sakega */
+}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
@@ -920,11 +935,15 @@ p {
       <span class="old-price" id="detail-oldprice"></span>
     </div>
     <div class="discount" id="detail-discount"></div>
-    <div class="quantity-selector">
-  <button type="button" onclick="changeProductQuantity(-1)">−</button>
-  <span id="productQuantity">1</span>
-  <button type="button" onclick="changeProductQuantity(1)">+</button>
-    </div>
+    <div class="quantity-wrapper">
+  <span class="qty-text">Quantity:</span>
+  <div class="qty-selector">
+    <button class="qty-btn" onclick="decreaseQty()">−</button>
+    <input type="text" id="qty-input" value="0" readonly>
+    <button class="qty-btn" onclick="increaseQty()">+</button>
+  </div>
+</div>
+
     <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
      <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
       <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
@@ -1676,6 +1695,22 @@ function submitLogin(event) {
   thumbs.forEach(t => t.style.border = '2px solid #eee');
   el.style.border = '2px solid #3BB4EC';
   }
+  function increaseQty() {
+  let qtyInput = document.getElementById('qty-input');
+  qtyInput.value = parseInt(qtyInput.value) + 1;
+}
+
+function decreaseQty() {
+  let qtyInput = document.getElementById('qty-input');
+  let currentValue = parseInt(qtyInput.value);
+  if (currentValue > 0) { // 0 se neechay nahi jayega
+    qtyInput.value = currentValue - 1;
+  }
+}
+
+// JAB CHECKOUT HO JAYE, TOH YEH LINE APNE CHECKOUT FUNCTION MEIN DAAL DEIN:
+// document.getElementById('qty-input').value = 0;
+  
 </script>
 
 <div id="floating-checkout" onclick="toggleCart()" style="display:none; position:fixed; bottom:20px; right:20px; background:#14171A; color:#fff; width:56px; height:56px; border-radius:50%; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9998; align-items:center; justify-content:center; font-size:22px; cursor:pointer;">
