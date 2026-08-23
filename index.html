@@ -610,6 +610,43 @@ p {
     height: 18px !important;
     display: block !important;
 }
+  /* ================================
+   LUMA DEALS PRODUCT IMAGE FIX
+   Fixed gallery size - prevents page jumping
+================================ */
+
+#detail-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f8f8f8;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#detail-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  display: block;
+}
+
+/* Product thumbnails */
+#detail-thumbnails {
+  min-height: 80px;
+  align-items: center;
+}
+
+#detail-thumbnails img {
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  display: block;
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
@@ -621,7 +658,7 @@ p {
   "name": "Abdul Rehman Imtiaz",
   "jobTitle": "CEO & Founder",
   "worksFor": {
-    "@type": "Retail Shop",
+    "@type": "Organization",
     "name": "Luma Deals",
     "url": "https://lumadeals.shop"
   },
@@ -825,7 +862,9 @@ p {
   <div class="info-page" style="max-width:600px;">
     <button onclick="showPage('shop')" style="background:none; border:none; color:#3BB4EC; cursor:pointer; font-size:14px; margin-bottom:15px;">← Back to Shop</button>
 
-    <img id="detail-img" src="" style="width:100%; border-radius:10px;">
+    <div id="detail-image-container">
+  <img id="detail-img" src="" alt="Product Image">
+    </div>
     <div id="detail-thumbnails" style="display:flex; gap:8px; margin-top:10px; overflow-x:auto; padding-bottom:5px;"></div>
     <div id="detail-video-wrap" style="margin-top:15px; display:none;">
       <video id="detail-video" controls style="width:100%; border-radius:10px;"></video>
