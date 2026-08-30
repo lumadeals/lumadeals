@@ -415,17 +415,21 @@ p {
   font-size: 13px;
   color: #aaa;
 }
-  .hamburger {
+.hamburger {
   display: none;
   font-size: 26px;
   cursor: pointer;
   padding: 5px 10px;
   position: absolute;
   left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 22px;
   z-index: 10;
-  }
+  transition: transform 0.3s ease;
+}
+
+.hamburger.open {
+  transform: rotate(90deg);
+}
 
 .mobile-sidebar {
   position: fixed;
@@ -433,12 +437,13 @@ p {
   left: -280px;
   width: 260px;
   height: 100%;
-  background: #14171A;
+  background: linear-gradient(180deg, #14171A, #1e2226);
   color: #fff;
   z-index: 10000;
-  transition: 0.3s;
-  padding: 20px;
+  transition: left 0.35s ease;
+  padding: 15px 12px;
   overflow-y: auto;
+  box-shadow: 2px 0 15px rgba(0,0,0,0.3);
 }
 
 .mobile-sidebar.open {
@@ -446,27 +451,78 @@ p {
 }
 
 .mobile-sidebar .sidebar-header {
-  text-align: right;
-  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+}
+
+.mobile-sidebar .sidebar-header span:last-child {
   cursor: pointer;
-  margin-bottom: 20px;
+  font-size: 20px;
+  opacity: 0.8;
 }
 
 .mobile-sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .mobile-sidebar li {
-  padding: 12px 0;
-  border-bottom: 1px solid #333;
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #e2e8f0;
+  border-radius: 6px;
+  transition: background 0.2s ease, padding-left 0.2s ease;
 }
 
-.mobile-sidebar hr {
-  border-color: #333;
-  margin: 15px 0;
+.mobile-sidebar li:hover,
+.mobile-sidebar li:active {
+  background: rgba(255,255,255,0.08);
+  padding-left: 14px;
+}
+
+.sidebar-cat-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 8px;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-cats {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.sidebar-cats.expanded {
+  max-height: 500px;
+}
+
+.sidebar-cats li {
+  padding-left: 18px;
+  font-size: 13px;
+  color: #cbd5e1;
 }
 
 #sidebar-overlay {
@@ -475,12 +531,18 @@ p {
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.5);
   z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 #sidebar-overlay.show {
   display: block;
+  opacity: 1;
 }
-
+.hamburger.open {
+  transform: rotate(90deg);
+  color: #ff4d4d;
+}
 @media (max-width: 768px) {
   .hamburger {
     display: block;
@@ -766,35 +828,7 @@ p {
 }
 </style>
   <style>
-/* Clean & Compact Professional Mobile Sidebar */
-#mobile-sidebar, .mobile-sidebar {
-    padding: 15px 12px !important;
-}
 
-#mobile-sidebar ul, .mobile-sidebar ul {
-    display: block !important;
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-#mobile-sidebar li, .mobile-sidebar li {
-    display: block !important;
-    width: 100% !important;
-    margin: 0 !important;
-    text-align: left !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-}
-
-#mobile-sidebar a, .mobile-sidebar a, #mobile-sidebar span, .mobile-sidebar span {
-    display: block !important;
-    width: 100% !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    padding: 8px 5px !important;
-    color: #e2e8f0 !important;
-    box-sizing: border-box !important;
-}
     /* Luma Deals logo alignment */
 .logo {
     display: flex !important;
@@ -1714,6 +1748,7 @@ function submitLogin(event) {
   function toggleSidebar() {
   document.getElementById('mobile-sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
+  document.querySelector('.hamburger').classList.toggle('open');
   }
   async function uploadProductsToFirestore() {
   const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
