@@ -818,8 +818,20 @@ p {
 
 @keyframes liquidMorph {
   0% {
-    bord
-    .skeleton-card {
+    border-radius: 50%;
+  }
+  40% {
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  }
+  70% {
+    border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
+  }
+  100% {
+    border-radius: 55% 45% 50% 50% / 50% 50% 45% 55%;
+  }
+}
+
+.skeleton-card {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
@@ -852,7 +864,21 @@ p {
   margin: 12px;
   border-radius: 8px;
   background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-  background-size: 200
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 15px;
+  padding: 15px;
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
