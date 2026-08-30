@@ -72,10 +72,10 @@ const loadingHTML = '<div class="skeleton-grid">' + skeletonCard.repeat(6) + '</
   const db = getFirestore(window.firebaseApp);
 const snapshot = await getDocs(collection(db, "products"));
 
-products = [];
+window.products = [];
 
 snapshot.forEach((doc) => {
-  products.push({
+  window.products.push({
     id: doc.id,
     ...doc.data()
   });
