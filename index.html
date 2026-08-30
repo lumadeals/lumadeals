@@ -2278,40 +2278,14 @@ let cart = [];
   `;
     }
 
+
+    
 function renderProducts() {
-  const allProducts = [...products];
+  const allProducts = Array.isArray(products) ? [...products] : [];
 
-  // Flash Deals = products having a discount
-  const flashDeals = allProducts
-    .filter(p => p.discount)
-    .slice(0, 8);
-
-  // Newest = latest products first when createdAt exists
-  const newArrivals = [...allProducts]
-    .sort((a, b) => {
-      const aTime = a.createdAt?.seconds || 0;
-      const bTime = b.createdAt?.seconds || 0;
-      return bTime - aTime;
-    })
-    .slice(0, 8);
-
-  // Trending = products with rating, otherwise first products
-  const trending = [...allProducts]
-    .sort((a, b) => {
-      const ar = parseFloat(a.rating) || 0;
-      const br = parseFloat(b.rating) || 0;
-      return br - ar;
-    })
-    .slice(0, 8);
-
-  // Best Sellers = soldCount if available
-  const bestSellers = [...allProducts]
-    .sort((a, b) => {
-      const as = Number(a.soldCount || a.sold || 0);
-      const bs = Number(b.soldCount || b.sold || 0);
-      return bs - as;
-    })
-    .slice(0, 8);
+  // =========================================
+  // ORIGINAL PRODUCT GRIDS
+  // =========================================
 
   const homeGrid = document.getElementById('home-product-grid');
 
@@ -2321,38 +2295,101 @@ function renderProducts() {
       .join('');
   }
 
-  const flashGrid = document.getElementById('flash-deals-grid');
-  if (flashGrid) {
-    flashGrid.innerHTML = flashDeals.length
-      ? flashDeals.map(productCardHTML).join('')
-      : '<p class="section-empty">No flash deals available right now.</p>';
-  }
-
-  const trendingGrid = document.getElementById('trending-products-grid');
-  if (trendingGrid) {
-    trendingGrid.innerHTML = trending.length
-      ? trending.map(productCardHTML).join('')
-      : '<p class="section-empty">No trending products yet.</p>';
-  }
-
-  const newGrid = document.getElementById('new-arrivals-grid');
-  if (newGrid) {
-    newGrid.innerHTML = newArrivals.length
-      ? newArrivals.map(productCardHTML).join('')
-      : '<p class="section-empty">No new arrivals yet.</p>';
-  }
-
-  const bestGrid = document.getElementById('best-sellers-grid');
-  if (bestGrid) {
-    bestGrid.innerHTML = bestSellers.length
-      ? bestSellers.map(productCardHTML).join('')
-      : '<p class="section-empty">No best sellers yet.</p>';
-  }
-
   const shopGrid = document.getElementById('shop-product-grid');
 
   if (shopGrid) {
     shopGrid.innerHTML = allProducts
+      .map(productCardHTML)
+      .join('');
+  }
+
+
+  // =========================================
+  // HOMEPAGE PREMIUM SECTIONS
+  // =========================================
+
+  // Flash Deals
+  const flashDeals = allProducts
+    .filter(p => {
+      return p.discount ||
+             p.discountPercent ||
+             (p.oldPrice && Number(p.oldPrice) > Number(p.price));
+    })
+    .slice(0, 8);
+
+  const flashGrid = document.getElementById('flash-deals-grid');
+
+  if (flashGrid) {
+    flashGrid.innerHTML = flashDeals.length
+      ? flashDeals.map(productCardHTML).join('')
+      : '';
+  }
+
+
+  // New Arrivals
+  const newArrivals = [...allProducts]
+    .sort((a, b) => {
+      const aTime =
+        a.createdAt?.seconds ||
+        a.createdAt?.toMillis?.() ||
+        0;
+
+      const bTime =
+        b.createdAt?.seconds ||
+        b.createdAt?.toMillis?.() ||
+        0;
+
+      return bTime - aTime;
+    })
+    .slice(0, 8);
+
+  const newGrid = document.getElementById('new-arrivals-grid');
+
+  if (newGrid) {
+    newGrid.innerHTML = newArrivals
+      .map(productCardHTML)
+      .join('');
+  }
+
+
+  // Trending
+  const trending = [...allProducts]
+    .sort((a, b) => {
+      const ratingA = Number(a.rating || 0);
+      const ratingB = Number(b.rating || 0);
+
+      return ratingB - ratingA;
+    })
+    .slice(0, 8);
+
+  const trendingGrid =
+    document.getElementById('trending-products-grid');
+
+  if (trendingGrid) {
+    trendingGrid.innerHTML = trending
+      .map(productCardHTML)
+      .join('');
+  }
+
+
+  // Best Sellers
+  const bestSellers = [...allProducts]
+    .sort((a, b) => {
+      const soldA =
+        Number(a.soldCount || a.sold || 0);
+
+      const soldB =
+        Number(b.soldCount || b.sold || 0);
+
+      return soldB - soldA;
+    })
+    .slice(0, 8);
+
+  const bestGrid =
+    document.getElementById('best-sellers-grid');
+
+  if (bestGrid) {
+    bestGrid.innerHTML = bestSellers
       .map(productCardHTML)
       .join('');
   }
