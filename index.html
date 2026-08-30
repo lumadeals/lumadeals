@@ -1509,6 +1509,88 @@ p {
 .add-cart-btn:hover {
   background: #3BB4EC !important;
 }
+    /* ================================
+   LUMA DEALS PREMIUM WISHLIST
+   ================================ */
+
+.wishlist-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(226,232,240,.8);
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgba(15,23,42,.12);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease;
+}
+
+.heart-icon {
+  width: 21px;
+  height: 21px;
+
+  fill: none;
+  stroke: #475569;
+  stroke-width: 1.8;
+
+  transition:
+    transform .22s ease,
+    fill .22s ease,
+    stroke .22s ease;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 22px rgba(15,23,42,.18);
+}
+
+.wishlist-btn:active {
+  transform: scale(.90);
+}
+
+/* ❤️ ACTIVE */
+.wishlist-btn.active {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.wishlist-btn.active .heart-icon {
+  fill: #ef4444;
+  stroke: #ef4444;
+  animation: heartPop .35s ease;
+}
+
+/* Heart animation */
+@keyframes heartPop {
+  0% {
+    transform: scale(.7);
+  }
+
+  55% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
   </style>
   
 
@@ -1819,11 +1901,15 @@ let cart = [];
         ${discount ? `<span class="product-discount-badge">🔥 ${discount} OFF</span>` : ''}
 
         <button
-          class="wishlist-btn"
-          type="button"
-          aria-label="Add to wishlist"
-          onclick="event.stopPropagation(); this.classList.toggle('active');"
-        >♡</button>
+  class="wishlist-btn"
+  type="button"
+  aria-label="Add to wishlist"
+  onclick="event.stopPropagation(); toggleWishlist(${p.id}, this);"
+>
+  <svg viewBox="0 0 24 24" class="heart-icon">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path>
+  </svg>
+</button>
 
         <img
           src="${p.img}"
@@ -2578,6 +2664,57 @@ function signInWithGoogle() {
      document.addEventListener('DOMContentLoaded', function() {
     showPage('home');
 }); 
+      /* ================================
+   LUMA DEALS WISHLIST SYSTEM
+   ================================ */
+
+function getWishlist() {
+  try {
+    return JSON.parse(localStorage.getItem('lumaWishlist') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function saveWishlist(list) {
+  localStorage.setItem('lumaWishlist', JSON.stringify(list));
+}
+
+function toggleWishlist(productId, button) {
+  let wishlist = getWishlist();
+
+  const index = wishlist.indexOf(productId);
+
+  if (index === -1) {
+    wishlist.push(productId);
+    button.classList.add('active');
+  } else {
+    wishlist.splice(index, 1);
+    button.classList.remove('active');
+  }
+
+  saveWishlist(wishlist);
+}
+
+function restoreWishlistButtons() {
+  const wishlist = getWishlist();
+
+  document.querySelectorAll('.wishlist-btn').forEach(button => {
+    const onclick = button.getAttribute('onclick');
+
+    if (!onclick) return;
+
+    const match = onclick.match(/toggleWishlist\(([^,]+)/);
+
+    if (!match) return;
+
+    const productId = Number(match[1]);
+
+    if (wishlist.includes(productId)) {
+      button.classList.add('active');
+    }
+  });
+}
  </script>
 </body>
 </html>                     
