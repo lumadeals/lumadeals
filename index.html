@@ -959,8 +959,8 @@ p {
   gap: 15px;
   padding: 15px;
 }
-  </style>
-  <style>
+  
+  
 /* =========================================
    LUMA DEALS — MODERN SIDEBAR DESIGN
    Existing structure/functions unchanged
@@ -1217,6 +1217,160 @@ p {
         left: 12px !important;
     }
 }
+    
+/* ===== LUMA DEALS PREMIUM PRODUCT CARDS ===== */
+
+.product-card {
+  position: relative !important;
+  background: #fff !important;
+  border: 1px solid #e8edf2 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.07) !important;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease !important;
+}
+
+.product-card:hover {
+  transform: translateY(-7px) !important;
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.13) !important;
+  border-color: rgba(59,180,236,.35) !important;
+}
+
+/* Product image area */
+.product-card img {
+  width: 100% !important;
+  height: 210px !important;
+  object-fit: contain !important;
+  background: linear-gradient(145deg,#f8fafc,#eef5f8) !important;
+  padding: 12px !important;
+  transition: transform .45s ease !important;
+}
+
+.product-card:hover img {
+  transform: scale(1.07) !important;
+}
+
+/* Product information */
+.product-info {
+  padding: 15px !important;
+  background: #fff !important;
+}
+
+/* Product title */
+.product-info h4 {
+  color: #111827 !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  line-height: 1.45 !important;
+  height: 40px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Price row */
+.price {
+  color: #0284c7 !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+/* Old price */
+.old-price {
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  margin-left: 6px !important;
+}
+
+/* Discount */
+.discount {
+  display: inline-block !important;
+  color: #ef4444 !important;
+  background: #fff1f2 !important;
+  padding: 4px 7px !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  margin-top: 6px !important;
+}
+
+/* Rating */
+.rating {
+  margin: 7px 0 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #f59e0b !important;
+}
+
+/* Add cart button */
+.add-cart-btn {
+  width: 100% !important;
+  background: #14171A !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 11px !important;
+  margin-top: 10px !important;
+  border-radius: 11px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all .25s ease !important;
+}
+
+.add-cart-btn:hover {
+  background: #3BB4EC !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 7px 16px rgba(59,180,236,.25) !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 11px !important;
+  }
+
+  .product-card {
+    border-radius: 14px !important;
+  }
+
+  .product-card img {
+    height: 155px !important;
+    padding: 8px !important;
+  }
+
+  .product-info {
+    padding: 10px !important;
+  }
+
+  .product-info h4 {
+    font-size: 12px !important;
+    height: 35px !important;
+  }
+
+  .price {
+    font-size: 15px !important;
+  }
+
+  .old-price {
+    font-size: 10px !important;
+  }
+
+  .discount {
+    font-size: 9px !important;
+    padding: 3px 5px !important;
+  }
+
+  .rating {
+    font-size: 10px !important;
+  }
+
+  .add-cart-btn {
+    padding: 9px 5px !important;
+    font-size: 11px !important;
+    border-radius: 9px !important;
+  }
+}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
