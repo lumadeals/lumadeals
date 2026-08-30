@@ -81,7 +81,7 @@ snapshot.forEach((doc) => {
   });
 });
 
-renderProducts();
+filterCat('All');
   async function deleteBase64Products() {
   const { getFirestore, collection, getDocs, deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
@@ -2834,10 +2834,20 @@ function sendWhatsAppOrder() {
     ? filtered.map(productCardHTML).join('')
     : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
 
-  if (homeGrid) homeGrid.innerHTML = html;
-  if (shopGrid) shopGrid.innerHTML = html;
+  if (homeGrid) {
+    homeGrid.innerHTML = html;
+  }
+
+  if (shopGrid) {
+    shopGrid.innerHTML = html;
+  }
+
   const shopHeading = document.getElementById('shop-heading');
-  if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : category;
+
+  if (shopHeading) {
+    shopHeading.innerText =
+      category === 'All' ? 'Products' : category;
+  }
 
   document.querySelectorAll('.categories li').forEach(li => {
     li.classList.remove('active');
@@ -2847,14 +2857,24 @@ function sendWhatsAppOrder() {
     element.classList.add('active');
   } else {
     document.querySelectorAll('.categories li').forEach(li => {
-      if (li.textContent.trim() === category) {
+      if (
+        li.textContent.trim().toLowerCase() ===
+        String(category).trim().toLowerCase()
+      ) {
         li.classList.add('active');
       }
     });
   }
 
-  if (!document.getElementById('page-home')?.classList.contains('active')) {
-  showPage('shop');
+  // Only navigate to Shop when the USER selects
+  // a category from the navigation.
+  if (
+    category !== 'All' &&
+    element &&
+    !document.getElementById('page-home')?.classList.contains('active')
+  ) {
+    showPage('shop');
+  }
   }
   
 
