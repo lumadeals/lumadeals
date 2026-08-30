@@ -2821,8 +2821,8 @@ function sendWhatsAppOrder() {
   function filterCat(category, element) {
 
   const filtered = category === 'All'
-    ? products
-    : products.filter(p =>
+    ? window.products
+    : window.products.filter(p =>
         String(p.category || '').trim().toLowerCase() ===
         String(category || '').trim().toLowerCase()
       );
