@@ -53,6 +53,7 @@ window.firebaseSignInWithPopup = signInWithPopup;
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 window.firebaseApp = app;
+  window.auth = auth;
   async function loadProductsFromFirestore() {
   const homeGrid = document.getElementById('home-product-grid');
   const shopGrid = document.getElementById('shop-product-grid');
@@ -1749,7 +1750,7 @@ function submitLogin(event) {
   const { sendPasswordResetEmail } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
 
   try {
-    await sendPasswordResetEmail(auth, email);
+    await sendPasswordResetEmail(window.auth, email);
     showToast('Password reset email sent to your inbox!');
     setTimeout(() => {
       showPage('login');
@@ -1757,7 +1758,7 @@ function submitLogin(event) {
   } catch (error) {
     alert(error.message);
   }
-}
+  }
 
   function toggleSidebar() {
   document.getElementById('mobile-sidebar').classList.toggle('open');
