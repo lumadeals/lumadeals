@@ -423,6 +423,39 @@ p {
   font-size: 13px;
   color: #aaa;
 }
+  .footer-contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.footer-contact-info p:hover {
+  transform: translateX(4px);
+  color: #4db8ff;
+}
+
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba(77, 184, 255, 0.12);
+  border-radius: 50%;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.footer-contact-info a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-info a:hover {
+  color: #4db8ff;
+}
 .hamburger {
   display: none;
   font-size: 26px;
@@ -1927,9 +1960,11 @@ function decreaseQty() {
 <footer>
   <div class="footer-container">
     <h4>Contact Info</h4>
-    <p>📞 +92 337 6454384</p>
-    <p>✉ info.lumadeals@gmail.com</p>
-    <p>📍 Islamabad, Pakistan</p>
+    <div class="footer-contact-info">
+      <p><span class="contact-icon">📞</span> <a href="tel:+923376454384">+92 337 6454384</a></p>
+      <p><span class="contact-icon">✉</span> <a href="mailto:info.lumadeals@gmail.com">info.lumadeals@gmail.com</a></p>
+      <p><span class="contact-icon">📍</span> Islamabad, Pakistan</p>
+    </div>
     <div class="footer-socials">
  <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
 <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
