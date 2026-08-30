@@ -1649,18 +1649,22 @@ p {
 
 /* CATEGORY SHOWCASE */
 
+
 .category-showcase {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 10px;
-  box-sizing: border-box;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 14px;
 }
 
 .category-card {
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e8edf2;
+  border-radius: 16px;
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: .25s ease;
+  box-shadow: 0 3px 12px rgba(15,23,42,.05);
 }
 
 .category-card:hover {
