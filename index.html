@@ -2753,15 +2753,16 @@ function sendWhatsAppOrder() {
 
   function filterCat(category, element) {
 
-  const filtered = category === 'All'
+  const allProducts = Array.isArray(window.products)
     ? window.products
-    : window.products.filter(p =>
+    : [];
+
+  const filtered = category === 'All'
+    ? allProducts
+    : allProducts.filter(p =>
         String(p.category || '').trim().toLowerCase() ===
         String(category || '').trim().toLowerCase()
       );
-
-  const homeGrid =
-    document.getElementById('home-product-grid');
 
   const shopGrid =
     document.getElementById('shop-product-grid');
@@ -2770,10 +2771,7 @@ function sendWhatsAppOrder() {
     ? filtered.map(productCardHTML).join('')
     : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
 
-  if (homeGrid) {
-    homeGrid.innerHTML = html;
-  }
-
+  // Category filtering applies ONLY to Shop
   if (shopGrid) {
     shopGrid.innerHTML = html;
   }
@@ -2794,8 +2792,7 @@ function sendWhatsAppOrder() {
     element.classList.add('active');
   }
 
-  // Only open Shop when user actually selects
-  // a category while already outside Home.
+  // Open Shop when a category is selected
   if (
     category !== 'All' &&
     element &&
@@ -2806,7 +2803,6 @@ function sendWhatsAppOrder() {
     showPage('shop');
   }
   }
-  
 
 function submitSignup(event) {
   event.preventDefault();
