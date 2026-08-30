@@ -2496,40 +2496,88 @@ function updateCart() {
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
 function showPage(pageName, updateUrl = true) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + pageName).classList.add('active');
+
+  document.querySelectorAll('.page').forEach(p =>
+    p.classList.remove('active')
+  );
+
+  const targetPage = document.getElementById('page-' + pageName);
+
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
 
   // Mega Summer Sale banner sirf Home par show ho
   const homeHero = document.getElementById('home-hero');
+
   if (homeHero) {
-    homeHero.style.display = pageName === 'home' ? 'block' : 'none';
+    homeHero.style.display =
+      pageName === 'home' ? 'block' : 'none';
+  }
+
+  // HOME par wapas aate waqt ALL products restore karo
+  if (
+    pageName === 'home' &&
+    Array.isArray(window.products)
+  ) {
+    const homeGrid =
+      document.getElementById('home-product-grid');
+
+    if (homeGrid) {
+      homeGrid.innerHTML =
+        window.products.map(productCardHTML).join('');
+    }
   }
 
   window.scrollTo(0, 0);
 
   if (pageName === 'login') {
-    const loginInputs = document.querySelectorAll('#page-login input');
-    loginInputs.forEach(input => input.value = '');
+    const loginInputs =
+      document.querySelectorAll('#page-login input');
+
+    loginInputs.forEach(input => {
+      input.value = '';
+    });
   }
 
-  
   if (updateUrl) {
-    const url = pageName === 'home' ? '/' : '/?page=' + pageName;
-    history.pushState({ page: pageName }, '', url);
+    const url =
+      pageName === 'home'
+        ? '/'
+        : '/?page=' + pageName;
+
+    history.pushState(
+      { page: pageName },
+      '',
+      url
+    );
   }
 }
 
 
 window.addEventListener('popstate', function(event) {
-  const pageName = (event.state && event.state.page) ? event.state.page : 'home';
+
+  const pageName =
+    (event.state && event.state.page)
+      ? event.state.page
+      : 'home';
+
   showPage(pageName, false);
 });
 
 
 window.addEventListener('DOMContentLoaded', function() {
-  const params = new URLSearchParams(window.location.search);
-  const requestedPage = params.get('page');
-  if (requestedPage && document.getElementById('page-' + requestedPage)) {
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  const requestedPage =
+    params.get('page');
+
+  if (
+    requestedPage &&
+    document.getElementById('page-' + requestedPage)
+  ) {
     showPage(requestedPage, false);
   }
 });
@@ -2753,16 +2801,15 @@ function sendWhatsAppOrder() {
 
   function filterCat(category, element) {
 
-  const allProducts = Array.isArray(window.products)
-    ? window.products
-    : [];
-
   const filtered = category === 'All'
-    ? allProducts
-    : allProducts.filter(p =>
+    ? window.products
+    : window.products.filter(p =>
         String(p.category || '').trim().toLowerCase() ===
         String(category || '').trim().toLowerCase()
       );
+
+  const homeGrid =
+    document.getElementById('home-product-grid');
 
   const shopGrid =
     document.getElementById('shop-product-grid');
@@ -2771,7 +2818,10 @@ function sendWhatsAppOrder() {
     ? filtered.map(productCardHTML).join('')
     : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
 
-  // Category filtering applies ONLY to Shop
+  if (homeGrid) {
+    homeGrid.innerHTML = html;
+  }
+
   if (shopGrid) {
     shopGrid.innerHTML = html;
   }
@@ -2792,7 +2842,6 @@ function sendWhatsAppOrder() {
     element.classList.add('active');
   }
 
-  // Open Shop when a category is selected
   if (
     category !== 'All' &&
     element &&
