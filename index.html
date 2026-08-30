@@ -858,7 +858,10 @@ p {
   animation: flipIn 0.6s ease;
   transform-style: preserve-3d;
 }
-
+.flip-card {
+  animation: flipIn 0.6s ease;
+  transform-style: preserve-3d;
+}
 @keyframes flipIn {
   from {
     transform: perspective(1000px) rotateY(90deg);
@@ -1053,7 +1056,7 @@ p {
   
   <!-- CONTACT -->
 <section id="page-contact" class="page">
-  <div class="info-page">
+  <div class="info-page flip-card">
     <h2>Contact Us</h2>
     <form action="https://formspree.io/f/xkjwoekr" method="POST">
   <div style="margin-bottom: 10px;">
