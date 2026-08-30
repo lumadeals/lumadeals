@@ -1770,6 +1770,46 @@ p {
   border-radius: 12px;
   border: 1px dashed #cbd5e1;
     }
+    /* =========================================
+   LUMA DEALS - SOCIAL ICON ANIMATION
+   ========================================= */
+
+footer .social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+  will-change: transform;
+}
+
+footer .social-icons a:hover {
+  transform: translateY(-6px) scale(1.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  filter: brightness(1.08);
+}
+
+footer .social-icons a:active {
+  transform: translateY(-2px) scale(0.96);
+}
+
+/* Icon itself */
+footer .social-icons a svg {
+  transition: transform 0.3s ease;
+}
+
+footer .social-icons a:hover svg {
+  transform: rotate(-6deg) scale(1.08);
+}
+
+/* Mobile touch effect */
+@media (max-width: 767px) {
+  footer .social-icons a:active {
+    transform: scale(0.9);
+  }
+}
   </style>
   
 
