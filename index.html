@@ -57,7 +57,14 @@ window.firebaseApp = app;
   async function loadProductsFromFirestore() {
   const homeGrid = document.getElementById('home-product-grid');
   const shopGrid = document.getElementById('shop-product-grid');
-  const loadingHTML = '<p style="padding:20px;text-align:center;color:#888;">Loading products...</p>';
+  const skeletonCard = `
+  <div class="skeleton-card">
+    <div class="skeleton-img"></div>
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line short"></div>
+    <div class="skeleton-btn"></div>
+  </div>`;
+const loadingHTML = '<div class="skeleton-grid">' + skeletonCard.repeat(6) + '</div>';
   if (homeGrid) homeGrid.innerHTML = loadingHTML;
   if (shopGrid) shopGrid.innerHTML = loadingHTML;
 
@@ -812,6 +819,40 @@ p {
 @keyframes liquidMorph {
   0% {
     bord
+    .skeleton-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-line {
+  height: 14px;
+  margin: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+.skeleton-btn {
+  height: 40px;
+  margin: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
