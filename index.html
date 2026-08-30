@@ -1315,7 +1315,161 @@ p {
   }
 }
   </style>
-  
+  <style>
+/* =========================================
+   LUMA DEALS — PREMIUM PRODUCT CARDS
+========================================= */
+
+.product-card {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,.06) !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,.07) !important;
+    transition: transform .3s ease, box-shadow .3s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 14px 35px rgba(0,0,0,.13) !important;
+}
+
+/* Product image */
+.product-card img {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    transition: transform .45s ease !important;
+}
+
+.product-card:hover img {
+    transform: scale(1.06) !important;
+}
+
+/* Discount badge */
+.product-card .discount,
+.product-card .discount-badge,
+.product-card [class*="discount"] {
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    padding: 5px 9px !important;
+}
+
+/* Product information */
+.product-card .product-info {
+    padding: 14px !important;
+}
+
+/* Product name */
+.product-card h3,
+.product-card .product-name {
+    font-size: 15px !important;
+    font-weight: 650 !important;
+    line-height: 1.4 !important;
+    margin-bottom: 7px !important;
+
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+/* Price */
+.product-card .price,
+.product-card .current-price {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+}
+
+/* Old price */
+.product-card .old-price {
+    font-size: 13px !important;
+    text-decoration: line-through !important;
+    opacity: .55 !important;
+}
+
+/* Rating */
+.product-card .rating {
+    font-size: 13px !important;
+    margin: 5px 0 !important;
+}
+
+/* Buttons */
+.product-card button {
+    border-radius: 11px !important;
+    min-height: 40px !important;
+    font-weight: 700 !important;
+    transition: all .25s ease !important;
+}
+
+.product-card button:hover {
+    transform: translateY(-2px) !important;
+}
+
+/* Add to cart */
+.product-card .add-to-cart,
+.product-card button[class*="cart"] {
+    border-radius: 11px !important;
+}
+
+/* Wishlist */
+.product-card .wishlist,
+.product-card button[class*="wish"] {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform .25s ease, background .25s ease !important;
+}
+
+.product-card .wishlist:hover,
+.product-card button[class*="wish"]:hover {
+    transform: scale(1.1) !important;
+}
+
+/* Verified badge */
+.product-card .verified,
+.product-card .verified-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 17px !important;
+    height: 17px !important;
+    border-radius: 50% !important;
+    font-size: 10px !important;
+    font-weight: 900 !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .product-card {
+        border-radius: 14px !important;
+    }
+
+    .product-card .product-info {
+        padding: 10px !important;
+    }
+
+    .product-card h3,
+    .product-card .product-name {
+        font-size: 13px !important;
+    }
+
+    .product-card .price,
+    .product-card .current-price {
+        font-size: 16px !important;
+    }
+
+    .product-card button {
+        min-height: 37px !important;
+        font-size: 12px !important;
+    }
+}
+  </style>
   
 </head>
 <body>
