@@ -2221,14 +2221,12 @@ let cart = [];
 
 
     
-function renderProducts() {
+
+  function renderProducts() {
   const allProducts = Array.isArray(products) ? [...products] : [];
 
-  // =========================================
-  // ORIGINAL PRODUCT GRIDS
-  // =========================================
-
   const homeGrid = document.getElementById('home-product-grid');
+  const shopGrid = document.getElementById('shop-product-grid');
 
   if (homeGrid) {
     homeGrid.innerHTML = allProducts
@@ -2236,105 +2234,12 @@ function renderProducts() {
       .join('');
   }
 
-  const shopGrid = document.getElementById('shop-product-grid');
-
   if (shopGrid) {
     shopGrid.innerHTML = allProducts
       .map(productCardHTML)
       .join('');
   }
-
-
-  // =========================================
-  // HOMEPAGE PREMIUM SECTIONS
-  // =========================================
-
-  // Flash Deals
-  const flashDeals = allProducts
-    .filter(p => {
-      return p.discount ||
-             p.discountPercent ||
-             (p.oldPrice && Number(p.oldPrice) > Number(p.price));
-    })
-    .slice(0, 8);
-
-  const flashGrid = document.getElementById('flash-deals-grid');
-
-  if (flashGrid) {
-    flashGrid.innerHTML = flashDeals.length
-      ? flashDeals.map(productCardHTML).join('')
-      : '';
   }
-
-
-  // New Arrivals
-  const newArrivals = [...allProducts]
-    .sort((a, b) => {
-      const aTime =
-        a.createdAt?.seconds ||
-        a.createdAt?.toMillis?.() ||
-        0;
-
-      const bTime =
-        b.createdAt?.seconds ||
-        b.createdAt?.toMillis?.() ||
-        0;
-
-      return bTime - aTime;
-    })
-    .slice(0, 8);
-
-  const newGrid = document.getElementById('new-arrivals-grid');
-
-  if (newGrid) {
-    newGrid.innerHTML = newArrivals
-      .map(productCardHTML)
-      .join('');
-  }
-
-
-  // Trending
-  const trending = [...allProducts]
-    .sort((a, b) => {
-      const ratingA = Number(a.rating || 0);
-      const ratingB = Number(b.rating || 0);
-
-      return ratingB - ratingA;
-    })
-    .slice(0, 8);
-
-  const trendingGrid =
-    document.getElementById('trending-products-grid');
-
-  if (trendingGrid) {
-    trendingGrid.innerHTML = trending
-      .map(productCardHTML)
-      .join('');
-  }
-
-
-  // Best Sellers
-  const bestSellers = [...allProducts]
-    .sort((a, b) => {
-      const soldA =
-        Number(a.soldCount || a.sold || 0);
-
-      const soldB =
-        Number(b.soldCount || b.sold || 0);
-
-      return soldB - soldA;
-    })
-    .slice(0, 8);
-
-  const bestGrid =
-    document.getElementById('best-sellers-grid');
-
-  if (bestGrid) {
-    bestGrid.innerHTML = bestSellers
-      .map(productCardHTML)
-      .join('');
-  }
-}
 
 function changeProductQuantity(change) {
   window.productQuantity += change;
