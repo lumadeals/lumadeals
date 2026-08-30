@@ -2104,43 +2104,51 @@ let cart = [];
     function productCardHTML(p) {
   const discount = p.discount || '';
   const rating = p.rating || '★★★★★';
+  const image = p.img || p.image || p.images?.[0] || '';
+  const productId = JSON.stringify(p.id);
 
   return `
     <div class="product-card">
 
       <div class="product-image-wrap">
 
-        ${discount ? `<span class="product-discount-badge">🔥 ${discount} OFF</span>` : ''}
+        ${discount ? `
+          <span class="product-discount-badge">
+            🔥 ${discount} OFF
+          </span>
+        ` : ''}
 
         <button
-  class="wishlist-btn"
-  type="button"
-  aria-label="Add to wishlist"
-  onclick="event.stopPropagation(); toggleWishlist(${p.id}, this);"
->
-  <svg viewBox="0 0 24 24" class="heart-icon">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
-</button>
+          class="wishlist-btn"
+          type="button"
+          aria-label="Add to wishlist"
+          onclick="event.stopPropagation(); toggleWishlist(${productId}, this);"
+        >
+          <svg viewBox="0 0 24 24" class="heart-icon">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
 
         <img
-  src="${p.img || p.image || p.images?.[0] || ''}"
-  alt="${p.name || 'Product'}"
-  loading="lazy"
->
-          
+          src="${image}"
+          alt="${p.name || 'Product'}"
+          loading="lazy"
+        >
 
       </div>
 
       <div class="product-info">
 
         <h4
-          onclick="showProductDetail(${p.id})"
+          onclick="showProductDetail(${productId})"
           style="cursor:pointer;"
         >
-          ${p.name}
+          ${p.name || 'Product'}
 
-          <span class="verified-badge" title="Verified by Luma Deals">
+          <span
+            class="verified-badge"
+            title="Verified by Luma Deals"
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 fill="#1877F2"
@@ -2189,6 +2197,7 @@ let cart = [];
 
         <div class="price-row">
           <span class="price">Rs ${p.price}</span>
+
           ${
             p.oldPrice
               ? `<span class="old-price">Rs ${p.oldPrice}</span>`
@@ -2204,7 +2213,7 @@ let cart = [];
 
         <button
           class="add-cart-btn"
-          onclick="event.stopPropagation(); addToCart(${p.id})"
+          onclick="event.stopPropagation(); addToCart(${productId})"
         >
           🛒 Add to Cart
         </button>
@@ -2213,9 +2222,8 @@ let cart = [];
     </div>
   `;
     }
-
-
-    
+      
+        
 
   function renderProducts() {
   const allProducts = Array.isArray(products) ? [...products] : [];
