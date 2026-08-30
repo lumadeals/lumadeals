@@ -959,6 +959,264 @@ p {
   gap: 15px;
   padding: 15px;
 }
+  </style>
+  <style>
+/* =========================================
+   LUMA DEALS — MODERN SIDEBAR DESIGN
+   Existing structure/functions unchanged
+========================================= */
+
+.mobile-sidebar {
+    position: fixed !important;
+    top: 14px !important;
+    left: -310px !important;
+    width: 285px !important;
+    height: calc(100vh - 28px) !important;
+
+    background: #191823 !important;
+    color: #fff !important;
+
+    border-radius: 20px !important;
+    padding: 18px 14px !important;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35),
+        0 8px 25px rgba(0,0,0,.25) !important;
+
+    overflow-y: auto !important;
+    transition: left .4s cubic-bezier(.4,0,.2,1) !important;
+}
+
+.mobile-sidebar.open {
+    left: 14px !important;
+}
+
+/* Header */
+.mobile-sidebar .sidebar-header {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    margin-bottom: 18px !important;
+    padding: 0 6px !important;
+
+    border: none !important;
+}
+
+/* Luma Deals title */
+.mobile-sidebar .sidebar-header::before {
+    content: "Luma Deals";
+    margin-right: auto;
+
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .2px;
+}
+
+/* Close button */
+.mobile-sidebar .sidebar-header span {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 12px !important;
+    background: rgba(255,255,255,.07) !important;
+
+    color: #fff !important;
+    font-size: 16px !important;
+
+    transition: .25s ease !important;
+}
+
+.mobile-sidebar .sidebar-header span:hover {
+    background: #3BB4EC !important;
+    transform: rotate(90deg);
+}
+
+/* Menu lists */
+.mobile-sidebar ul {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    list-style: none !important;
+}
+
+/* Menu items */
+.mobile-sidebar li {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 48px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 0 14px !important;
+
+    border: none !important;
+    border-radius: 13px !important;
+
+    background: transparent !important;
+
+    color: #d9d9e2 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease !important;
+}
+
+/* Icons */
+.mobile-sidebar li::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+
+    width: 34px;
+    margin-right: 9px;
+
+    font-size: 16px;
+    text-align: center;
+
+    color: #a9a8b5;
+    transition: .25s ease;
+}
+
+/* Main menu icons */
+.mobile-sidebar ul:first-of-type li:nth-child(1)::before {
+    content: "\f015"; /* home */
+}
+
+.mobile-sidebar ul:first-of-type li:nth-child(2)::before {
+    content: "\f07a"; /* shop/cart */
+}
+
+.mobile-sidebar ul:first-of-type li:nth-child(3)::before {
+    content: "\f05a"; /* about */
+}
+
+.mobile-sidebar ul:first-of-type li:nth-child(4)::before {
+    content: "\f0e0"; /* contact */
+}
+
+.mobile-sidebar ul:first-of-type li:nth-child(5)::before {
+    content: "\f2bd"; /* login/user */
+}
+
+/* Category icons */
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(1)::before {
+    content: "\f00a";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(2)::before {
+    content: "\f1ae";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(3)::before {
+    content: "\f553";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(4)::before {
+    content: "\f1b2";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(5)::before {
+    content: "\f015";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(6)::before {
+    content: "\f004";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(7)::before {
+    content: "\f1fc";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(8)::before {
+    content: "\f2e7";
+}
+
+.mobile-sidebar ul:nth-of-type(2) li:nth-child(9)::before {
+    content: "\f1ea";
+}
+
+/* Hover */
+.mobile-sidebar li:hover {
+    background: rgba(255,255,255,.08) !important;
+    color: #fff !important;
+
+    transform: translateX(3px);
+}
+
+.mobile-sidebar li:hover::before {
+    color: #3BB4EC;
+}
+
+/* Active/touch effect */
+.mobile-sidebar li:active {
+    background: #fff !important;
+    color: #191823 !important;
+    transform: scale(.98);
+}
+
+.mobile-sidebar li:active::before {
+    color: #3BB4EC !important;
+}
+
+/* Divider */
+.mobile-sidebar hr {
+    border: 0 !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+    margin: 16px 4px !important;
+}
+
+/* Overlay */
+#sidebar-overlay {
+    background: rgba(0,0,0,.55) !important;
+    backdrop-filter: blur(3px);
+}
+
+/* Hamburger */
+.hamburger {
+    transition: transform .35s ease !important;
+}
+
+.hamburger.open {
+    color: #3BB4EC !important;
+}
+
+/* Scrollbar */
+.mobile-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.mobile-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.15);
+    border-radius: 10px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .mobile-sidebar {
+        width: 285px !important;
+    }
+
+    .mobile-sidebar.open {
+        left: 12px !important;
+    }
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
