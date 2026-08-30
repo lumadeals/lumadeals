@@ -2188,7 +2188,7 @@ let cart = [];
 </button>
 
         <img
-          src="${p.img}"
+          src="${p.image || p.images?.[0] || ''}"
           alt="${p.name}"
           onclick="showProductDetail(${p.id})"
           style="cursor:pointer;"
