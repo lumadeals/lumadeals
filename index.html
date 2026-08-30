@@ -1591,6 +1591,177 @@ p {
     transform: scale(1);
   }
 }
+    /* =========================================
+   LUMA DEALS PREMIUM HOMEPAGE SECTIONS
+   ========================================= */
+
+.home-feature-section {
+  padding: 30px 50px;
+  margin: 0;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.home-section-heading span {
+  display: block;
+  color: #0284c7;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.home-section-heading h2 {
+  margin: 0;
+  color: #14171A;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.home-section-heading button {
+  border: none;
+  background: transparent;
+  color: #0284c7;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.home-section-heading button:hover {
+  text-decoration: underline;
+}
+
+
+/* CATEGORY SHOWCASE */
+
+.category-showcase {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.category-card {
+  background: #fff;
+  border: 1px solid #e8edf2;
+  border-radius: 16px;
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: .25s ease;
+  box-shadow: 0 3px 12px rgba(15,23,42,.05);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(2,132,199,.13);
+  border-color: #bae6fd;
+}
+
+.category-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  background: #f0f9ff;
+
+  font-size: 28px;
+}
+
+.category-card h3 {
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #14171A;
+}
+
+.category-card p {
+  font-size: 10px !important;
+  color: #64748b;
+  margin: 0;
+}
+
+
+/* FLASH DEALS */
+
+.deals-section {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+  border-top: 1px solid #fed7aa;
+  border-bottom: 1px solid #fed7aa;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+  .category-showcase {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .home-feature-section {
+    padding: 25px 20px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .category-showcase {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+
+  .category-showcase::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-card {
+    min-width: 125px;
+    padding: 16px 10px;
+  }
+
+  .category-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+  }
+
+  .home-feature-section {
+    padding: 22px 12px;
+  }
+
+  .home-section-heading h2 {
+    font-size: 18px;
+  }
+
+  .home-section-heading span {
+    font-size: 8px;
+  }
+
+}
+    .section-empty {
+  grid-column: 1 / -1;
+  padding: 30px;
+  text-align: center;
+  color: #94a3b8;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+    }
   </style>
   
 
@@ -1683,14 +1854,119 @@ p {
 <!-- HOME -->
 <section id="page-home" class="page active">
 
-    <section class="products-section">
-        <h2>Products</h2>
+  <!-- SHOP BY CATEGORY -->
+  <section class="home-feature-section">
+    <div class="home-section-heading">
+      <div>
+        <span>EXPLORE</span>
+        <h2>Shop by Category</h2>
+      </div>
+      <button onclick="showPage('shop')">View All →</button>
+    </div>
 
-        <div class="product-grid" id="home-product-grid"></div>
-    </section>
+    <div class="category-showcase">
+      <div class="category-card" onclick="filterCat('Electronics', null)">
+        <div class="category-icon">📱</div>
+        <h3>Electronics</h3>
+        <p>Smart gadgets & tech</p>
+      </div>
+
+      <div class="category-card" onclick="filterCat('Fashion', null)">
+        <div class="category-icon">👕</div>
+        <h3>Fashion</h3>
+        <p>Style for everyone</p>
+      </div>
+
+      <div class="category-card" onclick="filterCat('Home', null)">
+        <div class="category-icon">🏠</div>
+        <h3>Home</h3>
+        <p>Make life comfortable</p>
+      </div>
+
+      <div class="category-card" onclick="filterCat('Beauty', null)">
+        <div class="category-icon">✨</div>
+        <h3>Beauty</h3>
+        <p>Beauty & care</p>
+      </div>
+
+      <div class="category-card" onclick="filterCat('Kitchen', null)">
+        <div class="category-icon">🍳</div>
+        <h3>Kitchen</h3>
+        <p>Smart kitchen essentials</p>
+      </div>
+
+      <div class="category-card" onclick="filterCat('Toys', null)">
+        <div class="category-icon">🧸</div>
+        <h3>Toys</h3>
+        <p>Fun for everyone</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FLASH DEALS -->
+  <section class="home-feature-section deals-section">
+    <div class="home-section-heading">
+      <div>
+        <span>LIMITED TIME</span>
+        <h2>⚡ Flash Deals</h2>
+      </div>
+      <button onclick="showPage('shop')">Shop All →</button>
+    </div>
+
+    <div class="product-grid" id="flash-deals-grid"></div>
+  </section>
+
+
+  <!-- TRENDING -->
+  <section class="home-feature-section">
+    <div class="home-section-heading">
+      <div>
+        <span>WHAT'S HOT</span>
+        <h2>🔥 Trending Products</h2>
+      </div>
+      <button onclick="showPage('shop')">View All →</button>
+    </div>
+
+    <div class="product-grid" id="trending-products-grid"></div>
+  </section>
+
+
+  <!-- NEW ARRIVALS -->
+  <section class="home-feature-section">
+    <div class="home-section-heading">
+      <div>
+        <span>JUST ARRIVED</span>
+        <h2>🆕 New Arrivals</h2>
+      </div>
+      <button onclick="showPage('shop')">View All →</button>
+    </div>
+
+    <div class="product-grid" id="new-arrivals-grid"></div>
+  </section>
+
+
+  <!-- BEST SELLERS -->
+  <section class="home-feature-section">
+    <div class="home-section-heading">
+      <div>
+        <span>CUSTOMER FAVOURITES</span>
+        <h2>🏆 Best Sellers</h2>
+      </div>
+      <button onclick="showPage('shop')">View All →</button>
+    </div>
+
+    <div class="product-grid" id="best-sellers-grid"></div>
+  </section>
+
+
+  <!-- ALL PRODUCTS -->
+  <section class="products-section">
+    <h2>All Products</h2>
+    <div class="product-grid" id="home-product-grid"></div>
+  </section>
 
 </section>
-
 
 <!-- SHOP -->
 <section id="page-shop" class="page">
@@ -2003,12 +2279,84 @@ let cart = [];
     }
 
 function renderProducts() {
-  const html = products.map(productCardHTML).join('');
-  document.getElementById('home-product-grid').innerHTML = html;
-  document.getElementById('shop-product-grid').innerHTML = html;
-}
+  const allProducts = [...products];
 
-window.productQuantity = 1;
+  // Flash Deals = products having a discount
+  const flashDeals = allProducts
+    .filter(p => p.discount)
+    .slice(0, 8);
+
+  // Newest = latest products first when createdAt exists
+  const newArrivals = [...allProducts]
+    .sort((a, b) => {
+      const aTime = a.createdAt?.seconds || 0;
+      const bTime = b.createdAt?.seconds || 0;
+      return bTime - aTime;
+    })
+    .slice(0, 8);
+
+  // Trending = products with rating, otherwise first products
+  const trending = [...allProducts]
+    .sort((a, b) => {
+      const ar = parseFloat(a.rating) || 0;
+      const br = parseFloat(b.rating) || 0;
+      return br - ar;
+    })
+    .slice(0, 8);
+
+  // Best Sellers = soldCount if available
+  const bestSellers = [...allProducts]
+    .sort((a, b) => {
+      const as = Number(a.soldCount || a.sold || 0);
+      const bs = Number(b.soldCount || b.sold || 0);
+      return bs - as;
+    })
+    .slice(0, 8);
+
+  const homeGrid = document.getElementById('home-product-grid');
+
+  if (homeGrid) {
+    homeGrid.innerHTML = allProducts
+      .map(productCardHTML)
+      .join('');
+  }
+
+  const flashGrid = document.getElementById('flash-deals-grid');
+  if (flashGrid) {
+    flashGrid.innerHTML = flashDeals.length
+      ? flashDeals.map(productCardHTML).join('')
+      : '<p class="section-empty">No flash deals available right now.</p>';
+  }
+
+  const trendingGrid = document.getElementById('trending-products-grid');
+  if (trendingGrid) {
+    trendingGrid.innerHTML = trending.length
+      ? trending.map(productCardHTML).join('')
+      : '<p class="section-empty">No trending products yet.</p>';
+  }
+
+  const newGrid = document.getElementById('new-arrivals-grid');
+  if (newGrid) {
+    newGrid.innerHTML = newArrivals.length
+      ? newArrivals.map(productCardHTML).join('')
+      : '<p class="section-empty">No new arrivals yet.</p>';
+  }
+
+  const bestGrid = document.getElementById('best-sellers-grid');
+  if (bestGrid) {
+    bestGrid.innerHTML = bestSellers.length
+      ? bestSellers.map(productCardHTML).join('')
+      : '<p class="section-empty">No best sellers yet.</p>';
+  }
+
+  const shopGrid = document.getElementById('shop-product-grid');
+
+  if (shopGrid) {
+    shopGrid.innerHTML = allProducts
+      .map(productCardHTML)
+      .join('');
+  }
+}
 
 function changeProductQuantity(change) {
   window.productQuantity += change;
