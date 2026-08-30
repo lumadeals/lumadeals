@@ -1671,16 +1671,22 @@ function sendWhatsAppOrder() {
 
   if (homeGrid) homeGrid.innerHTML = html;
   if (shopGrid) shopGrid.innerHTML = html;
-const shopHeading = document.getElementById('shop-heading');
-if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : category;
+  const shopHeading = document.getElementById('shop-heading');
+  if (shopHeading) shopHeading.innerText = category === 'All' ? 'Products' : category;
+
   document.querySelectorAll('.categories li').forEach(li => {
     li.classList.remove('active');
   });
 
   if (element) {
     element.classList.add('active');
+  } else {
+    document.querySelectorAll('.categories li').forEach(li => {
+      if (li.textContent.trim() === category) {
+        li.classList.add('active');
+      }
+    });
   }
-showPage('shop');
   }
   
 
