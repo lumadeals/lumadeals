@@ -1706,7 +1706,20 @@ p {
   font-size: 9px !important;
   line-height: 1.2;
   margin: 0;
-  white-space: nowrap;
+  color: #64748b;
+
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  width: 100%;
+  max-width: 100%;
+  padding: 0 3px;
+  box-sizing: border-box;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .category-card:hover {
   transform: translateY(-5px);
