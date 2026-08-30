@@ -72,10 +72,10 @@ const loadingHTML = '<div class="skeleton-grid">' + skeletonCard.repeat(6) + '</
   const db = getFirestore(window.firebaseApp);
 const snapshot = await getDocs(collection(db, "products"));
 
-window.products = [];
+products = [];
 
 snapshot.forEach((doc) => {
-  window.products.push({
+  products.push({
     id: doc.id,
     ...doc.data()
   });
@@ -2827,8 +2827,11 @@ function sendWhatsAppOrder() {
         String(category || '').trim().toLowerCase()
       );
 
-  const homeGrid = document.getElementById('home-product-grid');
-  const shopGrid = document.getElementById('shop-product-grid');
+  const homeGrid =
+    document.getElementById('home-product-grid');
+
+  const shopGrid =
+    document.getElementById('shop-product-grid');
 
   const html = filtered.length
     ? filtered.map(productCardHTML).join('')
@@ -2842,7 +2845,8 @@ function sendWhatsAppOrder() {
     shopGrid.innerHTML = html;
   }
 
-  const shopHeading = document.getElementById('shop-heading');
+  const shopHeading =
+    document.getElementById('shop-heading');
 
   if (shopHeading) {
     shopHeading.innerText =
@@ -2855,23 +2859,16 @@ function sendWhatsAppOrder() {
 
   if (element) {
     element.classList.add('active');
-  } else {
-    document.querySelectorAll('.categories li').forEach(li => {
-      if (
-        li.textContent.trim().toLowerCase() ===
-        String(category).trim().toLowerCase()
-      ) {
-        li.classList.add('active');
-      }
-    });
   }
 
-  // Only navigate to Shop when the USER selects
-  // a category from the navigation.
+  // Only open Shop when user actually selects
+  // a category while already outside Home.
   if (
     category !== 'All' &&
     element &&
-    !document.getElementById('page-home')?.classList.contains('active')
+    !document
+      .getElementById('page-home')
+      ?.classList.contains('active')
   ) {
     showPage('shop');
   }
