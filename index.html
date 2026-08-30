@@ -780,6 +780,43 @@ p {
   flex: none !important;
   box-sizing: border-box !important;
 }
+  .nav-icons .icon {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.nav-icons .icon::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 38px;
+  background: rgba(59, 180, 236, 0.15);
+  border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  animation: liquidMorph 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+.nav-icons .icon:active {
+  transform: scale(0.9);
+}
+
+@keyframes liquidMorph {
+  0%, 100% {
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  }
+  25% {
+    border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%;
+  }
+  50% {
+    border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%;
+  }
+  75% {
+    border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
+  }
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" href="./images/assets/favicon.png">
