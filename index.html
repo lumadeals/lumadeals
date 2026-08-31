@@ -2030,10 +2030,238 @@ p {
     font-size: 13px;
   }
 }
+    #luma-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .5s ease, visibility .5s ease;
+}
+
+#luma-welcome::before {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, .07);
+  filter: blur(50px);
+}
+
+.luma-welcome-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  animation: welcomeAppear .8s ease-out;
+}
+
+.luma-welcome-logo {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  filter: drop-shadow(0 10px 22px rgba(0,0,0,.12));
+  animation: logoFloat 2s ease-in-out infinite;
+}
+
+.luma-welcome-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #111827;
+}
+
+.luma-welcome-title b {
+  color: #2563eb;
+}
+
+.luma-welcome-tagline {
+  margin: 9px 0 20px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.luma-welcome-loader {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.luma-welcome-loader span {
+  width: 7px;
+  height: 7px;
+  background: #2563eb;
+  border-radius: 50%;
+  animation: loaderDot 1s infinite ease-in-out;
+}
+
+.luma-welcome-loader span:nth-child(2) {
+  animation-delay: .15s;
+}
+
+.luma-welcome-loader span:nth-child(3) {
+  animation-delay: .3s;
+}
+
+.welcome-sticker {
+  position: absolute;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 10px 30px rgba(0,0,0,.09);
+  font-size: 24px;
+  animation: stickerFloat 3.5s ease-in-out infinite;
+}
+
+.sticker-1 {
+  top: 18%;
+  left: 16%;
+}
+
+.sticker-2 {
+  top: 25%;
+  right: 17%;
+  animation-delay: .7s;
+}
+
+.sticker-3 {
+  bottom: 24%;
+  left: 19%;
+  animation-delay: 1.2s;
+}
+
+.sticker-4 {
+  bottom: 19%;
+  right: 18%;
+  animation-delay: .4s;
+}
+
+.sticker-5 {
+  top: 40%;
+  left: 8%;
+  animation-delay: 1.5s;
+}
+
+.sticker-6 {
+  top: 42%;
+  right: 8%;
+  animation-delay: .9s;
+}
+
+@keyframes welcomeAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes logoFloat {
+  0%,100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes stickerFloat {
+  0%,100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-10px) rotate(4deg);
+  }
+}
+
+@keyframes loaderDot {
+  0%,80%,100% {
+    transform: scale(.7);
+    opacity: .45;
+  }
+  40% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+#luma-welcome.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .luma-welcome-logo {
+    width: 92px;
+    height: 92px;
+  }
+
+  .luma-welcome-title {
+    font-size: 25px;
+  }
+
+  .welcome-sticker {
+    width: 42px;
+    height: 42px;
+    font-size: 21px;
+  }
+
+  .sticker-1 {
+    top: 18%;
+    left: 10%;
+  }
+
+  .sticker-2 {
+    top: 20%;
+    right: 10%;
+  }
+
+  .sticker-3 {
+    bottom: 20%;
+    left: 10%;
+  }
+
+  .sticker-4 {
+    bottom: 18%;
+    right: 10%;
+  }
+
+  .sticker-5,
+  .sticker-6 {
+    display: none;
+  }
+}
   </style>
 </head>
 <body>
 <div id="luma-welcome">
+
+  <div class="welcome-sticker sticker-1">🛍️</div>
+  <div class="welcome-sticker sticker-2">🏷️</div>
+  <div class="welcome-sticker sticker-3">✨</div>
+  <div class="welcome-sticker sticker-4">🛒</div>
+  <div class="welcome-sticker sticker-5">💎</div>
+  <div class="welcome-sticker sticker-6">🎁</div>
+
   <div class="luma-welcome-content">
 
     <img
@@ -2053,7 +2281,39 @@ p {
     <div class="luma-welcome-loader"></div>
 
   </div>
+  </div>
+
+    <h1 class="luma-welcome-title">
+      Welcome to LUMA<b>DEALS</b>
+    </h1>
+
+    <p class="luma-welcome-tagline">
+      Smart Deals. Better Shopping.
+    </p>
+
+    <div class="luma-welcome-loader">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
