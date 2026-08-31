@@ -1981,12 +1981,7 @@ p {
   
 </head>
 <body>
-<div class="theme-switch-container">
-  <label class="theme-switch" aria-label="Toggle dark mode">
-    <input type="checkbox" id="theme-toggle">
-    <span class="theme-slider"></span>
-  </label>
-</div>
+
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
@@ -2047,6 +2042,11 @@ p {
     <li onclick="showPage('about')">About Us</li>
     <li onclick="showPage('contact')">Contact</li>
     <li onclick="showPage('login')">Login</li>
+    <button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle dark mode">
+  <span class="theme-switch-track">
+    <span class="theme-switch-knob">☀️</span>
+  </span>
+    </button>
   </ul>
 </nav>
 
