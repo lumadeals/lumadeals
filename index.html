@@ -1909,764 +1909,179 @@ p {
 
     
   </style>
-  <style>
-#luma-welcome {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(
-    circle at 50% 35%,
-    #e8f8ff 0%,
-    #ffffff 45%,
-    #dff5ff 100%
-  );
-  overflow: hidden;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .7s ease, visibility .7s ease;
-}
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; overflow-x:hidden; }
 
-#luma-welcome.hide {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.luma-welcome-content {
-  text-align: center;
-  animation: welcomeContent .9s ease-out;
-}
-
-.luma-welcome-logo {
-  width: 105px;
-  height: 105px;
-  object-fit: contain;
-  border-radius: 24px;
-  animation: logoWelcome 1.4s ease-in-out infinite alternate;
-  filter: drop-shadow(0 10px 25px rgba(56,182,255,.30));
-}
-
-.luma-welcome-title {
-  margin: 18px 0 5px;
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #14171A;
-}
-
-.luma-welcome-title b {
-  color: #38b6ff;
-}
-
-.luma-welcome-tagline {
-  margin: 0;
-  font-size: 14px;
-  color: #64748b;
-  letter-spacing: .5px;
-}
-
-.luma-welcome-loader {
-  width: 150px;
-  height: 4px;
-  margin: 25px auto 0;
-  background: rgba(56,182,255,.15);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.luma-welcome-loader::after {
-  content: "";
-  display: block;
-  width: 45%;
-  height: 100%;
-  background: #38b6ff;
-  border-radius: 20px;
-  animation: welcomeLoading 4s linear forwards;
-}
-
-@keyframes logoWelcome {
-  from {
-    transform: scale(.94);
+  #splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #ffffff;
+    overflow: hidden;
   }
-  to {
-    transform: scale(1.04);
-  }
-}
 
-@keyframes welcomeContent {
-  from {
+  #splash-screen::before,
+  #splash-screen::after {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(41,171,226,0.12) 0%, rgba(41,171,226,0) 70%);
+    animation: float 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  #splash-screen::before { top: -80px; left: -80px; }
+  #splash-screen::after { bottom: -100px; right: -100px; animation-delay: 0.6s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(18px) scale(1.06); }
+  }
+
+  #splash-static {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .splash-icon-wrap {
     opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes welcomeLoading {
-  from {
-    transform: translateX(-110%);
-  }
-  to {
-    transform: translateX(230%);
-  }
-}
-
-@media (max-width: 600px) {
-  .luma-welcome-logo {
-    width: 90px;
-    height: 90px;
+    transform: scale(0.6) translateY(10px);
+    animation: popIn 0.55s cubic-bezier(.34,1.56,.64,1) forwards 0.1s;
   }
 
-  .luma-welcome-title {
-    font-size: 27px;
+  .splash-icon {
+    width: 78px;
+    height: 78px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #4fc3f7 0%, #1c86d6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(28,134,214,0.35);
   }
 
-  .luma-welcome-tagline {
+  .splash-icon svg { width: 38px; height: 38px; }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.5) translateY(15px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .splash-wordmark {
+    margin-top: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    animation: fadeUp 0.55s ease forwards 0.4s;
+  }
+  .splash-wordmark .luma { color: #111; }
+  .splash-wordmark .deals { color: #29ABE2; }
+
+  .splash-tagline {
+    margin-top: 8px;
+    color: #8a94a3;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
-  }
-}
-    #luma-welcome {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .5s ease, visibility .5s ease;
-}
-
-#luma-welcome::before {
-  content: "";
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  background: rgba(37, 99, 235, .07);
-  filter: blur(50px);
-}
-
-.luma-welcome-content {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-  animation: welcomeAppear .8s ease-out;
-}
-
-.luma-welcome-logo {
-  width: 105px;
-  height: 105px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 18px;
-  border-radius: 24px;
-  filter: drop-shadow(0 10px 22px rgba(0,0,0,.12));
-  animation: logoFloat 2s ease-in-out infinite;
-}
-
-.luma-welcome-title {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: #111827;
-}
-
-.luma-welcome-title b {
-  color: #2563eb;
-}
-
-.luma-welcome-tagline {
-  margin: 9px 0 20px;
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.luma-welcome-loader {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-}
-
-.luma-welcome-loader span {
-  width: 7px;
-  height: 7px;
-  background: #2563eb;
-  border-radius: 50%;
-  animation: loaderDot 1s infinite ease-in-out;
-}
-
-.luma-welcome-loader span:nth-child(2) {
-  animation-delay: .15s;
-}
-
-.luma-welcome-loader span:nth-child(3) {
-  animation-delay: .3s;
-}
-
-.welcome-sticker {
-  position: absolute;
-  z-index: 2;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  background: rgba(255,255,255,.95);
-  box-shadow: 0 10px 30px rgba(0,0,0,.09);
-  font-size: 24px;
-  animation: stickerFloat 3.5s ease-in-out infinite;
-}
-
-.sticker-1 {
-  top: 18%;
-  left: 16%;
-}
-
-.sticker-2 {
-  top: 25%;
-  right: 17%;
-  animation-delay: .7s;
-}
-
-.sticker-3 {
-  bottom: 24%;
-  left: 19%;
-  animation-delay: 1.2s;
-}
-
-.sticker-4 {
-  bottom: 19%;
-  right: 18%;
-  animation-delay: .4s;
-}
-
-.sticker-5 {
-  top: 40%;
-  left: 8%;
-  animation-delay: 1.5s;
-}
-
-.sticker-6 {
-  top: 42%;
-  right: 8%;
-  animation-delay: .9s;
-}
-
-@keyframes welcomeAppear {
-  from {
+    letter-spacing: 2px;
+    text-transform: uppercase;
     opacity: 0;
-    transform: translateY(15px) scale(.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes logoFloat {
-  0%,100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
-
-@keyframes stickerFloat {
-  0%,100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-10px) rotate(4deg);
-  }
-}
-
-@keyframes loaderDot {
-  0%,80%,100% {
-    transform: scale(.7);
-    opacity: .45;
-  }
-  40% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-}
-
-#luma-welcome.hide {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-@media (max-width: 600px) {
-  .luma-welcome-logo {
-    width: 92px;
-    height: 92px;
+    animation: fadeUp 0.55s ease forwards 0.55s;
   }
 
-  .luma-welcome-title {
-    font-size: 25px;
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 
-  .welcome-sticker {
-    width: 42px;
-    height: 42px;
-    font-size: 21px;
+  .splash-loader {
+    margin-top: 28px;
+    width: 130px;
+    height: 4px;
+    background: #e6f4fc;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
-  .sticker-1 {
-    top: 18%;
-    left: 10%;
+  .splash-loader-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4fc3f7, #1c86d6);
+    border-radius: 10px;
+    animation: loadBar 1.5s ease forwards 0.3s;
   }
 
-  .sticker-2 {
-    top: 20%;
-    right: 10%;
+  @keyframes loadBar {
+    0% { width: 0%; }
+    100% { width: 100%; }
   }
 
-  .sticker-3 {
-    bottom: 20%;
-    left: 10%;
+  /* quick impact shake right before it shatters */
+  #splash-screen.shake {
+    animation: impactShake 0.15s ease;
+  }
+  @keyframes impactShake {
+    0%, 100% { transform: translate(0,0); }
+    25% { transform: translate(-4px, 2px); }
+    50% { transform: translate(4px, -2px); }
+    75% { transform: translate(-3px, 1px); }
   }
 
-  .sticker-4 {
-    bottom: 18%;
-    right: 10%;
+  /* white flash at the moment of breaking */
+  #flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    z-index: 100000;
+    pointer-events: none;
+  }
+  #flash-overlay.go {
+    animation: flashPop 0.25s ease;
+  }
+  @keyframes flashPop {
+    0% { opacity: 0; }
+    30% { opacity: 0.9; }
+    100% { opacity: 0; }
   }
 
-  .sticker-5,
-  .sticker-6 {
+  #shatter-container {
+    position: absolute;
+    inset: 0;
     display: none;
   }
-}
-    /* =========================================
-   LUMA DEALS — PREMIUM WELCOME SCREEN
-========================================= */
-
-#luma-welcome {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      #f8fbff 0%,
-      #ffffff 48%,
-      #ffffff 100%
-    );
-
-  opacity: 1;
-  visibility: visible;
-
-  transition:
-    opacity .7s ease,
-    visibility .7s ease;
-}
-
-/* =========================================
-   CENTER CONTENT
-========================================= */
-
-.luma-welcome-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-
-  animation: lumaContentIn 1s cubic-bezier(.22,1,.36,1);
-}
-
-/* =========================================
-   LOGO
-========================================= */
-
-.luma-logo-wrap {
-  position: relative;
-
-  width: 125px;
-  height: 125px;
-
-  margin: 0 auto 22px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.luma-welcome-logo {
-  position: relative;
-  z-index: 3;
-
-  width: 96px;
-  height: 96px;
-
-  object-fit: contain;
-
-  border-radius: 25px;
-
-  filter:
-    drop-shadow(0 12px 25px rgba(37,99,235,.16));
-
-  animation:
-    lumaLogoFloat 2s ease-in-out infinite;
-}
-
-/* Animated ring around logo */
-
-.luma-logo-ring {
-  position: absolute;
-
-  width: 118px;
-  height: 118px;
-
-  border-radius: 50%;
-
-  border: 1px solid rgba(37,99,235,.14);
-
-  animation:
-    lumaRing 2.5s ease-out infinite;
-}
-
-/* =========================================
-   TITLE
-========================================= */
-
-.luma-welcome-title {
-  margin: 0;
-
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  font-size: 29px;
-  line-height: 1.2;
-
-  font-weight: 700;
-
-  letter-spacing: -1px;
-
-  color: #111827;
-}
-
-.luma-welcome-title span {
-  display: inline-block;
-  margin-left: 4px;
-}
-
-.luma-welcome-title b {
-  color: #2563eb;
-}
-
-/* =========================================
-   TAGLINE
-========================================= */
-
-.luma-welcome-tagline {
-  margin: 11px 0 25px;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-  letter-spacing: .35px;
-
-  color: #6b7280;
-
-  animation: lumaTagline 1.2s ease .25s both;
-}
-
-/* =========================================
-   LOADING BAR
-========================================= */
-
-.luma-loading {
-  width: 95px;
-  height: 3px;
-
-  margin: auto;
-
-  overflow: hidden;
-
-  border-radius: 10px;
-
-  background: #e8eef8;
-}
-
-.luma-loading-bar {
-  width: 35%;
-  height: 100%;
-
-  border-radius: 10px;
-
-  background: #2563eb;
-
-  animation:
-    lumaLoading 1.1s ease-in-out infinite;
-}
-
-/* =========================================
-   SOFT BACKGROUND GLOWS
-========================================= */
-
-.luma-glow {
-  position: absolute;
-
-  border-radius: 50%;
-
-  pointer-events: none;
-
-  filter: blur(55px);
-
-  opacity: .55;
-}
-
-.luma-glow-1 {
-  width: 230px;
-  height: 230px;
-
-  top: 8%;
-  left: -70px;
-
-  background: rgba(59,130,246,.10);
-
-  animation: glowMove1 4s ease-in-out infinite alternate;
-}
-
-.luma-glow-2 {
-  width: 250px;
-  height: 250px;
-
-  right: -90px;
-  bottom: 5%;
-
-  background: rgba(139,92,246,.08);
-
-  animation: glowMove2 4s ease-in-out infinite alternate;
-}
-
-/* =========================================
-   SMALL PREMIUM SPARKLES
-========================================= */
-
-.luma-orbit {
-  position: absolute;
-
-  z-index: 4;
-
-  font-size: 17px;
-
-  color: #2563eb;
-
-  opacity: .45;
-
-  animation: sparkleFloat 2.5s ease-in-out infinite;
-}
-
-.orbit-1 {
-  top: 31%;
-  left: 27%;
-}
-
-.orbit-2 {
-  right: 27%;
-  bottom: 32%;
-
-  font-size: 13px;
-
-  animation-delay: .8s;
-}
-
-/* =========================================
-   ANIMATIONS
-========================================= */
-
-@keyframes lumaContentIn {
-
-  from {
+  #splash-screen.shattering #splash-static { display: none; }
+  #splash-screen.shattering #shatter-container { display: block; }
+
+  .shard {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    will-change: transform, opacity;
+  }
+
+  #main-site {
     opacity: 0;
-    transform:
-      translateY(18px)
-      scale(.94);
+    transition: opacity 0.5s ease;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    text-align: center;
   }
+  #main-site.show { opacity: 1; }
+  
+    
 
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-  }
-
-}
-
-@keyframes lumaLogoFloat {
-
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
-
-}
-
-@keyframes lumaRing {
-
-  0% {
-    transform: scale(.85);
-    opacity: .8;
-  }
-
-  100% {
-    transform: scale(1.12);
-    opacity: 0;
-  }
-
-}
-
-@keyframes lumaTagline {
-
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-@keyframes lumaLoading {
-
-  0% {
-    transform: translateX(-120%);
-  }
-
-  50% {
-    transform: translateX(150%);
-  }
-
-  100% {
-    transform: translateX(300%);
-  }
-
-}
-
-@keyframes sparkleFloat {
-
-  0%, 100% {
-    transform:
-      translateY(0)
-      scale(.9);
-  }
-
-  50% {
-    transform:
-      translateY(-8px)
-      scale(1.15);
-  }
-
-}
-
-@keyframes glowMove1 {
-
-  from {
-    transform: translate(0,0);
-  }
-
-  to {
-    transform: translate(45px,25px);
-  }
-
-}
-
-@keyframes glowMove2 {
-
-  from {
-    transform: translate(0,0);
-  }
-
-  to {
-    transform: translate(-40px,-25px);
-  }
-
-}
-
-/* =========================================
-   HIDE
-========================================= */
-
-#luma-welcome.hide {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 600px) {
-
-  .luma-logo-wrap {
-    width: 112px;
-    height: 112px;
-
-    margin-bottom: 19px;
-  }
-
-  .luma-welcome-logo {
-    width: 87px;
-    height: 87px;
-  }
-
-  .luma-logo-ring {
-    width: 106px;
-    height: 106px;
-  }
-
-  .luma-welcome-title {
-    font-size: 24px;
-    letter-spacing: -.7px;
-  }
-
-  .luma-welcome-tagline {
-    font-size: 13px;
-    margin-top: 9px;
-  }
-
-  .orbit-1 {
-    left: 17%;
-    top: 30%;
-  }
-
-  .orbit-2 {
-    right: 17%;
-    bottom: 31%;
-  }
-
-}
   </style>
 </head>
 <body>
