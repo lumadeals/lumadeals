@@ -1905,12 +1905,44 @@ p {
     transform: scale(.86);
   }
 }
+    .theme-toggle {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  background: #fff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 19px;
+  transition: .3s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(15deg) scale(1.08);
+}
+
+body.dark-theme {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+body.dark-theme .theme-toggle {
+  background: #1e293b;
+  border-color: #334155;
+  color: #fff;
+}
   </style>
   
 
   
 </head>
 <body>
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+  🌙
+  </button>
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
@@ -3157,6 +3189,32 @@ function restoreWishlistButtons() {
     }
   });
 }
+      (function () {
+  const toggle = document.getElementById('theme-toggle');
+
+  if (!toggle) return;
+
+  const savedTheme = localStorage.getItem('luma-theme');
+
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    toggle.textContent = '☀️';
+  }
+
+  toggle.addEventListener('click', function () {
+    document.body.classList.toggle('dark-theme');
+
+    const isDark =
+      document.body.classList.contains('dark-theme');
+
+    localStorage.setItem(
+      'luma-theme',
+      isDark ? 'dark' : 'light'
+    );
+
+    toggle.textContent = isDark ? '☀️' : '🌙';
+  });
+})();
  </script>
 </body>
 </html>                     
