@@ -1905,24 +1905,41 @@ p {
     transform: scale(.86);
   }
 }
-.theme-menu-item {
+.theme-switch-container {
+  position: absolute;
+  z-index: 10001;
   display: flex;
   align-items: center;
-  margin-left: 8px;
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .theme-switch-container {
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .theme-switch-container {
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+  }
 }
 
 .theme-switch {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 48px;
   height: 26px;
   cursor: pointer;
 }
 
 .theme-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }
 
 .theme-slider {
@@ -1945,7 +1962,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 12px;
   transition: .3s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
@@ -1964,7 +1981,12 @@ p {
   
 </head>
 <body>
-
+<div class="theme-switch-container">
+  <label class="theme-switch" aria-label="Toggle dark mode">
+    <input type="checkbox" id="theme-toggle">
+    <span class="theme-slider"></span>
+  </label>
+</div>
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
@@ -2025,13 +2047,6 @@ p {
     <li onclick="showPage('about')">About Us</li>
     <li onclick="showPage('contact')">Contact</li>
     <li onclick="showPage('login')">Login</li>
-
-    <li class="theme-menu-item">
-  <label class="theme-switch" aria-label="Toggle dark mode">
-    <input type="checkbox" id="theme-toggle">
-    <span class="theme-slider"></span>
-  </label>
-    </li>
   </ul>
 </nav>
 
