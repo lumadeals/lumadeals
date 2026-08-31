@@ -1909,9 +1909,151 @@ p {
 
     
   </style>
+  <style>
+#luma-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at 50% 35%,
+    #e8f8ff 0%,
+    #ffffff 45%,
+    #dff5ff 100%
+  );
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .7s ease, visibility .7s ease;
+}
+
+#luma-welcome.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.luma-welcome-content {
+  text-align: center;
+  animation: welcomeContent .9s ease-out;
+}
+
+.luma-welcome-logo {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+  border-radius: 24px;
+  animation: logoWelcome 1.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 10px 25px rgba(56,182,255,.30));
+}
+
+.luma-welcome-title {
+  margin: 18px 0 5px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #14171A;
+}
+
+.luma-welcome-title b {
+  color: #38b6ff;
+}
+
+.luma-welcome-tagline {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+  letter-spacing: .5px;
+}
+
+.luma-welcome-loader {
+  width: 150px;
+  height: 4px;
+  margin: 25px auto 0;
+  background: rgba(56,182,255,.15);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.luma-welcome-loader::after {
+  content: "";
+  display: block;
+  width: 45%;
+  height: 100%;
+  background: #38b6ff;
+  border-radius: 20px;
+  animation: welcomeLoading 4s linear forwards;
+}
+
+@keyframes logoWelcome {
+  from {
+    transform: scale(.94);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes welcomeContent {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcomeLoading {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(230%);
+  }
+}
+
+@media (max-width: 600px) {
+  .luma-welcome-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .luma-welcome-title {
+    font-size: 27px;
+  }
+
+  .luma-welcome-tagline {
+    font-size: 13px;
+  }
+}
+  </style>
 </head>
 <body>
+<div id="luma-welcome">
+  <div class="luma-welcome-content">
 
+    <img
+      src="https://raw.githubusercontent.com/lumadeals/lumadeals/main/images/luma-deals-logo.png"
+      class="luma-welcome-logo"
+      alt="Luma Deals"
+    >
+
+    <h1 class="luma-welcome-title">
+      Welcome to LUMA<b>DEALS</b>
+    </h1>
+
+    <p class="luma-welcome-tagline">
+      Smart Deals. Better Shopping.
+    </p>
+
+    <div class="luma-welcome-loader"></div>
+
+  </div>
+</div>
 <button id="installButton" style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
   ⬇️ Install App
 </button>
@@ -3162,5 +3304,24 @@ function restoreWishlistButtons() {
 }
 
  </script>
+  <script>
+(function () {
+
+  const welcome = document.getElementById('luma-welcome');
+
+  if (!welcome) return;
+
+  setTimeout(function () {
+
+    welcome.classList.add('hide');
+
+    setTimeout(function () {
+      welcome.remove();
+    }, 700);
+
+  }, 4000);
+
+})();
+  </script>
 </body>
 </html>                     
