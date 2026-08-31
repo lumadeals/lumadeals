@@ -1905,80 +1905,10 @@ p {
     transform: scale(.86);
   }
 }
-.theme-switch-container {
-  position: absolute;
-  z-index: 10001;
-  display: flex;
-  align-items: center;
-}
 
-/* Desktop */
-@media (min-width: 769px) {
-  .theme-switch-container {
-    top: 50%;
-    right: 18px;
-    transform: translateY(-50%);
-  }
-}
 
-/* Mobile */
-@media (max-width: 768px) {
-  .theme-switch-container {
-    top: 50%;
-    right: 12px;
-    transform: translateY(-50%);
-  }
-}
-
-.theme-switch {
-  position: relative;
-  display: block;
-  width: 48px;
-  height: 26px;
-  cursor: pointer;
-}
-
-.theme-switch input {
-  display: none;
-}
-
-.theme-slider {
-  position: absolute;
-  inset: 0;
-  background: #cbd5e1;
-  border-radius: 30px;
-  transition: .3s ease;
-}
-
-.theme-slider::before {
-  content: "☀️";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  left: 2px;
-  top: 2px;
-  background: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  transition: .3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,.2);
-}
-
-.theme-switch input:checked + .theme-slider {
-  background: #334155;
-}
-
-.theme-switch input:checked + .theme-slider::before {
-  content: "🌙";
-  transform: translateX(22px);
-}
+    
   </style>
-  
-
-  
 </head>
 <body>
 
@@ -2042,11 +1972,7 @@ p {
     <li onclick="showPage('about')">About Us</li>
     <li onclick="showPage('contact')">Contact</li>
     <li onclick="showPage('login')">Login</li>
-    <button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle dark mode">
-  <span class="theme-switch-track">
-    <span class="theme-switch-knob">☀️</span>
-  </span>
-    </button>
+    
   </ul>
 </nav>
 
@@ -3234,29 +3160,7 @@ function restoreWishlistButtons() {
     }
   });
 }
-      (function () {
-  const toggle = document.getElementById('theme-toggle');
 
-  if (!toggle) return;
-
-  const savedTheme = localStorage.getItem('luma-theme');
-
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark-theme');
-    toggle.checked = true;
-  }
-
-  toggle.addEventListener('change', function () {
-    const isDark = toggle.checked;
-
-    document.body.classList.toggle('dark-theme', isDark);
-
-    localStorage.setItem(
-      'luma-theme',
-      isDark ? 'dark' : 'light'
-    );
-  });
-})();
  </script>
 </body>
 </html>                     
