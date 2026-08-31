@@ -1905,34 +1905,58 @@ p {
     transform: scale(.86);
   }
 }
-    .theme-toggle {
-  width: 42px;
-  height: 42px;
-  border: 1px solid #e5e7eb;
-  border-radius: 50%;
-  background: #fff;
-  color: #111827;
-  display: inline-flex;
+.theme-menu-item {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  margin-left: 8px;
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
   cursor: pointer;
-  font-size: 19px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-slider {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 30px;
   transition: .3s ease;
 }
 
-.theme-toggle:hover {
-  transform: rotate(15deg) scale(1.08);
+.theme-slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 2px;
+  top: 2px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: .3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
 
-body.dark-theme {
-  background: #0f172a;
-  color: #f8fafc;
+.theme-switch input:checked + .theme-slider {
+  background: #334155;
 }
 
-body.dark-theme .theme-toggle {
-  background: #1e293b;
-  border-color: #334155;
-  color: #fff;
+.theme-switch input:checked + .theme-slider::before {
+  content: "🌙";
+  transform: translateX(22px);
 }
   </style>
   
@@ -2002,8 +2026,11 @@ body.dark-theme .theme-toggle {
     <li onclick="showPage('contact')">Contact</li>
     <li onclick="showPage('login')">Login</li>
 
-    <li class="theme-nav-item">
-      
+    <li class="theme-menu-item">
+  <label class="theme-switch" aria-label="Toggle dark mode">
+    <input type="checkbox" id="theme-toggle">
+    <span class="theme-slider"></span>
+  </label>
     </li>
   </ul>
 </nav>
@@ -3201,21 +3228,18 @@ function restoreWishlistButtons() {
 
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-theme');
-    toggle.textContent = '☀️';
+    toggle.checked = true;
   }
 
-  toggle.addEventListener('click', function () {
-    document.body.classList.toggle('dark-theme');
+  toggle.addEventListener('change', function () {
+    const isDark = toggle.checked;
 
-    const isDark =
-      document.body.classList.contains('dark-theme');
+    document.body.classList.toggle('dark-theme', isDark);
 
     localStorage.setItem(
       'luma-theme',
       isDark ? 'dark' : 'light'
     );
-
-    toggle.textContent = isDark ? '☀️' : '🌙';
   });
 })();
  </script>
