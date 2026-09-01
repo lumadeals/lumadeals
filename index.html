@@ -1955,15 +1955,13 @@ p {
     animation: popIn 0.55s cubic-bezier(.34,1.56,.64,1) forwards 0.1s;
   }
 
-  .splash-icon {
-    width: 78px;
-    height: 78px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #4fc3f7 0%, #1c86d6 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(28,134,214,0.35);
+  .splash-logo-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 22px;
+  filter: drop-shadow(0 10px 20px rgba(28,134,214,0.25));
+  display: block;
   }
 
   .splash-icon svg { width: 38px; height: 38px; }
@@ -2088,8 +2086,9 @@ p {
 <div id="flash-overlay"></div>
 <div id="flash-overlay"></div>  <div id="splash-screen">  
   <div id="splash-static">  
-    <div class="splash-icon-wrap">  
-      <div class="splash-icon">  
+    <div class="splash-icon-wrap">
+  <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/93a4a129ff1375fd1fb644dabdbc24853183434c/images/assets/favicon.png" alt="LumaDeals" class="splash-logo-img">
+    </div>
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">  
           <path d="M6 8H18L17 21H7L6 8Z" fill="#fff"/>  
           <path d="M9 8V6C9 4.34 10.34 3 12 3C13.66 3 15 4.34 15 6V8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>  
