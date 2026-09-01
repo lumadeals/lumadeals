@@ -2265,7 +2265,7 @@ p {
 
   <!-- ALL PRODUCTS -->
   <section class="products-section">
-    <h2>All Products</h2>
+    <h2 id="home-products-heading">All Products</h2>
     <div class="product-grid" id="home-product-grid"></div>
   </section>
 
@@ -3108,6 +3108,14 @@ function sendWhatsAppOrder() {
   if (shopHeading) {
     shopHeading.innerText =
       category === 'All' ? 'Products' : category;
+  }
+
+  const homeHeading =
+    document.getElementById('home-products-heading');
+
+  if (homeHeading) {
+    homeHeading.innerText =
+      category === 'All' ? 'All Products' : category;
   }
 
   document.querySelectorAll('.categories li').forEach(li => {
