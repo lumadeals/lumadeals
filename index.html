@@ -1911,198 +1911,193 @@ p {
   </style>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { width:100%; height:100%; overflow-x:hidden; }
+  html, body { width:100%; height:100%; background:#fff; }
 
   #splash-screen {
     position: fixed;
     inset: 0;
     z-index: 99999;
-    background: #ffffff;
     overflow: hidden;
+    perspective: 1400px;
   }
 
-  #splash-screen::before,
-  #splash-screen::after {
-    content: "";
-    position: absolute;
-    width: 380px;
-    height: 380px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(41,171,226,0.12) 0%, rgba(41,171,226,0) 70%);
-    animation: float 3s ease-in-out infinite;
+  #drip-container {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    transform-style: preserve-3d;
+  }
+  .drip {
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(160deg, #ffffff 0%, #eaf4fb 100%);
+    box-shadow: inset 0 -20px 26px -18px rgba(28,134,214,0.15);
+    transition-property: transform, border-radius;
+    transition-timing-function: cubic-bezier(0.6, 0.04, 0.9, 0.4);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+  #splash-screen.drip-fall .drip {
+    border-radius: 0 0 60% 60% / 0 0 85% 85%;
+  }
+
+  #splash-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
   }
-  #splash-screen::before { top: -80px; left: -80px; }
-  #splash-screen::after { bottom: -100px; right: -100px; animation-delay: 0.6s; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(18px) scale(1.06); }
+  #splash-glow::before {
+    content: "";
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(28,134,214,0.10) 0%, rgba(28,134,214,0) 70%);
   }
 
-  #splash-static {
-    position: absolute;
+  #splash-content {
+    position: fixed;
     inset: 0;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.6,0.04,0.9,0.4);
+  }
+  #splash-screen.drip-fall #splash-content {
+    opacity: 0;
+    transform: translateY(140px) scale(0.94);
   }
 
   .splash-icon-wrap {
     opacity: 0;
-    transform: scale(0.6) translateY(10px);
-    animation: popIn 0.55s cubic-bezier(.34,1.56,.64,1) forwards 0.1s;
+    transform: perspective(600px) rotateX(25deg) scale(0.7) translateY(15px);
+    animation: iconIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards 0.15s;
+  }
+  @keyframes iconIn {
+    to { opacity: 1; transform: perspective(600px) rotateX(0deg) scale(1) translateY(0); }
   }
 
+  .splash-logo-img, .splash-logo-fallback {
+    width: 90px;
+    height: 90px;
+    border-radius: 22px;
+    display: block;
+  }
   .splash-logo-img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  border-radius: 22px;
-  filter: drop-shadow(0 10px 20px rgba(28,134,214,0.25));
-  display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(28,134,214,0.25));
   }
-
-  .splash-icon svg { width: 38px; height: 38px; }
-
-  @keyframes popIn {
-    0% { opacity: 0; transform: scale(0.5) translateY(15px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+  .splash-logo-fallback {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4fc3f7 0%, #1c86d6 100%);
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    font-size: 38px;
+    box-shadow: 0 14px 34px rgba(28,134,214,0.30);
   }
 
   .splash-wordmark {
-    margin-top: 22px;
+    position: relative;
+    margin-top: 24px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 800;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     opacity: 0;
-    animation: fadeUp 0.55s ease forwards 0.4s;
+    overflow: hidden;
+    animation: wordIn 0.6s ease forwards 0.5s;
   }
-  .splash-wordmark .luma { color: #111; }
-  .splash-wordmark .deals { color: #29ABE2; }
+  @keyframes wordIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .splash-wordmark .luma  { color: #10151c; }
+  .splash-wordmark .deals { color: #1c86d6; }
+
+  .splash-wordmark::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.85) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    animation: shimmer 2.2s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  @keyframes shimmer {
+    0%   { left: -60%; }
+    45%  { left: 130%; }
+    100% { left: 130%; }
+  }
 
   .splash-tagline {
-    margin-top: 8px;
+    margin-top: 10px;
     color: #8a94a3;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
     text-transform: uppercase;
     opacity: 0;
-    animation: fadeUp 0.55s ease forwards 0.55s;
+    animation: wordIn 0.6s ease forwards 0.7s;
   }
 
-  @keyframes fadeUp {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  .splash-loader {
-    margin-top: 28px;
-    width: 130px;
-    height: 4px;
-    background: #e6f4fc;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .splash-loader-bar {
-    height: 100%;
-    width: 0%;
+  .splash-underline {
+    margin-top: 22px;
+    width: 46px;
+    height: 3px;
+    border-radius: 3px;
     background: linear-gradient(90deg, #4fc3f7, #1c86d6);
-    border-radius: 10px;
-    animation: loadBar 1.5s ease forwards 0.3s;
+    transform: scaleX(0);
+    transform-origin: center;
+    animation: growLine 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards 1s;
   }
-
-  @keyframes loadBar {
-    0% { width: 0%; }
-    100% { width: 100%; }
-  }
-
-  /* quick impact shake right before it shatters */
-  #splash-screen.shake {
-    animation: impactShake 0.15s ease;
-  }
-  @keyframes impactShake {
-    0%, 100% { transform: translate(0,0); }
-    25% { transform: translate(-4px, 2px); }
-    50% { transform: translate(4px, -2px); }
-    75% { transform: translate(-3px, 1px); }
-  }
-
-  /* white flash at the moment of breaking */
-  #flash-overlay {
-    position: fixed;
-    inset: 0;
-    background: #fff;
-    opacity: 0;
-    z-index: 100000;
-    pointer-events: none;
-  }
-  #flash-overlay.go {
-    animation: flashPop 0.25s ease;
-  }
-  @keyframes flashPop {
-    0% { opacity: 0; }
-    30% { opacity: 0.9; }
-    100% { opacity: 0; }
-  }
-
-  #shatter-container {
-    position: absolute;
-    inset: 0;
-    display: none;
-  }
-  #splash-screen.shattering #splash-static { display: none; }
-  #splash-screen.shattering #shatter-container { display: block; }
-
-  .shard {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #ffffff;
-    will-change: transform, opacity;
+  @keyframes growLine {
+    to { transform: scaleX(1); }
   }
 
   #main-site {
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transform: scale(0.98);
+    transition: opacity 0.8s ease, transform 0.8s ease;
     padding: 40px;
     font-family: Arial, sans-serif;
     text-align: center;
   }
-  #main-site.show { opacity: 1; }
+  #main-site.show { opacity: 1; transform: scale(1); }
+      
   
 
   </style>
 </head>
 <body>
 
-<div id="flash-overlay"></div>
-<div id="flash-overlay"></div>  <div id="splash-screen">  
-  <div id="splash-static">  
+<div id="splash-screen">
+  <div id="drip-container"></div>
+  <div id="splash-glow"></div>
+
+  <div id="splash-content">
     <div class="splash-icon-wrap">
-  <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/93a4a129ff1375fd1fb644dabdbc24853183434c/images/assets/favicon.png" alt="LumaDeals" class="splash-logo-img">
+      <img id="logo-img" class="splash-logo-img"
+           src="https://raw.githubusercontent.com/lumadeals/lumadeals/93a4a129ff1375fd1fb644dabdbc24853183434c/images/assets/favicon.png"
+           alt="LumaDeals">
+      <div id="logo-fallback" class="splash-logo-fallback">L</div>
     </div>
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">  
-          <path d="M6 8H18L17 21H7L6 8Z" fill="#fff"/>  
-          <path d="M9 8V6C9 4.34 10.34 3 12 3C13.66 3 15 4.34 15 6V8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>  
-          <path d="M9 11L9 13" stroke="#1c86d6" stroke-width="1.6" stroke-linecap="round"/>  
-          <path d="M15 11L15 13" stroke="#1c86d6" stroke-width="1.6" stroke-linecap="round"/>  
-        </svg>  
-      </div>  
-    </div>  
-    <div class="splash-wordmark"><span class="luma">LUMA</span><span class="deals">DEALS</span></div>  
-    <div class="splash-tagline">Deals Made Luminous</div>  
-    <div class="splash-loader"><div class="splash-loader-bar"></div></div>  
-  </div>  
-  <div id="shatter-container"></div>  
-</div>  
+    <div class="splash-wordmark"><span class="luma">LUMA</span><span class="deals">DEALS</span></div>
+    <div class="splash-tagline">Deals Made Luminous</div>
+    <div class="splash-underline"></div>
+  </div>
+</div>
+
 
 
       
@@ -3387,70 +3382,50 @@ function restoreWishlistButtons() {
 
  </script>
 <script>
-  window.addEventListener('load', () => {
-    const splash = document.getElementById('splash-screen');
-    const staticContent = document.getElementById('splash-static');
-    const shatterContainer = document.getElementById('shatter-container');
-    const flash = document.getElementById('flash-overlay');
-    const mainSite = document.getElementById('main-site');
+(function () {
+  var splash   = document.getElementById('splash-screen');
+  var dripBox  = document.getElementById('drip-container');
+  var mainSite = document.getElementById('main-site');
+  var logoImg  = document.getElementById('logo-img');
+  var fallback = document.getElementById('logo-fallback');
 
-    setTimeout(shatterSplash, 2000);
-
-    function shatterSplash() {
-      // impact moment
-      splash.classList.add('shake');
-      flash.classList.add('go');
-
-      setTimeout(() => {
-        const rows = 6, cols = 5;
-        const pieceHTML = staticContent.innerHTML;
-        splash.classList.add('shattering');
-
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            const shard = document.createElement('div');
-            shard.className = 'shard';
-            shard.innerHTML = pieceHTML;
-
-            // freeze cloned content in its final "settled" state (no re-run entrance animation)
-            shard.querySelectorAll('.splash-icon-wrap, .splash-wordmark, .splash-tagline').forEach(el => {
-              el.style.animation = 'none';
-              el.style.opacity = '1';
-              el.style.transform = 'none';
-            });
-            const bar = shard.querySelector('.splash-loader-bar');
-            if (bar) { bar.style.animation = 'none'; bar.style.width = '100%'; }
-
-            const left = (c / cols) * 100, right = ((c + 1) / cols) * 100;
-            const top = (r / rows) * 100, bottom = ((r + 1) / rows) * 100;
-            shard.style.clipPath = `polygon(${left}% ${top}%, ${right}% ${top}%, ${right}% ${bottom}%, ${left}% ${bottom}%)`;
-            shatterContainer.appendChild(shard);
-
-            const dx = (Math.random() - 0.5) * 320;
-            const dy = 550 + Math.random() * 650 + r * 55;
-            const rot = (Math.random() - 0.5) * 200;
-            const delay = Math.random() * 140;
-            const duration = 700 + Math.random() * 400;
-
-            shard.animate([
-              { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
-              { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }
-            ], {
-              duration: duration,
-              delay: delay,
-              easing: 'cubic-bezier(0.55, 0.06, 0.68, 0.19)',
-              fill: 'forwards'
-            });
-          }
-        }
-
-        setTimeout(() => {
-          splash.remove();
-          mainSite.classList.add('show');
-        }, 1500);
-      }, 120);
-    }
+  logoImg.addEventListener('error', function () {
+    logoImg.style.display = 'none';
+    fallback.style.display = 'flex';
   });
+
+  var STRIP_COUNT = 16;
+  var fallDistance = Math.round((window.innerHeight || 800) * 1.4);
+
+  for (var i = 0; i < STRIP_COUNT; i++) {
+    var strip = document.createElement('div');
+    strip.className = 'drip';
+
+    var duration = 900 + Math.random() * 500;
+    var delay    = Math.random() * 350;
+    var distance = fallDistance * (1 + Math.random() * 0.3);
+    var sway     = (Math.random() - 0.5) * 70;
+    var rotX     = 25 + Math.random() * 45;
+    var rotY     = (Math.random() - 0.5) * 35;
+
+    strip.style.transitionDuration = duration + 'ms';
+    strip.style.transitionDelay = delay + 'ms';
+    strip.dataset.fall = 'translate3d(' + sway + 'px, ' + distance + 'px, -260px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+
+    dripBox.appendChild(strip);
+  }
+
+  setTimeout(function () {
+    splash.classList.add('drip-fall');
+    var strips = document.querySelectorAll('.drip');
+    for (var j = 0; j < strips.length; j++) {
+      strips[j].style.transform = strips[j].dataset.fall;
+    }
+    setTimeout(function () { mainSite.classList.add('show'); }, 500);
+    setTimeout(function () { splash.remove(); }, 1750);
+  }, 2200);
+})();
+      
 </script>
 </body>
 </html>                     
