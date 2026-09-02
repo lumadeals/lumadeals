@@ -692,15 +692,49 @@ p {
   transform: translateX(-50%) translateY(0);
 }
   
-/* Updated Luma Deals Brand Hero Banner */
+/* Updated Luma Deals Brand Hero Banner — 3D Premium */
 .hero-banner {
+    position: relative !important;
+    overflow: hidden !important;
     background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%) !important;
     color: #ffffff !important;
     padding: 35px 20px !important;
     text-align: center !important;
     border-radius: 16px !important;
     margin: 15px !important;
-    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25) !important;
+    box-shadow:
+        0 2px 0 rgba(255,255,255,0.25) inset,
+        0 -6px 14px rgba(0,0,0,0.12) inset,
+        0 14px 20px rgba(2, 132, 199, 0.28),
+        0 30px 45px rgba(2, 132, 199, 0.18) !important;
+    transform: perspective(800px) rotateX(1.5deg);
+}
+
+/* glossy light sweep across the top of the banner */
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 40%);
+    pointer-events: none;
+}
+
+/* soft glow sitting behind the banner for lift */
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: -14px;
+    height: 24px;
+    background: radial-gradient(ellipse, rgba(2,132,199,0.35) 0%, rgba(2,132,199,0) 70%);
+    filter: blur(6px);
+    z-index: -1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
 }
 
 .hero-content h1 {
@@ -708,34 +742,53 @@ p {
     font-weight: 800 !important;
     margin-bottom: 8px !important;
     color: #ffffff !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.25),
+        0 3px 6px rgba(0,0,0,0.18) !important;
 }
 
 .hero-content p {
     font-size: 14px !important;
     color: #f0f9ff !important;
     margin-bottom: 20px !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.10) !important;
 }
 
 .hero-btn {
     display: inline-block !important;
+    position: relative !important;
     background-color: #ffffff !important;
+    background-image: linear-gradient(180deg, #ffffff 0%, #eef7fd 100%) !important;
     color: #0284c7 !important;
     padding: 12px 28px !important;
     border-radius: 30px !important;
     font-weight: 700 !important;
     font-size: 14px !important;
     text-decoration: none !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    transition: all 0.3s ease !important;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.8) inset,
+        0 4px 0 rgba(2, 132, 199, 0.18),
+        0 8px 16px rgba(0, 0, 0, 0.18) !important;
+    transition: all 0.2s ease !important;
 }
 
 .hero-btn:hover {
     background-color: #f8fafc !important;
     color: #0369a1 !important;
-    transform: translateY(-2px) scale(1.03) !important;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-3px) scale(1.03) !important;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 6px 0 rgba(2, 132, 199, 0.20),
+        0 14px 22px rgba(0, 0, 0, 0.22) !important;
 }
+
+.hero-btn:active {
+    transform: translateY(1px) scale(0.99) !important;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.6) inset,
+        0 2px 0 rgba(2, 132, 199, 0.18),
+        0 4px 8px rgba(0, 0, 0, 0.18) !important;
+  }
 
 
   .product-card {
