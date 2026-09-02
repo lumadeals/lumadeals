@@ -2074,7 +2074,89 @@ p {
     text-align: center;
   }
   #main-site.show { opacity: 1; transform: scale(1); }
-      
+
+  .promo-bar-3d {
+    position: relative;
+    z-index: 9999;
+    overflow: hidden;
+
+    background: linear-gradient(
+        90deg,
+        #38b6ff,
+        #ffffff,
+        #38b6ff
+    );
+
+    color: #000;
+    text-align: center;
+    padding: 10px;
+    font-weight: 800;
+    font-size: 14px;
+
+    border-bottom: 2px solid #38b6ff;
+
+    /* 3D depth */
+    text-shadow:
+        1px 1px 0 #aaa,
+        2px 2px 0 #888,
+        3px 3px 5px rgba(0,0,0,0.25);
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.25),
+        inset 0 -2px 0 rgba(255,255,255,0.7);
+
+    transform: perspective(600px) rotateX(1deg);
+}
+
+/* 20% OFF 3D badge */
+.promo-bar-3d strong {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 3px 9px;
+
+    background: #d32f2f;
+    color: #fff;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 900;
+
+    text-shadow:
+        1px 1px 0 #8b0000,
+        2px 2px 0 #650000;
+
+    box-shadow:
+        0 3px 0 #8b0000,
+        0 5px 10px rgba(0,0,0,0.3);
+
+    transform: translateY(-1px);
+
+    animation: offer3D 2s ease-in-out infinite;
+}
+
+@keyframes offer3D {
+    0%, 100% {
+        transform: translateY(-1px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-3px) scale(1.04);
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .promo-bar-3d {
+        font-size: 13px;
+        padding: 9px 6px;
+    }
+
+    .promo-bar-3d strong {
+        font-size: 13px;
+        padding: 3px 7px;
+    }
+}
   
 
   </style>
@@ -2134,8 +2216,10 @@ p {
   ⬇️ Install App
 </button>
 
-    <div style="position: relative; z-index: 9999; background: linear-gradient(90deg, #38b6ff, #ffffff, #38b6ff); color: #000; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 2px solid #38b6ff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-    Order Now and get upto 20% off 📢 <span style="color: #d32f2f;" > </span>
+    <div class="promo-bar-3d">
+    <span>Order Now and Get Up to</span>
+    <strong>20% OFF</strong>
+    <span>📢</span>
 </div>
 
 <header class="navbar">
@@ -2348,7 +2432,6 @@ p {
 <p>Have questions about a product or need help tracking your order? We're always here to help — reach out via WhatsApp and our friendly support team will assist you right away.</p>
 
 <p style="margin-top:15px; font-weight:600;">Thank you for choosing Luma Deals — where smart deals meet happy customers!</p>
-    <p style="margin-top:15px; font-weight:600;">Founder & CEO: Abdul Rehman Imtiaz</p>
     
   </div>
 </section>
