@@ -790,7 +790,31 @@ p {
         0 4px 8px rgba(0, 0, 0, 0.18) !important;
   }
 
+.hero-banner {
+    position: relative !important;
+    overflow: hidden !important;
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%) !important;
+    color: #ffffff !important;
+    padding: 35px 20px !important;
+    text-align: center !important;
+    border-radius: 16px !important;
+    margin: 15px !important;
+    box-shadow:
+        0 2px 0 rgba(255,255,255,0.25) inset,
+        0 -6px 14px rgba(0,0,0,0.12) inset,
+        0 14px 20px rgba(2, 132, 199, 0.28),
+        0 30px 45px rgba(2, 132, 199, 0.18) !important;
+    animation: heroFloat 4.5s ease-in-out infinite !important;
+}
 
+@keyframes heroFloat {
+    0%   { transform: perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px); }
+    25%  { transform: perspective(800px) rotateX(2.2deg) rotateZ(0.4deg) translateY(-6px); }
+    50%  { transform: perspective(800px) rotateX(1deg) rotateZ(-0.3deg) translateY(-2px); }
+    75%  { transform: perspective(800px) rotateX(2deg) rotateZ(0.2deg) translateY(-7px); }
+    100% { transform: perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px); }
+}
+  
   .product-card {
     background: #ffffff;
     border-radius: 12px;
