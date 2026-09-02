@@ -2075,86 +2075,209 @@ p {
   }
   #main-site.show { opacity: 1; transform: scale(1); }
 
-  .promo-bar-3d {
+  
+
+    /* ================================
+   LUMA DEALS - 3D NEON PROMO BAR
+   ================================ */
+
+.promo-bar-neon {
     position: relative;
-    z-index: 9999;
+    z-index: 99999;
+    width: 100%;
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 8px 15px;
+
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+
+    /* Glass background */
+    background:
+        linear-gradient(
+            100deg,
+            rgba(0, 100, 255, 0.32),
+            rgba(10, 10, 35, 0.88),
+            rgba(150, 0, 255, 0.32)
+        );
+
+    /* Glass effect */
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    /* Neon border */
+    border: 1px solid rgba(80, 190, 255, 0.8);
+    border-left: 0;
+    border-right: 0;
+
+    /* Neon glow */
+    box-shadow:
+        0 0 8px rgba(0, 180, 255, 0.8),
+        0 0 20px rgba(0, 130, 255, 0.45),
+        inset 0 0 15px rgba(255, 255, 255, 0.08);
+
     overflow: hidden;
+}
+
+
+/* Moving light across the glass */
+.promo-bar-neon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 25%;
+    height: 100%;
 
     background: linear-gradient(
         90deg,
-        #38b6ff,
-        #ffffff,
-        #38b6ff
+        transparent,
+        rgba(255,255,255,0.45),
+        transparent
     );
 
-    color: #000;
-    text-align: center;
-    padding: 10px;
-    font-weight: 800;
-    font-size: 14px;
+    transform: skewX(-25deg);
 
-    border-bottom: 2px solid #38b6ff;
+    animation: promoLight 3.5s linear infinite;
 
-    /* 3D depth */
-    text-shadow:
-        1px 1px 0 #aaa,
-        2px 2px 0 #888,
-        3px 3px 5px rgba(0,0,0,0.25);
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,0.25),
-        inset 0 -2px 0 rgba(255,255,255,0.7);
-
-    transform: perspective(600px) rotateX(1deg);
+    pointer-events: none;
 }
 
-/* 20% OFF 3D badge */
-.promo-bar-3d strong {
+@keyframes promoLight {
+    0% {
+        left: -35%;
+    }
+
+    100% {
+        left: 120%;
+    }
+}
+
+
+/* Text */
+.promo-text {
+    position: relative;
+    z-index: 2;
+
+    text-shadow:
+        1px 1px 0 #555,
+        2px 2px 0 #333,
+        0 0 8px rgba(255,255,255,0.45);
+}
+
+
+/* 20% OFF 3D Neon Badge */
+.promo-off {
+    position: relative;
+    z-index: 2;
+
     display: inline-block;
-    margin-left: 5px;
-    padding: 3px 9px;
 
-    background: #d32f2f;
-    color: #fff;
+    padding: 5px 12px;
 
-    border-radius: 6px;
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #ff1744,
+        #ff4081
+    );
+
+    border: 1px solid #ff8aaa;
+    border-radius: 8px;
 
     font-size: 14px;
     font-weight: 900;
 
+    /* 3D depth */
     text-shadow:
-        1px 1px 0 #8b0000,
-        2px 2px 0 #650000;
+        1px 1px 0 #9c0030,
+        2px 2px 0 #700020;
 
     box-shadow:
-        0 3px 0 #8b0000,
-        0 5px 10px rgba(0,0,0,0.3);
+        0 3px 0 #9c0030,
+        0 0 8px #ff1744,
+        0 0 18px rgba(255, 23, 68, 0.7),
+        inset 0 1px 0 rgba(255,255,255,0.5);
 
     transform: translateY(-1px);
 
-    animation: offer3D 2s ease-in-out infinite;
+    animation: neonOffer 2s ease-in-out infinite;
 }
 
-@keyframes offer3D {
+@keyframes neonOffer {
     0%, 100% {
         transform: translateY(-1px) scale(1);
+        box-shadow:
+            0 3px 0 #9c0030,
+            0 0 8px #ff1744,
+            0 0 18px rgba(255, 23, 68, 0.7);
     }
 
     50% {
         transform: translateY(-3px) scale(1.04);
+        box-shadow:
+            0 5px 0 #9c0030,
+            0 0 14px #ff1744,
+            0 0 28px rgba(255, 23, 68, 0.9);
     }
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-    .promo-bar-3d {
-        font-size: 13px;
-        padding: 9px 6px;
+
+/* Icons */
+.promo-icon {
+    position: relative;
+    z-index: 2;
+
+    font-size: 20px;
+
+    filter:
+        drop-shadow(0 0 4px #00c8ff)
+        drop-shadow(0 0 8px #008cff);
+
+    animation: iconGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes iconGlow {
+    0%, 100% {
+        transform: scale(1);
     }
 
-    .promo-bar-3d strong {
-        font-size: 13px;
-        padding: 3px 7px;
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .promo-bar-neon {
+        min-height: 42px;
+        padding: 7px 5px;
+
+        gap: 6px;
+
+        font-size: 11px;
+        letter-spacing: 0.2px;
+    }
+
+    .promo-off {
+        padding: 4px 7px;
+        font-size: 11px;
+        border-radius: 6px;
+    }
+
+    .promo-icon {
+        font-size: 15px;
     }
 }
   
@@ -2216,10 +2339,18 @@ p {
   ⬇️ Install App
 </button>
 
-    <div class="promo-bar-3d">
-    <span>Order Now and Get Up to</span>
-    <strong>20% OFF</strong>
-    <span>📢</span>
+<div class="promo-bar-neon">
+    <div class="promo-glow"></div>
+
+    <span class="promo-text">
+        Order Now and Get Up to
+    </span>
+
+    <span class="promo-off">
+        20% OFF
+    </span>
+
+    <span class="promo-icon">📢</span>
 </div>
 
 <header class="navbar">
