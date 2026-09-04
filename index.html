@@ -3449,21 +3449,29 @@ function sendWhatsAppOrder() {
 
 function submitSignup(event) {
   event.preventDefault();
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
 
-  window.firebaseCreateUser(window.auth, email, password)
-    .then((userCredential) => {
-      return window.firebaseUpdateProfile(userCredential.user, { displayName: name });
-    })
-    .then(() => {
-      showToast('Account created successfully!');
-      showPage('login');
-    })
-    .catch((error) => {
-      showToast('Error: ' + error.message);
-    });
+  try {
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    alert('Step 1: got values -> ' + name + ' / ' + email);
+
+    window.firebaseCreateUser(window.auth, email, password)
+      .then((userCredential) => {
+        alert('Step 2: account created');
+        return window.firebaseUpdateProfile(userCredential.user, { displayName: name });
+      })
+      .then(() => {
+        showToast('Account created successfully!');
+        showPage('login');
+      })
+      .catch((error) => {
+        alert('Firebase error: ' + error.message);
+      });
+  } catch (err) {
+    alert('Sync error: ' + err.message);
+  }
 }
 
 function showToast(message) {
