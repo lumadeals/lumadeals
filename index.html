@@ -63,6 +63,7 @@ window.firebaseSignInWithPopup = signInWithPopup;
   const auth = getAuth(app);
 window.firebaseApp = app;
   window.auth = auth;
+  window.firebaseCreateUser = createUserWithEmailAndPassword;
   window.firebaseUpdateProfile = updateProfile;
   async function loadProductsFromFirestore() {
   const homeGrid = document.getElementById('home-product-grid');
@@ -3460,7 +3461,7 @@ function submitSignup(event) {
   const email = document.getElementById('signup-email').value;
   const password = document.getElementById('signup-password').value;
 
-  firebase.auth().createUserWithEmailAndPassword(email, password)
+  window.firebaseCreateUser(window.auth, email, password)
     .then((userCredential) => {
       return window.firebaseUpdateProfile(userCredential.user, { displayName: name });
     })
