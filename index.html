@@ -3653,6 +3653,10 @@ function toggleWishlist(productId, button) {
   if (index === -1) {
     wishlist.push(productId);
     button.classList.add('active');
+
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
   } else {
     wishlist.splice(index, 1);
     button.classList.remove('active');
