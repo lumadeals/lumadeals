@@ -2997,40 +2997,54 @@ function showProductDetail(id) {
   if (typeof showPage === 'function') showPage('product-detail');
 }
 
-function loadReviews(productId) {
-  const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
-  const list = document.getElementById('reviews-list');
-  if (reviews.length === 0) {
-    list.innerHTML = "<p style='color:#999; font-size:13px;'>No reviews yet. Be the first to write one!</p>";
-  } else {
-    list.innerHTML = reviews.map(r => `
-      <div style="border-bottom:1px solid #f0f0f0; padding:10px 0;">
-        <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
-        <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
-      </div>
-    `).join('');
-  }
+async function loadReviews(productId) {
   document.getElementById('review-text').dataset.productId = productId;
+  const list = document.getElementById('reviews-list');
+  list.innerHTML = "<p style='color:#999; font-size:13px;'>Loading reviews...</p>";
+
+  const { getFirestore, collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  const q = query(collection(db, "reviews"), where("productId", "==", String(productId)));
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+    list.innerHTML = "<p style='color:#999; font-size:13px;'>No reviews yet. Be the first to write one!</p>";
+    return;
+  }
+
+  let reviews = [];
+  snapshot.forEach(doc => reviews.push(doc.data()));
+
+  reviews.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+  list.innerHTML = reviews.map(r => `
+    <div style="border-bottom:1px solid #f0f0f0; padding:10px 0;">
+      <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
+      <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
+    </div>
+  `).join('');
 }
 
-function submitReview() {
+async function submitReview() {
   const productId = document.getElementById('review-text').dataset.productId;
   const text = document.getElementById('review-text').value.trim();
   const rating = document.getElementById('review-rating').value;
   if (!text) { alert('Review is required'); return; }
 
-  const reviews = JSON.parse(localStorage.getItem('reviews_' + productId) || '[]');
-  reviews.push({ text, rating });
-  localStorage.setItem('reviews_' + productId, JSON.stringify(reviews));
+  const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  await addDoc(collection(db, "reviews"), {
+    productId: String(productId),
+    text: text,
+    rating: rating,
+    createdAt: serverTimestamp()
+  });
 
   document.getElementById('review-text').value = '';
   loadReviews(productId);
 }
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCart();
-}
-
 function updateCart() {
   document.getElementById('cart-count').innerText = cart.length;
   const cartItemsDiv = document.getElementById('cart-items');
