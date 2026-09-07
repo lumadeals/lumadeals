@@ -86,10 +86,14 @@
 
         .receipt-card {
             background: white;
-            width: 750px; 
-            padding: 40px;
+            width: 794px; 
+            min-height: 1123px;
+            padding: 50px;
             box-sizing: border-box;
             color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         /* Receipt Header */
@@ -208,69 +212,71 @@
     <!-- Live Preview -->
     <div class="preview-wrapper">
         <div class="receipt-card" id="receipt">
-            <div class="r-header-container">
-                <div class="r-logo-area">
-                    <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/57f66eb3ebb2117d595ab6ad83ab7ba440f2bf36/images/assets/favicon.png" alt="Luma Deals Logo" class="r-logo-img" crossorigin="anonymous">
-                    <div class="r-brand-text">
-                        <h1><span style="color: #000000;">LUMA</span> <span style="color: #1ba1e2;">DEALS</span></h1>
-                        <p>Quality Deals • Smart Shopping</p>
+            <div>
+                <div class="r-header-container">
+                    <div class="r-logo-area">
+                        <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/57f66eb3ebb2117d595ab6ad83ab7ba440f2bf36/images/assets/favicon.png" alt="Luma Deals Logo" class="r-logo-img" crossorigin="anonymous">
+                        <div class="r-brand-text">
+                            <h1><span style="color: #000000;">LUMA</span> <span style="color: #1ba1e2;">DEALS</span></h1>
+                            <p>Quality Deals • Smart Shopping</p>
+                        </div>
+                    </div>
+                    <div class="r-receipt-title">
+                        <h2>RECEIPT</h2>
+                        <p>Order # <span id="outOrder">LD-781803</span></p>
+                        <p id="outDateTime">Date & Time Here</p>
                     </div>
                 </div>
-                <div class="r-receipt-title">
-                    <h2>RECEIPT</h2>
-                    <p>Order # <span id="outOrder">LD-781803</span></p>
-                    <p id="outDateTime">Date & Time Here</p>
-                </div>
-            </div>
 
-            <hr class="divider">
+                <hr class="divider">
 
-            <div class="r-info-grid">
-                <div class="r-info-block" style="flex: 1.5;">
-                    <h4>BILL TO</h4>
-                    <p><strong>Customer Name:</strong> <span id="outName">Hamza</span></p>
-                    <p><strong>Phone Number:</strong> <span id="outPhone">08292828</span></p>
-                    <p><strong>Delivery Address:</strong> <span id="outAddress">Ry khajahba</span></p>
-                </div>
-                <div class="r-info-block" style="flex: 1;">
-                    <h4>PAYMENT INFORMATION</h4>
-                    <p><strong style="width: 80px;">Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
-                    <p><strong style="width: 80px;">Status:</strong> <span>Order Confirmed</span></p>
-                </div>
-            </div>
-
-            <table class="r-table">
-                <thead>
-                    <tr>
-                        <th>PRODUCT</th>
-                        <th class="center">QTY</th>
-                        <th class="right">PRICE</th>
-                        <th class="right">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody id="outItems">
-                    <!-- Items inject here -->
-                </tbody>
-            </table>
-
-            <div class="r-totals-wrapper">
-                <div class="r-totals">
-                    <div class="r-totals-row">
-                        <span>Subtotal</span>
-                        <span id="outSubtotal">Rs 0</span>
+                <div class="r-info-grid">
+                    <div class="r-info-block" style="flex: 1.5;">
+                        <h4>BILL TO</h4>
+                        <p><strong>Customer Name:</strong> <span id="outName">Hamza</span></p>
+                        <p><strong>Phone Number:</strong> <span id="outPhone">08292828</span></p>
+                        <p><strong>Delivery Address:</strong> <span id="outAddress">Ry khajahba</span></p>
                     </div>
-                    <div class="r-totals-row">
-                        <span>Delivery Charges</span>
-                        <span id="outShipping">Rs 0</span>
+                    <div class="r-info-block" style="flex: 1;">
+                        <h4>PAYMENT INFORMATION</h4>
+                        <p><strong style="width: 80px;">Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
+                        <p><strong style="width: 80px;">Status:</strong> <span>Order Confirmed</span></p>
                     </div>
-                    <div class="r-totals-row discount">
-                        <span>Discount</span>
-                        <span id="outDiscount">- Rs 0</span>
-                    </div>
-                    <hr class="r-totals-divider">
-                    <div class="r-grand-total">
-                        <span>Grand Total</span>
-                        <span id="outTotal">Rs 0</span>
+                </div>
+
+                <table class="r-table">
+                    <thead>
+                        <tr>
+                            <th>PRODUCT</th>
+                            <th class="center">QTY</th>
+                            <th class="right">PRICE</th>
+                            <th class="right">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="outItems">
+                        <!-- Items inject here -->
+                    </tbody>
+                </table>
+
+                <div class="r-totals-wrapper">
+                    <div class="r-totals">
+                        <div class="r-totals-row">
+                            <span>Subtotal</span>
+                            <span id="outSubtotal">Rs 0</span>
+                        </div>
+                        <div class="r-totals-row">
+                            <span>Delivery Charges</span>
+                            <span id="outShipping">Rs 0</span>
+                        </div>
+                        <div class="r-totals-row discount">
+                            <span>Discount</span>
+                            <span id="outDiscount">- Rs 0</span>
+                        </div>
+                        <hr class="r-totals-divider">
+                        <div class="r-grand-total">
+                            <span>Grand Total</span>
+                            <span id="outTotal">Rs 0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -286,7 +292,7 @@
         function formatDateTime() {
             const now = new Date();
             const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
             const dateStr = now.toLocaleDateString('en-GB', dateOptions);
             const timeStr = now.toLocaleTimeString('en-US', timeOptions);
             return `${dateStr} | ${timeStr}`;
@@ -374,11 +380,11 @@
             btn.style.opacity = "0.7";
 
             const opt = {
-                margin:       10,
+                margin:       0,
                 filename:     `Receipt_${orderID}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
                 html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
