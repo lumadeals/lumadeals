@@ -3177,9 +3177,10 @@ function submitLogin(e) {
   showPage('home');
 }
 function searchProducts() {
+function searchProducts() {
   const searchInput = document.getElementById('search-input');
   const searchSuggestions = document.getElementById('search-suggestions');
-  const grid = document.getElementById('shop-products-grid');
+  const grid = document.getElementById('shop-product-grid');
 
   const query = searchInput.value.trim().toLowerCase();
   if (!query) return;
@@ -3197,7 +3198,6 @@ function searchProducts() {
 
   showPage('shop');
 }
-
 
     function showSuggestions() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
@@ -3226,21 +3226,18 @@ function selectSuggestion(id) {
 }
     
     function filterByCategory(category) {
-    
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = '';
-    
+
     const suggestions = document.getElementById('search-suggestions');
     if (suggestions) suggestions.style.display = 'none';
 
-    
     let filtered = products;
     if (category && category !== 'All' && category !== 'all') {
         filtered = products.filter(p => p.category.toLowerCase() === category.toLowerCase());
     }
 
-    
-    const grid = document.getElementById('shop-products-grid');
+    const grid = document.getElementById('shop-product-grid');
     if (grid) {
         if (filtered.length === 0) {
             grid.innerHTML = "<p style='padding:20px; color:#666;'>No products found</p>";
@@ -3250,8 +3247,7 @@ function selectSuggestion(id) {
     }
       showPage('shop');
     }
-
-    
+  
   function sendContactWhatsApp() {
     const myNumber = "923376454384";
     const name = document.getElementById('contact-name').value;
