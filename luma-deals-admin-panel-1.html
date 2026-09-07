@@ -477,15 +477,18 @@ required>
 <br>
 
 <div class="field">
-
 <label>Password</label>
 
-<input
-id="loginPassword"
-type="password"
-autocomplete="current-password"
-required>
+<div class="password-wrapper" style="position:relative;">
+  <input
+  id="loginPassword"
+  type="password"
+  autocomplete="current-password"
+  required
+  style="width:100%; padding-right:35px;">
 
+  <i class="fa-solid fa-eye" id="toggleLoginPassword" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;"></i>
+</div>
 </div>
 
 <br>
@@ -1758,7 +1761,15 @@ $("status")
 calculateDiscount();
 
 renderRating();
+const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+const loginPasswordInput = document.getElementById('loginPassword');
 
+toggleLoginPassword.addEventListener('click', function () {
+  const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  loginPasswordInput.setAttribute('type', type);
+  this.classList.toggle('fa-eye');
+  this.classList.toggle('fa-eye-slash');
+});
 </script>
 
 </body>
