@@ -3337,8 +3337,21 @@ function selectSuggestion(id) {
 </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 12px; font-weight: 600; c
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;">Phone Number</label>
+          <input type="text" id="cust-phone" placeholder="03XXXXXXXXX" style="width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; background: #fff;">
+        </div>
 
+        <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">Confirm Order</button>
+      </div>
+    `;
+  }
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.innerText === 'Checkout') {
+    showCheckoutForm();
+  }
+});
 
 function sendWhatsAppOrder() {
   const name = document.getElementById('cust-name').value;
