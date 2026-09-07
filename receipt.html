@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,8 +14,7 @@
         :root {
             --primary-blue: #1ba1e2;
             --light-blue: #e8f4fd;
-            --text-dark: #333333;
-            --text-gray: #555555;
+            --text-dark: #000000;
             --border-color: #dddddd;
             --bg-color: #f4f6f8;
         }
@@ -99,42 +98,44 @@
         .r-header-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
         .r-logo-area { display: flex; align-items: center; gap: 12px; }
         .r-logo-img { width: 45px; height: 45px; object-fit: contain; }
-        .r-brand-text h1 { margin: 0; color: var(--primary-blue); font-size: 28px; letter-spacing: -0.5px; }
-        .r-brand-text p { margin: 2px 0 0 0; color: var(--text-gray); font-size: 12px; }
+        
+        /* Brand Text Matching Screenshot Styling */
+        .r-brand-text h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+        .r-brand-text p { margin: 2px 0 0 0; color: #000000; font-size: 12px; font-weight: 600; }
         
         .r-receipt-title { text-align: right; }
-        .r-receipt-title h2 { margin: 0 0 5px 0; color: var(--primary-blue); font-size: 32px; text-transform: uppercase; letter-spacing: 1px; }
-        .r-receipt-title p { margin: 2px 0; color: var(--text-gray); font-size: 14px; }
+        .r-receipt-title h2 { margin: 0 0 5px 0; color: #000000; font-size: 32px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .r-receipt-title p { margin: 2px 0; color: #000000; font-size: 14px; font-weight: 600; }
 
         .divider { border: none; border-top: 2px solid var(--primary-blue); margin: 20px 0; }
 
         /* Billing & Payment Info */
         .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 40px; }
-        .r-info-block h4 { color: var(--primary-blue); margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .r-info-block p { margin: 8px 0; font-size: 14px; color: var(--text-dark); font-weight: 500; }
-        .r-info-block strong { font-weight: 600; display: inline-block; width: 140px; color: #555555; }
-        .r-info-block span { color: #000000; font-weight: 700; } /* Customer details Tez Black */
+        .r-info-block h4 { color: #000000; margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+        .r-info-block p { margin: 8px 0; font-size: 14px; color: #000000; font-weight: 600; }
+        .r-info-block strong { font-weight: 700; display: inline-block; width: 140px; color: #000000; }
+        .r-info-block span { color: #000000; font-weight: 700; }
 
         /* Table */
         .r-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
-        .r-table th { background-color: var(--light-blue); color: var(--primary-blue); padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .r-table th { background-color: var(--light-blue); color: #000000; padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
         .r-table th.center { text-align: center; }
         .r-table th.right { text-align: right; }
-        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); color: #000000; font-weight: 600; } /* Product names & table data Tez Black */
+        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); color: #000000; font-weight: 700; }
         .r-table td.center { text-align: center; }
         .r-table td.right { text-align: right; }
 
         /* Totals Area */
         .r-totals-wrapper { display: flex; justify-content: flex-end; }
         .r-totals { width: 350px; }
-        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: #333333; }
-        .r-totals-row.discount { color: var(--primary-blue); }
+        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: #000000; font-weight: 600; }
+        .r-totals-row.discount { color: var(--primary-blue); font-weight: 700; }
         .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 10px 0; }
         .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: #000000; }
 
         /* Footer */
-        .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--text-gray); }
-        .r-footer h4 { color: var(--primary-blue); margin: 0 0 5px 0; font-size: 15px; }
+        .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: center; font-size: 13px; color: #000000; font-weight: 600; }
+        .r-footer h4 { color: #000000; margin: 0 0 5px 0; font-size: 15px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -204,7 +205,7 @@
                 <div class="r-logo-area">
                     <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/57f66eb3ebb2117d595ab6ad83ab7ba440f2bf36/images/assets/favicon.png" alt="Luma Deals Logo" class="r-logo-img" crossorigin="anonymous">
                     <div class="r-brand-text">
-                        <h1>Luma Deals</h1>
+                        <h1><span style="color: #000000;">LUMA</span> <span style="color: #1ba1e2;">DEALS</span></h1>
                         <p>Quality Deals • Smart Shopping</p>
                     </div>
                 </div>
@@ -227,7 +228,7 @@
                 <div class="r-info-block" style="flex: 1;">
                     <h4>PAYMENT INFORMATION</h4>
                     <p><strong style="width: 80px;">Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
-                    <p><strong style="width: 80px;">Status:</strong> <span style="color:#000000; font-weight:700;">Order Confirmed</span></p>
+                    <p><strong style="width: 80px;">Status:</strong> <span>Order Confirmed</span></p>
                 </div>
             </div>
 
@@ -336,7 +337,7 @@
             });
 
             if (!hasItems) {
-                itemsHtml = `<tr><td colspan="4" class="center" style="color: #999;">No products added yet.</td></tr>`;
+                itemsHtml = `<tr><td colspan="4" class="center" style="color: #000000;">No products added yet.</td></tr>`;
             }
 
             document.getElementById('outItems').innerHTML = itemsHtml;
@@ -393,3 +394,6 @@
     </script>
 </body>
 </html>
+}
+
+        
