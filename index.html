@@ -3099,7 +3099,10 @@ function updateCart() {
 
 
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
-
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
     function closeCheckoutForm() {
   const cartContent = document.querySelector('.cart-sidebar');
   cartContent.innerHTML = `
