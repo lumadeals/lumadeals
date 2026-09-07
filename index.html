@@ -3059,11 +3059,17 @@ async function loadReviews(productId) {
         <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
         <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
       </div>
-      ${r.deviceId === myDeviceId ? `<span onclick="deleteReview('${r.id}', '${productId}')" style="color:#ff5c5c; cursor:pointer; font-size:14px; margin-left:10px;">✖</span>` : ''}
+
+      ${r.deviceId === myDeviceId ? `
+        <button
+          onclick="deleteReview('${r.id}', '${productId}')"
+          title="Delete review"
+          style="border:none; background:#fff1f1; color:#ff4d4d; width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:16px; margin-left:10px;"
+        >🗑️</button>
+      ` : ''}
     </div>
   `).join('');
 }
-
 async function submitReview() {
   const productId = document.getElementById('review-text').dataset.productId;
   const text = document.getElementById('review-text').value.trim();
@@ -3086,7 +3092,7 @@ async function submitReview() {
 }
 
 async function deleteReview(reviewId, productId) {
-  if (!confirm('Ye review delete karna chahte ho?')) return;
+  if (!confirm('Are you sure you want to delete this review?')) return;
 
   const { getFirestore, doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
