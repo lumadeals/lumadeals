@@ -1,14 +1,18 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luma Deals - Receipt Generator</title>
+    
+    <!-- PDF Generate karne ke liye library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
         :root {
-            --primary-blue: #1ba1e2; /* Matching the screenshot blue */
+            --primary-blue: #1ba1e2;
             --light-blue: #e8f4fd;
             --text-dark: #333333;
             --text-gray: #666666;
@@ -67,21 +71,22 @@
             padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;
         }
         
-        .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-update { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .btn-print { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .btn-reset { background-color: #f1f1f1; color: var(--text-dark); border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .action-buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;}
+        .btn-update { background-color: white; color: var(--primary-blue); border: 1px solid var(--primary-blue); flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; min-width: 120px;}
+        .btn-print { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; min-width: 120px; transition: opacity 0.3s;}
+        .btn-reset { background-color: #f1f1f1; color: var(--text-dark); border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%;}
 
         /* --- Preview Section (8.5 x 11 inches) --- */
         .preview-wrapper {
             overflow: auto;
             max-height: 90vh;
+            border: 1px solid #ddd;
         }
 
         .receipt-card {
             background: white;
-            width: 8.5in; /* Standard Letter Size Width */
-            min-height: 11in; /* Standard Letter Size Height */
+            width: 8.5in; 
+            min-height: 11in; 
             padding: 0.8in;
             box-sizing: border-box;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -106,8 +111,8 @@
         /* Billing & Payment Info */
         .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 40px; }
         .r-info-block h4 { color: var(--primary-blue); margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .r-info-block p { margin: 5px 0; font-size: 14px; color: var(--text-dark); }
-        .r-info-block strong { font-weight: 600; }
+        .r-info-block p { margin: 8px 0; font-size: 14px; color: var(--text-dark); }
+        .r-info-block strong { font-weight: 600; display: inline-block; width: 140px; color: var(--text-gray); }
 
         /* Table */
         .r-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
@@ -129,24 +134,6 @@
         /* Footer */
         .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--text-gray); }
         .r-footer h4 { color: var(--primary-blue); margin: 0 0 5px 0; font-size: 15px; }
-
-        /* --- Print Styling for 8.5x11 --- */
-        @page {
-            size: 8.5in 11in;
-            margin: 0;
-        }
-        @media print {
-            body { background: white; padding: 0; margin: 0; display: block; }
-            .controls-section { display: none; }
-            .preview-wrapper { max-height: none; overflow: visible; }
-            .receipt-card { 
-                box-shadow: none; 
-                margin: 0; 
-                width: 8.5in; 
-                height: 11in; 
-                page-break-after: avoid; 
-            }
-        }
     </style>
 </head>
 <body>
@@ -201,8 +188,8 @@
             </div>
 
             <div class="action-buttons">
-                <button type="button" class="btn-update" onclick="updateReceipt()">Update Receipt</button>
-                <button type="button" class="btn-print" onclick="window.print()">Print / Save PDF</button>
+                <button type="button" class="btn-update" onclick="updateReceipt()">Preview Update</button>
+                <button type="button" class="btn-print" id="downloadBtn" onclick="downloadPDF()">Download PDF</button>
                 <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
             </div>
         </form>
@@ -224,24 +211,24 @@
                 </div>
                 <div class="r-receipt-title">
                     <h2>RECEIPT</h2>
-                    <p>Order #<span id="outOrder">860256</span></p>
-                    <p id="outDate">8 September 2026</p>
+                    <p>Order # <span id="outOrder">LD-000000</span></p>
+                    <p id="outDate">Date Here</p>
                 </div>
             </div>
 
             <hr class="divider">
 
             <div class="r-info-grid">
-                <div class="r-info-block">
+                <div class="r-info-block" style="flex: 1.5;">
                     <h4>BILL TO</h4>
-                    <p id="outName">Customer Name</p>
-                    <p id="outPhone">Phone Number</p>
-                    <p id="outAddress">Delivery Address</p>
+                    <p><strong>Customer Name:</strong> <span id="outName">-</span></p>
+                    <p><strong>Phone Number:</strong> <span id="outPhone">-</span></p>
+                    <p><strong>Delivery Address:</strong> <span id="outAddress">-</span></p>
                 </div>
-                <div class="r-info-block">
+                <div class="r-info-block" style="flex: 1;">
                     <h4>PAYMENT INFORMATION</h4>
-                    <p><strong>Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
-                    <p><strong>Status:</strong> Order Confirmed</p>
+                    <p><strong style="width: 80px;">Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
+                    <p><strong style="width: 80px;">Status:</strong> Order Confirmed</p>
                 </div>
             </div>
 
@@ -296,9 +283,10 @@
             return date.toLocaleDateString('en-GB', options);
         }
 
-        // Generate Random 6 digit Order ID
+        // Generate Random 6 digit Order ID with LD- Prefix
         function generateOrderID() {
-            return Math.floor(100000 + Math.random() * 900000);
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            return "LD-" + randomNum;
         }
 
         function initialize() {
@@ -320,17 +308,14 @@
         }
 
         function updateReceipt() {
-            // Update Info
-            document.getElementById('outName').innerText = document.getElementById('cName').value || 'Customer Name';
-            document.getElementById('outPhone').innerText = document.getElementById('cPhone').value || 'Phone Number';
-            document.getElementById('outAddress').innerText = document.getElementById('cAddress').value || 'Delivery Address';
+            document.getElementById('outName').innerText = document.getElementById('cName').value || '-';
+            document.getElementById('outPhone').innerText = document.getElementById('cPhone').value || '-';
+            document.getElementById('outAddress').innerText = document.getElementById('cAddress').value || '-';
             document.getElementById('outPayment').innerText = document.getElementById('cPayment').value;
 
-            // Update Items
             const rows = document.querySelectorAll('.item-row');
             let itemsHtml = '';
             let subtotal = 0;
-
             let hasItems = false;
 
             rows.forEach(row => {
@@ -359,7 +344,6 @@
 
             document.getElementById('outItems').innerHTML = itemsHtml;
 
-            // Update Totals
             const shipping = parseFloat(document.getElementById('shipping').value) || 0;
             const discount = parseFloat(document.getElementById('discount').value) || 0;
             const grandTotal = (subtotal + shipping) - discount;
@@ -368,6 +352,35 @@
             document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
             document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
             document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+        }
+
+        // Direct PDF Download Function
+        function downloadPDF() {
+            updateReceipt(); // Ensures latest data is on receipt
+            
+            const element = document.getElementById('receipt');
+            const orderID = document.getElementById('outOrder').innerText;
+            const btn = document.getElementById('downloadBtn');
+            
+            // Show loading state
+            const originalText = btn.innerText;
+            btn.innerText = "Generating PDF...";
+            btn.style.opacity = "0.7";
+
+            const opt = {
+                margin:       0,
+                filename:     `Receipt_${orderID}.pdf`,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate and Download PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Reset button text after download
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+            });
         }
 
         function resetForm() {
@@ -383,7 +396,6 @@
             updateReceipt();
         }
 
-        // Initialize on load
         window.onload = initialize;
     </script>
 </body>
