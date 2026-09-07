@@ -1772,6 +1772,16 @@ toggleLoginPassword.addEventListener('click', function () {
   this.classList.toggle('fa-eye-slash');
 });
 </script>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw-admin.js', { scope: '/luma-deals-admin-panel-1.html' })
+      .then(function(reg) {
+        console.log('Admin panel service worker registered:', reg);
+      })
+      .catch(function(err) {
+        console.log('Service worker registration failed:', err);
+      });
+  }
+</script>
 </body>
 </html>
