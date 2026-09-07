@@ -3077,7 +3077,6 @@ function updateCart() {
     cartItemsDiv.innerHTML = "<p style='color:#888; text-align:center; margin-top:20px;'>Cart is empty</p>";
   } else {
     cartItemsDiv.innerHTML = cart.map((item, index) => {
-      
       const qty = item.quantity || 1; 
       const itemTotalPrice = item.price * qty;
       
@@ -3087,11 +3086,10 @@ function updateCart() {
         <span>Rs ${itemTotalPrice} <span style="color:#ff5c5c; cursor:pointer; margin-left:8px;" onclick="removeFromCart(${index})">✖</span></span>
       </div>
     `}).join('');
-    
-    document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none'; 
-    document.getElementById('floating-cart-badge').innerText = cart.length;
   }
   
+  document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none'; 
+  document.getElementById('floating-cart-badge').innerText = cart.length;
   
   const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   document.getElementById('cart-total').innerText = total;
