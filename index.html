@@ -3060,7 +3060,7 @@ async function loadReviews(productId) {
         <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
       </div>
 
-      ${r.deviceId === myDeviceId ? `
+      ${window.firebaseAuth.currentUser && r.userId === window.firebaseAuth.currentUser.uid ? `
         <button
           onclick="deleteReview('${r.id}', '${productId}')"
           title="Delete review"
@@ -3071,6 +3071,11 @@ async function loadReviews(productId) {
   `).join('');
 }
 async function submitReview() {
+  if (!window.firebaseAuth.currentUser) {
+    alert("Please sign in to submit a review.");
+    return;
+  }
+
   const productId = document.getElementById('review-text').dataset.productId;
   const text = document.getElementById('review-text').value.trim();
   const rating = document.getElementById('review-rating').value;
@@ -3083,7 +3088,7 @@ async function submitReview() {
     productId: String(productId),
     text: text,
     rating: rating,
-    deviceId: getDeviceId(),
+    userId: window.firebaseAuth.currentUser.uid,
     createdAt: serverTimestamp()
   });
 
