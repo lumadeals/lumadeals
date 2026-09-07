@@ -216,9 +216,30 @@ select:focus{
 */
 
 .brand-text{
-    background:#171717;
-    border-radius:10px;
-    padding:9px 13px;
+    background:transparent !important;
+    padding:0 !important;
+    border-radius:0 !important;
+}
+
+.brand-name{
+    font-size:25px;
+    font-weight:900;
+    line-height:1;
+    white-space:nowrap;
+}
+
+.luma-text{
+    color:#222;
+}
+
+.deals-text{
+    color:#f5a623;
+}
+
+.brand-tagline{
+    color:#777;
+    font-size:10px;
+    margin-top:5px;
 }
 
 .brand-name{
@@ -638,24 +659,14 @@ Reset
 
 <div class="brand-text">
 
-<div class="brand-name">
+    <div class="brand-name">
+        <span class="luma-text">Luma</span>
+        <span class="deals-text">Deals</span>
+    </div>
 
-<span class="luma-text">
-Luma
-</span>
-
-<span class="deals-text">
-Deals
-</span>
-
-</div>
-
-
-<div class="brand-tagline">
-Quality Deals • Smart Shopping
-</div>
-
-</div>
+    <div class="brand-tagline">
+        Quality Deals • Smart Shopping
+    </div>
 
 </div>
 
@@ -836,7 +847,7 @@ Rs 0
 <div class="receipt-footer">
 
 Thank you for shopping with
-<strong>Luma Deals</strong> ❤️
+<strong>Luma Deals</strong> 
 
 <br>
 
