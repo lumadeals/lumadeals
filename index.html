@@ -3283,6 +3283,9 @@ function selectSuggestion(id) {
     });
   }
 
+  const deliveryCharge = 200;
+  const grandTotal = totalAmount + deliveryCharge;
+
   if (cartContent) {
     cartContent.innerHTML = `
       <div style="padding: 10px;">
@@ -3294,9 +3297,17 @@ function selectSuggestion(id) {
         <div style="margin-bottom: 15px;">
           <p style="font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Order Summary:</p>
           ${itemsHTML}
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: #475569; padding: 4px;">
+            <span>Subtotal:</span>
+            <span>Rs ${totalAmount}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: #475569; padding: 4px;">
+            <span>Delivery Charges:</span>
+            <span>Rs ${deliveryCharge}</span>
+          </div>
           <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: #0f172a; padding: 8px 4px; border-top: 1px dashed #cbd5e1;">
             <span>Total Amount:</span>
-            <span style="color: #22c55e;">Rs ${totalAmount}</span>
+            <span style="color: #22c55e;">Rs ${grandTotal}</span>
           </div>
         </div>
 
@@ -3326,21 +3337,8 @@ function selectSuggestion(id) {
 </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;">Phone Number</label>
-          <input type="text" id="cust-phone" placeholder="03XXXXXXXXX" style="width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; background: #fff;">
-        </div>
+          <label style="display: block; font-size: 12px; font-weight: 600; c
 
-        <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">Confirm Order</button>
-      </div>
-    `;
-  }
-  }
-  
-  document.addEventListener('click', function(e) {
-  if (e.target && e.target.innerText === 'Checkout') {
-    showCheckoutForm();
-  }
-});
 
 function sendWhatsAppOrder() {
   const name = document.getElementById('cust-name').value;
@@ -3355,16 +3353,16 @@ function sendWhatsAppOrder() {
     return;
   }
 
-  // Yahan item ki quantity add ki gayi hai aur price ko quantity se multiply kiya gaya hai
   const productsList = cart.map(item => {
     const qty = item.quantity || 1;
     return `- ${item.name} (x${qty}) (Rs ${item.price * qty})`;
   }).join('%0A');
 
-  // Yahan grand total calculate karte waqt quantity ko consider kiya gaya hai
-  const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const deliveryCharge = 200;
+  const total = subtotal + deliveryCharge;
 
-  const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💰 *Total: Rs ${total}*`;
+  const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
