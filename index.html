@@ -3283,7 +3283,7 @@ function selectSuggestion(id) {
 <script>
   function showCheckoutForm() {
   if (typeof cart === 'undefined' || cart.length === 0) {
-  alert("Your cart is empty!");
+  alert("Your cart is empty! Add product first");
   return;
   }
     const cartContent = document.querySelector('.cart-sidebar');
