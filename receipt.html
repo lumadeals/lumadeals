@@ -1,4 +1,4 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -99,7 +99,7 @@
         .r-logo-area { display: flex; align-items: center; gap: 12px; }
         .r-logo-img { width: 45px; height: 45px; object-fit: contain; }
         
-        /* Brand Text Matching Screenshot Styling */
+        /* Brand Text Styling */
         .r-brand-text h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
         .r-brand-text p { margin: 2px 0 0 0; color: #000000; font-size: 12px; font-weight: 600; }
         
@@ -133,8 +133,8 @@
         .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 10px 0; }
         .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: #000000; }
 
-        /* Footer */
-        .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: right; font-size: 13px; color: #000000; font-weight: 600; }
+        /* Footer (Right Aligned) */
+        .r-footer { position: absolute; bottom: 0.8in; left: 0.8in; right: 0.8in; text-align: right; font-size: 13px; color: #000000; font-weight: 600; }
         .r-footer h4 { color: #000000; margin: 0 0 5px 0; font-size: 15px; font-weight: 700; }
     </style>
 </head>
@@ -162,6 +162,8 @@
                 <label>Payment Method</label>
                 <select id="cPayment">
                     <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="JazzCash">JazzCash</option>
+                    <option value="EasyPaisa">EasyPaisa</option>
                     <option value="Bank Transfer">Bank Transfer</option>
                     <option value="Credit/Debit Card">Credit/Debit Card</option>
                 </select>
@@ -394,6 +396,3 @@
     </script>
 </body>
 </html>
-}
-
-        
