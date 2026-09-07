@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma Deals - Receipt Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-blue: #1ba1e2; /* Matching the screenshot blue */
+            --light-blue: #e8f4fd;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --border-color: #dddddd;
+            --bg-color: #f4f6f8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* --- Form Section --- */
+        .controls-section {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .controls-section h2 { 
+            margin-top: 0; 
+            color: var(--primary-blue); 
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: var(--text-dark); }
+        
+        input, select {
+            width: 100%; padding: 10px; border: 1px solid var(--border-color);
+            border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 14px;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--primary-blue); }
+
+        .item-row {
+            display: flex; gap: 8px; margin-bottom: 10px;
+        }
+        .item-row input.desc { flex: 2; }
+        .item-row input.qty { flex: 0.5; text-align: center; }
+        .item-row input.price { flex: 1; }
+
+        .btn-add {
+            background: white; color: var(--primary-blue); border: 1px solid var(--primary-blue);
+            padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;
+        }
+        
+        .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-update { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-print { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-reset { background-color: #f1f1f1; color: var(--text-dark); border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+
+        /* --- Preview Section (8.5 x 11 inches) --- */
+        .preview-wrapper {
+            overflow: auto;
+            max-height: 90vh;
+        }
+
+        .receipt-card {
+            background: white;
+            width: 8.5in; /* Standard Letter Size Width */
+            min-height: 11in; /* Standard Letter Size Height */
+            padding: 0.8in;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            background-color: white;
+            color: var(--text-dark);
+        }
+
+        /* Receipt Header */
+        .r-header-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .r-logo-area { display: flex; align-items: center; gap: 10px; }
+        .r-logo-icon { width: 40px; height: 40px; background: var(--light-blue); color: var(--primary-blue); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .r-brand-text h1 { margin: 0; color: var(--primary-blue); font-size: 28px; letter-spacing: -0.5px; }
+        .r-brand-text p { margin: 2px 0 0 0; color: var(--text-gray); font-size: 12px; }
+        
+        .r-receipt-title { text-align: right; }
+        .r-receipt-title h2 { margin: 0 0 5px 0; color: var(--primary-blue); font-size: 32px; text-transform: uppercase; letter-spacing: 1px; }
+        .r-receipt-title p { margin: 2px 0; color: var(--text-gray); font-size: 14px; }
+
+        .divider { border: none; border-top: 2px solid var(--primary-blue); margin: 20px 0; }
+
+        /* Billing & Payment Info */
+        .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 40px; }
+        .r-info-block h4 { color: var(--primary-blue); margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .r-info-block p { margin: 5px 0; font-size: 14px; color: var(--text-dark); }
+        .r-info-block strong { font-weight: 600; }
+
+        /* Table */
+        .r-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
+        .r-table th { background-color: var(--light-blue); color: var(--primary-blue); padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .r-table th.center { text-align: center; }
+        .r-table th.right { text-align: right; }
+        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); }
+        .r-table td.center { text-align: center; }
+        .r-table td.right { text-align: right; }
+
+        /* Totals Area */
+        .r-totals-wrapper { display: flex; justify-content: flex-end; }
+        .r-totals { width: 350px; }
+        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+        .r-totals-row.discount { color: var(--primary-blue); }
+        .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 10px 0; }
+        .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: var(--text-dark); }
+
+        /* Footer */
+        .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--text-gray); }
+        .r-footer h4 { color: var(--primary-blue); margin: 0 0 5px 0; font-size: 15px; }
+
+        /* --- Print Styling for 8.5x11 --- */
+        @page {
+            size: 8.5in 11in;
+            margin: 0;
+        }
+        @media print {
+            body { background: white; padding: 0; margin: 0; display: block; }
+            .controls-section { display: none; }
+            .preview-wrapper { max-height: none; overflow: visible; }
+            .receipt-card { 
+                box-shadow: none; 
+                margin: 0; 
+                width: 8.5in; 
+                height: 11in; 
+                page-break-after: avoid; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Form -->
+    <div class="controls-section">
+        <h2>Luma Deals Receipt Generator</h2>
+        
+        <form id="receiptForm">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="cName" placeholder="Enter customer name">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="cPhone" placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+                <label>Customer Address</label>
+                <input type="text" id="cAddress" placeholder="Enter complete address">
+            </div>
+            
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="cPayment">
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value="Credit/Debit Card">Credit/Debit Card</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Charges (Rs)</label>
+                <input type="number" id="shipping" value="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Discount (Rs)</label>
+                <input type="number" id="discount" value="0">
+            </div>
+
+            <div class="form-group">
+                <label>Products</label>
+                <div id="itemsContainer">
+                    <div class="item-row">
+                        <input type="text" class="desc" placeholder="Product name">
+                        <input type="number" class="qty" placeholder="Qty" value="1">
+                        <input type="number" class="price" placeholder="Price">
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addItem()">+ Add Product</button>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn-update" onclick="updateReceipt()">Update Receipt</button>
+                <button type="button" class="btn-print" onclick="window.print()">Print / Save PDF</button>
+                <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Live Preview (8.5 x 11 Layout) -->
+    <div class="preview-wrapper">
+        <div class="receipt-card" id="receipt">
+            
+            <div class="r-header-container">
+                <div class="r-logo-area">
+                    <div class="r-logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </div>
+                    <div class="r-brand-text">
+                        <h1>Luma Deals</h1>
+                        <p>Quality Deals • Smart Shopping</p>
+                    </div>
+                </div>
+                <div class="r-receipt-title">
+                    <h2>RECEIPT</h2>
+                    <p>Order #<span id="outOrder">860256</span></p>
+                    <p id="outDate">8 September 2026</p>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="r-info-grid">
+                <div class="r-info-block">
+                    <h4>BILL TO</h4>
+                    <p id="outName">Customer Name</p>
+                    <p id="outPhone">Phone Number</p>
+                    <p id="outAddress">Delivery Address</p>
+                </div>
+                <div class="r-info-block">
+                    <h4>PAYMENT INFORMATION</h4>
+                    <p><strong>Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
+                    <p><strong>Status:</strong> Order Confirmed</p>
+                </div>
+            </div>
+
+            <table class="r-table">
+                <thead>
+                    <tr>
+                        <th>PRODUCT</th>
+                        <th class="center">QTY</th>
+                        <th class="right">PRICE</th>
+                        <th class="right">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody id="outItems">
+                    <!-- Items inject here -->
+                </tbody>
+            </table>
+
+            <div class="r-totals-wrapper">
+                <div class="r-totals">
+                    <div class="r-totals-row">
+                        <span>Subtotal</span>
+                        <span id="outSubtotal">Rs 0</span>
+                    </div>
+                    <div class="r-totals-row">
+                        <span>Delivery Charges</span>
+                        <span id="outShipping">Rs 0</span>
+                    </div>
+                    <div class="r-totals-row discount">
+                        <span>Discount</span>
+                        <span id="outDiscount">- Rs 0</span>
+                    </div>
+                    <hr class="r-totals-divider">
+                    <div class="r-grand-total">
+                        <span>Grand Total</span>
+                        <span id="outTotal">Rs 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="r-footer">
+                <h4>Thank you for shopping with us!</h4>
+                <p style="margin:0;">We appreciate your business.<br>www.lumadeals.shop</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Format Date like "8 September 2026"
+        function formatDate() {
+            const date = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('en-GB', options);
+        }
+
+        // Generate Random 6 digit Order ID
+        function generateOrderID() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+
+        function initialize() {
+            document.getElementById('outDate').innerText = formatDate();
+            document.getElementById('outOrder').innerText = generateOrderID();
+            updateReceipt();
+        }
+
+        function addItem() {
+            const container = document.getElementById('itemsContainer');
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.innerHTML = `
+                <input type="text" class="desc" placeholder="Product name">
+                <input type="number" class="qty" placeholder="Qty" value="1">
+                <input type="number" class="price" placeholder="Price">
+            `;
+            container.appendChild(row);
+        }
+
+        function updateReceipt() {
+            // Update Info
+            document.getElementById('outName').innerText = document.getElementById('cName').value || 'Customer Name';
+            document.getElementById('outPhone').innerText = document.getElementById('cPhone').value || 'Phone Number';
+            document.getElementById('outAddress').innerText = document.getElementById('cAddress').value || 'Delivery Address';
+            document.getElementById('outPayment').innerText = document.getElementById('cPayment').value;
+
+            // Update Items
+            const rows = document.querySelectorAll('.item-row');
+            let itemsHtml = '';
+            let subtotal = 0;
+
+            let hasItems = false;
+
+            rows.forEach(row => {
+                const desc = row.querySelector('.desc').value;
+                const qty = parseFloat(row.querySelector('.qty').value) || 0;
+                const price = parseFloat(row.querySelector('.price').value) || 0;
+                const total = qty * price;
+
+                if (desc) {
+                    hasItems = true;
+                    itemsHtml += `
+                        <tr>
+                            <td>${desc}</td>
+                            <td class="center">${qty}</td>
+                            <td class="right">Rs ${price.toLocaleString()}</td>
+                            <td class="right">Rs ${total.toLocaleString()}</td>
+                        </tr>
+                    `;
+                    subtotal += total;
+                }
+            });
+
+            if (!hasItems) {
+                itemsHtml = `<tr><td colspan="4" class="center" style="color: #999;">No products added yet.</td></tr>`;
+            }
+
+            document.getElementById('outItems').innerHTML = itemsHtml;
+
+            // Update Totals
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const grandTotal = (subtotal + shipping) - discount;
+
+            document.getElementById('outSubtotal').innerText = `Rs ${subtotal.toLocaleString()}`;
+            document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
+            document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
+            document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+        }
+
+        function resetForm() {
+            document.getElementById('receiptForm').reset();
+            document.getElementById('itemsContainer').innerHTML = `
+                <div class="item-row">
+                    <input type="text" class="desc" placeholder="Product name">
+                    <input type="number" class="qty" placeholder="Qty" value="1">
+                    <input type="number" class="price" placeholder="Price">
+                </div>
+            `;
+            document.getElementById('outOrder').innerText = generateOrderID();
+            updateReceipt();
+        }
+
+        // Initialize on load
+        window.onload = initialize;
+    </script>
+</body>
+</html>
