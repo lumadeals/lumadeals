@@ -1,9 +1,12 @@
 {
   "name": "Luma Deals Admin",
   "short_name": "LD Admin",
+  "description": "Luma Deals admin panel for managing products and orders",
+  "id": "/luma-deals-admin-panel-1.html",
   "start_url": "/luma-deals-admin-panel-1.html",
   "scope": "/luma-deals-admin-panel-1.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
