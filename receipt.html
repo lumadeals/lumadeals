@@ -75,27 +75,25 @@
         .btn-print { background-color: var(--primary-blue); color: white; border: none; flex: 1; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; min-width: 120px; transition: opacity 0.3s;}
         .btn-reset { background-color: #f1f1f1; color: var(--text-dark); border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%;}
 
-        /* --- Preview Section (8.5 x 11 inches) --- */
+        /* --- Preview Section --- */
         .preview-wrapper {
             overflow: auto;
             max-height: 90vh;
             border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
         }
 
         .receipt-card {
             background: white;
-            width: 8.5in; 
-            min-height: 11in; 
-            padding: 0.8in;
+            width: 750px; 
+            padding: 40px;
             box-sizing: border-box;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            position: relative;
-            background-color: white;
             color: var(--text-dark);
         }
 
         /* Receipt Header */
-        .r-header-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .r-header-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
         .r-logo-area { display: flex; align-items: center; gap: 12px; }
         .r-logo-img { width: 45px; height: 45px; object-fit: contain; }
         
@@ -105,37 +103,45 @@
         
         .r-receipt-title { text-align: right; }
         .r-receipt-title h2 { margin: 0 0 5px 0; color: #000000; font-size: 32px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .r-receipt-title p { margin: 2px 0; color: #000000; font-size: 14px; font-weight: 600; }
+        .r-receipt-title p { margin: 2px 0; color: #000000; font-size: 13px; font-weight: 600; }
 
-        .divider { border: none; border-top: 2px solid var(--primary-blue); margin: 20px 0; }
+        .divider { border: none; border-top: 2px solid var(--primary-blue); margin: 15px 0; }
 
         /* Billing & Payment Info */
-        .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 40px; }
-        .r-info-block h4 { color: var(--primary-blue); margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
-        .r-info-block p { margin: 8px 0; font-size: 14px; color: #000000; font-weight: 400; }
+        .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .r-info-block h4 { color: #000000; margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+        .r-info-block p { margin: 8px 0; font-size: 14px; color: #000000; font-weight: 600; }
         .r-info-block strong { font-weight: 700; display: inline-block; width: 140px; color: #000000; }
         .r-info-block span { color: #000000; font-weight: 700; }
 
         /* Table */
-        .r-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
+        .r-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px; }
         .r-table th { background-color: var(--light-blue); color: #000000; padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
         .r-table th.center { text-align: center; }
         .r-table th.right { text-align: right; }
-        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); color: #000000; font-weight: 700; }
+        .r-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: #000000; font-weight: 700; }
         .r-table td.center { text-align: center; }
         .r-table td.right { text-align: right; }
 
         /* Totals Area */
         .r-totals-wrapper { display: flex; justify-content: flex-end; }
-        .r-totals { width: 350px; }
-        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: #000000; font-weight: 600; }
+        .r-totals { width: 320px; }
+        .r-totals-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; color: #000000; font-weight: 600; }
         .r-totals-row.discount { color: var(--primary-blue); font-weight: 700; }
-        .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 10px 0; }
-        .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: #000000; }
+        .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 8px 0; }
+        .r-grand-total { display: flex; justify-content: space-between; padding: 8px 0; font-size: 17px; font-weight: 700; color: #000000; }
 
-        /* Footer (Perfectly Aligned to Right matching Totals Box width) */
-        .r-footer { position: absolute; bottom: 0.8in; left: 0.8in; width: 350px; text-align: left; font-size: 13px; color: #808080; font-weight: 600; }
-        .r-footer h4 { color: #808080; margin: 0 0 5px 0; font-size: 15px; font-weight: 700; }
+        /* Footer */
+        .r-footer { 
+            margin-top: 30px; 
+            margin-left: auto; 
+            width: 320px; 
+            text-align: right; 
+            font-size: 13px; 
+            color: #808080; 
+            font-weight: 600; 
+        }
+        .r-footer h4 { color: #808080; margin: 0 0 4px 0; font-size: 14px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -146,7 +152,7 @@
         
         <form id="receiptForm">
             <div class="form-group">
-               <strong> <label>Customer Name</label> </strong>
+                <label>Customer Name</label>
                 <input type="text" id="cName" placeholder="Enter customer name" value="Hamza">
             </div>
             <div class="form-group">
@@ -199,10 +205,9 @@
         </form>
     </div>
 
-    <!-- Live Preview (8.5 x 11 Layout) -->
+    <!-- Live Preview -->
     <div class="preview-wrapper">
         <div class="receipt-card" id="receipt">
-            
             <div class="r-header-container">
                 <div class="r-logo-area">
                     <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/57f66eb3ebb2117d595ab6ad83ab7ba440f2bf36/images/assets/favicon.png" alt="Luma Deals Logo" class="r-logo-img" crossorigin="anonymous">
@@ -214,7 +219,7 @@
                 <div class="r-receipt-title">
                     <h2>RECEIPT</h2>
                     <p>Order # <span id="outOrder">LD-781803</span></p>
-                    <p id="outDate">Date Here</p>
+                    <p id="outDateTime">Date & Time Here</p>
                 </div>
             </div>
 
@@ -278,10 +283,13 @@
     </div>
 
     <script>
-        function formatDate() {
-            const date = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            return date.toLocaleDateString('en-GB', options);
+        function formatDateTime() {
+            const now = new Date();
+            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            const dateStr = now.toLocaleDateString('en-GB', dateOptions);
+            const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+            return `${dateStr} | ${timeStr}`;
         }
 
         function generateOrderID() {
@@ -290,7 +298,7 @@
         }
 
         function initialize() {
-            document.getElementById('outDate').innerText = formatDate();
+            document.getElementById('outDateTime').innerText = formatDateTime();
             document.getElementById('outOrder').innerText = generateOrderID();
             updateReceipt();
         }
@@ -366,11 +374,11 @@
             btn.style.opacity = "0.7";
 
             const opt = {
-                margin:       0,
+                margin:       10,
                 filename:     `Receipt_${orderID}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
                 html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
@@ -389,6 +397,7 @@
                 </div>
             `;
             document.getElementById('outOrder').innerText = generateOrderID();
+            document.getElementById('outDateTime').innerText = formatDateTime();
             updateReceipt();
         }
 
