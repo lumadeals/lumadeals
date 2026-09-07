@@ -3282,7 +3282,11 @@ function selectSuggestion(id) {
     </script>
 <script>
   function showCheckoutForm() {
-  const cartContent = document.querySelector('.cart-sidebar');
+  if (typeof cart === 'undefined' || cart.length === 0) {
+  alert("Aapka cart khali hai!");
+  return;
+  }
+    const cartContent = document.querySelector('.cart-sidebar');
   
   let itemsHTML = '';
   let totalAmount = 0;
@@ -3304,8 +3308,8 @@ function selectSuggestion(id) {
     });
   }
 
-  const deliveryCharge = 200;
-  const grandTotal = totalAmount + deliveryCharge;
+  const deliveryCharge = (typeof cart !== 'undefined' && cart.length > 0) ? 200 : 0;
+const grandTotal = totalAmount + deliveryCharge;
 
   if (cartContent) {
     cartContent.innerHTML = `
