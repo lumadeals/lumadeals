@@ -3094,36 +3094,21 @@ async function submitReview() {
 async function deleteReview(reviewId, productId) {
   if (!confirm('Are you sure you want to delete this review?')) return;
 
-  const { getFirestore, doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const db = getFirestore(window.firebaseApp);
+  try {
+    const { getFirestore, doc, deleteDoc } =
+      await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
 
-  await deleteDoc(doc(db, "reviews", reviewId));
-  loadReviews(productId);
-}
-function updateCart() {
-  document.getElementById('cart-count').innerText = cart.length;
-  const cartItemsDiv = document.getElementById('cart-items');
-  
-  if (cart.length === 0) {
-    cartItemsDiv.innerHTML = "<p style='color:#888; text-align:center; margin-top:20px;'>Cart is empty</p>";
-  } else {
-    cartItemsDiv.innerHTML = cart.map((item, index) => {
-      const qty = item.quantity || 1; 
-      const itemTotalPrice = item.price * qty;
-      
-      return `
-      <div class="cart-item">
-        <span>${item.name} <b>(x${qty})</b></span>
-        <span>Rs ${itemTotalPrice} <span style="color:#ff5c5c; cursor:pointer; margin-left:8px;" onclick="removeFromCart(${index})">✖</span></span>
-      </div>
-    `}).join('');
+    const db = getFirestore(window.firebaseApp);
+
+    await deleteDoc(doc(db, "reviews", reviewId));
+
+    alert("Review deleted successfully!");
+    loadReviews(productId);
+
+  } catch (error) {
+    console.error("Delete review error:", error);
+    alert("Unable to delete review: " + error.message);
   }
-  
-  document.getElementById('floating-checkout').style.display = cart.length > 0 ? 'flex' : 'none'; 
-  document.getElementById('floating-cart-badge').innerText = cart.length;
-  
-  const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-  document.getElementById('cart-total').innerText = total;
 }
 
 
