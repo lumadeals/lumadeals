@@ -3021,6 +3021,15 @@ function showProductDetail(id) {
   if (typeof showPage === 'function') showPage('product-detail');
 }
 
+function getDeviceId() {
+  let id = localStorage.getItem('lumadeals_device_id');
+  if (!id) {
+    id = 'dev_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
+    localStorage.setItem('lumadeals_device_id', id);
+  }
+  return id;
+}
+
 async function loadReviews(productId) {
   document.getElementById('review-text').dataset.productId = productId;
   const list = document.getElementById('reviews-list');
@@ -3038,14 +3047,19 @@ async function loadReviews(productId) {
   }
 
   let reviews = [];
-  snapshot.forEach(doc => reviews.push(doc.data()));
+  snapshot.forEach(docSnap => reviews.push({ id: docSnap.id, ...docSnap.data() }));
 
   reviews.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
+  const myDeviceId = getDeviceId();
+
   list.innerHTML = reviews.map(r => `
-    <div style="border-bottom:1px solid #f0f0f0; padding:10px 0;">
-      <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
-      <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
+    <div style="border-bottom:1px solid #f0f0f0; padding:10px 0; display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
+        <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
+      </div>
+      ${r.deviceId === myDeviceId ? `<span onclick="deleteReview('${r.id}', '${productId}')" style="color:#ff5c5c; cursor:pointer; font-size:14px; margin-left:10px;">✖</span>` : ''}
     </div>
   `).join('');
 }
@@ -3063,10 +3077,21 @@ async function submitReview() {
     productId: String(productId),
     text: text,
     rating: rating,
+    deviceId: getDeviceId(),
     createdAt: serverTimestamp()
   });
 
   document.getElementById('review-text').value = '';
+  loadReviews(productId);
+}
+
+async function deleteReview(reviewId, productId) {
+  if (!confirm('Ye review delete karna chahte ho?')) return;
+
+  const { getFirestore, doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  await deleteDoc(doc(db, "reviews", reviewId));
   loadReviews(productId);
 }
 function updateCart() {
