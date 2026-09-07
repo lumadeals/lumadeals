@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
             --primary-blue: #1ba1e2;
             --light-blue: #e8f4fd;
             --text-dark: #333333;
-            --text-gray: #666666;
+            --text-gray: #555555;
             --border-color: #dddddd;
             --bg-color: #f4f6f8;
         }
@@ -97,8 +97,8 @@
 
         /* Receipt Header */
         .r-header-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
-        .r-logo-area { display: flex; align-items: center; gap: 10px; }
-        .r-logo-icon { width: 40px; height: 40px; background: var(--light-blue); color: var(--primary-blue); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .r-logo-area { display: flex; align-items: center; gap: 12px; }
+        .r-logo-img { width: 45px; height: 45px; object-fit: contain; }
         .r-brand-text h1 { margin: 0; color: var(--primary-blue); font-size: 28px; letter-spacing: -0.5px; }
         .r-brand-text p { margin: 2px 0 0 0; color: var(--text-gray); font-size: 12px; }
         
@@ -111,25 +111,26 @@
         /* Billing & Payment Info */
         .r-info-grid { display: flex; justify-content: space-between; margin-bottom: 40px; }
         .r-info-block h4 { color: var(--primary-blue); margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .r-info-block p { margin: 8px 0; font-size: 14px; color: var(--text-dark); }
-        .r-info-block strong { font-weight: 600; display: inline-block; width: 140px; color: var(--text-gray); }
+        .r-info-block p { margin: 8px 0; font-size: 14px; color: var(--text-dark); font-weight: 500; }
+        .r-info-block strong { font-weight: 600; display: inline-block; width: 140px; color: #555555; }
+        .r-info-block span { color: #000000; font-weight: 700; } /* Customer details Tez Black */
 
         /* Table */
         .r-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
         .r-table th { background-color: var(--light-blue); color: var(--primary-blue); padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         .r-table th.center { text-align: center; }
         .r-table th.right { text-align: right; }
-        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); }
+        .r-table td { padding: 15px 12px; border-bottom: 1px solid var(--border-color); color: #000000; font-weight: 600; } /* Product names & table data Tez Black */
         .r-table td.center { text-align: center; }
         .r-table td.right { text-align: right; }
 
         /* Totals Area */
         .r-totals-wrapper { display: flex; justify-content: flex-end; }
         .r-totals { width: 350px; }
-        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+        .r-totals-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: #333333; }
         .r-totals-row.discount { color: var(--primary-blue); }
         .r-totals-divider { border: none; border-top: 1px solid var(--border-color); margin: 10px 0; }
-        .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: var(--text-dark); }
+        .r-grand-total { display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px; font-weight: 700; color: #000000; }
 
         /* Footer */
         .r-footer { position: absolute; bottom: 0.8in; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--text-gray); }
@@ -145,15 +146,15 @@
         <form id="receiptForm">
             <div class="form-group">
                 <label>Customer Name</label>
-                <input type="text" id="cName" placeholder="Enter customer name">
+                <input type="text" id="cName" placeholder="Enter customer name" value="Hamza">
             </div>
             <div class="form-group">
                 <label>Phone Number</label>
-                <input type="text" id="cPhone" placeholder="Enter phone number">
+                <input type="text" id="cPhone" placeholder="Enter phone number" value="08292828">
             </div>
             <div class="form-group">
                 <label>Customer Address</label>
-                <input type="text" id="cAddress" placeholder="Enter complete address">
+                <input type="text" id="cAddress" placeholder="Enter complete address" value="Ry khajahba">
             </div>
             
             <div class="form-group">
@@ -172,16 +173,16 @@
             
             <div class="form-group">
                 <label>Discount (Rs)</label>
-                <input type="number" id="discount" value="0">
+                <input type="number" id="discount" value="150">
             </div>
 
             <div class="form-group">
                 <label>Products</label>
                 <div id="itemsContainer">
                     <div class="item-row">
-                        <input type="text" class="desc" placeholder="Product name">
-                        <input type="number" class="qty" placeholder="Qty" value="1">
-                        <input type="number" class="price" placeholder="Price">
+                        <input type="text" class="desc" value="Mini Wifi Camera HD 1080P Night Vision Mobile Monitor">
+                        <input type="number" class="qty" value="1">
+                        <input type="number" class="price" value="1540">
                     </div>
                 </div>
                 <button type="button" class="btn-add" onclick="addItem()">+ Add Product</button>
@@ -201,9 +202,7 @@
             
             <div class="r-header-container">
                 <div class="r-logo-area">
-                    <div class="r-logo-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    </div>
+                    <img src="https://raw.githubusercontent.com/lumadeals/lumadeals/57f66eb3ebb2117d595ab6ad83ab7ba440f2bf36/images/assets/favicon.png" alt="Luma Deals Logo" class="r-logo-img" crossorigin="anonymous">
                     <div class="r-brand-text">
                         <h1>Luma Deals</h1>
                         <p>Quality Deals • Smart Shopping</p>
@@ -211,7 +210,7 @@
                 </div>
                 <div class="r-receipt-title">
                     <h2>RECEIPT</h2>
-                    <p>Order # <span id="outOrder">LD-000000</span></p>
+                    <p>Order # <span id="outOrder">LD-781803</span></p>
                     <p id="outDate">Date Here</p>
                 </div>
             </div>
@@ -221,14 +220,14 @@
             <div class="r-info-grid">
                 <div class="r-info-block" style="flex: 1.5;">
                     <h4>BILL TO</h4>
-                    <p><strong>Customer Name:</strong> <span id="outName">-</span></p>
-                    <p><strong>Phone Number:</strong> <span id="outPhone">-</span></p>
-                    <p><strong>Delivery Address:</strong> <span id="outAddress">-</span></p>
+                    <p><strong>Customer Name:</strong> <span id="outName">Hamza</span></p>
+                    <p><strong>Phone Number:</strong> <span id="outPhone">08292828</span></p>
+                    <p><strong>Delivery Address:</strong> <span id="outAddress">Ry khajahba</span></p>
                 </div>
                 <div class="r-info-block" style="flex: 1;">
                     <h4>PAYMENT INFORMATION</h4>
                     <p><strong style="width: 80px;">Payment:</strong> <span id="outPayment">Cash on Delivery</span></p>
-                    <p><strong style="width: 80px;">Status:</strong> Order Confirmed</p>
+                    <p><strong style="width: 80px;">Status:</strong> <span style="color:#000000; font-weight:700;">Order Confirmed</span></p>
                 </div>
             </div>
 
@@ -276,14 +275,12 @@
     </div>
 
     <script>
-        // Format Date like "8 September 2026"
         function formatDate() {
             const date = new Date();
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             return date.toLocaleDateString('en-GB', options);
         }
 
-        // Generate Random 6 digit Order ID with LD- Prefix
         function generateOrderID() {
             const randomNum = Math.floor(100000 + Math.random() * 900000);
             return "LD-" + randomNum;
@@ -354,15 +351,13 @@
             document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
         }
 
-        // Direct PDF Download Function
         function downloadPDF() {
-            updateReceipt(); // Ensures latest data is on receipt
+            updateReceipt(); 
             
             const element = document.getElementById('receipt');
             const orderID = document.getElementById('outOrder').innerText;
             const btn = document.getElementById('downloadBtn');
             
-            // Show loading state
             const originalText = btn.innerText;
             btn.innerText = "Generating PDF...";
             btn.style.opacity = "0.7";
@@ -371,13 +366,11 @@
                 margin:       0,
                 filename:     `Receipt_${orderID}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
-            // Generate and Download PDF
             html2pdf().set(opt).from(element).save().then(() => {
-                // Reset button text after download
                 btn.innerText = originalText;
                 btn.style.opacity = "1";
             });
