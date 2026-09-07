@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,81 +7,83 @@
 <title>Luma Deals - Receipt Generator</title>
 
 <style>
+
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#eef2f7;
-  color:#172033;
-  padding:30px 15px;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f6f8;
+    color:#222;
+    padding:25px 15px;
 }
 
 /* =========================
    CONTROL PANEL
 ========================= */
 
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
 .control-panel{
-  background:#fff;
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 10px 35px rgba(0,0,0,.08);
-  margin-bottom:25px;
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+    margin-bottom:25px;
 }
 
 .control-panel h1{
-  font-size:28px;
-  margin-bottom:6px;
+    font-size:27px;
+    margin-bottom:6px;
 }
 
 .subtitle{
-  color:#6b7280;
-  margin-bottom:25px;
+    color:#777;
+    font-size:14px;
+    margin-bottom:25px;
 }
 
 .form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
 .form-group{
-  display:flex;
-  flex-direction:column;
+    display:flex;
+    flex-direction:column;
 }
 
 .form-group.full{
-  grid-column:1/-1;
+    grid-column:1/-1;
 }
 
 label{
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:7px;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
 }
 
 input,
 select{
-  width:100%;
-  padding:12px 13px;
-  border:1px solid #d8dee8;
-  border-radius:10px;
-  font-size:14px;
-  outline:none;
+    width:100%;
+    padding:12px;
+    border:1px solid #d9dee5;
+    border-radius:10px;
+    font-size:14px;
+    outline:none;
+    background:#fff;
 }
 
 input:focus,
 select:focus{
-  border-color:#2563eb;
-  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+    border-color:#999;
 }
 
 /* =========================
@@ -89,42 +91,42 @@ select:focus{
 ========================= */
 
 .products-section{
-  margin-top:25px;
+    margin-top:25px;
 }
 
 .products-section h3{
-  margin-bottom:12px;
+    margin-bottom:12px;
 }
 
 .product-row{
-  display:grid;
-  grid-template-columns:2fr .7fr 1fr 1fr 45px;
-  gap:8px;
-  margin-bottom:9px;
+    display:grid;
+    grid-template-columns:2fr .7fr 1fr 1fr 44px;
+    gap:8px;
+    margin-bottom:9px;
 }
 
 .product-total{
-  background:#f3f4f6;
+    background:#f5f5f5;
 }
 
 .remove-btn{
-  background:#fee2e2;
-  color:#dc2626;
-  border:0;
-  border-radius:10px;
-  font-size:20px;
-  cursor:pointer;
+    border:0;
+    border-radius:10px;
+    background:#ffe8e8;
+    color:#d22;
+    font-size:20px;
+    cursor:pointer;
 }
 
 .add-product{
-  margin-top:5px;
-  padding:11px 17px;
-  background:#e8f0ff;
-  color:#1557c0;
-  border:0;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
+    margin-top:5px;
+    border:0;
+    padding:11px 17px;
+    border-radius:10px;
+    background:#eeeeee;
+    color:#222;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 /* =========================
@@ -132,33 +134,33 @@ select:focus{
 ========================= */
 
 .buttons{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:25px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:25px;
 }
 
 .btn{
-  border:0;
-  border-radius:10px;
-  padding:12px 18px;
-  font-weight:bold;
-  cursor:pointer;
+    border:0;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .update-btn{
-  background:#111827;
-  color:#fff;
+    background:#222;
+    color:#fff;
 }
 
 .print-btn{
-  background:#2563eb;
-  color:#fff;
+    background:#222;
+    color:#fff;
 }
 
 .reset-btn{
-  background:#e5e7eb;
-  color:#111827;
+    background:#e9ecef;
+    color:#222;
 }
 
 /* =========================
@@ -166,171 +168,199 @@ select:focus{
 ========================= */
 
 .receipt-container{
-  display:flex;
-  justify-content:center;
+    display:flex;
+    justify-content:center;
 }
 
 .receipt{
-  width:794px;
-  max-width:100%;
-  background:#fff;
-  padding:45px;
-  box-shadow:0 10px 40px rgba(0,0,0,.1);
+    width:794px;
+    max-width:100%;
+    background:#fff;
+    padding:42px;
+    box-shadow:0 10px 40px rgba(0,0,0,.10);
 }
 
-/* HEADER */
+/* =========================
+   BRAND HEADER
+========================= */
 
 .receipt-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  border-bottom:2px solid #111827;
-  padding-bottom:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+
+    border-bottom:2px solid #eeeeee;
+    padding-bottom:22px;
 }
 
 .brand-section{
-  display:flex;
-  align-items:center;
-  gap:13px;
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
+
+/* Actual GitHub logo */
 
 .logo{
-  width:70px;
-  height:70px;
-  object-fit:contain;
-  border-radius:12px;
-  display:none;
+    width:68px;
+    height:68px;
+    object-fit:contain;
+    display:block;
 }
 
-.logo-placeholder{
-  width:70px;
-  height:70px;
-  background:#111827;
-  color:white;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-  font-weight:900;
+/*
+   Brand text strip.
+   Luma is white.
+   Deals uses the logo accent color.
+*/
+
+.brand-text{
+    background:#171717;
+    border-radius:10px;
+    padding:9px 13px;
 }
 
 .brand-name{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:.5px;
+    font-size:24px;
+    font-weight:900;
+    line-height:1;
+    letter-spacing:.3px;
+    white-space:nowrap;
+}
+
+.luma-text{
+    color:#fff;
+}
+
+.deals-text{
+    color:#f5a623;
 }
 
 .brand-tagline{
-  color:#6b7280;
-  font-size:12px;
-  margin-top:4px;
+    color:#bdbdbd;
+    font-size:10px;
+    margin-top:5px;
 }
 
+/* =========================
+   RECEIPT TITLE
+========================= */
+
 .receipt-title{
-  text-align:right;
+    text-align:right;
 }
 
 .receipt-title h2{
-  font-size:29px;
-  margin-bottom:6px;
+    font-size:28px;
+    color:#222;
+    margin-bottom:5px;
 }
 
 .receipt-title p{
-  font-size:11px;
-  color:#6b7280;
-  margin-top:4px;
+    font-size:11px;
+    color:#777;
+    margin-top:4px;
 }
 
-/* CUSTOMER INFO */
+/* =========================
+   CUSTOMER INFO
+========================= */
 
 .customer-info{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:25px;
-  padding:23px 0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    padding:23px 0;
 }
 
 .info-title{
-  color:#6b7280;
-  font-size:11px;
-  text-transform:uppercase;
-  font-weight:bold;
-  letter-spacing:.7px;
-  margin-bottom:7px;
+    color:#777;
+    font-size:10px;
+    text-transform:uppercase;
+    font-weight:bold;
+    letter-spacing:.7px;
+    margin-bottom:7px;
 }
 
 .info-text{
-  font-size:13px;
-  margin:4px 0;
-  line-height:1.5;
+    color:#222;
+    font-size:13px;
+    margin:4px 0;
+    line-height:1.5;
 }
 
-/* TABLE */
+/* =========================
+   PRODUCTS TABLE
+========================= */
 
 .receipt-table{
-  width:100%;
-  border-collapse:collapse;
+    width:100%;
+    border-collapse:collapse;
 }
 
 .receipt-table th{
-  background:#f3f4f6;
-  padding:12px;
-  font-size:11px;
-  text-transform:uppercase;
-  text-align:left;
+    background:#f4f4f4;
+    color:#222;
+    padding:12px;
+    text-align:left;
+    font-size:11px;
+    text-transform:uppercase;
 }
 
 .receipt-table td{
-  padding:12px;
-  border-bottom:1px solid #e5e7eb;
-  font-size:13px;
+    padding:12px;
+    font-size:13px;
+    border-bottom:1px solid #e8e8e8;
 }
 
 .receipt-table th:last-child,
 .receipt-table td:last-child{
-  text-align:right;
+    text-align:right;
 }
 
-/* SUMMARY */
+/* =========================
+   SUMMARY
+========================= */
 
 .summary{
-  width:310px;
-  max-width:100%;
-  margin-left:auto;
-  margin-top:20px;
+    width:310px;
+    max-width:100%;
+    margin-left:auto;
+    margin-top:20px;
 }
 
 .summary-row{
-  display:flex;
-  justify-content:space-between;
-  padding:7px 0;
-  font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    padding:7px 0;
+    font-size:13px;
 }
 
 .grand-total{
-  border-top:2px solid #111827;
-  margin-top:7px;
-  padding-top:12px;
-  font-size:19px;
-  font-weight:900;
+    border-top:2px solid #222;
+    margin-top:7px;
+    padding-top:12px;
+    font-size:19px;
+    font-weight:900;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 .receipt-footer{
-  border-top:1px solid #e5e7eb;
-  margin-top:30px;
-  padding-top:18px;
-  text-align:center;
-  color:#6b7280;
-  font-size:11px;
-  line-height:1.7;
+    border-top:1px solid #e5e5e5;
+    margin-top:30px;
+    padding-top:18px;
+    text-align:center;
+    color:#777;
+    font-size:11px;
+    line-height:1.7;
 }
 
 .receipt-footer strong{
-  color:#111827;
+    color:#222;
 }
 
 /* =========================
@@ -339,320 +369,98 @@ select:focus{
 
 @media(max-width:650px){
 
-  body{
-    padding:15px 8px;
-  }
+    body{
+        padding:10px 7px;
+    }
 
-  .control-panel{
-    padding:18px;
-  }
+    .control-panel{
+        padding:18px;
+    }
 
-  .form-grid{
-    grid-template-columns:1fr;
-  }
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 
-  .form-group.full{
-    grid-column:auto;
-  }
+    .form-group.full{
+        grid-column:auto;
+    }
 
-  .product-row{
-    grid-template-columns:1fr 1fr;
-  }
+    .product-row{
+        grid-template-columns:1fr 1fr;
+    }
 
-  .product-row input:first-child{
-    grid-column:1/-1;
-  }
+    .product-row .product-name{
+        grid-column:1/-1;
+    }
 
-  .remove-btn{
-    height:44px;
-  }
+    .receipt{
+        padding:22px;
+    }
 
-  .receipt{
-    padding:22px;
-  }
+    .receipt-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
 
-  .receipt-header{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+    .receipt-title{
+        text-align:left;
+    }
 
-  .receipt-title{
-    text-align:left;
-  }
+    .customer-info{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
 
-  .customer-info{
-    grid-template-columns:1fr;
-    gap:15px;
-  }
+    .receipt-table th,
+    .receipt-table td{
+        padding:8px 5px;
+        font-size:11px;
+    }
 
-  .receipt-table{
-    font-size:11px;
-  }
+    .brand-name{
+        font-size:21px;
+    }
 
-  .receipt-table th,
-  .receipt-table td{
-    padding:8px 5px;
-  }
-
-  .brand-name{
-    font-size:21px;
-  }
+    .brand-tagline{
+        font-size:9px;
+    }
 }
 
 /* =========================
-   PRINT
+   PRINT / PDF
 ========================= */
 
 @media print{
 
-  body{
-    background:white;
-    padding:0;
-  }
+    body{
+        background:#fff;
+        padding:0;
+    }
 
-  .control-panel{
-    display:none !important;
-  }
+    .control-panel{
+        display:none !important;
+    }
 
-  .receipt-container{
-    display:block;
-  }
+    .receipt-container{
+        display:block;
+    }
 
-  .receipt{
-    width:100%;
-    max-width:none;
-    box-shadow:none;
-    padding:20px;
-  }
+    .receipt{
+        width:100%;
+        max-width:none;
+        box-shadow:none;
+        padding:20px;
+    }
 
-  @page{
-    size:A4;
-    margin:10mm;
-  }
-}
-  :root{
-  --luma-primary:#2563eb;
-  --luma-dark:#111827;
-  --luma-light:#eff6ff;
-  --luma-border:#dbe3ef;
+    @page{
+        size:A4;
+        margin:10mm;
+    }
 }
 
-body{
-  background:#f5f8fc;
-}
-
-.control-panel{
-  border-top:4px solid var(--luma-primary);
-}
-
-.add-product{
-  background:var(--luma-light);
-  color:var(--luma-primary);
-}
-
-.print-btn{
-  background:var(--luma-primary);
-}
-
-.receipt-header{
-  border-bottom:3px solid var(--luma-primary);
-}
-
-.brand-name{
-  color:var(--luma-dark);
-}
-
-.receipt-title h2{
-  color:var(--luma-primary);
-}
-
-.receipt-table th{
-  background:var(--luma-light);
-  color:var(--luma-primary);
-}
-
-.grand-total{
-  border-top:2px solid var(--luma-primary);
-  color:var(--luma-primary);
-}
-
-.receipt-footer strong{
-  color:var(--luma-primary);
-}
-  /* Luma Deals Original Style */
-
-body{
-  background:#f7f7f7;
-  color:#222;
-}
-
-.control-panel{
-  border-top:3px solid #222;
-}
-
-.add-product{
-  background:#f1f1f1;
-  color:#222;
-}
-
-.print-btn{
-  background:#222;
-  color:#fff;
-}
-
-.receipt-header{
-  border-bottom:2px solid #222;
-}
-
-.logo{
-  width:72px;
-  height:72px;
-  object-fit:contain;
-  display:block;
-  border-radius:10px;
-}
-
-.brand-name{
-  color:#222;
-  font-weight:800;
-}
-
-.brand-tagline{
-  color:#777;
-}
-
-.receipt-title h2{
-  color:#222;
-}
-
-.receipt-table th{
-  background:#f3f3f3;
-  color:#222;
-}
-
-.grand-total{
-  border-top:2px solid #222;
-  color:#222;
-}
-
-.receipt-footer strong{
-  color:#222;
-}
-  
-
-/* ===== LUMA DEALS LIGHT THEME ===== */
-
-body{
-  background:#f5f7fb !important;
-  color:#222 !important;
-}
-
-.control-panel{
-  background:#fff !important;
-  border-top:3px solid #222 !important;
-}
-
-.receipt{
-  background:#fff !important;
-  color:#222 !important;
-}
-
-/* Logo */
-.logo{
-  width:75px !important;
-  height:75px !important;
-  object-fit:contain !important;
-  display:block !important;
-}
-
-/* Luma text */
-.brand-name{
-  color:#fff !important;
-  font-weight:900 !important;
-}
-
-/* Deals/accent text */
-.brand-tagline{
-  color:#777 !important;
-}
-
-/* Receipt heading */
-.receipt-title h2{
-  color:#222 !important;
-}
-
-.receipt-title p{
-  color:#777 !important;
-}
-
-/* Header */
-.receipt-header{
-  border-bottom:2px solid #e5e7eb !important;
-}
-
-/* Customer */
-.info-title{
-  color:#777 !important;
-}
-
-.info-text{
-  color:#222 !important;
-}
-
-/* Product table */
-.receipt-table th{
-  background:#f5f7fb !important;
-  color:#222 !important;
-}
-
-.receipt-table td{
-  color:#222 !important;
-  border-bottom:1px solid #e5e7eb !important;
-}
-
-/* Total */
-.grand-total{
-  border-top:2px solid #222 !important;
-  color:#222 !important;
-}
-
-/* Footer */
-.receipt-footer{
-  color:#777 !important;
-}
-
-.receipt-footer strong{
-  color:#222 !important;
-}
-
-/* Buttons */
-.print-btn,
-.update-btn{
-  background:#222 !important;
-  color:#fff !important;
-}
-
-.add-product{
-  background:#f1f3f6 !important;
-  color:#222 !important;
-}
-  .brand-name{
-  font-size:25px !important;
-  font-weight:900 !important;
-  letter-spacing:.3px !important;
-  color:#222 !important;
-}
-
-.luma-text{
-  color:#ffffff !important;
-  -webkit-text-stroke:1px #222;
-}
-
-.deals-text{
-  color:#f5a623 !important;
-}
 </style>
 </head>
+
 
 <body>
 
@@ -670,36 +478,44 @@ body{
 Create professional customer receipts for Luma Deals.
 </p>
 
+
 <div class="form-grid">
 
 <div class="form-group">
 <label>Customer Name</label>
+
 <input
-  type="text"
-  id="customerName"
-  placeholder="Customer name"
+    type="text"
+    id="customerName"
+    placeholder="Customer name"
 >
 </div>
+
 
 <div class="form-group">
 <label>Phone Number</label>
+
 <input
-  type="text"
-  id="customerPhone"
-  placeholder="03XX-XXXXXXX"
+    type="text"
+    id="customerPhone"
+    placeholder="03XX-XXXXXXX"
 >
 </div>
+
 
 <div class="form-group full">
 <label>Customer Address</label>
+
 <input
-  type="text"
-  id="customerAddress"
-  placeholder="Complete delivery address"
+    type="text"
+    id="customerAddress"
+    placeholder="Complete delivery address"
 >
 </div>
 
+
 <div class="form-group">
+
 <label>Payment Method</label>
 
 <select id="paymentMethod">
@@ -712,38 +528,35 @@ Create professional customer receipts for Luma Deals.
 <option>Other</option>
 
 </select>
+
 </div>
 
+
 <div class="form-group">
+
 <label>Delivery Charges (Rs)</label>
 
 <input
-  type="number"
-  id="deliveryCharges"
-  value="0"
-  min="0"
+    type="number"
+    id="deliveryCharges"
+    value="0"
+    min="0"
 >
+
 </div>
 
+
 <div class="form-group">
+
 <label>Discount (Rs)</label>
 
 <input
-  type="number"
-  id="discount"
-  value="0"
-  min="0"
+    type="number"
+    id="discount"
+    value="0"
+    min="0"
 >
-</div>
 
-<div class="form-group">
-<label>Luma Deals Logo</label>
-
-<input
-  type="file"
-  id="logoUpload"
-  accept="image/*"
->
 </div>
 
 </div>
@@ -758,9 +571,9 @@ Create professional customer receipts for Luma Deals.
 <div id="productsContainer"></div>
 
 <button
-  type="button"
-  class="add-product"
-  onclick="addProduct()"
+    type="button"
+    class="add-product"
+    onclick="addProduct()"
 >
 + Add Product
 </button>
@@ -773,22 +586,24 @@ Create professional customer receipts for Luma Deals.
 <div class="buttons">
 
 <button
-  class="btn update-btn"
-  onclick="updateReceipt()"
+    class="btn update-btn"
+    onclick="updateReceipt()"
 >
 Update Receipt
 </button>
 
+
 <button
-  class="btn print-btn"
-  onclick="printReceipt()"
+    class="btn print-btn"
+    onclick="printReceipt()"
 >
 🖨 Print / Save PDF
 </button>
 
+
 <button
-  class="btn reset-btn"
-  onclick="resetReceipt()"
+    class="btn reset-btn"
+    onclick="resetReceipt()"
 >
 Reset
 </button>
@@ -806,28 +621,35 @@ Reset
 
 <div class="receipt" id="receipt">
 
+
 <!-- HEADER -->
 
 <div class="receipt-header">
 
+
 <div class="brand-section">
 
-
-
 <img
-  class="logo"
-  id="receiptLogo"
-  src="https://raw.githubusercontent.com/lumadeals/lumadeals/aff1ea10ce713270e06641fd45a5c14c6a85a371/images/assets/favicon.png"
-  alt="Luma Deals Logo"
-  style="display:block;"
+    class="logo"
+    src="https://raw.githubusercontent.com/lumadeals/lumadeals/aff1ea10ce713270e06641fd45a5c14c6a85a371/images/assets/favicon.png"
+    alt="Luma Deals Logo"
 >
 
-</div>
+
+<div class="brand-text">
 
 <div class="brand-name">
-  <span class="luma-text">Luma</span>
-  <span class="deals-text">Deals</span>
+
+<span class="luma-text">
+Luma
+</span>
+
+<span class="deals-text">
+Deals
+</span>
+
 </div>
+
 
 <div class="brand-tagline">
 Quality Deals • Smart Shopping
@@ -840,7 +662,9 @@ Quality Deals • Smart Shopping
 
 <div class="receipt-title">
 
-<h2>RECEIPT</h2>
+<h2>
+RECEIPT
+</h2>
 
 <p id="receiptNumber">
 Receipt #LD-000001
@@ -855,9 +679,10 @@ Date
 </div>
 
 
-<!-- CUSTOMER -->
+<!-- CUSTOMER INFORMATION -->
 
 <div class="customer-info">
+
 
 <div>
 
@@ -866,22 +691,22 @@ Customer
 </div>
 
 <p
-  class="info-text"
-  id="receiptCustomer"
+    class="info-text"
+    id="receiptCustomer"
 >
 Walk-in Customer
 </p>
 
 <p
-  class="info-text"
-  id="receiptPhone"
+    class="info-text"
+    id="receiptPhone"
 >
 —
 </p>
 
 <p
-  class="info-text"
-  id="receiptAddress"
+    class="info-text"
+    id="receiptAddress"
 >
 —
 </p>
@@ -896,8 +721,8 @@ Payment
 </div>
 
 <p
-  class="info-text"
-  id="receiptPayment"
+    class="info-text"
+    id="receiptPayment"
 >
 Cash on Delivery
 </p>
@@ -911,7 +736,7 @@ Order Status: Confirmed
 </div>
 
 
-<!-- PRODUCTS TABLE -->
+<!-- PRODUCTS -->
 
 <table class="receipt-table">
 
@@ -939,6 +764,7 @@ Total
 
 </thead>
 
+
 <tbody id="receiptProducts">
 
 </tbody>
@@ -949,6 +775,7 @@ Total
 <!-- SUMMARY -->
 
 <div class="summary">
+
 
 <div class="summary-row">
 
@@ -1009,7 +836,7 @@ Rs 0
 <div class="receipt-footer">
 
 Thank you for shopping with
-<strong>Luma Deals</strong> 
+<strong>Luma Deals</strong> ❤️
 
 <br>
 
@@ -1021,6 +848,7 @@ Please keep this receipt for your records.
 
 </div>
 
+
 </div>
 
 </div>
@@ -1030,549 +858,475 @@ Please keep this receipt for your records.
 
 <script>
 
-/* =========================================
+/* =========================
    RECEIPT NUMBER
-========================================= */
+========================= */
 
 const receiptNumber =
 "LD-" +
-Math.floor(100000 + Math.random() * 900000);
-
-
-/* =========================================
-   MONEY FORMAT
-========================================= */
-
-function money(amount){
-
-  return "Rs " +
-  Number(amount || 0).toLocaleString(
-    "en-PK",
-    {
-      maximumFractionDigits:0
-    }
-  );
-
-}
-
-
-/* =========================================
-   ADD PRODUCT
-========================================= */
-
-function addProduct(
-  productName = "",
-  quantity = 1,
-  price = ""
-){
-
-  const container =
-  document.getElementById(
-    "productsContainer"
-  );
-
-  const row =
-  document.createElement("div");
-
-  row.className =
-  "product-row";
-
-
-  row.innerHTML = `
-
-    <input
-      class="product-name"
-      type="text"
-      placeholder="Product name"
-      value="${escapeHTML(productName)}"
-    >
-
-    <input
-      class="product-qty"
-      type="number"
-      min="1"
-      value="${quantity}"
-    >
-
-    <input
-      class="product-price"
-      type="number"
-      min="0"
-      placeholder="Price"
-      value="${price}"
-    >
-
-    <input
-      class="product-total"
-      type="text"
-      placeholder="Total"
-      readonly
-    >
-
-    <button
-      type="button"
-      class="remove-btn"
-      onclick="removeProduct(this)"
-    >
-      ×
-    </button>
-
-  `;
-
-
-  container.appendChild(row);
-
-
-  row.querySelectorAll("input")
-  .forEach(input => {
-
-    input.addEventListener(
-      "input",
-      updateReceipt
-    );
-
-  });
-
-
-  updateReceipt();
-
-}
-
-
-/* =========================================
-   REMOVE PRODUCT
-========================================= */
-
-function removeProduct(button){
-
-  button.parentElement.remove();
-
-  updateReceipt();
-
-}
-
-
-/* =========================================
-   UPDATE RECEIPT
-========================================= */
-
-function updateReceipt(){
-
-  const rows =
-  document.querySelectorAll(
-    ".product-row"
-  );
-
-
-  let subtotal = 0;
-
-  let productsHTML = "";
-
-
-  rows.forEach(row => {
-
-    const name =
-    row.querySelector(
-      ".product-name"
-    ).value.trim() || "Product";
-
-
-    const quantity =
-    Number(
-      row.querySelector(
-        ".product-qty"
-      ).value
-    ) || 0;
-
-
-    const price =
-    Number(
-      row.querySelector(
-        ".product-price"
-      ).value
-    ) || 0;
-
-
-    const total =
-    quantity * price;
-
-
-    subtotal += total;
-
-
-    row.querySelector(
-      ".product-total"
-    ).value = money(total);
-
-
-    productsHTML += `
-
-      <tr>
-
-        <td>
-          ${escapeHTML(name)}
-        </td>
-
-        <td>
-          ${quantity}
-        </td>
-
-        <td>
-          ${money(price)}
-        </td>
-
-        <td>
-          ${money(total)}
-        </td>
-
-      </tr>
-
-    `;
-
-  });
-
-
-  if(!productsHTML){
-
-    productsHTML = `
-
-      <tr>
-
-        <td
-          colspan="4"
-          style="text-align:center;color:#777"
-        >
-          No products added
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-
-  document.getElementById(
-    "receiptProducts"
-  ).innerHTML =
-  productsHTML;
-
-
-  /* DELIVERY */
-
-  const delivery =
-  Math.max(
-    0,
-    Number(
-      document.getElementById(
-        "deliveryCharges"
-      ).value
-    ) || 0
-  );
-
-
-  /* DISCOUNT */
-
-  const discount =
-  Math.max(
-    0,
-    Number(
-      document.getElementById(
-        "discount"
-      ).value
-    ) || 0
-  );
-
-
-  /* FINAL TOTAL */
-
-  const finalTotal =
-  Math.max(
-    0,
-    subtotal +
-    delivery -
-    discount
-  );
-
-
-  /* RECEIPT DATA */
-
-  document.getElementById(
-    "receiptSubtotal"
-  ).textContent =
-  money(subtotal);
-
-
-  document.getElementById(
-    "receiptDelivery"
-  ).textContent =
-  money(delivery);
-
-
-  document.getElementById(
-    "receiptDiscount"
-  ).textContent =
-  "- " + money(discount);
-
-
-  document.getElementById(
-    "receiptTotal"
-  ).textContent =
-  money(finalTotal);
-
-
-  /* CUSTOMER */
-
-  document.getElementById(
-    "receiptCustomer"
-  ).textContent =
-
-  document.getElementById(
-    "customerName"
-  ).value.trim()
-  || "Walk-in Customer";
-
-
-  document.getElementById(
-    "receiptPhone"
-  ).textContent =
-
-  document.getElementById(
-    "customerPhone"
-  ).value.trim()
-  || "—";
-
-
-  document.getElementById(
-    "receiptAddress"
-  ).textContent =
-
-  document.getElementById(
-    "customerAddress"
-  ).value.trim()
-  || "—";
-
-
-  /* PAYMENT */
-
-  document.getElementById(
-    "receiptPayment"
-  ).textContent =
-
-  document.getElementById(
-    "paymentMethod"
-  ).value;
-
-
-  /* RECEIPT NUMBER */
-
-  document.getElementById(
-    "receiptNumber"
-  ).textContent =
-  "Receipt #" + receiptNumber;
-
-
-  /* DATE */
-
-  document.getElementById(
-    "receiptDate"
-  ).textContent =
-
-  new Date().toLocaleString(
-    "en-PK",
-    {
-      dateStyle:"medium",
-      timeStyle:"short"
-    }
-  );
-
-}
-
-
-/* =========================================
-   LOGO UPLOAD
-========================================= */
-
-document
-.getElementById("logoUpload")
-.addEventListener(
-  "change",
-  function(event){
-
-    const file =
-    event.target.files[0];
-
-    if(!file){
-      return;
-    }
-
-
-    const reader =
-    new FileReader();
-
-
-    reader.onload =
-    function(){
-
-      const logo =
-      document.getElementById(
-        "receiptLogo"
-      );
-
-
-      logo.src =
-      reader.result;
-
-
-      logo.style.display =
-      "block";
-
-
-      document.getElementById(
-        "logoPlaceholder"
-      ).style.display =
-      "none";
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-  }
+Math.floor(
+    100000 +
+    Math.random() * 900000
 );
 
 
-/* =========================================
-   PRINT
-========================================= */
+/* =========================
+   MONEY FORMAT
+========================= */
 
-function printReceipt(){
+function money(amount){
 
-  updateReceipt();
-
-  window.print();
-
-}
-
-
-/* =========================================
-   RESET
-========================================= */
-
-function resetReceipt(){
-
-  document.getElementById(
-    "customerName"
-  ).value = "";
-
-
-  document.getElementById(
-    "customerPhone"
-  ).value = "";
-
-
-  document.getElementById(
-    "customerAddress"
-  ).value = "";
-
-
-  document.getElementById(
-    "deliveryCharges"
-  ).value = 0;
-
-
-  document.getElementById(
-    "discount"
-  ).value = 0;
-
-
-  document.getElementById(
-    "productsContainer"
-  ).innerHTML = "";
-
-
-  document.getElementById(
-    "receiptLogo"
-  ).style.display =
-  "none";
-
-
-  document.getElementById(
-    "logoPlaceholder"
-  ).style.display =
-  "flex";
-
-
-  addProduct();
-
-  updateReceipt();
-
-}
-
-
-/* =========================================
-   SECURITY / HTML ESCAPE
-========================================= */
-
-function escapeHTML(value){
-
-  return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
+    return "Rs " +
+    Number(amount || 0)
+    .toLocaleString(
+        "en-PK",
+        {
+            maximumFractionDigits:0
+        }
     );
 
 }
 
 
-/* =========================================
-   LIVE UPDATE
-========================================= */
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
+
+function addProduct(
+    name="",
+    quantity=1,
+    price=""
+){
+
+    const container =
+    document.getElementById(
+        "productsContainer"
+    );
+
+
+    const row =
+    document.createElement("div");
+
+
+    row.className =
+    "product-row";
+
+
+    row.innerHTML = `
+
+        <input
+            class="product-name"
+            type="text"
+            placeholder="Product name"
+            value="${escapeHTML(name)}"
+        >
+
+        <input
+            class="product-qty"
+            type="number"
+            min="1"
+            value="${quantity}"
+        >
+
+        <input
+            class="product-price"
+            type="number"
+            min="0"
+            placeholder="Price"
+            value="${price}"
+        >
+
+        <input
+            class="product-total"
+            type="text"
+            placeholder="Total"
+            readonly
+        >
+
+        <button
+            type="button"
+            class="remove-btn"
+            onclick="removeProduct(this)"
+        >
+            ×
+        </button>
+
+    `;
+
+
+    container.appendChild(row);
+
+
+    row.querySelectorAll("input")
+    .forEach(input => {
+
+        input.addEventListener(
+            "input",
+            updateReceipt
+        );
+
+    });
+
+
+    updateReceipt();
+
+}
+
+
+/* =========================
+   REMOVE PRODUCT
+========================= */
+
+function removeProduct(button){
+
+    button
+    .parentElement
+    .remove();
+
+    updateReceipt();
+
+}
+
+
+/* =========================
+   UPDATE RECEIPT
+========================= */
+
+function updateReceipt(){
+
+    const rows =
+    document.querySelectorAll(
+        ".product-row"
+    );
+
+
+    let subtotal = 0;
+
+    let productsHTML = "";
+
+
+    rows.forEach(row => {
+
+        const name =
+        row.querySelector(
+            ".product-name"
+        ).value.trim()
+        || "Product";
+
+
+        const quantity =
+        Number(
+            row.querySelector(
+                ".product-qty"
+            ).value
+        ) || 0;
+
+
+        const price =
+        Number(
+            row.querySelector(
+                ".product-price"
+            ).value
+        ) || 0;
+
+
+        const total =
+        quantity * price;
+
+
+        subtotal += total;
+
+
+        row.querySelector(
+            ".product-total"
+        ).value =
+        money(total);
+
+
+        productsHTML += `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(name)}
+                </td>
+
+                <td>
+                    ${quantity}
+                </td>
+
+                <td>
+                    ${money(price)}
+                </td>
+
+                <td>
+                    ${money(total)}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    if(!productsHTML){
+
+        productsHTML = `
+
+            <tr>
+
+                <td
+                    colspan="4"
+                    style="text-align:center;color:#777"
+                >
+                    No products added
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "receiptProducts"
+    ).innerHTML =
+    productsHTML;
+
+
+    /* DELIVERY */
+
+    const delivery =
+    Math.max(
+        0,
+        Number(
+            document.getElementById(
+                "deliveryCharges"
+            ).value
+        ) || 0
+    );
+
+
+    /* DISCOUNT */
+
+    const discount =
+    Math.max(
+        0,
+        Number(
+            document.getElementById(
+                "discount"
+            ).value
+        ) || 0
+    );
+
+
+    /* FINAL TOTAL */
+
+    const finalTotal =
+    Math.max(
+        0,
+        subtotal +
+        delivery -
+        discount
+    );
+
+
+    /* SUMMARY */
+
+    document.getElementById(
+        "receiptSubtotal"
+    ).textContent =
+    money(subtotal);
+
+
+    document.getElementById(
+        "receiptDelivery"
+    ).textContent =
+    money(delivery);
+
+
+    document.getElementById(
+        "receiptDiscount"
+    ).textContent =
+    "- " + money(discount);
+
+
+    document.getElementById(
+        "receiptTotal"
+    ).textContent =
+    money(finalTotal);
+
+
+    /* CUSTOMER */
+
+    document.getElementById(
+        "receiptCustomer"
+    ).textContent =
+
+    document.getElementById(
+        "customerName"
+    ).value.trim()
+    || "Walk-in Customer";
+
+
+    document.getElementById(
+        "receiptPhone"
+    ).textContent =
+
+    document.getElementById(
+        "customerPhone"
+    ).value.trim()
+    || "—";
+
+
+    document.getElementById(
+        "receiptAddress"
+    ).textContent =
+
+    document.getElementById(
+        "customerAddress"
+    ).value.trim()
+    || "—";
+
+
+    /* PAYMENT */
+
+    document.getElementById(
+        "receiptPayment"
+    ).textContent =
+
+    document.getElementById(
+        "paymentMethod"
+    ).value;
+
+
+    /* RECEIPT NUMBER */
+
+    document.getElementById(
+        "receiptNumber"
+    ).textContent =
+    "Receipt #" +
+    receiptNumber;
+
+
+    /* DATE */
+
+    document.getElementById(
+        "receiptDate"
+    ).textContent =
+
+    new Date().toLocaleString(
+        "en-PK",
+        {
+            dateStyle:"medium",
+            timeStyle:"short"
+        }
+    );
+
+}
+
+
+/* =========================
+   PRINT / PDF
+========================= */
+
+function printReceipt(){
+
+    updateReceipt();
+
+    window.print();
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetReceipt(){
+
+    document.getElementById(
+        "customerName"
+    ).value = "";
+
+
+    document.getElementById(
+        "customerPhone"
+    ).value = "";
+
+
+    document.getElementById(
+        "customerAddress"
+    ).value = "";
+
+
+    document.getElementById(
+        "deliveryCharges"
+    ).value = 0;
+
+
+    document.getElementById(
+        "discount"
+    ).value = 0;
+
+
+    document.getElementById(
+        "productsContainer"
+    ).innerHTML = "";
+
+
+    addProduct();
+
+    updateReceipt();
+
+}
+
+
+/* =========================
+   LIVE FORM UPDATES
+========================= */
 
 [
-  "customerName",
-  "customerPhone",
-  "customerAddress",
-  "deliveryCharges",
-  "discount",
-  "paymentMethod"
+    "customerName",
+    "customerPhone",
+    "customerAddress",
+    "deliveryCharges",
+    "discount",
+    "paymentMethod"
 ]
 .forEach(id => {
 
-  document
-  .getElementById(id)
-  .addEventListener(
-    "input",
-    updateReceipt
-  );
+    document
+    .getElementById(id)
+    .addEventListener(
+        "input",
+        updateReceipt
+    );
 
 });
 
 
-/* =========================================
-   INITIAL PRODUCT
-========================================= */
+/* =========================
+   START
+========================= */
 
 addProduct();
 
@@ -1581,4 +1335,4 @@ updateReceipt();
 </script>
 
 </body>
-  </html>
+</html>
