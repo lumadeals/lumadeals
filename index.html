@@ -2376,7 +2376,7 @@ p {
   background: #000000;
   color: #fff;
   font-size: 25px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -3254,7 +3254,13 @@ function addToCart(id, quantity = null) {
 }
     }
 
+const floatingCartBtn =
+  document.getElementById("floating-cart-btn");
 
+if (floatingCartBtn) {
+  floatingCartBtn.style.display =
+    totalQuantity > 0 ? "flex" : "none";
+}
 function showProductDetail(id) {
   const p = products.find(x => x.id == id);
   if (!p) return;
