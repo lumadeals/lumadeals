@@ -195,8 +195,8 @@
                 <div id="itemsContainer">
                     <div class="item-row">
                         <input type="text" class="desc" value="Product Name">
-                        <input type="number" class="qty" value="0">
-                        <input type="number" class="price" value="000">
+                        <input type="number" class="qty" value="null">
+                        <input type="number" class="price" value="null">
                     </div>
                 </div>
                 <button type="button" class="btn-add" onclick="addItem()">+ Add Product</button>
@@ -381,12 +381,15 @@
     btn.innerText = "Generating PDF...";
     btn.style.opacity = "0.7";
 
+    const width = Math.ceil(element.scrollWidth);
+    const height = Math.ceil(element.scrollHeight);
+
     const opt = {
         margin:       0,
         filename:     `Receipt_${orderID}.pdf`,
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
-        jsPDF:        { unit: 'px', format: [element.offsetWidth, element.offsetHeight], orientation: 'portrait' },
+        html2canvas:  { scale: 2, useCORS: true, allowTaint: true, windowWidth: width, windowHeight: height },
+        jsPDF:        { unit: 'px', format: [width, height], orientation: 'portrait' },
         pagebreak:    { mode: ['avoid-all'] }
     };
 
