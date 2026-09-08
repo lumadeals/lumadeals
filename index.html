@@ -3002,6 +3002,142 @@ function addToCart(id, quantity = null) {
 
   console.log("Added to cart:", product.name, "Qty:", quantity);
 }
+    function updateCart() {
+  const cartCount = document.getElementById("cart-count");
+  const cartItems = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  // Total quantity
+  const totalQuantity = cart.reduce(
+    (total, item) => total + (Number(item.quantity) || 1),
+    0
+  );
+
+  // Update top cart badge
+  if (cartCount) {
+    cartCount.textContent = totalQuantity;
+  }
+
+  // Empty cart
+  if (!cartItems) return;
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = `
+      <div style="
+        text-align:center;
+        padding:40px 15px;
+        color:#777;
+      ">
+        <div style="font-size:45px; margin-bottom:10px;">🛒</div>
+        <p>Your cart is empty</p>
+      </div>
+    `;
+
+    if (cartTotal) {
+      cartTotal.textContent = "0";
+    }
+
+    return;
+  }
+
+  let total = 0;
+
+  cartItems.innerHTML = cart.map((item, index) => {
+    const quantity = Number(item.quantity) || 1;
+    const price = Number(item.price) || 0;
+    const itemTotal = price * quantity;
+
+    total += itemTotal;
+
+    const image =
+      item.img ||
+      item.image ||
+      item.images?.[0] ||
+      "";
+
+    return `
+      <div class="cart-item">
+
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:10px;
+          width:100%;
+        ">
+
+          <img
+            src="${image}"
+            alt="${item.name || 'Product'}"
+            style="
+              width:55px;
+              height:55px;
+              object-fit:contain;
+              border-radius:8px;
+              background:#f8f8f8;
+            "
+          >
+
+          <div style="flex:1;">
+            <div style="
+              font-weight:600;
+              font-size:13px;
+              margin-bottom:4px;
+            ">
+              ${item.name || "Product"}
+            </div>
+
+            <div style="
+              font-size:12px;
+              color:#64748b;
+            ">
+              Rs ${price} × ${quantity}
+            </div>
+
+            <div style="
+              font-size:13px;
+              font-weight:700;
+              color:#3BB4EC;
+              margin-top:3px;
+            ">
+              Rs ${itemTotal}
+            </div>
+          </div>
+
+          <button
+            onclick="removeFromCart(${index})"
+            style="
+              border:none;
+              background:#fee2e2;
+              color:#ef4444;
+              width:30px;
+              height:30px;
+              border-radius:6px;
+              cursor:pointer;
+              font-size:14px;
+            "
+            title="Remove"
+          >
+            ✕
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  }).join("");
+
+  // Update total
+  if (cartTotal) {
+    cartTotal.textContent = total.toLocaleString();
+  }
+
+  // Open cart automatically after adding product
+  const cartSidebar = document.getElementById("cart-sidebar");
+
+  if (cartSidebar) {
+    cartSidebar.classList.add("active");
+  }
+    }
 
 function showProductDetail(id) {
   const p = products.find(x => x.id == id);
