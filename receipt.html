@@ -354,63 +354,57 @@
         }
 
         function updateReceipt() {
-            document.getElementById('outName').innerText = document.getElementById('cName').value || '-';
-            document.getElementById('outPhone').innerText = document.getElementById('cPhone').value || '-';
-            document.getElementById('outAddress').innerText = document.getElementById('cAddress').value || '-';
-            document.getElementById('outPayment').innerText = document.getElementById('cPayment').value;
+    document.getElementById('outName').innerText = document.getElementById('cName').value || '-';
+    document.getElementById('outPhone').innerText = document.getElementById('cPhone').value || '-';
+    document.getElementById('outAddress').innerText = document.getElementById('cAddress').value || '-';
+    document.getElementById('outPayment').innerText = document.getElementById('cPayment').value;
 
-            const rows = document.querySelectorAll('.item-row');
-            let itemsHtml = '';
-            let subtotal = 0;
-            let hasItems = false;
+    const rows = document.querySelectorAll('.item-row');
+    let itemsHtml = '';
+    let subtotal = 0;
+    let hasItems = false;
 
-            rows.forEach(row => {
-                const desc = row.querySelector('.desc').value;
-                const qty = parseFloat(row.querySelector('.qty').value) || 0;
-                const price = parseFloat(row.querySelector('.price').value) || 0;
-                const total = qty * price;
+    rows.forEach(row => {
+        const desc = row.querySelector('.desc').value;
+        const qty = parseFloat(row.querySelector('.qty').value) || 0;
+        const price = parseFloat(row.querySelector('.price').value) || 0;
+        const total = qty * price;
 
-                if (desc) {
-                    hasItems = true;
-                    itemsHtml += `
-                        <tr>
-                            <td>${desc}</td>
-                            <td class="center">${qty}</td>
-                            <td class="right">Rs ${price.toLocaleString()}</td>
-                            <td class="right">Rs ${total.toLocaleString()}</td>
-                        </tr>
-                    `;
-                    subtotal += total;
-                }
-            });
-
-            if (!hasItems) {
-                itemsHtml = `<tr><td colspan="4" class="center" style="color: #000000;">No products added yet.</td></tr>`;
-            }
-
-            document.getElementById('outItems').innerHTML = itemsHtml;
-
-            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
-            const discount = parseFloat(document.getElementById('discount').value) || 0;
-            const grandTotal = (subtotal + shipping) - discount;
-
-            document.getElementById('outSubtotal').innerText = `Rs ${subtotal.toLocaleString()}`;
-            document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
-            document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
-            document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+        if (desc) {
+            hasItems = true;
+            itemsHtml += `
+                <tr>
+                    <td>${desc}</td>
+                    <td class="center">${qty}</td>
+                    <td class="right">Rs ${price.toLocaleString()}</td>
+                    <td class="right">Rs ${total.toLocaleString()}</td>
+                </tr>
+            `;
+            subtotal += total;
         }
+    });
 
-        document.getElementById('outSubtotal').innerText = `Rs ${subtotal.toLocaleString()}`;
-            document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
-            document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
-            document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+    if (!hasItems) {
+        itemsHtml = `<tr><td colspan="4" class="center" style="color: #000000;">No products added yet.</td></tr>`;
+    }
 
-            const stampEl = document.getElementById('paidStampEl');
-            if (document.getElementById('showPaidStamp').checked) {
-                stampEl.classList.add('active');
-            } else {
-                stampEl.classList.remove('active');
-            }
+    document.getElementById('outItems').innerHTML = itemsHtml;
+
+    const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    const grandTotal = (subtotal + shipping) - discount;
+
+    document.getElementById('outSubtotal').innerText = `Rs ${subtotal.toLocaleString()}`;
+    document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
+    document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
+    document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+
+    const stampEl = document.getElementById('paidStampEl');
+    if (document.getElementById('showPaidStamp').checked) {
+        stampEl.classList.add('active');
+    } else {
+        stampEl.classList.remove('active');
+    }
         }
         function downloadPDF() {
             updateReceipt(); 
