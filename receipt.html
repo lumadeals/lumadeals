@@ -215,7 +215,7 @@
 </div>
 <div class="form-group">
     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-        <input type="checkbox" id="showPaidStamp" style="width: auto; margin: 0;">
+        <input type="checkbox" id="showPaidStamp" style="width: auto; margin: 0;" onchange="updateReceipt()">
         Show "PAID" Stamp
     </label>
 </div>
@@ -400,12 +400,18 @@
             document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
         }
 
-        const stampEl = document.getElementById('paidStampEl');
-if (document.getElementById('showPaidStamp').checked) {
-    stampEl.classList.add('active');
-} else {
-    stampEl.classList.remove('active');
-}
+        document.getElementById('outSubtotal').innerText = `Rs ${subtotal.toLocaleString()}`;
+            document.getElementById('outShipping').innerText = `Rs ${shipping.toLocaleString()}`;
+            document.getElementById('outDiscount').innerText = `- Rs ${discount.toLocaleString()}`;
+            document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
+
+            const stampEl = document.getElementById('paidStampEl');
+            if (document.getElementById('showPaidStamp').checked) {
+                stampEl.classList.add('active');
+            } else {
+                stampEl.classList.remove('active');
+            }
+        }
         function downloadPDF() {
             updateReceipt(); 
             
