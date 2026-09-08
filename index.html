@@ -2361,7 +2361,67 @@ p {
     }
 }
 
+/* =========================
+   FLOATING CART BUTTON
+========================= */
 
+.floating-cart-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 25px;
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 50%;
+  background: #3BB4EC;
+  color: #fff;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9998;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.20);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-cart-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.floating-cart-btn:active {
+  transform: scale(0.95);
+}
+
+/* Quantity badge */
+#floating-cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .floating-cart-btn {
+    right: 15px;
+    bottom: 18px;
+    width: 54px;
+    height: 54px;
+    font-size: 23px;
+  }
+}
   </style>
 </head>
 <body>
@@ -3004,32 +3064,63 @@ function addToCart(id, quantity = null) {
 }
     function updateCart() {
   const cartCount = document.getElementById("cart-count");
+  const floatingCartCount =
+    document.getElementById("floating-cart-count");
+
   const cartItems = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
-  // Total quantity
+  // Calculate total quantity
   const totalQuantity = cart.reduce(
     (total, item) => total + (Number(item.quantity) || 1),
     0
   );
 
-  // Update top cart badge
+  // =========================
+  // TOP CART COUNT
+  // =========================
   if (cartCount) {
     cartCount.textContent = totalQuantity;
   }
 
-  // Empty cart
-  if (!cartItems) return;
+  // =========================
+  // FLOATING CART COUNT
+  // =========================
+  if (floatingCartCount) {
+    floatingCartCount.textContent = totalQuantity;
+  }
 
+  // =========================
+  // CART ITEMS ELEMENT
+  // =========================
+  if (!cartItems) {
+    return;
+  }
+
+  // =========================
+  // EMPTY CART
+  // =========================
   if (cart.length === 0) {
+
     cartItems.innerHTML = `
       <div style="
         text-align:center;
         padding:40px 15px;
         color:#777;
       ">
-        <div style="font-size:45px; margin-bottom:10px;">🛒</div>
-        <p>Your cart is empty</p>
+        <div style="
+          font-size:45px;
+          margin-bottom:10px;
+        ">
+          🛒
+        </div>
+
+        <p style="
+          margin:0;
+          font-size:15px;
+        ">
+          Your cart is empty
+        </p>
       </div>
     `;
 
@@ -3040,11 +3131,16 @@ function addToCart(id, quantity = null) {
     return;
   }
 
+  // =========================
+  // CART ITEMS
+  // =========================
   let total = 0;
 
   cartItems.innerHTML = cart.map((item, index) => {
+
     const quantity = Number(item.quantity) || 1;
     const price = Number(item.price) || 0;
+
     const itemTotal = price * quantity;
 
     total += itemTotal;
@@ -3056,7 +3152,10 @@ function addToCart(id, quantity = null) {
       "";
 
     return `
-      <div class="cart-item">
+      <div class="cart-item" style="
+        padding:12px 0;
+        border-bottom:1px solid #eee;
+      ">
 
         <div style="
           display:flex;
@@ -3065,23 +3164,32 @@ function addToCart(id, quantity = null) {
           width:100%;
         ">
 
+          <!-- PRODUCT IMAGE -->
           <img
             src="${image}"
-            alt="${item.name || 'Product'}"
+            alt="${item.name || "Product"}"
             style="
-              width:55px;
-              height:55px;
+              width:58px;
+              height:58px;
               object-fit:contain;
-              border-radius:8px;
+              border-radius:10px;
               background:#f8f8f8;
+              flex-shrink:0;
             "
           >
 
-          <div style="flex:1;">
+          <!-- PRODUCT INFO -->
+          <div style="
+            flex:1;
+            min-width:0;
+          ">
+
             <div style="
               font-weight:600;
               font-size:13px;
+              line-height:1.4;
               margin-bottom:4px;
+              color:#222;
             ">
               ${item.name || "Product"}
             </div>
@@ -3090,20 +3198,23 @@ function addToCart(id, quantity = null) {
               font-size:12px;
               color:#64748b;
             ">
-              Rs ${price} × ${quantity}
+              Rs ${price.toLocaleString()} × ${quantity}
             </div>
 
             <div style="
               font-size:13px;
               font-weight:700;
               color:#3BB4EC;
-              margin-top:3px;
+              margin-top:4px;
             ">
-              Rs ${itemTotal}
+              Rs ${itemTotal.toLocaleString()}
             </div>
+
           </div>
 
+          <!-- REMOVE BUTTON -->
           <button
+            type="button"
             onclick="removeFromCart(${index})"
             style="
               border:none;
@@ -3111,9 +3222,10 @@ function addToCart(id, quantity = null) {
               color:#ef4444;
               width:30px;
               height:30px;
-              border-radius:6px;
+              border-radius:7px;
               cursor:pointer;
               font-size:14px;
+              flex-shrink:0;
             "
             title="Remove"
           >
@@ -3124,20 +3236,27 @@ function addToCart(id, quantity = null) {
 
       </div>
     `;
+
   }).join("");
 
-  // Update total
+  // =========================
+  // CART TOTAL
+  // =========================
   if (cartTotal) {
     cartTotal.textContent = total.toLocaleString();
   }
 
-  // Open cart automatically after adding product
-  const cartSidebar = document.getElementById("cart-sidebar");
+  // =========================
+  // OPEN CART SIDEBAR
+  // =========================
+  const cartSidebar =
+    document.getElementById("cart-sidebar");
 
   if (cartSidebar) {
     cartSidebar.classList.add("active");
   }
     }
+
 
 function showProductDetail(id) {
   const p = products.find(x => x.id == id);
@@ -3957,5 +4076,14 @@ function restoreWishlistButtons() {
 })();
       
 </script>
+  <button
+  id="floating-cart-btn"
+  class="floating-cart-btn"
+  onclick="toggleCart()"
+  aria-label="Open Cart"
+>
+  🛒
+  <span id="floating-cart-count">0</span>
+  </button>
 </body>
 </html>                     
