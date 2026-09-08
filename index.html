@@ -2373,7 +2373,7 @@ p {
   height: 58px;
   border: none;
   border-radius: 50%;
-  background: #3BB4EC;
+  background: #000000;
   color: #fff;
   font-size: 25px;
   display: flex;
@@ -3249,12 +3249,9 @@ function addToCart(id, quantity = null) {
   // =========================
   // OPEN CART SIDEBAR
   // =========================
-  const cartSidebar =
-    document.getElementById("cart-sidebar");
-
-  if (cartSidebar) {
-    cartSidebar.classList.add("active");
-  }
+  if (cartTotal) {
+  cartTotal.textContent = total.toLocaleString();
+}
     }
 
 
