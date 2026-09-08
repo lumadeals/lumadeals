@@ -2874,10 +2874,10 @@ let cart = [];
         </h4>
 
         <div class="rating">
-          ${rating}
-        </div>
+  ${rating}
+</div>
 
-        <div class="price-row">
+<div class="price-row">
           <span class="price">Rs ${p.price}</span>
 
           ${
@@ -2895,7 +2895,7 @@ let cart = [];
 
         <button
           class="add-cart-btn"
-          onclick="event.stopPropagation(); addToCart(${productId})"
+          onclick="event.stopPropagation(); addToCart(${productId}, 1)"
         >
           🛒 Add to Cart
         </button>
@@ -2940,32 +2940,42 @@ function changeProductQuantity(change) {
   }
 }
 
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
+function addToCart(id, quantity = null) {
+  const product = products.find(p => String(p.id) === String(id));
 
-  if (!product) return;
-
-  // 1. Screen se actual quantity uthana
-  let quantityDisplay = document.getElementById("qty-input") || document.getElementById("productQuantity");
-  let quantity = 0;
-  
-  if (quantityDisplay) {
-    // Agar input tag hai toh value read karega, warna text
-    quantity = parseInt(quantityDisplay.value || quantityDisplay.textContent) || 0;
-  } else {
-    quantity = window.productQuantity || 0;
-  }
-
-  // Agar user ne 0 select kiya hai toh add na kare aur alert de
-  if (quantity === 0) {
-    alert("Please select at least 1 quantity!");
+  if (!product) {
+    console.error("Product not found:", id);
     return;
   }
 
-  const existingItem = cart.find(item => item.id === id);
+  // Product detail page se quantity aaye to use karo
+  if (quantity === null) {
+    const quantityDisplay =
+      document.getElementById("qty-input") ||
+      document.getElementById("productQuantity");
+
+    if (quantityDisplay) {
+      quantity = parseInt(
+        quantityDisplay.value || quantityDisplay.textContent
+      ) || 1;
+    } else {
+      quantity = 1;
+    }
+  }
+
+  quantity = parseInt(quantity) || 1;
+
+  if (quantity < 1) {
+    quantity = 1;
+  }
+
+  const existingItem = cart.find(
+    item => String(item.id) === String(id)
+  );
 
   if (existingItem) {
-    existingItem.quantity = (existingItem.quantity || 1) + quantity;
+    existingItem.quantity =
+      (existingItem.quantity || 1) + quantity;
   } else {
     cart.push({
       ...product,
@@ -2975,17 +2985,22 @@ function addToCart(id) {
 
   updateCart();
 
-  // 2. Add hone ke baad quantity wapas 0 kar dena
+  // Detail page quantity reset
+  const quantityDisplay =
+    document.getElementById("qty-input") ||
+    document.getElementById("productQuantity");
+
   if (quantityDisplay) {
     if (quantityDisplay.tagName === "INPUT") {
-      quantityDisplay.value = "0";
+      quantityDisplay.value = "1";
     } else {
-      quantityDisplay.textContent = "0";
+      quantityDisplay.textContent = "1";
     }
   }
-  
-  // Purane variable ko bhi 0 kar diya taake koi masla na aaye
-  window.productQuantity = 0; 
+
+  window.productQuantity = 1;
+
+  console.log("Added to cart:", product.name, "Qty:", quantity);
 }
 
 function showProductDetail(id) {
