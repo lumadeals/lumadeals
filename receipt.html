@@ -85,15 +85,16 @@
         }
 
         .receipt-card {
-            background: white;
-            width: 794px; 
-            min-height: 1123px;
-            padding: 50px;
-            box-sizing: border-box;
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+    background: white;
+    width: 794px; 
+    min-height: 1123px;
+    padding: 50px;
+    box-sizing: border-box;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
         }
 
         /* Receipt Header */
@@ -146,6 +147,29 @@
             color: #808080; 
             font-weight: 600; 
         }
+        .paid-stamp {
+    position: absolute;
+    top: 180px;
+    right: 60px;
+    width: 130px;
+    height: 130px;
+    border: 5px solid #e02020;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-18deg);
+    opacity: 0.85;
+}
+.paid-stamp span {
+    color: #e02020;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+}
+.paid-stamp.active { display: flex; }
         .r-footer h4 { color: #808080; margin: 0 0 4px 0; font-size: 14px; font-weight: 700; }
     </style>
 </head>
@@ -189,7 +213,12 @@
     <label>Discount (Rs)</label>
     <input type="number" id="discount" placeholder="Rs 165">
 </div>
-
+<div class="form-group">
+    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="showPaidStamp" style="width: auto; margin: 0;">
+        Show "PAID" Stamp
+    </label>
+</div>
 <div class="form-group">
     <label>Products</label>
     <div id="itemsContainer">
@@ -212,6 +241,9 @@
     <!-- Live Preview -->
     <div class="preview-wrapper">
         <div class="receipt-card" id="receipt">
+            <div class="paid-stamp" id="paidStampEl">
+    <span>Paid</span>
+            </div>
             <div>
                 <div class="r-header-container">
                     <div class="r-logo-area">
@@ -368,7 +400,12 @@
             document.getElementById('outTotal').innerText = `Rs ${Math.max(0, grandTotal).toLocaleString()}`;
         }
 
-        
+        const stampEl = document.getElementById('paidStampEl');
+if (document.getElementById('showPaidStamp').checked) {
+    stampEl.classList.add('active');
+} else {
+    stampEl.classList.remove('active');
+}
         function downloadPDF() {
             updateReceipt(); 
             
