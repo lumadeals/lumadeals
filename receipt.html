@@ -157,50 +157,49 @@
         
         <form id="receiptForm">
             <div class="form-group">
-                <label>Customer Name</label>
-                <input type="text" id="cName" placeholder="Enter customer name" value="null">
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" id="cPhone" placeholder="Enter phone number" value="null">
-            </div>
-            <div class="form-group">
-                <label>Customer Address</label>
-                <input type="text" id="cAddress" placeholder="Enter complete address" value="null">
-            </div>
-            
-            <div class="form-group">
-                <label>Payment Method</label>
-                <select id="cPayment">
-                    <option value="Cash on Delivery">Cash on Delivery</option>
-                    <option value="JazzCash">JazzCash</option>
-                    <option value="EasyPaisa">EasyPaisa</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Credit/Debit Card">Credit/Debit Card</option>
-                </select>
-            </div>
+    <label>Customer Name</label>
+    <input type="text" id="cName" placeholder="Enter customer name">
+</div>
+<div class="form-group">
+    <label>Phone Number</label>
+    <input type="text" id="cPhone" placeholder="Enter phone number">
+</div>
+<div class="form-group">
+    <label>Customer Address</label>
+    <input type="text" id="cAddress" placeholder="Enter complete address">
+</div>
 
-            <div class="form-group">
-                <label>Delivery Charges (Rs)</label>
-                <input type="number" id="shipping" value="null">
-            </div>
-            
-            <div class="form-group">
-                <label>Discount (Rs)</label>
-                <input type="number" id="discount" value="null">
-            </div>
+<div class="form-group">
+    <label>Payment Method</label>
+    <select id="cPayment">
+        <option value="Cash on Delivery">Cash on Delivery</option>
+        <option value="JazzCash">JazzCash</option>
+        <option value="EasyPaisa">EasyPaisa</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Credit/Debit Card">Credit/Debit Card</option>
+    </select>
+</div>
 
-            <div class="form-group">
-                <label>Products</label>
-                <div id="itemsContainer">
-                    <div class="item-row">
-                        <input type="text" class="desc" value="null">
-                        <input type="number" class="qty" value="null">
-                        <input type="number" class="price" value="null">
-                    </div>
-                </div>
-                <button type="button" class="btn-add" onclick="addItem()">+ Add Product</button>
-            </div>
+<div class="form-group">
+    <label>Delivery Charges (Rs)</label>
+    <input type="number" id="shipping" placeholder="0">
+</div>
+
+<div class="form-group">
+    <label>Discount (Rs)</label>
+    <input type="number" id="discount" placeholder="0">
+</div>
+
+<div class="form-group">
+    <label>Products</label>
+    <div id="itemsContainer">
+        <div class="item-row">
+            <input type="text" class="desc" placeholder="Product name">
+            <input type="number" class="qty" placeholder="Qty" value="1">
+            <input type="number" class="price" placeholder="Price">
+        </div>
+    </div>
+    <button type="button" class="btn-add" onclick="addItem()">+ Add Product</button>
 
             <div class="action-buttons">
                 <button type="button" class="btn-update" onclick="updateReceipt()">Preview Update</button>
