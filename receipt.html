@@ -370,28 +370,30 @@
         }
 
         function downloadPDF() {
-            updateReceipt(); 
-            
-            const element = document.getElementById('receipt');
-            const orderID = document.getElementById('outOrder').innerText;
-            const btn = document.getElementById('downloadBtn');
-            
-            const originalText = btn.innerText;
-            btn.innerText = "Generating PDF...";
-            btn.style.opacity = "0.7";
+        function downloadPDF() {
+    updateReceipt(); 
+    
+    const element = document.getElementById('receipt');
+    const orderID = document.getElementById('outOrder').innerText;
+    const btn = document.getElementById('downloadBtn');
+    
+    const originalText = btn.innerText;
+    btn.innerText = "Generating PDF...";
+    btn.style.opacity = "0.7";
 
-            const opt = {
-                margin:       0,
-                filename:     `Receipt_${orderID}.pdf`,
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
+    const opt = {
+        margin:       0,
+        filename:     `Receipt_${orderID}.pdf`,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 2, useCORS: true, allowTaint: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all'] }
+    };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerText = originalText;
-                btn.style.opacity = "1";
-            });
+    html2pdf().set(opt).from(element).save().then(() => {
+        btn.innerText = originalText;
+        btn.style.opacity = "1";
+    });
         }
 
         function resetForm() {
