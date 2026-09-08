@@ -3658,7 +3658,7 @@ function selectSuggestion(id) {
     });
   }
 
-  const deliveryCharge = (typeof cart !== 'undefined' && cart.length > 0) ? 200 : 0;
+  const deliveryCharge = (typeof cart !== 'undefined' && cart.length > 0) ? cart.length * 200 : 0;
 const grandTotal = totalAmount + deliveryCharge;
 
   if (cartContent) {
@@ -3747,7 +3747,7 @@ function sendWhatsAppOrder() {
   }).join('%0A');
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-  const deliveryCharge = 200;
+  const deliveryCharge = cart.length * 200;
   const total = subtotal + deliveryCharge;
 
   const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
