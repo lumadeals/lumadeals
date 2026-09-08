@@ -147,29 +147,13 @@
             color: #808080; 
             font-weight: 600; 
         }
-        .paid-stamp {
-    position: absolute;
-    top: 180px;
-    right: 60px;
-    width: 130px;
-    height: 130px;
-    border: 5px solid #e02020;
-    border-radius: 50%;
+.paid-stamp {
     display: none;
-    align-items: center;
     justify-content: center;
-    transform: rotate(-18deg);
-    opacity: 0.85;
-}
-.paid-stamp span {
-    color: #e02020;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: 'Inter', sans-serif;
+    margin: 30px 0 10px 0;
 }
 .paid-stamp.active { display: flex; }
+.paid-stamp svg { transform: rotate(-10deg); }
         .r-footer h4 { color: #808080; margin: 0 0 4px 0; font-size: 14px; font-weight: 700; }
     </style>
 </head>
@@ -241,8 +225,6 @@
     <!-- Live Preview -->
     <div class="preview-wrapper">
         <div class="receipt-card" id="receipt">
-            <div class="paid-stamp" id="paidStampEl">
-    <span>Paid</span>
             </div>
             <div>
                 <div class="r-header-container">
@@ -312,7 +294,17 @@
                     </div>
                 </div>
             </div>
-
+<div class="paid-stamp" id="paidStampEl">
+  <svg viewBox="0 0 200 200" width="190" height="190">
+    <polygon points="100,5 121,21 148,18 158,42 182,53 179,79 195,100 179,121 182,148 158,158 148,182 121,179 100,195 79,179 53,182 42,158 18,148 21,121 5,100 21,79 18,53 42,42 53,18 79,21" fill="#d81f1f" opacity="0.92"/>
+    <circle cx="100" cy="100" r="78" fill="white"/>
+    <circle cx="100" cy="100" r="72" fill="none" stroke="#d81f1f" stroke-width="2.5"/>
+    <circle cx="100" cy="100" r="64" fill="none" stroke="#d81f1f" stroke-width="1.5"/>
+    <text x="100" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#d81f1f" letter-spacing="2">THANK YOU</text>
+    <text x="100" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#d81f1f" letter-spacing="2">PAID</text>
+    <text x="100" y="142" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#d81f1f" letter-spacing="2">LUMA DEALS</text>
+  </svg>
+</div>
             <div class="r-footer">
                 <h4>Thank you for shopping with us!</h4>
                 <p style="margin:0;">We appreciate your purchasing.</p>
