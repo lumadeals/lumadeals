@@ -3123,29 +3123,35 @@ window.toggleWishlist = function (productId, button) {
 
   const wishlist = getWishlist();
 
+  const product = (window.products || []).find(
+    p => String(p.id) === String(productId)
+  );
+
+  if (!product) {
+    console.log("Product not found:", productId);
+    return;
+  }
+
   const index = wishlist.findIndex(
     item => String(item.id) === String(productId)
   );
 
   if (index === -1) {
 
-    // Find product from Firebase-loaded products
-    const product = (window.products || []).find(
-      p => String(p.id) === String(productId)
-    );
-
-    if (!product) {
-      console.log("Product not found:", productId);
-      return;
-    }
-
-    wishlist.push(product);
+    wishlist.push({
+      id: product.id,
+      name: product.name || "Product",
+      price: product.price || "",
+      oldPrice: product.oldPrice || "",
+      discount: product.discount || "",
+      rating: product.rating || "★★★★★",
+      img: product.img || product.image || product.images?.[0] || ""
+    });
 
     saveWishlist(wishlist);
 
     if (button) {
       button.classList.add("active");
-      button.setAttribute("aria-label", "Remove from wishlist");
     }
 
   } else {
@@ -3156,7 +3162,6 @@ window.toggleWishlist = function (productId, button) {
 
     if (button) {
       button.classList.remove("active");
-      button.setAttribute("aria-label", "Add to wishlist");
     }
   }
 
