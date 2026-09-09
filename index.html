@@ -4258,8 +4258,13 @@ function restoreWishlistButtons() {
     setTimeout(function () { splash.remove(); }, 1750);
   }, 4200);
 })();
-      window.addEventListener("DOMContentLoaded", function () {
+      // ===============================
+// ACCOUNT AVATAR + LOGOUT
+// ===============================
 
+window.addEventListener("DOMContentLoaded", function () {
+
+  // Avatar dropdown
   window.toggleAccountDropdown = function () {
     const dropdown = document.getElementById("account-dropdown");
 
@@ -4269,6 +4274,7 @@ function restoreWishlistButtons() {
   };
 
 
+  // Close dropdown when clicking outside
   document.addEventListener("click", function (e) {
 
     const wrap = document.getElementById("header-avatar-wrap");
@@ -4281,6 +4287,7 @@ function restoreWishlistButtons() {
   });
 
 
+  // Firebase login state
   if (window.firebaseOnAuthChange && window.firebaseAuth) {
 
     window.firebaseOnAuthChange(
@@ -4293,32 +4300,45 @@ function restoreWishlistButtons() {
         const avatar =
           document.getElementById("header-avatar");
 
-        const name =
-          document.getElementById("dropdown-name");
-
         const email =
           document.getElementById("dropdown-email");
 
 
+        if (!wrap || !avatar) return;
+
+
+        // USER LOGGED IN
         if (user) {
 
-          const displayName =
-            user.displayName || "Luma Deals User";
+          let displayName =
+            user.displayName ||
+            user.email ||
+            "User";
 
           avatar.innerText =
             displayName.charAt(0).toUpperCase();
 
-          name.innerText =
-            displayName;
-
-          email.innerText =
-            user.email || "";
+          if (email) {
+            email.innerText =
+              user.email || "";
+          }
 
           wrap.style.display = "block";
 
-        } else {
+        }
+
+
+        // USER LOGGED OUT
+        else {
 
           wrap.style.display = "none";
+
+          const dropdown =
+            document.getElementById("account-dropdown");
+
+          if (dropdown) {
+            dropdown.classList.remove("open");
+          }
 
         }
 
@@ -4328,6 +4348,284 @@ function restoreWishlistButtons() {
   }
 
 });
+
+
+// ===============================
+// LOGOUT
+// ===============================
+
+window.logoutUser = function () {
+
+  if (
+    window.firebaseAuth &&
+    window.firebaseSignOut
+  ) {
+
+    window.firebaseSignOut(window.firebaseAuth)
+
+      .then(function () {
+
+        const dropdown =
+          document.getElementById("account-dropdown");
+
+        if (dropdown) {
+          dropdown.classList.remove("open");
+        }
+
+        // Home page after logout
+        if (typeof showPage === "function") {
+          showPage("home");
+        }
+
+      })
+
+      .catch(function (error) {
+
+        console.error(
+          "Logout error:",
+          error
+        );
+
+      });
+
+  } else {
+
+    console.error(
+      "Firebase Auth / SignOut function not available."
+    );
+
+  }
+
+};
+
+
+// ===============================
+// WISHLIST
+// ===============================
+
+// Get wishlist from browser
+function getWishlist() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem("lumaWishlist")
+    ) || [];
+
+  } catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+// Save wishlist
+function saveWishlist(wishlist) {
+
+  localStorage.setItem(
+    "lumaWishlist",
+    JSON.stringify(wishlist)
+  );
+
+}
+
+
+// Add / Remove product from wishlist
+window.toggleWishlist = function (productId) {
+
+  let wishlist = getWishlist();
+
+  productId = String(productId);
+
+  const index =
+    wishlist.indexOf(productId);
+
+
+  // Remove
+  if (index !== -1) {
+
+    wishlist.splice(index, 1);
+
+  }
+
+  // Add
+  else {
+
+    wishlist.push(productId);
+
+  }
+
+
+  saveWishlist(wishlist);
+
+  // Refresh wishlist page if open
+  if (
+    typeof showPage === "function" &&
+    window.location.hash === "#wishlist"
+  ) {
+
+    showWishlist();
+
+  }
+
+
+  // Update heart icons
+  updateWishlistButtons();
+
+};
+
+
+// Check if product is in wishlist
+window.isInWishlist = function (productId) {
+
+  const wishlist = getWishlist();
+
+  return wishlist.includes(
+    String(productId)
+  );
+
+};
+
+
+// Update all wishlist hearts
+function updateWishlistButtons() {
+
+  const buttons =
+    document.querySelectorAll(
+      "[data-wishlist-id]"
+    );
+
+
+  buttons.forEach(function (button) {
+
+    const id =
+      button.getAttribute(
+        "data-wishlist-id"
+      );
+
+    if (isInWishlist(id)) {
+
+      button.classList.add(
+        "wishlist-active"
+      );
+
+      button.innerHTML = "❤️";
+
+    } else {
+
+      button.classList.remove(
+        "wishlist-active"
+      );
+
+      button.innerHTML = "♡";
+
+    }
+
+  });
+
+}
+
+
+// ===============================
+// SHOW WISHLIST PRODUCTS
+// ===============================
+
+window.showWishlist = function () {
+
+  const container =
+    document.getElementById(
+      "wishlist-products"
+    );
+
+
+  if (!container) {
+
+    console.error(
+      "wishlist-products container not found."
+    );
+
+    return;
+
+  }
+
+
+  const wishlist =
+    getWishlist();
+
+
+  if (
+    !wishlist.length
+  ) {
+
+    container.innerHTML = `
+      <div style="text-align:center;padding:50px 20px;">
+        <div style="font-size:50px;">❤️</div>
+        <h3>Your Wishlist is Empty</h3>
+        <p>Add products to your wishlist and they will appear here.</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  // Firebase products
+  const products =
+    window.products || [];
+
+
+  const wishlistProducts =
+    products.filter(function (product) {
+
+      return wishlist.includes(
+        String(
+          product.id ||
+          product.productId
+        )
+      );
+
+    });
+
+
+  if (!wishlistProducts.length) {
+
+    container.innerHTML = `
+      <div style="text-align:center;padding:50px 20px;">
+        <div style="font-size:50px;">❤️</div>
+        <h3>No Wishlist Products Found</h3>
+        <p>Your saved products could not be found.</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    wishlistProducts
+      .map(function (product) {
+
+        if (
+          typeof productCardHTML === "function"
+        ) {
+
+          return productCardHTML(product);
+
+        }
+
+        return "";
+
+      })
+      .join("");
+
+
+  updateWishlistButtons();
+
+};
 </script>
   <button
   id="floating-cart-btn"
