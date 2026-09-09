@@ -4141,33 +4141,37 @@ function restoreWishlistButtons() {
   <span id="floating-cart-count">0</span>
   </button>
 <script>
-function toggleAccountDropdown() {
-  const dd = document.getElementById('account-dropdown');
-  dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
-}
-
-function logoutUser() {
-  window.firebaseSignOut(window.firebaseAuth).then(() => {
-    document.getElementById('account-dropdown').style.display = 'none';
-    showToast('Logged out successfully');
-    showPage('home');
-  });
-}
-
-window.firebaseOnAuthChange(window.firebaseAuth, function(user) {
-  window.currentUser = user;
-  const avatarWrap = document.getElementById('header-avatar-wrap');
-  const avatar = document.getElementById('header-avatar');
-  const emailLine = document.getElementById('dropdown-email');
-
-  if (user) {
-    const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-    avatar.innerText = initial;
-    avatarWrap.style.display = 'block';
-    if (emailLine) emailLine.innerText = user.email || '';
-  } else {
-    avatarWrap.style.display = 'none';
+window.addEventListener('DOMContentLoaded', function() {
+  function toggleAccountDropdown() {
+    const dd = document.getElementById('account-dropdown');
+    dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
   }
+  window.toggleAccountDropdown = toggleAccountDropdown;
+
+  function logoutUser() {
+    window.firebaseSignOut(window.firebaseAuth).then(() => {
+      document.getElementById('account-dropdown').style.display = 'none';
+      showToast('Logged out successfully');
+      showPage('home');
+    });
+  }
+  window.logoutUser = logoutUser;
+
+  window.firebaseOnAuthChange(window.firebaseAuth, function(user) {
+    window.currentUser = user;
+    const avatarWrap = document.getElementById('header-avatar-wrap');
+    const avatar = document.getElementById('header-avatar');
+    const emailLine = document.getElementById('dropdown-email');
+
+    if (user) {
+      const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+      avatar.innerText = initial;
+      avatarWrap.style.display = 'block';
+      if (emailLine) emailLine.innerText = user.email || '';
+    } else {
+      avatarWrap.style.display = 'none';
+    }
+  });
 });
 </script>
 </body>
