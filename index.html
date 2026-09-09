@@ -2521,18 +2521,20 @@ button[onclick*="addToCart"]:active {
   @media (max-width: 768px) {
 
   .navbar {
-    flex-wrap: nowrap !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
     gap: 8px !important;
     padding: 10px 12px !important;
   }
 
   .hamburger {
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
   }
 
   .logo {
-    flex-shrink: 0;
-    white-space: nowrap;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
   }
 
   .logo-img {
@@ -2542,24 +2544,28 @@ button[onclick*="addToCart"]:active {
 
   .logo-text {
     font-size: 18px !important;
+    white-space: nowrap !important;
   }
 
   #header-avatar-wrap {
+    display: block;
     margin-left: auto !important;
     flex-shrink: 0 !important;
+    position: relative !important;
   }
 
   .search-box {
-    position: absolute !important;
-    left: 12px !important;
-    right: 12px !important;
-    top: 58px !important;
-    width: auto !important;
-    max-width: none !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    flex-basis: 100% !important;
+    order: 10 !important;
   }
 
-  .navbar {
-    padding-bottom: 58px !important;
+  .nav-icons {
+    display: none !important;
   }
   }
   </style>
