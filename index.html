@@ -2493,17 +2493,22 @@ button[onclick*="addToCart"]:active {
 
     <span class="promo-icon">📢</span>
 </div>
-
 <header class="navbar">
   <div class="hamburger" onclick="toggleSidebar()">☰</div>
-   <div class="logo" onclick="/+M++++/Fr+/++/++UYs/
+   <div class="logo" onclick="showPage('home')">
+    <img id="logo-img" class="logo-img"
+     src="./images/assets/favicon.png"
+     alt="LumaDeals">
     
-   </div>
+     <span class="logo-text">LUMA<b>DEALS</b></span>
+  </div>
+
   <div class="search-box" style="position:relative;">
   <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
   <button onclick="searchProducts()">🔍</button>
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
+
   <div class="nav-icons">
     <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
     <div class="icon" onclick="showPage('contact')">✉️<span>Contact</span></div>
