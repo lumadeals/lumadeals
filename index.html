@@ -3101,7 +3101,173 @@ let cart = [];
   `;
     }
       
-        
+        // ===============================
+// WISHLIST SYSTEM
+// ===============================
+
+function getWishlist() {
+  try {
+    return JSON.parse(localStorage.getItem("lumaWishlist")) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveWishlist(wishlist) {
+  localStorage.setItem("lumaWishlist", JSON.stringify(wishlist));
+}
+
+
+// Add / Remove Wishlist
+window.toggleWishlist = function (productId, button) {
+
+  const wishlist = getWishlist();
+
+  const index = wishlist.findIndex(
+    item => String(item.id) === String(productId)
+  );
+
+  if (index === -1) {
+
+    // Find product from Firebase-loaded products
+    const product = (window.products || []).find(
+      p => String(p.id) === String(productId)
+    );
+
+    if (!product) {
+      console.log("Product not found:", productId);
+      return;
+    }
+
+    wishlist.push(product);
+
+    saveWishlist(wishlist);
+
+    if (button) {
+      button.classList.add("active");
+      button.setAttribute("aria-label", "Remove from wishlist");
+    }
+
+  } else {
+
+    wishlist.splice(index, 1);
+
+    saveWishlist(wishlist);
+
+    if (button) {
+      button.classList.remove("active");
+      button.setAttribute("aria-label", "Add to wishlist");
+    }
+  }
+
+  updateWishlistButtons();
+  renderWishlistPage();
+};
+
+
+// Update hearts on product cards
+function updateWishlistButtons() {
+
+  const wishlist = getWishlist();
+
+  document.querySelectorAll(".wishlist-btn").forEach(button => {
+
+    const onclickText = button.getAttribute("onclick") || "";
+
+    const match = onclickText.match(
+      /toggleWishlist\((.*?),/
+    );
+
+    if (!match) return;
+
+    let productId;
+
+    try {
+      productId = JSON.parse(match[1]);
+    } catch (e) {
+      return;
+    }
+
+    const exists = wishlist.some(
+      item => String(item.id) === String(productId)
+    );
+
+    if (exists) {
+      button.classList.add("active");
+    } else {
+      button.classList.remove("active");
+    }
+
+  });
+}
+
+
+// ===============================
+// WISHLIST PAGE
+// ===============================
+
+window.renderWishlistPage = function () {
+
+  const container =
+    document.getElementById("wishlist-products");
+
+  if (!container) return;
+
+  const wishlist = getWishlist();
+
+  if (wishlist.length === 0) {
+
+    container.innerHTML = `
+      <div class="empty-wishlist">
+        <div style="font-size:60px;">♡</div>
+        <h2>Your Wishlist is Empty</h2>
+        <p>Add products you love to your wishlist.</p>
+
+        <button
+          onclick="showPage('shop')"
+          class="add-cart-btn">
+          Continue Shopping
+        </button>
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = wishlist
+    .map(product => productCardHTML(product))
+    .join("");
+
+  updateWishlistButtons();
+};
+
+
+// ===============================
+// OPEN WISHLIST
+// ===============================
+
+window.openWishlist = function () {
+
+  showPage("wishlist");
+
+  setTimeout(() => {
+    renderWishlistPage();
+  }, 100);
+};
+
+
+// ===============================
+// AUTO UPDATE
+// ===============================
+
+window.addEventListener("DOMContentLoaded", function () {
+
+  setTimeout(() => {
+    updateWishlistButtons();
+    renderWishlistPage();
+  }, 500);
+
+});
 
   function renderProducts() {
   const allProducts = Array.isArray(products) ? [...products] : [];
@@ -4088,7 +4254,17 @@ function decreaseQty() {
   🛒
   <span id="floating-cart-badge" style="position:absolute; top:-4px; right:-4px; background:#ff5c5c; color:#fff; font-size:11px; font-weight:700; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
 </div>
+<section id="wishlist" class="page">
 
+  <div class="container">
+
+    <h2>❤️ My Wishlist</h2>
+
+    <div id="wishlist-products"></div>
+
+  </div>
+
+</section>
 <footer>
   <div class="footer-container">
     <h4>Contact Info</h4>
