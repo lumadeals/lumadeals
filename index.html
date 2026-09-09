@@ -73,6 +73,7 @@ const loadingHTML = '<div class="skeleton-grid">' + skeletonCard.repeat(6) + '</
 
   const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
+window.firebaseDB = db;
 const snapshot = await getDocs(collection(db, "products"));
 
 window.products = [];
@@ -3102,26 +3103,59 @@ let cart = [];
     }
       
         // ===============================
-// WISHLIST SYSTEM
+// FIREBASE WISHLIST SYSTEM
 // ===============================
 
-function getWishlist() {
-  try {
-    return JSON.parse(localStorage.getItem("lumaWishlist")) || [];
-  } catch (e) {
+async function getFirebaseWishlist() {
+
+  const user = window.firebaseAuth?.currentUser;
+
+  if (!user || !window.firebaseDB) {
     return [];
   }
+
+  const {
+    collection,
+    getDocs
+  } = await import(
+    "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+  );
+
+  const wishlistRef = collection(
+    window.firebaseDB,
+    "users",
+    user.uid,
+    "wishlist"
+  );
+
+  const snapshot = await getDocs(wishlistRef);
+
+  const wishlist = [];
+
+  snapshot.forEach(docSnap => {
+    wishlist.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
+  });
+
+  return wishlist;
 }
 
-function saveWishlist(wishlist) {
-  localStorage.setItem("lumaWishlist", JSON.stringify(wishlist));
-}
 
+// ===============================
+// ADD / REMOVE WISHLIST
+// ===============================
 
-// Add / Remove Wishlist
-window.toggleWishlist = function (productId, button) {
+window.toggleWishlist = async function(productId, button) {
 
-  const wishlist = getWishlist();
+  const user = window.firebaseAuth?.currentUser;
+
+  if (!user) {
+    alert("Please login first to use Wishlist.");
+    showPage("login");
+    return;
+  }
 
   const product = (window.products || []).find(
     p => String(p.id) === String(productId)
@@ -3132,56 +3166,96 @@ window.toggleWishlist = function (productId, button) {
     return;
   }
 
-  const index = wishlist.findIndex(
-    item => String(item.id) === String(productId)
+  const {
+    doc,
+    getDoc,
+    setDoc,
+    deleteDoc
+  } = await import(
+    "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
   );
 
-  if (index === -1) {
+  const wishlistItemRef = doc(
+    window.firebaseDB,
+    "users",
+    user.uid,
+    "wishlist",
+    String(productId)
+  );
 
-    wishlist.push({
+  const existing = await getDoc(wishlistItemRef);
+
+  if (existing.exists()) {
+
+    // REMOVE
+    await deleteDoc(wishlistItemRef);
+
+    if (button) {
+      button.classList.remove("active");
+      button.setAttribute(
+        "aria-label",
+        "Add to wishlist"
+      );
+    }
+
+  } else {
+
+    // ADD
+    await setDoc(wishlistItemRef, {
       id: product.id,
       name: product.name || "Product",
       price: product.price || "",
       oldPrice: product.oldPrice || "",
       discount: product.discount || "",
       rating: product.rating || "★★★★★",
-      img: product.img || product.image || product.images?.[0] || ""
-    });
 
-    saveWishlist(wishlist);
+      // Product image Firebase/GitHub URL
+      img: product.img || "",
+      image: product.image || "",
+
+      images: product.images || [],
+
+      category: product.category || "",
+
+      addedAt: Date.now()
+    });
 
     if (button) {
       button.classList.add("active");
-    }
-
-  } else {
-
-    wishlist.splice(index, 1);
-
-    saveWishlist(wishlist);
-
-    if (button) {
-      button.classList.remove("active");
+      button.setAttribute(
+        "aria-label",
+        "Remove from wishlist"
+      );
     }
   }
 
   updateWishlistButtons();
-  renderWishlistPage();
+
+  if (
+    document.getElementById("page-wishlist")?.classList.contains("active")
+  ) {
+    renderWishlistPage();
+  }
 };
 
 
-// Update hearts on product cards
-function updateWishlistButtons() {
+// ===============================
+// UPDATE HEARTS
+// ===============================
 
-  const wishlist = getWishlist();
+async function updateWishlistButtons() {
+
+  const wishlist = await getFirebaseWishlist();
 
   document.querySelectorAll(".wishlist-btn").forEach(button => {
 
-    const onclickText = button.getAttribute("onclick") || "";
+    const onclickText =
+      button.getAttribute("onclick") || "";
 
-    const match = onclickText.match(
-      /toggleWishlist\((.*?),/
-    );
+    const match =
+      onclickText.match(
+        /toggleWishlist\((.*?),/
+      );
 
     if (!match) return;
 
@@ -3194,7 +3268,8 @@ function updateWishlistButtons() {
     }
 
     const exists = wishlist.some(
-      item => String(item.id) === String(productId)
+      item =>
+        String(item.id) === String(productId)
     );
 
     if (exists) {
@@ -3202,7 +3277,6 @@ function updateWishlistButtons() {
     } else {
       button.classList.remove("active");
     }
-
   });
 }
 
@@ -3211,27 +3285,31 @@ function updateWishlistButtons() {
 // WISHLIST PAGE
 // ===============================
 
-window.renderWishlistPage = function () {
+window.renderWishlistPage = async function() {
 
   const container =
     document.getElementById("wishlist-products");
 
   if (!container) return;
 
-  const wishlist = getWishlist();
+  const user = window.firebaseAuth?.currentUser;
 
-  if (wishlist.length === 0) {
+  if (!user) {
 
     container.innerHTML = `
       <div class="empty-wishlist">
         <div style="font-size:60px;">♡</div>
-        <h2>Your Wishlist is Empty</h2>
-        <p>Add products you love to your wishlist.</p>
+
+        <h2>Please Login</h2>
+
+        <p>
+          Login to see and save your wishlist.
+        </p>
 
         <button
-          onclick="showPage('shop')"
+          onclick="showPage('login')"
           class="add-cart-btn">
-          Continue Shopping
+          Login
         </button>
       </div>
     `;
@@ -3239,9 +3317,44 @@ window.renderWishlistPage = function () {
     return;
   }
 
-  container.innerHTML = wishlist
-    .map(product => productCardHTML(product))
-    .join("");
+  container.innerHTML = `
+    <div style="text-align:center;padding:30px;">
+      Loading Wishlist...
+    </div>
+  `;
+
+  const wishlist =
+    await getFirebaseWishlist();
+
+  if (wishlist.length === 0) {
+
+    container.innerHTML = `
+      <div class="empty-wishlist">
+
+        <div style="font-size:60px;">♡</div>
+
+        <h2>Your Wishlist is Empty</h2>
+
+        <p>
+          Add products you love to your wishlist.
+        </p>
+
+        <button
+          onclick="showPage('shop')"
+          class="add-cart-btn">
+          Continue Shopping
+        </button>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML =
+    wishlist
+      .map(product => productCardHTML(product))
+      .join("");
 
   updateWishlistButtons();
 };
@@ -3251,7 +3364,7 @@ window.renderWishlistPage = function () {
 // OPEN WISHLIST
 // ===============================
 
-window.openWishlist = function () {
+window.openWishlist = function() {
 
   showPage("wishlist");
 
@@ -3262,17 +3375,39 @@ window.openWishlist = function () {
 
 
 // ===============================
-// AUTO UPDATE
+// AUTH CHANGE
 // ===============================
 
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
-  setTimeout(() => {
-    updateWishlistButtons();
-    renderWishlistPage();
-  }, 500);
+    if (
+      window.firebaseOnAuthChange &&
+      window.firebaseAuth
+    ) {
 
-});
+      window.firebaseOnAuthChange(
+        window.firebaseAuth,
+        async function(user) {
+
+          if (user) {
+
+            setTimeout(() => {
+              updateWishlistButtons();
+            }, 500);
+
+          }
+        }
+      );
+    }
+
+  }
+);
+
+
+  
+    
 
   function renderProducts() {
   const allProducts = Array.isArray(products) ? [...products] : [];
