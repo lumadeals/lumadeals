@@ -2422,7 +2422,102 @@ button[onclick*="addToCart"]:active {
   font-size: 11px;
   font-weight: 700;
 }
+#header-avatar-wrap {
+  display: none;
+}
 
+#header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #3BB4EC;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(59,180,236,0.35);
+}
+
+#account-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 205px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  border: 1px solid #e5e7eb;
+  padding: 8px 0;
+  display: none;
+  z-index: 9999;
+}
+
+#account-dropdown.open {
+  display: block;
+}
+
+#dropdown-user-info {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+#dropdown-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#dropdown-email {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 3px;
+  word-break: break-word;
+}
+
+.dropdown-item {
+  padding: 11px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f4f8fb;
+  color: #3BB4EC;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #eee;
+  margin: 5px 0;
+}
+
+.logout-item {
+  color: #ef4444 !important;
+}
+
+
+/* ONLY MOBILE */
+@media (max-width: 768px) {
+
+  .navbar {
+    position: relative;
+  }
+
+  #header-avatar-wrap {
+    display: none;
+    position: relative;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  #header-avatar {
+    display: flex;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -2495,24 +2590,61 @@ button[onclick*="addToCart"]:active {
 </div>
 <header class="navbar">
   <div class="hamburger" onclick="toggleSidebar()">☰</div>
-   <div class="logo" onclick="showPage('home')">
-    <img id="logo-img" class="logo-img"
-     src="./images/assets/favicon.png"
-     alt="LumaDeals">
-    
-     <span class="logo-text">LUMA<b>DEALS</b></span>
+
+  <div class="logo" onclick="showPage('home')">
+    <img src="/images/assets/favicon.png" class="logo-img" alt="Luma Deals">
+    <span class="logo-text">LUMA<b>DEALS</b></span>
   </div>
 
   <div class="search-box" style="position:relative;">
-  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
-  <button onclick="searchProducts()">🔍</button>
-  <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
+    <input type="text"
+           id="search-input"
+           placeholder="Search Products..."
+           onkeypress="if(event.key==='Enter') searchProducts()"
+           oninput="showSuggestions()"
+           autocomplete="off">
+
+    <button onclick="searchProducts()">🔍</button>
+
+    <div id="search-suggestions"
+         style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;">
+    </div>
   </div>
 
-  <div class="nav-icons">
-    <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
-    <div class="icon" onclick="showPage('contact')">✉️<span>Contact</span></div>
-    <div class="icon cart-icon" onclick="toggleCart()">🛒<span>Cart</span><b id="cart-count">0</b></div>
+  <!-- MOBILE AVATAR -->
+  <div id="header-avatar-wrap">
+
+    <div id="header-avatar"
+         onclick="event.stopPropagation(); toggleAccountDropdown()">
+      👤
+    </div>
+
+    <div id="account-dropdown">
+
+      <div id="dropdown-user-info">
+        <div id="dropdown-name"></div>
+        <div id="dropdown-email"></div>
+      </div>
+
+      <div class="dropdown-item" onclick="showPage('account')">
+        👤 My Account
+      </div>
+
+      <div class="dropdown-item" onclick="showPage('orders')">
+        📦 My Orders
+      </div>
+
+      <div class="dropdown-item" onclick="showPage('wishlist')">
+        ❤️ Wishlist
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <div class="dropdown-item logout-item" onclick="logoutUser()">
+        🚪 Logout
+      </div>
+
+    </div>
   </div>
 </header>
   
@@ -4125,7 +4257,76 @@ function restoreWishlistButtons() {
     setTimeout(function () { splash.remove(); }, 1750);
   }, 4200);
 })();
-      
+      window.addEventListener("DOMContentLoaded", function () {
+
+  window.toggleAccountDropdown = function () {
+    const dropdown = document.getElementById("account-dropdown");
+
+    if (dropdown) {
+      dropdown.classList.toggle("open");
+    }
+  };
+
+
+  document.addEventListener("click", function (e) {
+
+    const wrap = document.getElementById("header-avatar-wrap");
+    const dropdown = document.getElementById("account-dropdown");
+
+    if (wrap && dropdown && !wrap.contains(e.target)) {
+      dropdown.classList.remove("open");
+    }
+
+  });
+
+
+  if (window.firebaseOnAuthChange && window.firebaseAuth) {
+
+    window.firebaseOnAuthChange(
+      window.firebaseAuth,
+      function (user) {
+
+        const wrap =
+          document.getElementById("header-avatar-wrap");
+
+        const avatar =
+          document.getElementById("header-avatar");
+
+        const name =
+          document.getElementById("dropdown-name");
+
+        const email =
+          document.getElementById("dropdown-email");
+
+
+        if (user) {
+
+          const displayName =
+            user.displayName || "Luma Deals User";
+
+          avatar.innerText =
+            displayName.charAt(0).toUpperCase();
+
+          name.innerText =
+            displayName;
+
+          email.innerText =
+            user.email || "";
+
+          wrap.style.display = "block";
+
+        } else {
+
+          wrap.style.display = "none";
+
+        }
+
+      }
+    );
+
+  }
+
+});
 </script>
   <button
   id="floating-cart-btn"
