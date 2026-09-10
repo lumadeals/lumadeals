@@ -2509,7 +2509,6 @@ button[onclick*="addToCart"]:active {
   <button onclick="searchProducts()">🔍</button>
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
-
   <div class="nav-icons">
     <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
     <div class="icon" onclick="showPage('contact')">✉️<span>Contact</span></div>
@@ -3912,7 +3911,7 @@ function submitLogin(event) {
   }
   }
 
-  function toggleSidebar() {
+function toggleSidebar() {
   document.getElementById('mobile-sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
   document.querySelector('.hamburger').classList.toggle('open');
@@ -4020,7 +4019,13 @@ function decreaseQty() {
     .catch((error) => {
       alert('Login failed: ' + error.message);
     });
-}
+      }
+
+
+
+  
+  
+      
 
 function signInWithGoogle() {
   window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider)
