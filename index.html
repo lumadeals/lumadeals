@@ -4622,69 +4622,92 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  // Firebase login state
-  if (window.firebaseOnAuthChange && window.firebaseAuth) {
+// Firebase login state
+if (window.firebaseOnAuthChange && window.firebaseAuth) {
 
-    window.firebaseOnAuthChange(
-      window.firebaseAuth,
-      function (user) {
+  window.firebaseOnAuthChange(
+    window.firebaseAuth,
+    function (user) {
 
-        const wrap =
-          document.getElementById("header-avatar-wrap");
+      const wrap =
+        document.getElementById("header-avatar-wrap");
 
-        const avatar =
-          document.getElementById("header-avatar");
+      const avatar =
+        document.getElementById("header-avatar");
 
-        const email =
-          document.getElementById("dropdown-email");
+      const email =
+        document.getElementById("dropdown-email");
+
+      const avatarImg =
+        document.getElementById("header-avatar-img");
 
 
-        if (!wrap || !avatar) return;
+      if (!wrap || !avatar) return;
 
 
-        // USER LOGGED IN
-        if (user) {
+      // =========================
+      // USER LOGGED IN
+      // =========================
+      if (user) {
 
-          let displayName =
-            user.displayName ||
-            user.email ||
-            "User";
+        let displayName =
+          user.displayName ||
+          user.email ||
+          "User";
 
-          avatar.innerText =
-            displayName.charAt(0).toUpperCase();
-
-          if (email) {
-            email.innerText =
-              user.email || "";
-          }
-
-          wrap.style.display = "block";
-
+        // Show user's first letter
+        if (avatarImg) {
+          avatarImg.style.display = "none";
         }
 
+        avatar.innerText =
+          displayName.charAt(0).toUpperCase();
 
-        // USER LOGGED OUT
-        else {
+        if (email) {
+          email.innerText =
+            user.email || "";
+        }
 
-          wrap.style.display = "none";
+        wrap.style.display = "block";
 
-          const dropdown =
-            document.getElementById("account-dropdown");
+      }
 
-          if (dropdown) {
-            dropdown.classList.remove("open");
-          }
 
+      // =========================
+      // USER LOGGED OUT
+      // =========================
+      else {
+
+        wrap.style.display = "block";
+
+        // Show default avatar image
+        if (avatarImg) {
+
+          avatar.innerText = "";
+
+          avatarImg.src =
+            "/images/assets/default-avatar.png";
+
+          avatarImg.style.display = "block";
+        }
+
+        if (email) {
+          email.innerText = "";
+        }
+
+        const dropdown =
+          document.getElementById("account-dropdown");
+
+        if (dropdown) {
+          dropdown.classList.remove("open");
         }
 
       }
-    );
 
-  }
+    }
+  );
 
-});
-
-
+}
 // ===============================
 // LOGOUT
 // ===============================
