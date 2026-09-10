@@ -2519,21 +2519,22 @@ button[onclick*="addToCart"]:active {
   }
 
 }
-  #header-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  background: #eee;
+#header-avatar-letter {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 #header-avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-}
+  display: none;
+  }
 
   </style>
 </head>
@@ -2631,14 +2632,16 @@ button[onclick*="addToCart"]:active {
   <!-- MOBILE AVATAR -->
   <div id="header-avatar-wrap">
 
-    <div id="header-avatar"
+<div id="header-avatar"
      onclick="event.stopPropagation(); toggleAccountDropdown()">
+
+  <span id="header-avatar-letter"></span>
 
   <img id="header-avatar-img"
        src="/images/assets/default-avatar.png"
        alt="Account">
 
-    </div>
+</div>
 
     <div id="account-dropdown">
 
@@ -4632,17 +4635,17 @@ if (window.firebaseOnAuthChange && window.firebaseAuth) {
       const wrap =
         document.getElementById("header-avatar-wrap");
 
-      const avatar =
-        document.getElementById("header-avatar");
-
-      const email =
-        document.getElementById("dropdown-email");
+      const avatarLetter =
+        document.getElementById("header-avatar-letter");
 
       const avatarImg =
         document.getElementById("header-avatar-img");
 
+      const email =
+        document.getElementById("dropdown-email");
 
-      if (!wrap || !avatar) return;
+
+      if (!wrap) return;
 
 
       // =========================
@@ -4655,19 +4658,31 @@ if (window.firebaseOnAuthChange && window.firebaseAuth) {
           user.email ||
           "User";
 
+
         // Show user's first letter
+        if (avatarLetter) {
+
+          avatarLetter.innerText =
+            displayName.charAt(0).toUpperCase();
+
+          avatarLetter.style.display = "flex";
+        }
+
+
+        // Hide default image
         if (avatarImg) {
           avatarImg.style.display = "none";
         }
 
-        avatar.innerText =
-          displayName.charAt(0).toUpperCase();
 
+        // Show email
         if (email) {
           email.innerText =
             user.email || "";
         }
 
+
+        // Show avatar
         wrap.style.display = "block";
 
       }
@@ -4678,23 +4693,33 @@ if (window.firebaseOnAuthChange && window.firebaseAuth) {
       // =========================
       else {
 
+        // Keep avatar visible
         wrap.style.display = "block";
+
+
+        // Hide letter
+        if (avatarLetter) {
+          avatarLetter.style.display = "none";
+          avatarLetter.innerText = "";
+        }
+
 
         // Show default avatar image
         if (avatarImg) {
-
-          avatar.innerText = "";
-
           avatarImg.src =
             "/images/assets/default-avatar.png";
 
           avatarImg.style.display = "block";
         }
 
+
+        // Clear email
         if (email) {
           email.innerText = "";
         }
 
+
+        // Close dropdown
         const dropdown =
           document.getElementById("account-dropdown");
 
@@ -4708,6 +4733,9 @@ if (window.firebaseOnAuthChange && window.firebaseAuth) {
   );
 
 }
+
+      
+
 // ===============================
 // LOGOUT
 // ===============================
