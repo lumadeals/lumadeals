@@ -4139,33 +4139,7 @@ function restoreWishlistButtons() {
     setTimeout(function () { splash.remove(); }, 1750);
   }, 4200);
 })();
-      // ===============================
-// ACCOUNT AVATAR + LOGOUT
-// ===============================
-
-window.addEventListener("DOMContentLoaded", function () {
-
-  // Avatar dropdown
-  window.toggleAccountDropdown = function () {
-    const dropdown = document.getElementById("account-dropdown");
-
-    if (dropdown) {
-      dropdown.classList.toggle("open");
-    }
-  };
-
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", function (e) {
-
-    const wrap = document.getElementById("header-avatar-wrap");
-    const dropdown = document.getElementById("account-dropdown");
-
-    if (wrap && dropdown && !wrap.contains(e.target)) {
-      dropdown.classList.remove("open");
-    }
-
-  });
+      
 
 
 
