@@ -2606,71 +2606,29 @@ button[onclick*="addToCart"]:active {
 
     <span class="promo-icon">📢</span>
 </div>
-<header class="navbar">
-  <div class="hamburger" onclick="toggleSidebar()">☰</div>
 
-  <div class="logo" onclick="showPage('home')">
-    <img src="/images/assets/favicon.png" class="logo-img" alt="Luma Deals">
-    <span class="logo-text">LUMA<b>DEALS</b></span>
+      <header class="navbar">
+  <div class="hamburger" onclick="toggleSidebar()">☰</div>
+   <div class="logo" onclick="showPage('home')">
+    <img id="logo-img" class="logo-img"
+     src="./images/assets/favicon.png"
+     alt="LumaDeals">
+    
+     <span class="logo-text">LUMA<b>DEALS</b></span>
   </div>
 
   <div class="search-box" style="position:relative;">
-    <input type="text"
-           id="search-input"
-           placeholder="Search Products..."
-           onkeypress="if(event.key==='Enter') searchProducts()"
-           oninput="showSuggestions()"
-           autocomplete="off">
-
-    <button onclick="searchProducts()">🔍</button>
-
-    <div id="search-suggestions"
-         style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;">
-    </div>
+  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
+  <button onclick="searchProducts()">🔍</button>
+  <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
 
-  <!-- MOBILE AVATAR -->
-  <div id="header-avatar-wrap">
-
-<div id="header-avatar"
-     onclick="event.stopPropagation(); toggleAccountDropdown()">
-
-  <span id="header-avatar-letter"></span>
-
-  <img id="header-avatar-img"
-       src="/images/assets/default-avatar.png"
-       alt="Account">
-
-</div>
-
-    <div id="account-dropdown">
-
-      <div id="dropdown-user-info">
-        <div id="dropdown-name"></div>
-        <div id="dropdown-email"></div>
-      </div>
-
-      <div class="dropdown-item" onclick="showPage('account')">
-        👤 My Account
-      </div>
-
-      <div class="dropdown-item" onclick="showPage('orders')">
-        📦 My Orders
-      </div>
-
-      <div class="dropdown-item" onclick="showPage('wishlist')">
-        ❤️ Wishlist
-      </div>
-
-      <div class="dropdown-divider"></div>
-
-      <div class="dropdown-item logout-item" onclick="logoutUser()">
-        🚪 Logout
-      </div>
-
-    </div>
+  <div class="nav-icons">
+    <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
+    <div class="icon" onclick="showPage('contact')">✉️<span>Contact</span></div>
+    <div class="icon cart-icon" onclick="toggleCart()">🛒<span>Cart</span><b id="cart-count">0</b></div>
   </div>
-</header>
+      </header>
   
   
 <div id="mobile-sidebar" class="mobile-sidebar">
