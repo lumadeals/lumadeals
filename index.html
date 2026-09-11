@@ -2423,7 +2423,144 @@ button[onclick*="addToCart"]:active {
 }
 
 
+/* ==========================================
+   LUMA DEALS - HOME SUBCATEGORIES
+   ========================================== */
 
+.home-category-card {
+  cursor: pointer;
+}
+
+.home-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 15px;
+  transition: transform 0.25s ease;
+}
+
+.home-category-card.active .home-arrow {
+  transform: rotate(180deg);
+}
+
+
+/* SUBCATEGORY ROW */
+
+.home-subcategories {
+  display: none;
+
+  width: 100%;
+
+  margin-top: 14px;
+  padding: 3px 0 8px;
+
+  gap: 9px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: nowrap;
+
+  scrollbar-width: none;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.home-subcategories::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* SHOW ROW */
+
+.home-subcategories.show {
+  display: flex;
+}
+
+
+/* SUBCATEGORY BUTTON */
+
+.home-subcategories button {
+  flex: 0 0 auto;
+
+  border: 1px solid #dce7ee;
+
+  background: #ffffff;
+
+  color: #14171A;
+
+  padding: 9px 15px;
+
+  border-radius: 22px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 10px rgba(15,23,42,0.06);
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* HOVER */
+
+.home-subcategories button:hover {
+  background: #3BB4EC;
+
+  color: #ffffff;
+
+  border-color: #3BB4EC;
+
+  transform: translateY(-1px);
+}
+
+
+/* ACTIVE */
+
+.home-subcategories button.active {
+  background: #3BB4EC;
+
+  color: #ffffff;
+
+  border-color: #3BB4EC;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .home-subcategories {
+    margin-top: 12px;
+
+    gap: 8px;
+
+    padding:
+      2px
+      0
+      8px;
+  }
+
+  .home-subcategories button {
+    padding: 8px 13px;
+
+    font-size: 12px;
+
+    border-radius: 20px;
+  }
+
+}
 
 
 
@@ -2557,97 +2694,160 @@ button[onclick*="addToCart"]:active {
   </ul>
 </nav>
 
+<!-- HOME -->
+<section id="page-home" class="page active">
 
-<!-- HOME -->  <section id="page-home" class="page active">    <!-- SHOP BY CATEGORY -->    <section class="home-feature-section">  
-    <div class="home-section-heading">  
-      <div>  
-        <span>EXPLORE</span>  
-        <h2>Shop by Category</h2>  
-      </div>  
-      <button onclick="showPage('shop')">View All →</button>  
-    </div>  <div class="category-showcase">  
-     
-      <div class="category-card" onclick="filterCat('Kitchen', null)">  
-    <div class="category-icon">🍳</div>  
-    <h3>Kitchen</h3>  
-    <p>Smart kitchen essentials</p>  
-  </div>  
-        <div class="category-card" onclick="filterCat('Toys', null)">  
-    <div class="category-icon">🧸</div>  
-    <h3>Toys</h3>  
-    <p>Fun for everyone</p>  
-  </div>  
-      
-      <div class="category-card" onclick="filterCat('Beauty', null)">  
-    <div class="category-icon">✨</div>  
-    <h3>Beauty</h3>  
-    <p>Beauty & care</p>  
-  </div>  
-      
-  <div class="category-card" onclick="filterCat('Electronics', null)">  
-    <div class="category-icon">📱</div>  
-    <h3>Electronics</h3>  
-    <p>Smart gadgets & tech</p>  
-  </div>  
+  <!-- SHOP BY CATEGORY -->
+  <section class="home-feature-section">
 
-  <div class="category-card" onclick="filterCat('Fashion', null)">  
-    <div class="category-icon">👕</div>  
-    <h3>Fashion</h3>  
-    <p>Style for everyone</p>  
-  </div>  
+    <div class="home-section-heading">
+      <div>
+        <span>EXPLORE</span>
+        <h2>Shop by Category</h2>
+      </div>
 
-  <div class="category-card home-category-card" onclick="toggleHomeSubcategories(event)">
-  <div class="category-icon">🏠</div>
-  <h3>Home <span class="home-arrow">⌄</span></h3>
-  <p>Make life comfortable</p>
-</div>
+      <button onclick="showPage('shop')">
+        View All →
+      </button>
+    </div>
 
-<div id="home-subcategories" class="home-subcategories">
-  <button onclick="filterHomeSubcategory('All', event)">
-    🏠 All Home
-  </button>
 
-  <button onclick="filterHomeSubcategory('Furniture', event)">
-    🛋️ Furniture
-  </button>
+    <!-- CATEGORY ROW -->
+    <div class="category-showcase">
 
-  <button onclick="filterHomeSubcategory('Home Decor', event)">
-    🖼️ Home Decor
-  </button>
+      <div class="category-card" onclick="filterCat('Kitchen', null)">
+        <div class="category-icon">🍳</div>
+        <h3>Kitchen</h3>
+        <p>Smart kitchen essentials</p>
+      </div>
 
-  <button onclick="filterHomeSubcategory('Lighting', event)">
-    💡 Lighting
-  </button>
 
-  <button onclick="filterHomeSubcategory('Storage & Organization', event)">
-    🗄️ Storage & Organization
-  </button>
+      <div class="category-card" onclick="filterCat('Toys', null)">
+        <div class="category-icon">🧸</div>
+        <h3>Toys</h3>
+        <p>Fun for everyone</p>
+      </div>
 
-  <button onclick="filterHomeSubcategory('Bedding', event)">
-    🛏️ Bedding
-  </button>
 
-  <button onclick="filterHomeSubcategory('Garden & Outdoor', event)">
-    🪴 Garden & Outdoor
-  </button>
+      <div class="category-card" onclick="filterCat('Beauty', null)">
+        <div class="category-icon">✨</div>
+        <h3>Beauty</h3>
+        <p>Beauty & care</p>
+      </div>
 
-  <button onclick="filterHomeSubcategory('Cleaning & Household', event)">
-    🧹 Cleaning & Household
-  </button>
-</div> 
 
-<div class="category-card" onclick="filterCat('Boutique', null)">
-  <div class="category-icon">👗</div>
-  <h3>Boutique</h3>
-  <p>Elegant fashion & style</p>
-</div>
+      <div class="category-card" onclick="filterCat('Electronics', null)">
+        <div class="category-icon">📱</div>
+        <h3>Electronics</h3>
+        <p>Smart gadgets & tech</p>
+      </div>
 
-<div class="category-card" onclick="filterCat('Hand Made', null)">
-  <div class="category-icon">🧶</div>
-  <h3>Hand Made</h3>
-  <p>Unique handmade products</p>
-</div>
-</section>
+
+      <div class="category-card" onclick="filterCat('Fashion', null)">
+        <div class="category-icon">👕</div>
+        <h3>Fashion</h3>
+        <p>Style for everyone</p>
+      </div>
+
+
+      <!-- HOME CATEGORY -->
+      <div
+        class="category-card home-category-card"
+        onclick="toggleHomeSubcategories(event)"
+      >
+        <div class="category-icon">🏠</div>
+
+        <h3>
+          Home
+          <span class="home-arrow">⌄</span>
+        </h3>
+
+        <p>Make life comfortable</p>
+      </div>
+
+
+      <div class="category-card" onclick="filterCat('Boutique', null)">
+        <div class="category-icon">👗</div>
+        <h3>Boutique</h3>
+        <p>Elegant fashion & style</p>
+      </div>
+
+
+      <div class="category-card" onclick="filterCat('Hand Made', null)">
+        <div class="category-icon">🧶</div>
+        <h3>Hand Made</h3>
+        <p>Unique handmade products</p>
+      </div>
+
+    </div>
+    <!-- END CATEGORY ROW -->
+
+
+    <!-- HOME SUBCATEGORIES -->
+    <div id="home-subcategories" class="home-subcategories">
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('All', event)"
+      >
+        🏠 All Home
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Furniture', event)"
+      >
+        🛋️ Furniture
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Home Decor', event)"
+      >
+        🖼️ Home Decor
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Lighting', event)"
+      >
+        💡 Lighting
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Storage & Organization', event)"
+      >
+        🗄️ Storage & Organization
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Bedding', event)"
+      >
+        🛏️ Bedding
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Garden & Outdoor', event)"
+      >
+        🪴 Garden & Outdoor
+      </button>
+
+      <button
+        type="button"
+        onclick="filterHomeSubcategory('Cleaning & Household', event)"
+      >
+        🧹 Cleaning & Household
+      </button>
+
+    </div>
+    <!-- END HOME SUBCATEGORIES -->
+
+  </section>
+
+
 
 
   <div class="hero-banner flip-card" id="home-hero">
@@ -4429,83 +4629,246 @@ window.showWishlist = function () {
   </button>
   <script>
 /* ==========================================
-   HOME SUBCATEGORY SYSTEM
+   LUMA DEALS - HOME SUBCATEGORY SYSTEM
    ========================================== */
 
+
+/* OPEN / CLOSE HOME SUBCATEGORIES */
+
 function toggleHomeSubcategories(event) {
+
   if (event) {
     event.stopPropagation();
   }
 
-  const menu = document.getElementById("home-subcategories");
-  const homeCard = document.querySelector(".home-category-card");
+  const menu =
+    document.getElementById("home-subcategories");
+
+  const homeCard =
+    document.querySelector(".home-category-card");
 
   if (!menu) return;
 
+
   menu.classList.toggle("show");
 
+
   if (homeCard) {
+
     homeCard.classList.toggle("active");
+
   }
+
 }
 
 
-function filterHomeSubcategory(subcategory, event) {
+/* FILTER HOME SUBCATEGORY */
+
+function filterHomeSubcategory(
+  subcategory,
+  event
+) {
+
   if (event) {
     event.stopPropagation();
   }
 
-  // Show all Home products
+
+  const products =
+    window.products || [];
+
+
+  let filteredProducts;
+
+
+  /* ALL HOME PRODUCTS */
+
   if (subcategory === "All") {
-    filterCat("Home", null);
-    return;
-  }
 
-  // Filter products by Home + Subcategory
-  if (typeof allProducts !== "undefined" && Array.isArray(allProducts)) {
+    filteredProducts =
+      products.filter(product => {
 
-    const filteredProducts = allProducts.filter(product => {
-      const category = String(product.category || "").trim().toLowerCase();
-      const productSubcategory = String(
-        product.subcategory || ""
-      ).trim().toLowerCase();
+        return String(
+          product.category || ""
+        )
+          .trim()
+          .toLowerCase() === "home";
 
-      return (
-        category === "home" &&
-        productSubcategory === subcategory.toLowerCase()
-      );
-    });
-
-    // Use existing product rendering system
-    if (typeof renderProducts === "function") {
-      renderProducts(filteredProducts);
-    }
-
-    // Scroll to products
-    const productsSection =
-      document.getElementById("shop") ||
-      document.querySelector(".products-section") ||
-      document.querySelector(".product-grid");
-
-    if (productsSection) {
-      productsSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
       });
-    }
+
   }
 
-  // Mark selected subcategory
+
+  /* SPECIFIC HOME SUBCATEGORY */
+
+  else {
+
+    filteredProducts =
+      products.filter(product => {
+
+        const category =
+          String(
+            product.category || ""
+          )
+            .trim()
+            .toLowerCase();
+
+
+        const productSubcategory =
+          String(
+            product.subcategory || ""
+          )
+            .trim()
+            .toLowerCase();
+
+
+        return (
+          category === "home" &&
+          productSubcategory ===
+            subcategory
+              .trim()
+              .toLowerCase()
+        );
+
+      });
+
+  }
+
+
+  /* CREATE PRODUCT HTML */
+
+  const html =
+    filteredProducts.length
+      ? filteredProducts
+          .map(productCardHTML)
+          .join("")
+      : '<p style="padding:20px;color:#888;">No products in this subcategory yet.</p>';
+
+
+  /* UPDATE HOME PRODUCTS */
+
+  const homeGrid =
+    document.getElementById(
+      "home-product-grid"
+    );
+
+
+  if (homeGrid) {
+
+    homeGrid.innerHTML = html;
+
+  }
+
+
+  /* UPDATE SHOP PRODUCTS */
+
+  const shopGrid =
+    document.getElementById(
+      "shop-product-grid"
+    );
+
+
+  if (shopGrid) {
+
+    shopGrid.innerHTML = html;
+
+  }
+
+
+  /* UPDATE HOME HEADING */
+
+  const homeHeading =
+    document.getElementById(
+      "home-products-heading"
+    );
+
+
+  if (homeHeading) {
+
+    homeHeading.innerText =
+      subcategory === "All"
+        ? "Home"
+        : subcategory;
+
+  }
+
+
+  /* UPDATE SHOP HEADING */
+
+  const shopHeading =
+    document.getElementById(
+      "shop-heading"
+    );
+
+
+  if (shopHeading) {
+
+    shopHeading.innerText =
+      subcategory === "All"
+        ? "Home"
+        : subcategory;
+
+  }
+
+
+  /* RESTORE WISHLIST BUTTONS */
+
+  if (
+    typeof restoreWishlistButtons ===
+    "function"
+  ) {
+
+    restoreWishlistButtons();
+
+  }
+
+
+  /* ACTIVE BUTTON */
+
   document
-    .querySelectorAll("#home-subcategories button")
+    .querySelectorAll(
+      "#home-subcategories button"
+    )
     .forEach(button => {
-      button.classList.remove("active");
+
+      button.classList.remove(
+        "active"
+      );
+
     });
 
-  if (event && event.currentTarget) {
-    event.currentTarget.classList.add("active");
+
+  if (
+    event &&
+    event.currentTarget
+  ) {
+
+    event.currentTarget.classList.add(
+      "active"
+    );
+
   }
-}
+
+
+  /* SCROLL TO PRODUCTS */
+
+  const productsSection =
+    document.querySelector(
+      "#home-product-grid"
+    );
+
+
+  if (productsSection) {
+
+    productsSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+
+    }
+    
 </script>
 </body>
 </html>                     
