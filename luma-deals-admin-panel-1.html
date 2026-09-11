@@ -638,27 +638,28 @@ No discount
 
 
 <div class="field">
+<div class="field">
+  <label>Category *</label>
 
-<label>Category *</label>
+  <select id="productCategory" required>
+    <option value="">Select Category</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Home">Home</option>
+    <option value="Beauty">Beauty</option>
+    <option value="Kitchen">Kitchen</option>
+    <option value="Toys">Toys</option>
+    <option value="Boutique">Boutique</option>
+    <option value="Hand Made">Hand Made</option>
+  </select>
+</div>
 
-<select
-id="productCategory"
-required>
+<div class="field">
+  <label>Subcategory *</label>
 
-<option value="">
-Select Category
-</option>
-
-<option>Electronics</option>
-<option>Fashion</option>
-<option>Beauty</option>
-<option>Home</option>
-<option>Toys</option>
-<option>Kitchen</option>
-<option>Hand Made</option>
-<option>Boutique</option>
-</select>
-
+  <select id="productSubcategory" required disabled>
+    <option value="">First select a category</option>
+  </select>
 </div>
 
 
@@ -1092,7 +1093,107 @@ const db=getFirestore(app);
 
 const $=id=>
 document.getElementById(id);
+const subcategories = {
 
+  Electronics: [
+    "Mobiles & Tablets",
+    "Mobile Accessories",
+    "Audio",
+    "Computers",
+    "Smart Devices"
+  ],
+
+  Fashion: [
+    "Men",
+    "Women",
+    "Shoes",
+    "Bags",
+    "Watches"
+  ],
+
+  Home: [
+    "Furniture",
+    "Home Decor",
+    "Lighting",
+    "Storage & Organization",
+    "Bedding",
+    "Garden & Outdoor",
+    "Cleaning & Household"
+  ],
+
+  Beauty: [
+    "Skincare",
+    "Makeup",
+    "Hair Care",
+    "Fragrance",
+    "Personal Care"
+  ],
+
+  Kitchen: [
+    "Cookware",
+    "Kitchen Appliances",
+    "Dining",
+    "Kitchen Storage",
+    "Tools & Gadgets"
+  ],
+
+  Toys: [
+    "Educational Toys",
+    "Games",
+    "Outdoor Toys",
+    "Kids Toys",
+    "Puzzles"
+  ],
+
+  Boutique: [
+    "Clothing",
+    "Jewelry",
+    "Accessories",
+    "Handbags"
+  ],
+
+  "Hand Made": [
+    "Handmade Decor",
+    "Handmade Jewelry",
+    "Handmade Gifts",
+    "Crafts"
+  ]
+
+};
+
+
+$("productCategory").addEventListener("change", function () {
+
+  const category = this.value;
+
+  const subcategorySelect =
+    $("productSubcategory");
+
+  subcategorySelect.innerHTML =
+    '<option value="">Select Subcategory</option>';
+
+  if (!category || !subcategories[category]) {
+
+    subcategorySelect.disabled = true;
+
+    return;
+  }
+
+  subcategories[category].forEach(subcategory => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = subcategory;
+    option.textContent = subcategory;
+
+    subcategorySelect.appendChild(option);
+
+  });
+
+  subcategorySelect.disabled = false;
+
+});
 
 /* STATUS */
 
@@ -1614,7 +1715,7 @@ reviews,
 category:
 $("productCategory")
 .value,
-
+subcategory:$('productSubcategory').value,
 description:
 $("productDescription")
 .value
