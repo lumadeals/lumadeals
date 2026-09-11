@@ -2925,105 +2925,377 @@ button[onclick*="addToCart"]:active {
     <li onclick="showPage('login'); toggleSidebar();">Login</li>
   </ul>
   <hr>
-  <ul class="hamburger-category-menu">
+  <!-- =========================================
+     HAMBURGER CATEGORIES
+========================================= -->
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Electronics')">
-    Electronics <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Electronics">
-      <button onclick="hamburgerSubcategory('Electronics','All',event)">All Electronics</button>
-      <button onclick="hamburgerSubcategory('Electronics','Mobiles & Tablets',event)">Mobiles & Tablets</button>
-      <button onclick="hamburgerSubcategory('Electronics','Mobile Accessories',event)">Mobile Accessories</button>
-      <button onclick="hamburgerSubcategory('Electronics','Audio',event)">Audio</button>
-      <button onclick="hamburgerSubcategory('Electronics','Computers',event)">Computers</button>
-      <button onclick="hamburgerSubcategory('Electronics','Smart Devices',event)">Smart Devices</button>
-    </div>
-  </li>
+<div class="hamburger-categories">
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Fashion')">
-     Fashion <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Fashion">
-      <button onclick="hamburgerSubcategory('Fashion','All',event)">All Fashion</button>
-      <button onclick="hamburgerSubcategory('Fashion','Men',event)">Men</button>
-      <button onclick="hamburgerSubcategory('Fashion','Women',event)">Women</button>
-      <button onclick="hamburgerSubcategory('Fashion','Shoes',event)">Shoes</button>
-      <button onclick="hamburgerSubcategory('Fashion','Bags',event)">Bags</button>
-      <button onclick="hamburgerSubcategory('Fashion','Watches',event)">Watches</button>
-    </div>
-  </li>
+  <!-- ELECTRONICS -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Electronics')">
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Home')">
-     Home <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Home">
-      <button onclick="hamburgerSubcategory('Home','All',event)">All Home</button>
-      <button onclick="hamburgerSubcategory('Home','Furniture',event)">Furniture</button>
-      <button onclick="hamburgerSubcategory('Home','Home Decor',event)">Home Decor</button>
-      <button onclick="hamburgerSubcategory('Home','Lighting',event)">Lighting</button>
-      <button onclick="hamburgerSubcategory('Home','Storage & Organization',event)">Storage & Organization</button>
-      <button onclick="hamburgerSubcategory('Home','Bedding',event)">Bedding</button>
-      <button onclick="hamburgerSubcategory('Home','Garden & Outdoor',event)">Garden & Outdoor</button>
-      <button onclick="hamburgerSubcategory('Home','Cleaning & Household',event)">Cleaning & Household</button>
-    </div>
-  </li>
+    <span class="hamburger-category-left">
+      <i class="fas fa-mobile-screen-button"></i>
+      <span>Electronics</span>
+    </span>
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Beauty')">
-    Beauty <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Beauty">
-      <button onclick="hamburgerSubcategory('Beauty','All',event)">All Beauty</button>
-      <button onclick="hamburgerSubcategory('Beauty','Skincare',event)">Skincare</button>
-      <button onclick="hamburgerSubcategory('Beauty','Makeup',event)">Makeup</button>
-      <button onclick="hamburgerSubcategory('Beauty','Hair Care',event)">Hair Care</button>
-      <button onclick="hamburgerSubcategory('Beauty','Fragrance',event)">Fragrance</button>
-      <button onclick="hamburgerSubcategory('Beauty','Personal Care',event)">Personal Care</button>
-    </div>
-  </li>
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Kitchen')">
-     Kitchen <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Kitchen">
-      <button onclick="hamburgerSubcategory('Kitchen','All',event)">All Kitchen</button>
-      <button onclick="hamburgerSubcategory('Kitchen','Cookware',event)">Cookware</button>
-      <button onclick="hamburgerSubcategory('Kitchen','Kitchen Appliances',event)">Kitchen Appliances</button>
-      <button onclick="hamburgerSubcategory('Kitchen','Dining',event)">Dining</button>
-      <button onclick="hamburgerSubcategory('Kitchen','Kitchen Storage',event)">Kitchen Storage</button>
-      <button onclick="hamburgerSubcategory('Kitchen','Tools & Gadgets',event)">Tools & Gadgets</button>
-    </div>
-  </li>
+  </div>
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Toys')">
-    Toys <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Toys">
-      <button onclick="hamburgerSubcategory('Toys','All',event)">All Toys</button>
-      <button onclick="hamburgerSubcategory('Toys','Educational Toys',event)">Educational Toys</button>
-      <button onclick="hamburgerSubcategory('Toys','Games',event)">Games</button>
-      <button onclick="hamburgerSubcategory('Toys','Outdoor Toys',event)">Outdoor Toys</button>
-      <button onclick="hamburgerSubcategory('Toys','Kids Toys',event)">Kids Toys</button>
-      <button onclick="hamburgerSubcategory('Toys','Puzzles',event)">Puzzles</button>
-    </div>
-  </li>
+  <div id="hamburger-Electronics" class="hamburger-subcategories">
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Boutique')">
-     Boutique <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Boutique">
-      <button onclick="hamburgerSubcategory('Boutique','All',event)">All Boutique</button>
-      <button onclick="hamburgerSubcategory('Boutique','Clothing',event)">Clothing</button>
-      <button onclick="hamburgerSubcategory('Boutique','Jewelry',event)">Jewelry</button>
-      <button onclick="hamburgerSubcategory('Boutique','Accessories',event)">Accessories</button>
-      <button onclick="hamburgerSubcategory('Boutique','Handbags',event)">Handbags</button>
-    </div>
-  </li>
+    <button onclick="hamburgerSubcategory('Electronics','All Electronics',event)">
+      <i class="fas fa-mobile-screen-button"></i>
+      <span>All Electronics</span>
+    </button>
 
-  <li class="hamburger-category" onclick="toggleHamburgerCategory('Hand Made')">
-     Hand Made <span>⌄</span>
-    <div class="hamburger-subcategories" id="hamburger-Hand Made">
-      <button onclick="hamburgerSubcategory('Hand Made','All',event)">All Hand Made</button>
-      <button onclick="hamburgerSubcategory('Hand Made','Handmade Decor',event)">Handmade Decor</button>
-      <button onclick="hamburgerSubcategory('Hand Made','Handmade Jewelry',event)">Handmade Jewelry</button>
-      <button onclick="hamburgerSubcategory('Hand Made','Handmade Gifts',event)">Handmade Gifts</button>
-      <button onclick="hamburgerSubcategory('Hand Made','Crafts',event)">Crafts</button>
-    </div>
-  </li>
+    <button onclick="hamburgerSubcategory('Electronics','Mobiles & Tablets',event)">
+      <i class="fas fa-tablet-screen-button"></i>
+      <span>Mobiles & Tablets</span>
+    </button>
 
-  </ul>
+    <button onclick="hamburgerSubcategory('Electronics','Mobile Accessories',event)">
+      <i class="fas fa-plug"></i>
+      <span>Mobile Accessories</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Electronics','Audio',event)">
+      <i class="fas fa-headphones"></i>
+      <span>Audio</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Electronics','Computers',event)">
+      <i class="fas fa-laptop"></i>
+      <span>Computers</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Electronics','Smart Devices',event)">
+      <i class="fas fa-clock"></i>
+      <span>Smart Devices</span>
+    </button>
+
+  </div>
+
+
+  <!-- FASHION -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Fashion')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-shirt"></i>
+      <span>Fashion</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Fashion" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Fashion','All Fashion',event)">
+      <i class="fas fa-shirt"></i>
+      <span>All Fashion</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Men',event)">
+      <i class="fas fa-person"></i>
+      <span>Men</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Women',event)">
+      <i class="fas fa-person-dress"></i>
+      <span>Women</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Kids',event)">
+      <i class="fas fa-child"></i>
+      <span>Kids</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Shoes',event)">
+      <i class="fas fa-shoe-prints"></i>
+      <span>Shoes</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Bags',event)">
+      <i class="fas fa-bag-shopping"></i>
+      <span>Bags</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Watches',event)">
+      <i class="fas fa-watch"></i>
+      <span>Watches</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Fashion','Jewelry & Accessories',event)">
+      <i class="fas fa-gem"></i>
+      <span>Jewelry & Accessories</span>
+    </button>
+
+  </div>
+
+
+  <!-- HOME -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Home')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Home" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Home','All Home',event)">
+      <i class="fas fa-house"></i>
+      <span>All Home</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Furniture',event)">
+      <i class="fas fa-couch"></i>
+      <span>Furniture</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Home Decor',event)">
+      <i class="fas fa-image"></i>
+      <span>Home Decor</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Lighting',event)">
+      <i class="fas fa-lightbulb"></i>
+      <span>Lighting</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Storage & Organization',event)">
+      <i class="fas fa-boxes-stacked"></i>
+      <span>Storage & Organization</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Bedding',event)">
+      <i class="fas fa-bed"></i>
+      <span>Bedding</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Garden & Outdoor',event)">
+      <i class="fas fa-seedling"></i>
+      <span>Garden & Outdoor</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Home','Cleaning & Household',event)">
+      <i class="fas fa-broom"></i>
+      <span>Cleaning & Household</span>
+    </button>
+
+  </div>
+
+
+  <!-- BEAUTY -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Beauty')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-wand-magic-sparkles"></i>
+      <span>Beauty</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Beauty" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Beauty','All Beauty',event)">
+      <i class="fas fa-wand-magic-sparkles"></i>
+      <span>All Beauty</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Beauty','Makeup',event)">
+      <i class="fas fa-palette"></i>
+      <span>Makeup</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Beauty','Skincare',event)">
+      <i class="fas fa-pump-soap"></i>
+      <span>Skincare</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Beauty','Hair Care',event)">
+      <i class="fas fa-scissors"></i>
+      <span>Hair Care</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Beauty','Fragrances',event)">
+      <i class="fas fa-spray-can-sparkles"></i>
+      <span>Fragrances</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Beauty','Personal Care',event)">
+      <i class="fas fa-spa"></i>
+      <span>Personal Care</span>
+    </button>
+
+  </div>
+
+
+  <!-- KITCHEN -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Kitchen')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-kitchen-set"></i>
+      <span>Kitchen</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Kitchen" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Kitchen','All Kitchen',event)">
+      <i class="fas fa-kitchen-set"></i>
+      <span>All Kitchen</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Kitchen','Cookware',event)">
+      <i class="fas fa-pot-food"></i>
+      <span>Cookware</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Kitchen','Kitchen Appliances',event)">
+      <i class="fas fa-blender"></i>
+      <span>Kitchen Appliances</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Kitchen','Kitchen Tools',event)">
+      <i class="fas fa-utensils"></i>
+      <span>Kitchen Tools</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Kitchen','Storage & Containers',event)">
+      <i class="fas fa-box"></i>
+      <span>Storage & Containers</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Kitchen','Dining',event)">
+      <i class="fas fa-utensils"></i>
+      <span>Dining</span>
+    </button>
+
+  </div>
+
+
+  <!-- TOYS -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Toys')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-puzzle-piece"></i>
+      <span>Toys</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Toys" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Toys','All Toys',event)">
+      <i class="fas fa-puzzle-piece"></i>
+      <span>All Toys</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Action Figures',event)">
+      <i class="fas fa-person"></i>
+      <span>Action Figures</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Dolls',event)">
+      <i class="fas fa-child-dress"></i>
+      <span>Dolls</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Educational Toys',event)">
+      <i class="fas fa-book"></i>
+      <span>Educational Toys</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Games & Puzzles',event)">
+      <i class="fas fa-puzzle-piece"></i>
+      <span>Games & Puzzles</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Outdoor Toys',event)">
+      <i class="fas fa-futbol"></i>
+      <span>Outdoor Toys</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Toys','Baby Toys',event)">
+      <i class="fas fa-baby"></i>
+      <span>Baby Toys</span>
+    </button>
+
+  </div>
+
+
+  <!-- BOUTIQUE / HANDMADE -->
+  <div class="hamburger-category"
+       onclick="toggleHamburgerCategory('Boutique')">
+
+    <span class="hamburger-category-left">
+      <i class="fas fa-bag-shopping"></i>
+      <span>Boutique / Handmade</span>
+    </span>
+
+    <i class="fas fa-chevron-down hamburger-arrow"></i>
+
+  </div>
+
+  <div id="hamburger-Boutique" class="hamburger-subcategories">
+
+    <button onclick="hamburgerSubcategory('Boutique','All Boutique',event)">
+      <i class="fas fa-bag-shopping"></i>
+      <span>All Boutique</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Boutique','Clothing',event)">
+      <i class="fas fa-shirt"></i>
+      <span>Clothing</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Boutique','Handmade',event)">
+      <i class="fas fa-hand-sparkles"></i>
+      <span>Handmade</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Boutique','Handcrafted Decor',event)">
+      <i class="fas fa-vase"></i>
+      <span>Handcrafted Decor</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Boutique','Art & Crafts',event)">
+      <i class="fas fa-palette"></i>
+      <span>Art & Crafts</span>
+    </button>
+
+    <button onclick="hamburgerSubcategory('Boutique','Gifts',event)">
+      <i class="fas fa-gift"></i>
+      <span>Gifts</span>
+    </button>
+
+  </div>
+
+</div>
+
+
+
+  
 </div>
 <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 <nav class="main-nav">
