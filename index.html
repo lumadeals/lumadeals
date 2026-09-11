@@ -4011,6 +4011,30 @@ function sendWhatsAppOrder() {
 
   function filterCat(category, element) {
 
+  /* ==========================================
+     CLOSE HOME SUBCATEGORIES
+     WHEN ANOTHER CATEGORY IS SELECTED
+     ========================================== */
+
+  const homeMenu =
+    document.getElementById("home-subcategories");
+
+  const homeCard =
+    document.querySelector(".home-category-card");
+
+  if (homeMenu) {
+    homeMenu.classList.remove("show");
+  }
+
+  if (homeCard) {
+    homeCard.classList.remove("active");
+  }
+
+
+  /* ==========================================
+     NORMAL CATEGORY FILTER
+     ========================================== */
+
   const filtered = category === 'All'
     ? window.products
     : window.products.filter(p =>
@@ -4018,49 +4042,73 @@ function sendWhatsAppOrder() {
         String(category || '').trim().toLowerCase()
       );
 
+
   const homeGrid =
     document.getElementById('home-product-grid');
 
   const shopGrid =
     document.getElementById('shop-product-grid');
 
+
   const html = filtered.length
     ? filtered.map(productCardHTML).join('')
     : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
+
 
   if (homeGrid) {
     homeGrid.innerHTML = html;
   }
 
+
   if (shopGrid) {
     shopGrid.innerHTML = html;
   }
 
+
   restoreWishlistButtons();
+
+
+  /* SHOP HEADING */
 
   const shopHeading =
     document.getElementById('shop-heading');
 
   if (shopHeading) {
     shopHeading.innerText =
-      category === 'All' ? 'Products' : category;
+      category === 'All'
+        ? 'Products'
+        : category;
   }
+
+
+  /* HOME HEADING */
 
   const homeHeading =
     document.getElementById('home-products-heading');
 
   if (homeHeading) {
     homeHeading.innerText =
-      category === 'All' ? 'All Products' : category;
+      category === 'All'
+        ? 'All Products'
+        : category;
   }
 
-  document.querySelectorAll('.categories li').forEach(li => {
-    li.classList.remove('active');
-  });
+
+  /* CATEGORY ACTIVE STATE */
+
+  document
+    .querySelectorAll('.categories li')
+    .forEach(li => {
+      li.classList.remove('active');
+    });
+
 
   if (element) {
     element.classList.add('active');
   }
+
+
+  /* OPEN SHOP WHEN NEEDED */
 
   if (
     category !== 'All' &&
@@ -4071,6 +4119,7 @@ function sendWhatsAppOrder() {
   ) {
     showPage('shop');
   }
+
   }
 
 function submitSignup(event) {
