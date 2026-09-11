@@ -3872,6 +3872,11 @@ function removeFromCart(index) {
   `;
   updateCart();
 }
+
+
+  
+
+
 function showPage(pageName, updateUrl = true) {
 
   document.querySelectorAll('.page').forEach(p =>
@@ -3892,11 +3897,15 @@ function showPage(pageName, updateUrl = true) {
       pageName === 'home' ? 'block' : 'none';
   }
 
-  // HOME par wapas aate waqt ALL products restore karo
+  // ==========================================
+  // HOME PAR WAPAS AATE WAQT SAB CATEGORY RESET
+  // ==========================================
   if (
     pageName === 'home' &&
     Array.isArray(window.products)
   ) {
+
+    // All products restore
     const homeGrid =
       document.getElementById('home-product-grid');
 
@@ -3904,11 +3913,53 @@ function showPage(pageName, updateUrl = true) {
       homeGrid.innerHTML =
         window.products.map(productCardHTML).join('');
     }
+
+    // Heading reset
+    const homeHeading =
+      document.getElementById('home-products-heading');
+
+    if (homeHeading) {
+      homeHeading.innerText = 'All Products';
+    }
+
+    // Category cards reset
+    document.querySelectorAll('.category-card').forEach(card => {
+      card.classList.remove('active');
+    });
+
+    // Subcategory rows close
+    document.querySelectorAll('.subcategory-group').forEach(group => {
+      group.classList.remove('show');
+    });
+
+    // Subcategory container close
+    const subcategoryContainer =
+      document.getElementById('category-subcategories');
+
+    if (subcategoryContainer) {
+      subcategoryContainer.classList.remove('show');
+    }
+
+    // Subcategory buttons reset
+    document.querySelectorAll('.subcategory-group button').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Old category buttons reset
+    document.querySelectorAll('.categories li').forEach(li => {
+      li.classList.remove('active');
+    });
+
+    // Wishlist buttons restore
+    if (typeof restoreWishlistButtons === 'function') {
+      restoreWishlistButtons();
+    }
   }
 
   window.scrollTo(0, 0);
 
   if (pageName === 'login') {
+
     const loginInputs =
       document.querySelectorAll('#page-login input');
 
@@ -3918,6 +3969,7 @@ function showPage(pageName, updateUrl = true) {
   }
 
   if (updateUrl) {
+
     const url =
       pageName === 'home'
         ? '/'
@@ -3930,34 +3982,6 @@ function showPage(pageName, updateUrl = true) {
     );
   }
 }
-
-
-window.addEventListener('popstate', function(event) {
-   
-const pageName =
-    (event.state && event.state.page)
-      ? event.state.page
-      : 'home';
-
-  showPage(pageName, false);
-});
-
-
-window.addEventListener('DOMContentLoaded', function() {
-
-  const params =
-    new URLSearchParams(window.location.search);
-
-  const requestedPage =
-    params.get('page');
-
-  if (
-    requestedPage &&
-    document.getElementById('page-' + requestedPage)
-  ) {
-    showPage(requestedPage, false);
-  }
-});
      function submitContact(e) {
   e.preventDefault();
   alert("Message has been sent to Luma Deals");
