@@ -2422,19 +2422,91 @@ button[onclick*="addToCart"]:active {
   font-weight: 700;
 }
 
-/* ================================
-   HOME SUBCATEGORIES
-   ================================ */
 
-.home-category-card {
-  cursor: pointer;
-  position: relative;
+
+.home-subcategories button:hover {
+/* ==========================================
+   HOME SUBCATEGORIES - HORIZONTAL ROW
+   ========================================== */
+
+.home-subcategories {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 14px;
+  padding: 8px 4px;
+
+  gap: 10px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  flex-wrap: nowrap;
+
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+
+.home-subcategories::-webkit-scrollbar {
+  display: none;
+}
+
+.home-subcategories.show {
+  display: flex;
+}
+
+/* Subcategory buttons */
+
+.home-subcategories button {
+  flex: 0 0 auto;
+
+  border: 1px solid rgba(59, 180, 236, 0.25);
+
+  background: #ffffff;
+
+  color: #14171A;
+
+  padding: 10px 16px;
+
+  border-radius: 25px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.home-subcategories button:hover {
+  background: #3BB4EC;
+  color: #ffffff;
+  border-color: #3BB4EC;
+  transform: translateY(-1px);
+}
+
+.home-subcategories button.active {
+  background: #3BB4EC;
+  color: #ffffff;
+  border-color: #3BB4EC;
+}
+
+/* Home arrow */
 
 .home-arrow {
   display: inline-block;
   margin-left: 5px;
-  font-size: 18px;
+  font-size: 16px;
+
   transition: transform 0.25s ease;
 }
 
@@ -2442,57 +2514,25 @@ button[onclick*="addToCart"]:active {
   transform: rotate(180deg);
 }
 
-.home-subcategories {
-  display: none;
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(59, 180, 236, 0.25);
-  border-radius: 16px;
-  box-sizing: border-box;
-  grid-column: 1 / -1;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.home-subcategories.show {
-  display: flex;
-}
-
-.home-subcategories button {
-  border: 1px solid rgba(59, 180, 236, 0.35);
-  background: rgba(59, 180, 236, 0.08);
-  color: inherit;
-  padding: 9px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.home-subcategories button:hover {
-  background: #3BB4EC;
-  color: #14171A;
-  transform: translateY(-1px);
-}
-
-.home-subcategories button.active {
-  background: #3BB4EC;
-  color: #14171A;
-  border-color: #3BB4EC;
-}
+/* Mobile */
 
 @media (max-width: 600px) {
+
   .home-subcategories {
-    padding: 10px;
+    margin-top: 12px;
+    padding: 7px 2px;
+
+    gap: 8px;
   }
 
   .home-subcategories button {
+    padding: 9px 14px;
+
     font-size: 13px;
-    padding: 8px 11px;
+
+    border-radius: 22px;
   }
-  }
+    }
   </style>
 </head>
 <body>
