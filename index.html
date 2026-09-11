@@ -2873,26 +2873,7 @@ button[onclick*="addToCart"]:active {
     <!-- CATEGORY ROW -->
     <div class="category-showcase">
 
-  <!-- ELECTRONICS -->
-  <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">
-    <div class="category-icon">📱</div>
-    <h3>Electronics <span class="category-arrow">⌄</span></h3>
-    <p>Smart technology</p>
-  </div>
-
-  <!-- FASHION -->
-  <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">
-    <div class="category-icon">👕</div>
-    <h3>Fashion <span class="category-arrow">⌄</span></h3>
-    <p>Style for everyone</p>
-  </div>
-
-  <!-- HOME -->
-  <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">
-    <div class="category-icon">🏠</div>
-    <h3>Home <span class="category-arrow">⌄</span></h3>
-    <p>Make life comfortable</p>
-  </div>
+  
 
   <!-- BEAUTY -->
   <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">
@@ -2914,7 +2895,27 @@ button[onclick*="addToCart"]:active {
     <h3>Toys <span class="category-arrow">⌄</span></h3>
     <p>Fun for everyone</p>
   </div>
-
+      
+      <!-- HOME -->
+  <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">
+    <div class="category-icon">🏠</div>
+    <h3>Home <span class="category-arrow">⌄</span></h3>
+    <p>Make life comfortable</p>
+  </div>
+      
+<!-- FASHION -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">
+    <div class="category-icon">👕</div>
+    <h3>Fashion <span class="category-arrow">⌄</span></h3>
+    <p>Style for everyone</p>
+  </div>
+      <!-- ELECTRONICS -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">
+    <div class="category-icon">📱</div>
+    <h3>Electronics <span class="category-arrow">⌄</span></h3>
+    <p>Smart technology</p>
+  </div>
+      
   <!-- BOUTIQUE -->
   <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">
     <div class="category-icon">👜</div>
@@ -2938,37 +2939,7 @@ button[onclick*="addToCart"]:active {
 
 <div id="category-subcategories" class="category-subcategories">
 
-  <!-- ELECTRONICS -->
-  <div class="subcategory-group" data-category="Electronics">
-    <button onclick="filterCategorySubcategory('Electronics','All',event)">📱 All Electronics</button>
-    <button onclick="filterCategorySubcategory('Electronics','Mobiles & Tablets',event)">📱 Mobiles & Tablets</button>
-    <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">🔌 Mobile Accessories</button>
-    <button onclick="filterCategorySubcategory('Electronics','Audio',event)">🎧 Audio</button>
-    <button onclick="filterCategorySubcategory('Electronics','Computers',event)">💻 Computers</button>
-    <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
-  </div>
-
-  <!-- FASHION -->
-  <div class="subcategory-group" data-category="Fashion">
-    <button onclick="filterCategorySubcategory('Fashion','All',event)">👕 All Fashion</button>
-    <button onclick="filterCategorySubcategory('Fashion','Men',event)">👨 Men</button>
-    <button onclick="filterCategorySubcategory('Fashion','Women',event)">👩 Women</button>
-    <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">👟 Shoes</button>
-    <button onclick="filterCategorySubcategory('Fashion','Bags',event)">👜 Bags</button>
-    <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
-  </div>
-
-  <!-- HOME -->
-  <div class="subcategory-group" data-category="Home">
-    <button onclick="filterCategorySubcategory('Home','All',event)">🏠 All Home</button>
-    <button onclick="filterCategorySubcategory('Home','Furniture',event)">🛋️ Furniture</button>
-    <button onclick="filterCategorySubcategory('Home','Home Decor',event)">🖼️ Home Decor</button>
-    <button onclick="filterCategorySubcategory('Home','Lighting',event)">💡 Lighting</button>
-    <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">🗄️ Storage & Organization</button>
-    <button onclick="filterCategorySubcategory('Home','Bedding',event)">🛏️ Bedding</button>
-    <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">🪴 Garden & Outdoor</button>
-    <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">🧹 Cleaning & Household</button>
-  </div>
+  
 
   <!-- BEAUTY -->
   <div class="subcategory-group" data-category="Beauty">
@@ -2999,7 +2970,39 @@ button[onclick*="addToCart"]:active {
     <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">🧸 Kids Toys</button>
     <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">🧩 Puzzles</button>
   </div>
-
+  
+  <!-- HOME -->
+  <div class="subcategory-group" data-category="Home">
+    <button onclick="filterCategorySubcategory('Home','All',event)">🏠 All Home</button>
+    <button onclick="filterCategorySubcategory('Home','Furniture',event)">🛋️ Furniture</button>
+    <button onclick="filterCategorySubcategory('Home','Home Decor',event)">🖼️ Home Decor</button>
+    <button onclick="filterCategorySubcategory('Home','Lighting',event)">💡 Lighting</button>
+    <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">🗄️ Storage & Organization</button>
+    <button onclick="filterCategorySubcategory('Home','Bedding',event)">🛏️ Bedding</button>
+    <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">🪴 Garden & Outdoor</button>
+    <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">🧹 Cleaning & Household</button>
+  </div>
+  
+  <!-- FASHION -->
+  <div class="subcategory-group" data-category="Fashion">
+    <button onclick="filterCategorySubcategory('Fashion','All',event)">👕 All Fashion</button>
+    <button onclick="filterCategorySubcategory('Fashion','Men',event)">👨 Men</button>
+    <button onclick="filterCategorySubcategory('Fashion','Women',event)">👩 Women</button>
+    <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">👟 Shoes</button>
+    <button onclick="filterCategorySubcategory('Fashion','Bags',event)">👜 Bags</button>
+    <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
+  </div>
+  
+<!-- ELECTRONICS -->
+  <div class="subcategory-group" data-category="Electronics">
+    <button onclick="filterCategorySubcategory('Electronics','All',event)">📱 All Electronics</button>
+    <button onclick="filterCategorySubcategory('Electronics','Mobiles & Tablets',event)">📱 Mobiles & Tablets</button>
+    <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">🔌 Mobile Accessories</button>
+    <button onclick="filterCategorySubcategory('Electronics','Audio',event)">🎧 Audio</button>
+    <button onclick="filterCategorySubcategory('Electronics','Computers',event)">💻 Computers</button>
+    <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
+  </div>
+  
   <!-- BOUTIQUE -->
   <div class="subcategory-group" data-category="Boutique">
     <button onclick="filterCategorySubcategory('Boutique','All',event)">👜 All Boutique</button>
