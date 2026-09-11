@@ -3876,11 +3876,7 @@ function removeFromCart(index) {
   updateCart();
 }
 
-
-  
-
-
-  function showPage(pageName, updateUrl = true) {
+function showPage(pageName, updateUrl = true) {
 
   document.querySelectorAll('.page').forEach(p =>
     p.classList.remove('active')
@@ -3900,24 +3896,28 @@ function removeFromCart(index) {
       pageName === 'home' ? 'block' : 'none';
   }
 
-  // ==========================================
-  // HOME PAR WAPAS AATE WAQT SAB CATEGORY RESET
-  // ==========================================
+  // Home ya Shop par jaate waqt category filter reset
   if (
-    pageName === 'home' &&
+    (pageName === 'home' || pageName === 'shop') &&
     Array.isArray(window.products)
   ) {
 
-    // All products restore
+    const html = window.products.map(productCardHTML).join('');
+
     const homeGrid =
       document.getElementById('home-product-grid');
 
     if (homeGrid) {
-      homeGrid.innerHTML =
-        window.products.map(productCardHTML).join('');
+      homeGrid.innerHTML = html;
     }
 
-    // Heading reset
+    const shopGrid =
+      document.getElementById('shop-product-grid');
+
+    if (shopGrid) {
+      shopGrid.innerHTML = html;
+    }
+
     const homeHeading =
       document.getElementById('home-products-heading');
 
@@ -3925,17 +3925,21 @@ function removeFromCart(index) {
       homeHeading.innerText = 'All Products';
     }
 
-    // Category cards reset
+    const shopHeading =
+      document.getElementById('shop-heading');
+
+    if (shopHeading) {
+      shopHeading.innerText = 'Products';
+    }
+
     document.querySelectorAll('.category-card').forEach(card => {
       card.classList.remove('active');
     });
 
-    // Subcategory rows close
     document.querySelectorAll('.subcategory-group').forEach(group => {
       group.classList.remove('show');
     });
 
-    // Subcategory container close
     const subcategoryContainer =
       document.getElementById('category-subcategories');
 
@@ -3943,17 +3947,14 @@ function removeFromCart(index) {
       subcategoryContainer.classList.remove('show');
     }
 
-    // Subcategory buttons reset
     document.querySelectorAll('.subcategory-group button').forEach(button => {
       button.classList.remove('active');
     });
 
-    // Old category buttons reset
     document.querySelectorAll('.categories li').forEach(li => {
       li.classList.remove('active');
     });
 
-    // Wishlist buttons restore
     if (typeof restoreWishlistButtons === 'function') {
       restoreWishlistButtons();
     }
@@ -3984,21 +3985,15 @@ function removeFromCart(index) {
       url
     );
   }
-  }
+}
+  
+
      function submitContact(e) {
   e.preventDefault();
   alert("Message has been sent to Luma Deals");
   e.target.reset();
      }
                   
-
-    
-    
-
-  
-
-
-
 
 function submitLogin(e) {
   e.preventDefault();
