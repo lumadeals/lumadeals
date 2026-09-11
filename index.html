@@ -2422,7 +2422,77 @@ button[onclick*="addToCart"]:active {
   font-weight: 700;
 }
 
+/* ================================
+   HOME SUBCATEGORIES
+   ================================ */
 
+.home-category-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.home-arrow {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 18px;
+  transition: transform 0.25s ease;
+}
+
+.home-category-card.active .home-arrow {
+  transform: rotate(180deg);
+}
+
+.home-subcategories {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(59, 180, 236, 0.25);
+  border-radius: 16px;
+  box-sizing: border-box;
+  grid-column: 1 / -1;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.home-subcategories.show {
+  display: flex;
+}
+
+.home-subcategories button {
+  border: 1px solid rgba(59, 180, 236, 0.35);
+  background: rgba(59, 180, 236, 0.08);
+  color: inherit;
+  padding: 9px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.home-subcategories button:hover {
+  background: #3BB4EC;
+  color: #14171A;
+  transform: translateY(-1px);
+}
+
+.home-subcategories button.active {
+  background: #3BB4EC;
+  color: #14171A;
+  border-color: #3BB4EC;
+}
+
+@media (max-width: 600px) {
+  .home-subcategories {
+    padding: 10px;
+  }
+
+  .home-subcategories button {
+    font-size: 13px;
+    padding: 8px 11px;
+  }
+  }
   </style>
 </head>
 <body>
@@ -2592,11 +2662,45 @@ button[onclick*="addToCart"]:active {
     <p>Style for everyone</p>  
   </div>  
 
-  <div class="category-card" onclick="filterCat('Home', null)">  
-    <div class="category-icon">🏠</div>  
-    <h3>Home</h3>  
-    <p>Make life comfortable</p>  
-  </div>  
+  <div class="category-card home-category-card" onclick="toggleHomeSubcategories(event)">
+  <div class="category-icon">🏠</div>
+  <h3>Home <span class="home-arrow">⌄</span></h3>
+  <p>Make life comfortable</p>
+</div>
+
+<div id="home-subcategories" class="home-subcategories">
+  <button onclick="filterHomeSubcategory('All', event)">
+    🏠 All Home
+  </button>
+
+  <button onclick="filterHomeSubcategory('Furniture', event)">
+    🛋️ Furniture
+  </button>
+
+  <button onclick="filterHomeSubcategory('Home Decor', event)">
+    🖼️ Home Decor
+  </button>
+
+  <button onclick="filterHomeSubcategory('Lighting', event)">
+    💡 Lighting
+  </button>
+
+  <button onclick="filterHomeSubcategory('Storage & Organization', event)">
+    🗄️ Storage & Organization
+  </button>
+
+  <button onclick="filterHomeSubcategory('Bedding', event)">
+    🛏️ Bedding
+  </button>
+
+  <button onclick="filterHomeSubcategory('Garden & Outdoor', event)">
+    🪴 Garden & Outdoor
+  </button>
+
+  <button onclick="filterHomeSubcategory('Cleaning & Household', event)">
+    🧹 Cleaning & Household
+  </button>
+</div> 
 
 <div class="category-card" onclick="filterCat('Boutique', null)">
   <div class="category-icon">👗</div>
