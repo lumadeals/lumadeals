@@ -2577,7 +2577,151 @@ button[onclick*="addToCart"]:active {
 .home-category-card.active .category-icon {
   color: #ffffff;
   }
+/* ==========================================
+   LUMA DEALS - CATEGORY SUBCATEGORIES
+   ========================================== */
 
+.category-card {
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* SELECTED CATEGORY */
+.category-card.active {
+  background: #3BB4EC;
+  border-color: #3BB4EC;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(59,180,236,0.25);
+}
+
+.category-card.active h3,
+.category-card.active p,
+.category-card.active .category-icon {
+  color: #ffffff;
+}
+
+.category-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 15px;
+  transition: transform 0.25s ease;
+}
+
+.category-card.active .category-arrow {
+  transform: rotate(180deg);
+}
+
+
+/* ==========================================
+   SUBCATEGORY CONTAINER
+   ========================================== */
+
+.category-subcategories {
+  display: none;
+  width: 100%;
+  margin-top: 14px;
+  padding: 3px 0 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-subcategories::-webkit-scrollbar {
+  display: none;
+}
+
+.category-subcategories.show {
+  display: block;
+}
+
+
+/* ==========================================
+   EACH CATEGORY GROUP
+   ========================================== */
+
+.subcategory-group {
+  display: none;
+  gap: 9px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.subcategory-group::-webkit-scrollbar {
+  display: none;
+}
+
+.subcategory-group.show {
+  display: flex;
+}
+
+
+/* ==========================================
+   SUBCATEGORY BUTTONS
+   ========================================== */
+
+.subcategory-group button {
+  flex: 0 0 auto;
+  border: 1px solid #dce7ee;
+  background: #ffffff;
+  color: #14171A;
+  padding: 9px 15px;
+  border-radius: 22px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(15,23,42,0.06);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.subcategory-group button:hover {
+  background: #3BB4EC;
+  color: #ffffff;
+  border-color: #3BB4EC;
+  transform: translateY(-1px);
+}
+
+.subcategory-group button.active {
+  background: #3BB4EC;
+  color: #ffffff;
+  border-color: #3BB4EC;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+
+  .category-subcategories {
+    margin-top: 12px;
+    padding: 2px 0 8px;
+  }
+
+  .subcategory-group {
+    gap: 8px;
+  }
+
+  .subcategory-group button {
+    padding: 8px 13px;
+    font-size: 12px;
+    border-radius: 20px;
+  }
+}
   </style>
 </head>
 <body>
@@ -2729,135 +2873,154 @@ button[onclick*="addToCart"]:active {
     <!-- CATEGORY ROW -->
     <div class="category-showcase">
 
-      <div class="category-card" onclick="filterCat('Kitchen', null)">
-        <div class="category-icon">🍳</div>
-        <h3>Kitchen</h3>
-        <p>Smart kitchen essentials</p>
-      </div>
+  <!-- ELECTRONICS -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">
+    <div class="category-icon">📱</div>
+    <h3>Electronics <span class="category-arrow">⌄</span></h3>
+    <p>Smart technology</p>
+  </div>
+
+  <!-- FASHION -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">
+    <div class="category-icon">👕</div>
+    <h3>Fashion <span class="category-arrow">⌄</span></h3>
+    <p>Style for everyone</p>
+  </div>
+
+  <!-- HOME -->
+  <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">
+    <div class="category-icon">🏠</div>
+    <h3>Home <span class="category-arrow">⌄</span></h3>
+    <p>Make life comfortable</p>
+  </div>
+
+  <!-- BEAUTY -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">
+    <div class="category-icon">💄</div>
+    <h3>Beauty <span class="category-arrow">⌄</span></h3>
+    <p>Beauty & care</p>
+  </div>
+
+  <!-- KITCHEN -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">
+    <div class="category-icon">🍳</div>
+    <h3>Kitchen <span class="category-arrow">⌄</span></h3>
+    <p>Kitchen essentials</p>
+  </div>
+
+  <!-- TOYS -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">
+    <div class="category-icon">🧸</div>
+    <h3>Toys <span class="category-arrow">⌄</span></h3>
+    <p>Fun for everyone</p>
+  </div>
+
+  <!-- BOUTIQUE -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">
+    <div class="category-icon">👜</div>
+    <h3>Boutique <span class="category-arrow">⌄</span></h3>
+    <p>Premium collection</p>
+  </div>
+
+  <!-- HAND MADE -->
+  <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">
+    <div class="category-icon">🖐️</div>
+    <h3>Hand Made <span class="category-arrow">⌄</span></h3>
+    <p>Made with care</p>
+  </div>
+
+</div>
 
 
-      <div class="category-card" onclick="filterCat('Toys', null)">
-        <div class="category-icon">🧸</div>
-        <h3>Toys</h3>
-        <p>Fun for everyone</p>
-      </div>
+<!-- ==========================================
+     CATEGORY SUBCATEGORIES
+     ========================================== -->
 
+<div id="category-subcategories" class="category-subcategories">
 
-      <div class="category-card" onclick="filterCat('Beauty', null)">
-        <div class="category-icon">✨</div>
-        <h3>Beauty</h3>
-        <p>Beauty & care</p>
-      </div>
+  <!-- ELECTRONICS -->
+  <div class="subcategory-group" data-category="Electronics">
+    <button onclick="filterCategorySubcategory('Electronics','All',event)">📱 All Electronics</button>
+    <button onclick="filterCategorySubcategory('Electronics','Mobiles & Tablets',event)">📱 Mobiles & Tablets</button>
+    <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">🔌 Mobile Accessories</button>
+    <button onclick="filterCategorySubcategory('Electronics','Audio',event)">🎧 Audio</button>
+    <button onclick="filterCategorySubcategory('Electronics','Computers',event)">💻 Computers</button>
+    <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
+  </div>
 
+  <!-- FASHION -->
+  <div class="subcategory-group" data-category="Fashion">
+    <button onclick="filterCategorySubcategory('Fashion','All',event)">👕 All Fashion</button>
+    <button onclick="filterCategorySubcategory('Fashion','Men',event)">👨 Men</button>
+    <button onclick="filterCategorySubcategory('Fashion','Women',event)">👩 Women</button>
+    <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">👟 Shoes</button>
+    <button onclick="filterCategorySubcategory('Fashion','Bags',event)">👜 Bags</button>
+    <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
+  </div>
 
-      <div class="category-card" onclick="filterCat('Electronics', null)">
-        <div class="category-icon">📱</div>
-        <h3>Electronics</h3>
-        <p>Smart gadgets & tech</p>
-      </div>
+  <!-- HOME -->
+  <div class="subcategory-group" data-category="Home">
+    <button onclick="filterCategorySubcategory('Home','All',event)">🏠 All Home</button>
+    <button onclick="filterCategorySubcategory('Home','Furniture',event)">🛋️ Furniture</button>
+    <button onclick="filterCategorySubcategory('Home','Home Decor',event)">🖼️ Home Decor</button>
+    <button onclick="filterCategorySubcategory('Home','Lighting',event)">💡 Lighting</button>
+    <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">🗄️ Storage & Organization</button>
+    <button onclick="filterCategorySubcategory('Home','Bedding',event)">🛏️ Bedding</button>
+    <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">🪴 Garden & Outdoor</button>
+    <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">🧹 Cleaning & Household</button>
+  </div>
 
+  <!-- BEAUTY -->
+  <div class="subcategory-group" data-category="Beauty">
+    <button onclick="filterCategorySubcategory('Beauty','All',event)">💄 All Beauty</button>
+    <button onclick="filterCategorySubcategory('Beauty','Skincare',event)">🧴 Skincare</button>
+    <button onclick="filterCategorySubcategory('Beauty','Makeup',event)">💄 Makeup</button>
+    <button onclick="filterCategorySubcategory('Beauty','Hair Care',event)">💇 Hair Care</button>
+    <button onclick="filterCategorySubcategory('Beauty','Fragrance',event)">🌸 Fragrance</button>
+    <button onclick="filterCategorySubcategory('Beauty','Personal Care',event)">🧼 Personal Care</button>
+  </div>
 
-      <div class="category-card" onclick="filterCat('Fashion', null)">
-        <div class="category-icon">👕</div>
-        <h3>Fashion</h3>
-        <p>Style for everyone</p>
-      </div>
+  <!-- KITCHEN -->
+  <div class="subcategory-group" data-category="Kitchen">
+    <button onclick="filterCategorySubcategory('Kitchen','All',event)">🍳 All Kitchen</button>
+    <button onclick="filterCategorySubcategory('Kitchen','Cookware',event)">🍲 Cookware</button>
+    <button onclick="filterCategorySubcategory('Kitchen','Kitchen Appliances',event)">⚡ Kitchen Appliances</button>
+    <button onclick="filterCategorySubcategory('Kitchen','Dining',event)">🍽️ Dining</button>
+    <button onclick="filterCategorySubcategory('Kitchen','Kitchen Storage',event)">🗄️ Kitchen Storage</button>
+    <button onclick="filterCategorySubcategory('Kitchen','Tools & Gadgets',event)">🔧 Tools & Gadgets</button>
+  </div>
 
+  <!-- TOYS -->
+  <div class="subcategory-group" data-category="Toys">
+    <button onclick="filterCategorySubcategory('Toys','All',event)">🧸 All Toys</button>
+    <button onclick="filterCategorySubcategory('Toys','Educational Toys',event)">📚 Educational Toys</button>
+    <button onclick="filterCategorySubcategory('Toys','Games',event)">🎮 Games</button>
+    <button onclick="filterCategorySubcategory('Toys','Outdoor Toys',event)">⚽ Outdoor Toys</button>
+    <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">🧸 Kids Toys</button>
+    <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">🧩 Puzzles</button>
+  </div>
 
-      <!-- HOME CATEGORY -->
-      <div
-        class="category-card home-category-card"
-        onclick="toggleHomeSubcategories(event)"
-      >
-        <div class="category-icon">🏠</div>
+  <!-- BOUTIQUE -->
+  <div class="subcategory-group" data-category="Boutique">
+    <button onclick="filterCategorySubcategory('Boutique','All',event)">👜 All Boutique</button>
+    <button onclick="filterCategorySubcategory('Boutique','Clothing',event)">👗 Clothing</button>
+    <button onclick="filterCategorySubcategory('Boutique','Jewelry',event)">💎 Jewelry</button>
+    <button onclick="filterCategorySubcategory('Boutique','Accessories',event)">👜 Accessories</button>
+    <button onclick="filterCategorySubcategory('Boutique','Handbags',event)">👝 Handbags</button>
+  </div>
 
-        <h3>
-          Home
-          <span class="home-arrow">⌄</span>
-        </h3>
+  <!-- HAND MADE -->
+  <div class="subcategory-group" data-category="Hand Made">
+    <button onclick="filterCategorySubcategory('Hand Made','All',event)">🖐️ All Hand Made</button>
+    <button onclick="filterCategorySubcategory('Hand Made','Handmade Decor',event)">🏺 Handmade Decor</button>
+    <button onclick="filterCategorySubcategory('Hand Made','Handmade Jewelry',event)">💎 Handmade Jewelry</button>
+    <button onclick="filterCategorySubcategory('Hand Made','Handmade Gifts',event)">🎁 Handmade Gifts</button>
+    <button onclick="filterCategorySubcategory('Hand Made','Crafts',event)">🧶 Crafts</button>
+  </div>
 
-        <p>Make life comfortable</p>
-      </div>
-
-
-      <div class="category-card" onclick="filterCat('Boutique', null)">
-        <div class="category-icon">👗</div>
-        <h3>Boutique</h3>
-        <p>Elegant fashion & style</p>
-      </div>
-
-
-      <div class="category-card" onclick="filterCat('Hand Made', null)">
-        <div class="category-icon">🧶</div>
-        <h3>Hand Made</h3>
-        <p>Unique handmade products</p>
-      </div>
-
-    </div>
-    <!-- END CATEGORY ROW -->
-
-
-    <!-- HOME SUBCATEGORIES -->
-    <div id="home-subcategories" class="home-subcategories">
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('All', event)"
-      >
-        🏠 All Home
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Furniture', event)"
-      >
-        🛋️ Furniture
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Home Decor', event)"
-      >
-        🖼️ Home Decor
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Lighting', event)"
-      >
-        💡 Lighting
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Storage & Organization', event)"
-      >
-        🗄️ Storage & Organization
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Bedding', event)"
-      >
-        🛏️ Bedding
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Garden & Outdoor', event)"
-      >
-        🪴 Garden & Outdoor
-      </button>
-
-      <button
-        type="button"
-        onclick="filterHomeSubcategory('Cleaning & Household', event)"
-      >
-        🧹 Cleaning & Household
-      </button>
-
-    </div>
-    <!-- END HOME SUBCATEGORIES -->
+</div>
+        
+      
 
   </section>
 
@@ -4691,43 +4854,108 @@ window.showWishlist = function () {
   <span id="floating-cart-count">0</span>
   </button>
   <script>
-/* ==========================================
-   LUMA DEALS - HOME SUBCATEGORY SYSTEM
+      
+
+    /* ==========================================
+   LUMA DEALS - COMPLETE CATEGORY SYSTEM
    ========================================== */
 
-
-/* OPEN / CLOSE HOME SUBCATEGORIES */
-
-function toggleHomeSubcategories(event) {
+function toggleCategorySubcategories(category, event) {
 
   if (event) {
     event.stopPropagation();
   }
 
-  const menu =
-    document.getElementById("home-subcategories");
+  const container =
+    document.getElementById("category-subcategories");
 
-  const homeCard =
-    document.querySelector(".home-category-card");
+  const groups =
+    document.querySelectorAll(".subcategory-group");
 
-  if (!menu) return;
+  const cards =
+    document.querySelectorAll(".category-card");
+
+  if (!container) return;
 
 
-  menu.classList.toggle("show");
+  /* SAME CATEGORY CLICKED AGAIN */
+
+  const currentGroup =
+    document.querySelector(
+      `.subcategory-group[data-category="${category}"]`
+    );
+
+  const wasOpen =
+    currentGroup &&
+    currentGroup.classList.contains("show");
 
 
-  if (homeCard) {
+  /* CLOSE EVERYTHING */
 
-    homeCard.classList.toggle("active");
+  groups.forEach(group => {
+    group.classList.remove("show");
+  });
 
+  cards.forEach(card => {
+    card.classList.remove("active");
+  });
+
+  container.classList.remove("show");
+
+
+  /* IF SAME CATEGORY WAS ALREADY OPEN,
+     KEEP IT CLOSED */
+
+  if (wasOpen) {
+    return;
   }
 
+
+  /* FIND SELECTED CARD */
+
+  const selectedCard =
+    event &&
+    event.currentTarget
+      ? event.currentTarget
+      : null;
+
+
+  /* OPEN SELECTED CATEGORY */
+
+  if (currentGroup) {
+    currentGroup.classList.add("show");
+    container.classList.add("show");
+  }
+
+  if (selectedCard) {
+    selectedCard.classList.add("active");
+  }
+
+
+  /* SHOW ALL PRODUCTS OF THIS CATEGORY */
+
+  filterCat(category, selectedCard);
+
+
+  /* SCROLL SUBCATEGORY ROW INTO VIEW */
+
+  if (container) {
+    setTimeout(() => {
+      container.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }, 100);
+  }
 }
 
 
-/* FILTER HOME SUBCATEGORY */
+/* ==========================================
+   SUBCATEGORY FILTER
+   ========================================== */
 
-function filterHomeSubcategory(
+function filterCategorySubcategory(
+  category,
   subcategory,
   event
 ) {
@@ -4736,15 +4964,13 @@ function filterHomeSubcategory(
     event.stopPropagation();
   }
 
-
   const products =
     window.products || [];
-
 
   let filteredProducts;
 
 
-  /* ALL HOME PRODUCTS */
+  /* ALL PRODUCTS OF MAIN CATEGORY */
 
   if (subcategory === "All") {
 
@@ -4754,43 +4980,45 @@ function filterHomeSubcategory(
         return String(
           product.category || ""
         )
+        .trim()
+        .toLowerCase()
+        ===
+        category
           .trim()
-          .toLowerCase() === "home";
+          .toLowerCase();
 
       });
 
   }
 
 
-  /* SPECIFIC HOME SUBCATEGORY */
+  /* SPECIFIC SUBCATEGORY */
 
   else {
 
     filteredProducts =
       products.filter(product => {
 
-        const category =
+        const productCategory =
           String(
             product.category || ""
           )
-            .trim()
-            .toLowerCase();
-
+          .trim()
+          .toLowerCase();
 
         const productSubcategory =
           String(
             product.subcategory || ""
           )
-            .trim()
-            .toLowerCase();
-
+          .trim()
+          .toLowerCase();
 
         return (
-          category === "home" &&
+          productCategory ===
+            category.trim().toLowerCase()
+          &&
           productSubcategory ===
-            subcategory
-              .trim()
-              .toLowerCase()
+            subcategory.trim().toLowerCase()
         );
 
       });
@@ -4808,129 +5036,102 @@ function filterHomeSubcategory(
       : '<p style="padding:20px;color:#888;">No products in this subcategory yet.</p>';
 
 
-  /* UPDATE HOME PRODUCTS */
+  /* HOME GRID */
 
   const homeGrid =
     document.getElementById(
       "home-product-grid"
     );
 
-
   if (homeGrid) {
-
     homeGrid.innerHTML = html;
-
   }
 
 
-  /* UPDATE SHOP PRODUCTS */
+  /* SHOP GRID */
 
   const shopGrid =
     document.getElementById(
       "shop-product-grid"
     );
 
-
   if (shopGrid) {
-
     shopGrid.innerHTML = html;
-
   }
 
 
-  /* UPDATE HOME HEADING */
+  /* RESTORE WISHLIST */
+
+  if (
+    typeof restoreWishlistButtons ===
+    "function"
+  ) {
+    restoreWishlistButtons();
+  }
+
+
+  /* HEADINGS */
 
   const homeHeading =
     document.getElementById(
       "home-products-heading"
     );
 
-
   if (homeHeading) {
-
     homeHeading.innerText =
       subcategory === "All"
-        ? "Home"
+        ? category
         : subcategory;
-
   }
 
-
-  /* UPDATE SHOP HEADING */
 
   const shopHeading =
     document.getElementById(
       "shop-heading"
     );
 
-
   if (shopHeading) {
-
     shopHeading.innerText =
       subcategory === "All"
-        ? "Home"
+        ? category
         : subcategory;
-
   }
 
 
-  /* RESTORE WISHLIST BUTTONS */
-
-  if (
-    typeof restoreWishlistButtons ===
-    "function"
-  ) {
-
-    restoreWishlistButtons();
-
-  }
-
-
-  /* ACTIVE BUTTON */
+  /* ACTIVE SUBCATEGORY */
 
   document
     .querySelectorAll(
-      "#home-subcategories button"
+      ".subcategory-group button"
     )
     .forEach(button => {
-
-      button.classList.remove(
-        "active"
-      );
-
+      button.classList.remove("active");
     });
-
 
   if (
     event &&
     event.currentTarget
   ) {
-
     event.currentTarget.classList.add(
       "active"
     );
-
   }
 
 
   /* SCROLL TO PRODUCTS */
 
-  const productsSection =
-    document.querySelector(
-      "#home-product-grid"
+  const productsGrid =
+    document.getElementById(
+      "home-product-grid"
     );
 
-
-  if (productsSection) {
-
-    productsSection.scrollIntoView({
+  if (productsGrid) {
+    productsGrid.scrollIntoView({
       behavior: "smooth",
       block: "start"
     });
-
   }
-
-    }
+}
     
 </script>
 </body>
