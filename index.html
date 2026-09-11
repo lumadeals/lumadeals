@@ -4493,7 +4493,85 @@ window.showWishlist = function () {
   🛒
   <span id="floating-cart-count">0</span>
   </button>
+  <script>
+/* ==========================================
+   HOME SUBCATEGORY SYSTEM
+   ========================================== */
 
+function toggleHomeSubcategories(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const menu = document.getElementById("home-subcategories");
+  const homeCard = document.querySelector(".home-category-card");
+
+  if (!menu) return;
+
+  menu.classList.toggle("show");
+
+  if (homeCard) {
+    homeCard.classList.toggle("active");
+  }
+}
+
+
+function filterHomeSubcategory(subcategory, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  // Show all Home products
+  if (subcategory === "All") {
+    filterCat("Home", null);
+    return;
+  }
+
+  // Filter products by Home + Subcategory
+  if (typeof allProducts !== "undefined" && Array.isArray(allProducts)) {
+
+    const filteredProducts = allProducts.filter(product => {
+      const category = String(product.category || "").trim().toLowerCase();
+      const productSubcategory = String(
+        product.subcategory || ""
+      ).trim().toLowerCase();
+
+      return (
+        category === "home" &&
+        productSubcategory === subcategory.toLowerCase()
+      );
+    });
+
+    // Use existing product rendering system
+    if (typeof renderProducts === "function") {
+      renderProducts(filteredProducts);
+    }
+
+    // Scroll to products
+    const productsSection =
+      document.getElementById("shop") ||
+      document.querySelector(".products-section") ||
+      document.querySelector(".product-grid");
+
+    if (productsSection) {
+      productsSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }
+
+  // Mark selected subcategory
+  document
+    .querySelectorAll("#home-subcategories button")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add("active");
+  }
+}
 </script>
 </body>
 </html>                     
