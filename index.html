@@ -2722,13 +2722,27 @@ button[onclick*="addToCart"]:active {
     border-radius: 20px;
   }
 }
-  .hamburger-category {
+/* ================================
+   HAMBURGER CATEGORY ACCORDION
+================================ */
+
+.hamburger-category {
   cursor: pointer;
   position: relative;
+  padding: 14px 10px;
+  border-radius: 12px;
+  margin-bottom: 3px;
+  transition: background .2s ease;
+}
+
+.hamburger-category:hover,
+.hamburger-category.open {
+  background: rgba(255,255,255,.06);
 }
 
 .hamburger-category > span {
   float: right;
+  font-size: 13px;
   transition: transform .25s ease;
 }
 
@@ -2736,32 +2750,74 @@ button[onclick*="addToCart"]:active {
   transform: rotate(180deg);
 }
 
+
+/* SUBCATEGORIES */
+
 .hamburger-subcategories {
   display: none;
-  padding: 8px 0 4px 25px;
+  margin: 4px 0 6px 18px;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid #3BB4EC;
 }
 
 .hamburger-subcategories.show {
   display: block;
 }
 
+
+/* Individual subcategory */
+
 .hamburger-subcategories button {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  text-align: left;
+  min-height: 42px;
+  padding: 9px 10px;
+  margin: 2px 0;
   border: none;
+  border-radius: 10px;
   background: transparent;
-  color: #14171A;
-  padding: 8px 6px;
+  color: #d9d9df;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
   cursor: pointer;
-  border-radius: 8px;
+  transition: background .2s ease,
+              color .2s ease,
+              padding-left .2s ease;
 }
 
 .hamburger-subcategories button:hover {
+  background: rgba(59,180,236,.12);
+  color: #fff;
+  padding-left: 15px;
+}
+
+.hamburger-subcategories button.active {
   background: #3BB4EC;
   color: #fff;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .hamburger-category {
+    padding: 14px 10px;
+  }
+
+  .hamburger-subcategories {
+    margin-left: 18px;
+    padding-left: 12px;
+  }
+
+  .hamburger-subcategories button {
+    min-height: 40px;
+    font-size: 13px;
+    padding: 8px 9px;
+  }
 }
   </style>
 </head>
@@ -5283,7 +5339,7 @@ function filterCategorySubcategory(
     });
   }
 }
-    function toggleHamburgerCategory(category) {
+      function toggleHamburgerCategory(category) {
   const menu = document.getElementById('hamburger-' + category);
   if (!menu) return;
 
@@ -5292,6 +5348,7 @@ function filterCategorySubcategory(
   document.querySelectorAll('.hamburger-subcategories').forEach(item => {
     if (item !== menu) {
       item.classList.remove('show');
+
       if (item.parentElement) {
         item.parentElement.classList.remove('open');
       }
@@ -5304,6 +5361,7 @@ function filterCategorySubcategory(
 
 
 function hamburgerSubcategory(category, subcategory, event) {
+
   if (event) {
     event.stopPropagation();
   }
@@ -5313,11 +5371,14 @@ function hamburgerSubcategory(category, subcategory, event) {
   let filteredProducts;
 
   if (subcategory === 'All') {
+
     filteredProducts = products.filter(product =>
       String(product.category || '').trim().toLowerCase() ===
       category.trim().toLowerCase()
     );
+
   } else {
+
     filteredProducts = products.filter(product =>
       String(product.category || '').trim().toLowerCase() ===
       category.trim().toLowerCase() &&
@@ -5330,12 +5391,16 @@ function hamburgerSubcategory(category, subcategory, event) {
     ? filteredProducts.map(productCardHTML).join('')
     : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
 
-  const homeGrid = document.getElementById('home-product-grid');
+  const homeGrid =
+    document.getElementById('home-product-grid');
+
   if (homeGrid) {
     homeGrid.innerHTML = html;
   }
 
-  const shopGrid = document.getElementById('shop-product-grid');
+  const shopGrid =
+    document.getElementById('shop-product-grid');
+
   if (shopGrid) {
     shopGrid.innerHTML = html;
   }
@@ -5356,27 +5421,34 @@ function hamburgerSubcategory(category, subcategory, event) {
       subcategory === 'All' ? category : subcategory;
   }
 
+  document.querySelectorAll('.hamburger-subcategories button')
+    .forEach(button => button.classList.remove('active'));
+
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
+
   if (typeof restoreWishlistButtons === 'function') {
     restoreWishlistButtons();
   }
 
-  // Hamburger close
   if (typeof toggleSidebar === 'function') {
     toggleSidebar();
   }
 
-  // Shop page open karo — filter reset nahi hoga
   document.querySelectorAll('.page').forEach(page => {
     page.classList.remove('active');
   });
 
-  const shopPage = document.getElementById('page-shop');
+  const shopPage =
+    document.getElementById('page-shop');
 
   if (shopPage) {
     shopPage.classList.add('active');
   }
 
-  const homeHero = document.getElementById('home-hero');
+  const homeHero =
+    document.getElementById('home-hero');
 
   if (homeHero) {
     homeHero.style.display = 'none';
