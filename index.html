@@ -2722,6 +2722,47 @@ button[onclick*="addToCart"]:active {
     border-radius: 20px;
   }
 }
+  .hamburger-category {
+  cursor: pointer;
+  position: relative;
+}
+
+.hamburger-category > span {
+  float: right;
+  transition: transform .25s ease;
+}
+
+.hamburger-category.open > span {
+  transform: rotate(180deg);
+}
+
+.hamburger-subcategories {
+  display: none;
+  padding: 8px 0 4px 25px;
+}
+
+.hamburger-subcategories.show {
+  display: block;
+}
+
+.hamburger-subcategories button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: #14171A;
+  padding: 8px 6px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.hamburger-subcategories button:hover {
+  background: #3BB4EC;
+  color: #fff;
+}
   </style>
 </head>
 <body>
@@ -2828,16 +2869,104 @@ button[onclick*="addToCart"]:active {
     <li onclick="showPage('login'); toggleSidebar();">Login</li>
   </ul>
   <hr>
-  <ul>
-    <li onclick="filterCat('All', null); showPage('shop'); toggleSidebar();">All</li>
-    <li onclick="filterCat('Toys', null); showPage('shop'); toggleSidebar();">Toys</li>
-    <li onclick="filterCat('Fashion', null); showPage('shop'); toggleSidebar();">Fashion</li>
-    <li onclick="filterCat('Electronics', null); showPage('shop'); toggleSidebar();">Electronics</li>
-    <li onclick="filterCat('Home', null); showPage('shop'); toggleSidebar();">Home</li>
-    <li onclick="filterCat('Beauty', null); showPage('shop'); toggleSidebar();">Beauty</li>
-    <li onclick="filterCat('Hand Made', null); showPage('shop'); toggleSidebar();">Hand Made</li>
-    <li onclick="filterCat('Kitchen', null); showPage('shop'); toggleSidebar();">Kitchen</li>
-    <li onclick="filterCat('Boutique', null); showPage('shop'); toggleSidebar();">Boutique</li>
+  <ul class="hamburger-category-menu">
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Electronics')">
+    📱 Electronics <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Electronics">
+      <button onclick="hamburgerSubcategory('Electronics','All',event)">All Electronics</button>
+      <button onclick="hamburgerSubcategory('Electronics','Mobiles & Tablets',event)">Mobiles & Tablets</button>
+      <button onclick="hamburgerSubcategory('Electronics','Mobile Accessories',event)">Mobile Accessories</button>
+      <button onclick="hamburgerSubcategory('Electronics','Audio',event)">Audio</button>
+      <button onclick="hamburgerSubcategory('Electronics','Computers',event)">Computers</button>
+      <button onclick="hamburgerSubcategory('Electronics','Smart Devices',event)">Smart Devices</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Fashion')">
+    👕 Fashion <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Fashion">
+      <button onclick="hamburgerSubcategory('Fashion','All',event)">All Fashion</button>
+      <button onclick="hamburgerSubcategory('Fashion','Men',event)">Men</button>
+      <button onclick="hamburgerSubcategory('Fashion','Women',event)">Women</button>
+      <button onclick="hamburgerSubcategory('Fashion','Shoes',event)">Shoes</button>
+      <button onclick="hamburgerSubcategory('Fashion','Bags',event)">Bags</button>
+      <button onclick="hamburgerSubcategory('Fashion','Watches',event)">Watches</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Home')">
+    🏠 Home <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Home">
+      <button onclick="hamburgerSubcategory('Home','All',event)">All Home</button>
+      <button onclick="hamburgerSubcategory('Home','Furniture',event)">Furniture</button>
+      <button onclick="hamburgerSubcategory('Home','Home Decor',event)">Home Decor</button>
+      <button onclick="hamburgerSubcategory('Home','Lighting',event)">Lighting</button>
+      <button onclick="hamburgerSubcategory('Home','Storage & Organization',event)">Storage & Organization</button>
+      <button onclick="hamburgerSubcategory('Home','Bedding',event)">Bedding</button>
+      <button onclick="hamburgerSubcategory('Home','Garden & Outdoor',event)">Garden & Outdoor</button>
+      <button onclick="hamburgerSubcategory('Home','Cleaning & Household',event)">Cleaning & Household</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Beauty')">
+    💄 Beauty <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Beauty">
+      <button onclick="hamburgerSubcategory('Beauty','All',event)">All Beauty</button>
+      <button onclick="hamburgerSubcategory('Beauty','Skincare',event)">Skincare</button>
+      <button onclick="hamburgerSubcategory('Beauty','Makeup',event)">Makeup</button>
+      <button onclick="hamburgerSubcategory('Beauty','Hair Care',event)">Hair Care</button>
+      <button onclick="hamburgerSubcategory('Beauty','Fragrance',event)">Fragrance</button>
+      <button onclick="hamburgerSubcategory('Beauty','Personal Care',event)">Personal Care</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Kitchen')">
+    🍳 Kitchen <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Kitchen">
+      <button onclick="hamburgerSubcategory('Kitchen','All',event)">All Kitchen</button>
+      <button onclick="hamburgerSubcategory('Kitchen','Cookware',event)">Cookware</button>
+      <button onclick="hamburgerSubcategory('Kitchen','Kitchen Appliances',event)">Kitchen Appliances</button>
+      <button onclick="hamburgerSubcategory('Kitchen','Dining',event)">Dining</button>
+      <button onclick="hamburgerSubcategory('Kitchen','Kitchen Storage',event)">Kitchen Storage</button>
+      <button onclick="hamburgerSubcategory('Kitchen','Tools & Gadgets',event)">Tools & Gadgets</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Toys')">
+    🧸 Toys <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Toys">
+      <button onclick="hamburgerSubcategory('Toys','All',event)">All Toys</button>
+      <button onclick="hamburgerSubcategory('Toys','Educational Toys',event)">Educational Toys</button>
+      <button onclick="hamburgerSubcategory('Toys','Games',event)">Games</button>
+      <button onclick="hamburgerSubcategory('Toys','Outdoor Toys',event)">Outdoor Toys</button>
+      <button onclick="hamburgerSubcategory('Toys','Kids Toys',event)">Kids Toys</button>
+      <button onclick="hamburgerSubcategory('Toys','Puzzles',event)">Puzzles</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Boutique')">
+    👜 Boutique <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Boutique">
+      <button onclick="hamburgerSubcategory('Boutique','All',event)">All Boutique</button>
+      <button onclick="hamburgerSubcategory('Boutique','Clothing',event)">Clothing</button>
+      <button onclick="hamburgerSubcategory('Boutique','Jewelry',event)">Jewelry</button>
+      <button onclick="hamburgerSubcategory('Boutique','Accessories',event)">Accessories</button>
+      <button onclick="hamburgerSubcategory('Boutique','Handbags',event)">Handbags</button>
+    </div>
+  </li>
+
+  <li class="hamburger-category" onclick="toggleHamburgerCategory('Hand Made')">
+    🖐️ Hand Made <span>⌄</span>
+    <div class="hamburger-subcategories" id="hamburger-Hand Made">
+      <button onclick="hamburgerSubcategory('Hand Made','All',event)">All Hand Made</button>
+      <button onclick="hamburgerSubcategory('Hand Made','Handmade Decor',event)">Handmade Decor</button>
+      <button onclick="hamburgerSubcategory('Hand Made','Handmade Jewelry',event)">Handmade Jewelry</button>
+      <button onclick="hamburgerSubcategory('Hand Made','Handmade Gifts',event)">Handmade Gifts</button>
+      <button onclick="hamburgerSubcategory('Hand Made','Crafts',event)">Crafts</button>
+    </div>
+  </li>
+
   </ul>
 </div>
 <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -5154,7 +5283,113 @@ function filterCategorySubcategory(
     });
   }
 }
-    
+    function toggleHamburgerCategory(category) {
+  const menu = document.getElementById('hamburger-' + category);
+  if (!menu) return;
+
+  const currentItem = menu.parentElement;
+
+  document.querySelectorAll('.hamburger-subcategories').forEach(item => {
+    if (item !== menu) {
+      item.classList.remove('show');
+      if (item.parentElement) {
+        item.parentElement.classList.remove('open');
+      }
+    }
+  });
+
+  menu.classList.toggle('show');
+  currentItem.classList.toggle('open');
+}
+
+
+function hamburgerSubcategory(category, subcategory, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const products = window.products || [];
+
+  let filteredProducts;
+
+  if (subcategory === 'All') {
+    filteredProducts = products.filter(product =>
+      String(product.category || '').trim().toLowerCase() ===
+      category.trim().toLowerCase()
+    );
+  } else {
+    filteredProducts = products.filter(product =>
+      String(product.category || '').trim().toLowerCase() ===
+      category.trim().toLowerCase() &&
+      String(product.subcategory || '').trim().toLowerCase() ===
+      subcategory.trim().toLowerCase()
+    );
+  }
+
+  const html = filteredProducts.length
+    ? filteredProducts.map(productCardHTML).join('')
+    : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
+
+  const homeGrid = document.getElementById('home-product-grid');
+  if (homeGrid) {
+    homeGrid.innerHTML = html;
+  }
+
+  const shopGrid = document.getElementById('shop-product-grid');
+  if (shopGrid) {
+    shopGrid.innerHTML = html;
+  }
+
+  const homeHeading =
+    document.getElementById('home-products-heading');
+
+  if (homeHeading) {
+    homeHeading.innerText =
+      subcategory === 'All' ? category : subcategory;
+  }
+
+  const shopHeading =
+    document.getElementById('shop-heading');
+
+  if (shopHeading) {
+    shopHeading.innerText =
+      subcategory === 'All' ? category : subcategory;
+  }
+
+  if (typeof restoreWishlistButtons === 'function') {
+    restoreWishlistButtons();
+  }
+
+  // Hamburger close
+  if (typeof toggleSidebar === 'function') {
+    toggleSidebar();
+  }
+
+  // Shop page open karo — filter reset nahi hoga
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+
+  const shopPage = document.getElementById('page-shop');
+
+  if (shopPage) {
+    shopPage.classList.add('active');
+  }
+
+  const homeHero = document.getElementById('home-hero');
+
+  if (homeHero) {
+    homeHero.style.display = 'none';
+  }
+
+  window.scrollTo(0, 0);
+
+  history.pushState(
+    { page: 'shop' },
+    '',
+    '/?page=shop'
+  );
+}
 </script>
 </body>
 </html>                     
