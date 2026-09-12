@@ -5806,27 +5806,49 @@ window.showWishlist = function () {
 
 
   /* ==========================================
-     CLOSE CATEGORY ACCORDION
-  ========================================== */
+  /* ==========================================
+   KEEP SELECTED CATEGORY SUBCATEGORIES OPEN
+========================================== */
 
-  const container =
-    document.getElementById('category-subcategories');
+const container =
+  document.getElementById('category-subcategories');
 
-  if (container) {
-    container.classList.remove('show');
-  }
+if (container) {
+  container.classList.add('show');
+}
 
-  document
-    .querySelectorAll('.subcategory-group')
-    .forEach(group => {
+
+/* CLOSE OTHER SUBCATEGORY GROUPS */
+
+document
+  .querySelectorAll('.subcategory-group')
+  .forEach(group => {
+
+    const groupCategory =
+      String(group.dataset.category || '')
+        .trim()
+        .toLowerCase();
+
+    if (groupCategory === categoryName) {
+      group.classList.add('show');
+    } else {
       group.classList.remove('show');
-    });
+    }
 
-  document
-    .querySelectorAll('.category-card')
-    .forEach(card => {
-      card.classList.remove('active');
-    });
+  });
+
+
+/* ACTIVE CATEGORY */
+
+document
+  .querySelectorAll('.category-card')
+  .forEach(card => {
+    card.classList.remove('active');
+  });
+
+if (event && event.currentTarget) {
+  event.currentTarget.classList.add('active');
+}
 
 
   /* ==========================================
