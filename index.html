@@ -2725,17 +2725,60 @@ button[onclick*="addToCart"]:active {
 
 
 
+  
 /* =========================================
-   HAMBURGER CATEGORY ACCORDION
+   HAMBURGER SIDEBAR + CATEGORY ACCORDION
 ========================================= */
+
+/* ---------- SIDEBAR OVERLAY ---------- */
+
+#sidebar-overlay {
+  display: none !important;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.55) !important;
+
+  z-index: 9999 !important;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  /* IMPORTANT: NO BLUR */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#sidebar-overlay.show {
+  display: block !important;
+  opacity: 1;
+}
+
+
+/* ---------- MOBILE SIDEBAR ---------- */
+
+.mobile-sidebar {
+  z-index: 10000 !important;
+}
+
+
+/* ---------- CATEGORY CONTAINER ---------- */
 
 .hamburger-categories {
   width: 100%;
 }
 
+
+/* =========================================
+   MAIN CATEGORY
+========================================= */
+
 .hamburger-category {
   width: 100%;
   min-height: 48px;
+
   box-sizing: border-box;
 
   display: flex;
@@ -2747,7 +2790,8 @@ button[onclick*="addToCart"]:active {
 
   border-radius: 12px;
 
-  color: #fff;
+  color: #ffffff;
+
   font-family: inherit;
   font-size: 15px;
   font-weight: 600;
@@ -2755,37 +2799,69 @@ button[onclick*="addToCart"]:active {
   cursor: pointer;
 
   transition:
-    background .2s ease,
-    color .2s ease;
+    background 0.2s ease,
+    color 0.2s ease;
 }
+
+
+/* MAIN CATEGORY HOVER / OPEN */
 
 .hamburger-category:hover,
 .hamburger-category.open {
-  background: rgba(59,180,236,.10);
+  background: rgba(59, 180, 236, 0.10);
 }
+
+
+/* ---------- LEFT SIDE ---------- */
 
 .hamburger-category-left {
   display: flex;
   align-items: center;
+
   gap: 13px;
+
+  min-width: 0;
 }
+
+
+/* ---------- MAIN CATEGORY ICON ---------- */
 
 .hamburger-category-left i {
   width: 22px;
+  min-width: 22px;
+
   text-align: center;
-  color: #3BB4EC;
+
+  /*
+     Same normal color as hamburger text.
+     No forced blue.
+  */
+  color: inherit !important;
+
   font-size: 17px;
 }
 
+
+/* ---------- ARROW ---------- */
+
 .hamburger-arrow {
-  color: #aaa;
+  color: inherit !important;
+
   font-size: 11px;
-  transition: transform .25s ease;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.25s ease;
 }
+
+
+/* ---------- OPEN ARROW ---------- */
 
 .hamburger-category.open .hamburger-arrow {
   transform: rotate(180deg);
-  color: #3BB4EC;
+
+  color: inherit !important;
 }
 
 
@@ -2796,15 +2872,30 @@ button[onclick*="addToCart"]:active {
 .hamburger-subcategories {
   display: none;
 
+  width: calc(100% - 20px);
+
   margin: 2px 0 7px 20px;
+
   padding: 4px 0 5px 15px;
 
-  border-left: 2px solid #3BB4EC;
+  /*
+     Small Luma blue line only.
+     Icons themselves stay normal color.
+  */
+  border-left: 2px solid rgba(59, 180, 236, 0.45);
 }
+
+
+/* OPEN SUBCATEGORY */
 
 .hamburger-subcategories.show {
   display: block;
 }
+
+
+/* =========================================
+   SUBCATEGORY BUTTONS
+========================================= */
 
 .hamburger-subcategories button {
   width: 100%;
@@ -2816,9 +2907,11 @@ button[onclick*="addToCart"]:active {
   gap: 12px;
 
   padding: 8px 10px;
+
   margin: 2px 0;
 
   border: none;
+
   border-radius: 9px;
 
   background: transparent;
@@ -2826,7 +2919,9 @@ button[onclick*="addToCart"]:active {
   color: #d9d9df;
 
   font-family: inherit;
+
   font-size: 13.5px;
+
   font-weight: 500;
 
   text-align: left;
@@ -2834,10 +2929,13 @@ button[onclick*="addToCart"]:active {
   cursor: pointer;
 
   transition:
-    background .2s ease,
-    color .2s ease,
-    padding-left .2s ease;
+    background 0.2s ease,
+    color 0.2s ease,
+    padding-left 0.2s ease;
 }
+
+
+/* ---------- SUBCATEGORY ICON ---------- */
 
 .hamburger-subcategories button i {
   width: 18px;
@@ -2845,58 +2943,104 @@ button[onclick*="addToCart"]:active {
 
   text-align: center;
 
-  color: #3BB4EC;
+  /*
+     Same color as subcategory text.
+     No blue icons.
+  */
+  color: inherit !important;
+
   font-size: 13px;
 }
 
+
+/* ---------- SUBCATEGORY HOVER ---------- */
+
 .hamburger-subcategories button:hover {
-  background: rgba(59,180,236,.10);
-  color: #fff;
+  background: rgba(59, 180, 236, 0.10);
+
+  color: #ffffff;
+
   padding-left: 14px;
 }
 
+
+/* ---------- ACTIVE SUBCATEGORY ---------- */
+
 .hamburger-subcategories button.active {
   background: #3BB4EC;
-  color: #fff;
+
+  color: #ffffff;
 }
 
+
+/* ACTIVE ICON */
+
 .hamburger-subcategories button.active i {
-  color: #fff;
+  color: #ffffff !important;
 }
 
 
 /* =========================================
-   MOBILE
+   MOBILE CATEGORY STYLE
 ========================================= */
 
 @media (max-width: 600px) {
 
   .hamburger-category {
     min-height: 46px;
+
     padding: 12px 9px;
+
     font-size: 14px;
   }
+
 
   .hamburger-category-left {
     gap: 12px;
   }
 
+
   .hamburger-category-left i {
+    width: 21px;
+    min-width: 21px;
+
     font-size: 16px;
   }
 
+
+  .hamburger-arrow {
+    font-size: 10px;
+  }
+
+
   .hamburger-subcategories {
+    width: calc(100% - 17px);
+
     margin-left: 17px;
+
     padding-left: 12px;
   }
 
+
   .hamburger-subcategories button {
     min-height: 39px;
+
     font-size: 13px;
+
     gap: 10px;
+
+    padding: 8px 9px;
   }
 
-}
+
+  .hamburger-subcategories button i {
+    width: 17px;
+    min-width: 17px;
+
+    font-size: 12.5px;
+  }
+
+  }
   </style>
 </head>
 <body>
