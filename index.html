@@ -5670,67 +5670,194 @@ window.showWishlist = function () {
   <span id="floating-cart-count">0</span>
   </button>
   <script>
-      /* ==========================================
-   HOME SHOP-BY-CATEGORY ACCORDION
-========================================== */
-
-function toggleCategorySubcategories(category, event) {
+      
+  function toggleCategorySubcategories(category, event) {
 
   if (event) {
     event.preventDefault();
     event.stopPropagation();
   }
 
+  const products = Array.isArray(window.products)
+    ? window.products
+    : [];
+
+  const categoryName =
+    String(category || '').trim().toLowerCase();
+
+  /* ==========================================
+     FILTER ALL PRODUCTS OF THIS CATEGORY
+  ========================================== */
+
+  const filteredProducts = products.filter(product => {
+
+    const productCategory =
+      String(product.category || '')
+        .trim()
+        .toLowerCase();
+
+    return productCategory === categoryName;
+  });
+
+
+  /* ==========================================
+     PRODUCT HTML
+  ========================================== */
+
+  const html = filteredProducts.length
+    ? filteredProducts.map(productCardHTML).join('')
+    : `
+      <p style="
+        padding:20px;
+        color:#888;
+        grid-column:1/-1;
+        text-align:center;
+      ">
+        No products in this category yet.
+      </p>
+    `;
+
+
+  /* ==========================================
+     UPDATE HOME GRID
+  ========================================== */
+
+  const homeGrid =
+    document.getElementById('home-product-grid');
+
+  if (homeGrid) {
+    homeGrid.innerHTML = html;
+  }
+
+
+  /* ==========================================
+     UPDATE SHOP GRID
+  ========================================== */
+
+  const shopGrid =
+    document.getElementById('shop-product-grid');
+
+  if (shopGrid) {
+    shopGrid.innerHTML = html;
+  }
+
+
+  /* ==========================================
+     UPDATE HOME HEADING
+  ========================================== */
+
+  const homeHeading =
+    document.getElementById('home-products-heading');
+
+  if (homeHeading) {
+    homeHeading.innerText = category;
+  }
+
+
+  /* ==========================================
+     UPDATE SHOP HEADING
+  ========================================== */
+
+  const shopHeading =
+    document.getElementById('shop-heading');
+
+  if (shopHeading) {
+    shopHeading.innerText = category;
+  }
+
+
+  /* ==========================================
+     RESTORE WISHLIST
+  ========================================== */
+
+  if (typeof restoreWishlistButtons === 'function') {
+    restoreWishlistButtons();
+  }
+
+
+  /* ==========================================
+     SHOW SHOP PAGE
+  ========================================== */
+
+  document
+    .querySelectorAll('.page')
+    .forEach(page => {
+      page.classList.remove('active');
+    });
+
+  const shopPage =
+    document.getElementById('page-shop');
+
+  if (shopPage) {
+    shopPage.classList.add('active');
+  }
+
+
+  /* ==========================================
+     HIDE HOME HERO
+  ========================================== */
+
+  const homeHero =
+    document.getElementById('home-hero');
+
+  if (homeHero) {
+    homeHero.style.display = 'none';
+  }
+
+
+  /* ==========================================
+     CLOSE CATEGORY ACCORDION
+  ========================================== */
+
   const container =
     document.getElementById('category-subcategories');
 
-  if (!container) return;
-
-  const selectedGroup =
-    document.querySelector(
-      '.subcategory-group[data-category="' + category + '"]'
-    );
-
-  if (!selectedGroup) return;
-
-  const wasOpen =
-    selectedGroup.classList.contains('show');
-
-  /* CLOSE ALL CATEGORY GROUPS */
-
-  document.querySelectorAll('.subcategory-group').forEach(group => {
-    group.classList.remove('show');
-  });
-
-  /* REMOVE ACTIVE FROM ALL CATEGORY CARDS */
-
-  document.querySelectorAll('.category-card').forEach(card => {
-    card.classList.remove('active');
-  });
-
-  /* CLOSE */
-
-  if (wasOpen) {
+  if (container) {
     container.classList.remove('show');
-    return;
   }
 
-  /* OPEN SELECTED GROUP */
+  document
+    .querySelectorAll('.subcategory-group')
+    .forEach(group => {
+      group.classList.remove('show');
+    });
 
-  selectedGroup.classList.add('show');
-  container.classList.add('show');
+  document
+    .querySelectorAll('.category-card')
+    .forEach(card => {
+      card.classList.remove('active');
+    });
 
-  /* ACTIVE CARD */
+
+  /* ==========================================
+     ACTIVE CATEGORY
+  ========================================== */
 
   if (event && event.currentTarget) {
     event.currentTarget.classList.add('active');
   }
-}
 
 
-/* ==========================================
-   HOME CATEGORY SUBCATEGORY FILTER
-========================================== */
+  /* ==========================================
+     SCROLL TOP
+  ========================================== */
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+
+  /* ==========================================
+     UPDATE URL
+  ========================================== */
+
+  history.pushState(
+    { page: 'shop' },
+    '',
+    '/?page=shop'
+  );
+    }
 
 function filterCategorySubcategory(
   category,
