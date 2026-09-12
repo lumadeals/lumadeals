@@ -3041,6 +3041,100 @@ button[onclick*="addToCart"]:active {
   }
 
   }
+  /* =========================================
+   HAMBURGER MAIN NAV
+========================================= */
+
+.main-nav {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.main-nav ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+}
+
+.main-nav li {
+  width: 100%;
+  min-height: 48px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 13px 10px;
+  margin: 2px 0;
+
+  border-radius: 12px;
+
+  color: #fff;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+/* ICONS */
+
+.main-nav li i {
+  width: 22px;
+  min-width: 22px;
+
+  text-align: center;
+
+  color: inherit !important;
+
+  font-size: 17px;
+}
+
+/* HOVER */
+
+.main-nav li:hover {
+  background: rgba(59, 180, 236, 0.10);
+
+  color: #fff;
+
+  padding-left: 14px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .main-nav li {
+    min-height: 46px;
+
+    padding: 12px 9px;
+
+    font-size: 14px;
+
+    gap: 12px;
+  }
+
+  .main-nav li i {
+    width: 21px;
+    min-width: 21px;
+
+    font-size: 16px;
+  }
+
+  }
   </style>
 </head>
 <body>
@@ -3139,12 +3233,41 @@ button[onclick*="addToCart"]:active {
   <div class="sidebar-header">
     <span onclick="toggleSidebar()">✖</span>
   </div>
-  <ul>
-    <li onclick="showPage('home'); toggleSidebar();">Home</li>
-    <li onclick="showPage('shop'); toggleSidebar();">Shop</li>
-    <li onclick="showPage('about'); toggleSidebar();">About Us</li>
-    <li onclick="showPage('contact'); toggleSidebar();">Contact</li>
-    <li onclick="showPage('login'); toggleSidebar();">Login</li>
+  <ul class="hamburger-main-menu">
+  <li onclick="showPage('home'); toggleSidebar();">
+    <span class="hamburger-main-left">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </span>
+  </li>
+
+  <li onclick="showPage('shop'); toggleSidebar();">
+    <span class="hamburger-main-left">
+      <i class="fas fa-store"></i>
+      <span>Shop</span>
+    </span>
+  </li>
+
+  <li onclick="showPage('about'); toggleSidebar();">
+    <span class="hamburger-main-left">
+      <i class="fas fa-circle-info"></i>
+      <span>About Us</span>
+    </span>
+  </li>
+
+  <li onclick="showPage('contact'); toggleSidebar();">
+    <span class="hamburger-main-left">
+      <i class="fas fa-envelope"></i>
+      <span>Contact</span>
+    </span>
+  </li>
+
+  <li onclick="showPage('login'); toggleSidebar();">
+    <span class="hamburger-main-left">
+      <i class="fas fa-right-to-bracket"></i>
+      <span>Login</span>
+    </span>
+  </li>
   </ul>
   <hr>
   <!-- =========================================
