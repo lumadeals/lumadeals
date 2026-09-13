@@ -3218,7 +3218,18 @@ button[onclick*="addToCart"]:active {
   </div>
       </header>
   
-  
+  <div id="mobile-sidebar" class="mobile-sidebar">
+  <div class="sidebar-header">
+    <span onclick="toggleSidebar()">✖</span>
+  </div>
+
+<ul>
+  <li onclick="showPage('home'); toggleSidebar();">Home</li>
+  <li onclick="showPage('shop'); toggleSidebar();">Shop</li>
+  <li onclick="showPage('about'); toggleSidebar();">About Us</li>
+  <li onclick="showPage('contact'); toggleSidebar();">Contact</li>
+  <li onclick="showPage('login'); toggleSidebar();">Login</li>
+</ul>
     
 
 
@@ -3624,20 +3635,19 @@ button[onclick*="addToCart"]:active {
   
 
 </div>
-  <div id="mobile-sidebar" class="mobile-sidebar">
-  <div class="sidebar-header">
-    <span onclick="toggleSidebar()">✖</span>
-  </div>
+  
 
-<ul>
-  <li onclick="showPage('home'); toggleSidebar();">Home</li>
-  <li onclick="showPage('shop'); toggleSidebar();">Shop</li>
-  <li onclick="showPage('about'); toggleSidebar();">About Us</li>
-  <li onclick="showPage('contact'); toggleSidebar();">Contact</li>
-  <li onclick="showPage('login'); toggleSidebar();">Login</li>
-</ul>
-
-
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<nav class="main-nav">
+  <ul>
+    <li onclick="showPage('home')">Home</li>
+    <li onclick="showPage('shop')">Shop</li>
+    <li onclick="showPage('about')">About Us</li>
+    <li onclick="showPage('contact')">Contact</li>
+    <li onclick="showPage('login')">Login</li>
+    
+  </ul>
+</nav>
 <!-- HOME -->
 <section id="page-home" class="page active">
 
