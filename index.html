@@ -3151,6 +3151,77 @@ button[onclick*="addToCart"]:active {
 .mobile-main-links li i {
     color: #a9a8b5 !important;
 }
+  .sidebar-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.sidebar-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    padding: 12px;
+
+    background: #22c55e;
+    color: #fff;
+
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+    transition: .25s ease;
+}
+
+.sidebar-whatsapp-btn:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+}
+
+.sidebar-socials {
+    display: flex;
+    gap: 12px;
+}
+
+.sidebar-socials a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    font-size: 15px;
+
+    transition: .25s ease;
+}
+
+.sidebar-socials a.social-instagram {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.sidebar-socials a.social-tiktok {
+    background: #000000;
+}
+
+.sidebar-socials a.social-whatsapp {
+    background: #25D366;
+}
+
+.sidebar-socials a:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
   </style>
 </head>
 <body>
@@ -3656,7 +3727,17 @@ button[onclick*="addToCart"]:active {
   <li onclick="showPage('contact'); toggleSidebar();"><i class="fas fa-envelope"></i><span>Contact</span></li>
   <li onclick="showPage('login'); toggleSidebar();"><i class="fas fa-user"></i><span>Login</span></li>
 </ul>
-
+<div class="sidebar-footer">
+  <a href="https://wa.me/923376454384" target="_blank" class="sidebar-whatsapp-btn">
+    <i class="fa-brands fa-whatsapp"></i>
+    Chat with us on WhatsApp
+  </a>
+  <div class="sidebar-socials">
+    <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank" class="social-instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" class="social-tiktok"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="https://wa.me/923376454384" target="_blank" class="social-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+</div>
 </div>
   
 
