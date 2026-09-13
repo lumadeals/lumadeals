@@ -3125,6 +3125,32 @@ button[onclick*="addToCart"]:active {
   }
 
   }
+  /* Neeche wali list ke liye naya icon layout (::before wale purane icons disable) */
+.mobile-main-links li::before {
+    content: none !important;
+}
+.mobile-main-links li i {
+    width: 34px;
+    margin-right: 9px;
+    font-size: 16px;
+    text-align: center;
+    color: #a9a8b5;
+    transition: .25s ease;
+}
+.mobile-main-links li:hover i {
+    color: #3BB4EC;
+}
+
+/* Upar (categories) aur neeche (main links) ka color/weight ek jaisa rakhein */
+.hamburger-category,
+.mobile-sidebar li {
+    color: #d9d9e2 !important;
+    font-weight: 500 !important;
+}
+.hamburger-category i,
+.mobile-main-links li i {
+    color: #a9a8b5 !important;
+}
   </style>
 </head>
 <body>
@@ -3623,12 +3649,12 @@ button[onclick*="addToCart"]:active {
 
   <hr>
 
-<ul>
-  <li onclick="showPage('home'); toggleSidebar();">Home</li>
-  <li onclick="showPage('shop'); toggleSidebar();">Shop</li>
-  <li onclick="showPage('about'); toggleSidebar();">About Us</li>
-  <li onclick="showPage('contact'); toggleSidebar();">Contact</li>
-  <li onclick="showPage('login'); toggleSidebar();">Login</li>
+<ul class="mobile-main-links">
+  <li onclick="showPage('home'); toggleSidebar();"><i class="fas fa-house"></i><span>Home</span></li>
+  <li onclick="showPage('shop'); toggleSidebar();"><i class="fas fa-cart-shopping"></i><span>Shop</span></li>
+  <li onclick="showPage('about'); toggleSidebar();"><i class="fas fa-circle-info"></i><span>About Us</span></li>
+  <li onclick="showPage('contact'); toggleSidebar();"><i class="fas fa-envelope"></i><span>Contact</span></li>
+  <li onclick="showPage('login'); toggleSidebar();"><i class="fas fa-user"></i><span>Login</span></li>
 </ul>
 
 </div>
