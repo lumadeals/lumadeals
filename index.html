@@ -3239,36 +3239,31 @@ button[onclick*="addToCart"]:active {
     transform: scale(.92);
 }
   
-     /* =====================================================
-   LUMA DEALS — PREMIUM CHECKOUT FOOTER
+     
+    
+/* =====================================================
+   LUMA DEALS — CHECKOUT FOOTER
    ===================================================== */
 
 .checkout-footer {
   width: 100%;
-  margin-top: 45px;
+  margin-top: 55px;
+  margin-bottom: 0;
   padding: 38px 25px 22px;
 
-  background: linear-gradient(
-    145deg,
-    #14171A,
-    #1b2024
-  );
+  background: #ffffff;
 
-  color: #ffffff;
+  color: #14171A;
 
-  border-radius: 24px 24px 0 0;
+  border-top: 1px solid #e8edf0;
 
   text-align: center;
 
-  box-shadow:
-    0 -10px 35px rgba(0,0,0,0.08);
-
   position: relative;
-  overflow: hidden;
 }
 
 
-/* Top accent */
+/* Top Luma Deals accent */
 
 .checkout-footer::before {
   content: "";
@@ -3278,17 +3273,14 @@ button[onclick*="addToCart"]:active {
   top: 0;
   left: 50%;
 
-  width: 100px;
+  width: 85px;
   height: 3px;
 
   transform: translateX(-50%);
 
   background: #3BB4EC;
 
-  border-radius: 0 0 10px 10px;
-
-  box-shadow:
-    0 0 18px rgba(59,180,236,0.45);
+  border-radius: 0 0 8px 8px;
 }
 
 
@@ -3297,27 +3289,25 @@ button[onclick*="addToCart"]:active {
 .checkout-footer-brand h3 {
   margin: 0;
 
-  font-size: 25px;
-
+  font-size: 24px;
   font-weight: 800;
 
-  letter-spacing: -0.5px;
-
-  color: #ffffff;
+  color: #14171A;
 }
 
 .checkout-footer-brand p {
   margin: 6px 0 28px;
 
   font-size: 12px;
+  font-weight: 500;
 
-  color: #aeb7bd;
+  color: #737b80;
 
-  letter-spacing: 0.3px;
+  letter-spacing: .2px;
 }
 
 
-/* Trust section */
+/* Trust boxes */
 
 .checkout-footer-trust {
   display: flex;
@@ -3337,7 +3327,6 @@ button[onclick*="addToCart"]:active {
   max-width: 240px;
 
   display: flex;
-
   align-items: center;
 
   text-align: left;
@@ -3346,29 +3335,29 @@ button[onclick*="addToCart"]:active {
 
   padding: 13px;
 
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #f8fafc;
 
-  background: rgba(255,255,255,0.035);
+  border: 1px solid #e8edf0;
 
   border-radius: 14px;
 
   transition:
-    transform 0.25s ease,
-    background 0.25s ease,
-    border-color 0.25s ease;
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
 }
 
 .trust-item:hover {
   transform: translateY(-3px);
 
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(59,180,236,.35);
 
-  border-color:
-    rgba(59,180,236,0.25);
+  box-shadow:
+    0 8px 20px rgba(15,23,42,.06);
 }
 
 
-/* Trust icons */
+/* Icons */
 
 .trust-icon {
   width: 36px;
@@ -3377,14 +3366,12 @@ button[onclick*="addToCart"]:active {
   min-width: 36px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   border-radius: 11px;
 
-  background:
-    rgba(59,180,236,0.12);
+  background: rgba(59,180,236,.10);
 
   color: #3BB4EC;
 
@@ -3392,7 +3379,7 @@ button[onclick*="addToCart"]:active {
 }
 
 
-/* Trust text */
+/* Text */
 
 .trust-item strong {
   display: block;
@@ -3402,6 +3389,8 @@ button[onclick*="addToCart"]:active {
   font-weight: 700;
 
   margin-bottom: 3px;
+
+  color: #14171A;
 }
 
 .trust-item small {
@@ -3409,7 +3398,7 @@ button[onclick*="addToCart"]:active {
 
   font-size: 9px;
 
-  color: #89939a;
+  color: #7b858b;
 
   line-height: 1.3;
 }
@@ -3429,7 +3418,7 @@ button[onclick*="addToCart"]:active {
 
   font-size: 11px;
 
-  color: #9da6ab;
+  color: #737b80;
 }
 
 .checkout-footer-help button {
@@ -3448,24 +3437,23 @@ button[onclick*="addToCart"]:active {
   padding: 3px 5px;
 
   transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+    color .2s ease,
+    transform .2s ease;
 }
 
 .checkout-footer-help button:hover {
-  color: #ffffff;
+  color: #14171A;
 
   transform: translateX(2px);
 }
 
 
-/* Bottom */
+/* Bottom copyright */
 
 .checkout-footer-bottom {
   padding-top: 18px;
 
-  border-top:
-    1px solid rgba(255,255,255,0.07);
+  border-top: 1px solid #edf0f2;
 
   display: flex;
 
@@ -3478,7 +3466,7 @@ button[onclick*="addToCart"]:active {
 
   font-size: 9px;
 
-  color: #737d83;
+  color: #8a9297;
 }
 
 .checkout-footer-bottom .footer-dot {
@@ -3495,25 +3483,19 @@ button[onclick*="addToCart"]:active {
 @media (max-width: 600px) {
 
   .checkout-footer {
-    margin-top: 30px;
+    margin-top: 60px;
 
     padding:
-      34px 15px 18px;
-
-    border-radius:
-      20px 20px 0 0;
+      38px 15px 20px;
   }
-
 
   .checkout-footer-brand h3 {
     font-size: 23px;
   }
 
-
   .checkout-footer-brand p {
-    margin-bottom: 23px;
+    margin-bottom: 24px;
   }
-
 
   .checkout-footer-trust {
     flex-direction: column;
@@ -3523,7 +3505,6 @@ button[onclick*="addToCart"]:active {
     width: 100%;
   }
 
-
   .trust-item {
     max-width: none;
 
@@ -3531,15 +3512,6 @@ button[onclick*="addToCart"]:active {
 
     padding: 11px 12px;
   }
-
-
-  .trust-icon {
-    width: 34px;
-    height: 34px;
-
-    min-width: 34px;
-  }
-
 
   .checkout-footer-help {
     flex-direction: column;
@@ -3550,15 +3522,15 @@ button[onclick*="addToCart"]:active {
     margin-bottom: 22px;
   }
 
-
   .checkout-footer-bottom {
     font-size: 8px;
 
     gap: 5px;
   }
 
-}   
-    
+}
+
+
         
   </style>
 </head>
