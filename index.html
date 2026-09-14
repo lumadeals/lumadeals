@@ -3238,6 +3238,85 @@ button[onclick*="addToCart"]:active {
 .sidebar-socials a:active {
     transform: scale(.92);
 }
+  /* =========================================
+   LUMA DEALS MOBILE BOTTOM NAVIGATION
+   ========================================= */
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 68px;
+
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    z-index: 9998;
+
+    box-shadow: 0 -4px 18px rgba(0,0,0,0.08);
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    color: #14171A;
+    cursor: pointer;
+
+    font-family: inherit;
+
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bottom-nav-item i {
+    font-size: 19px;
+    line-height: 1;
+  }
+
+  .bottom-nav-item span {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .bottom-nav-item:active {
+    transform: scale(0.92);
+  }
+
+  .bottom-nav-item.active {
+    color: #3BB4EC;
+  }
+
+  /* Space so bottom bar doesn't cover content */
+  body {
+    padding-bottom: 68px;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -3972,6 +4051,24 @@ button[onclick*="addToCart"]:active {
     <div class="product-grid" id="shop-product-grid"></div>
   </section>
 </section>
+  <!-- WISHLIST -->
+<section id="page-wishlist" class="page">
+
+  <section class="products-section">
+
+    <h2>
+      <span style="color:#3BB4EC;">♡</span>
+      My Wishlist
+    </h2>
+
+    <div
+      class="product-grid"
+      id="wishlist-products">
+    </div>
+
+  </section>
+
+</section>
 <!-- PRODUCT DETAIL -->
 <section id="page-product-detail" class="page">
   <div class="info-page" style="max-width:600px;">
@@ -4178,6 +4275,35 @@ button[onclick*="addToCart"]:active {
 </div>
 
     <div id="custom-toast"></div>
+  <!-- LUMA DEALS MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
+
+  <button onclick="showPage('home')" class="bottom-nav-item">
+    <i class="fas fa-house"></i>
+    <span>Home</span>
+  </button>
+
+  <button onclick="showPage('shop')" class="bottom-nav-item">
+    <i class="fas fa-grid-2"></i>
+    <span>Category</span>
+  </button>
+
+  <button onclick="showPage('wishlist'); showWishlist()" class="bottom-nav-item">
+    <i class="far fa-heart"></i>
+    <span>Wishlist</span>
+  </button>
+
+  <button onclick="showPage('orders')" class="bottom-nav-item">
+    <i class="fas fa-box"></i>
+    <span>Orders</span>
+  </button>
+
+  <button onclick="showPage('login')" class="bottom-nav-item">
+    <i class="far fa-user"></i>
+    <span>Profile</span>
+  </button>
+
+</nav>
 <script>
 window.products = [];
 
