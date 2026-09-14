@@ -3320,7 +3320,7 @@ button[onclick*="addToCart"]:active {
   </div>
 
   <div class="search-box" style="position:relative;">
-  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
+  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions(); liveSearchProducts();" autocomplete="off">
   <button onclick="searchProducts()">🔍</button>
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
@@ -4919,14 +4919,17 @@ function submitLogin(e) {
   showPage('home');
 }
 
+
 function searchProducts() {
   const searchInput = document.getElementById('search-input');
   const searchSuggestions = document.getElementById('search-suggestions');
 
   const query = searchInput.value.trim().toLowerCase();
-  if (!query) return;
+  const source = window.products || [];
 
-  const filtered = window.products.filter(p => p.name.toLowerCase().includes(query));
+  const filtered = query
+    ? source.filter(p => p.name.toLowerCase().includes(query))
+    : source;
 
   const html = filtered.length
     ? filtered.map(productCardHTML).join('')
@@ -4938,15 +4941,35 @@ function searchProducts() {
   if (shopGrid) shopGrid.innerHTML = html;
 
   const shopHeading = document.getElementById('shop-heading');
-  if (shopHeading) shopHeading.innerText = `Search results for "${searchInput.value.trim()}"`;
+  if (shopHeading) {
+    shopHeading.innerText = query ? `Search results for "${searchInput.value.trim()}"` : 'Products';
+  }
 
   if (typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
 
-  showPage('shop');
+  if (query) showPage('shop');
 
-  searchInput.value = "";
   searchSuggestions.style.display = 'none';
 }
+  function liveSearchProducts() {
+  const query = document.getElementById('search-input').value.trim().toLowerCase();
+  const homeGrid = document.getElementById('home-product-grid');
+  const shopGrid = document.getElementById('shop-product-grid');
+
+  const source = window.products || [];
+  const filtered = query
+    ? source.filter(p => p.name.toLowerCase().includes(query))
+    : source;
+
+  const html = filtered.length
+    ? filtered.map(productCardHTML).join('')
+    : "<p style='padding:20px; color:#888;'>Koi product nahi mila.</p>";
+
+  if (homeGrid) homeGrid.innerHTML = html;
+  if (shopGrid) shopGrid.innerHTML = html;
+
+  if (typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
+  }
 
     function showSuggestions() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
