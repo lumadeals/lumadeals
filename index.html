@@ -3239,7 +3239,325 @@ button[onclick*="addToCart"]:active {
     transform: scale(.92);
 }
   
-        
+     /* =====================================================
+   LUMA DEALS — PREMIUM CHECKOUT FOOTER
+   ===================================================== */
+
+.checkout-footer {
+  width: 100%;
+  margin-top: 45px;
+  padding: 38px 25px 22px;
+
+  background: linear-gradient(
+    145deg,
+    #14171A,
+    #1b2024
+  );
+
+  color: #ffffff;
+
+  border-radius: 24px 24px 0 0;
+
+  text-align: center;
+
+  box-shadow:
+    0 -10px 35px rgba(0,0,0,0.08);
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Top accent */
+
+.checkout-footer::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 100px;
+  height: 3px;
+
+  transform: translateX(-50%);
+
+  background: #3BB4EC;
+
+  border-radius: 0 0 10px 10px;
+
+  box-shadow:
+    0 0 18px rgba(59,180,236,0.45);
+}
+
+
+/* Brand */
+
+.checkout-footer-brand h3 {
+  margin: 0;
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+
+  color: #ffffff;
+}
+
+.checkout-footer-brand p {
+  margin: 6px 0 28px;
+
+  font-size: 12px;
+
+  color: #aeb7bd;
+
+  letter-spacing: 0.3px;
+}
+
+
+/* Trust section */
+
+.checkout-footer-trust {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  max-width: 850px;
+
+  margin: 0 auto 28px;
+}
+
+.trust-item {
+  flex: 1;
+
+  max-width: 240px;
+
+  display: flex;
+
+  align-items: center;
+
+  text-align: left;
+
+  gap: 10px;
+
+  padding: 13px;
+
+  border: 1px solid rgba(255,255,255,0.07);
+
+  background: rgba(255,255,255,0.035);
+
+  border-radius: 14px;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.trust-item:hover {
+  transform: translateY(-3px);
+
+  background: rgba(255,255,255,0.06);
+
+  border-color:
+    rgba(59,180,236,0.25);
+}
+
+
+/* Trust icons */
+
+.trust-icon {
+  width: 36px;
+  height: 36px;
+
+  min-width: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background:
+    rgba(59,180,236,0.12);
+
+  color: #3BB4EC;
+
+  font-size: 15px;
+}
+
+
+/* Trust text */
+
+.trust-item strong {
+  display: block;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  margin-bottom: 3px;
+}
+
+.trust-item small {
+  display: block;
+
+  font-size: 9px;
+
+  color: #89939a;
+
+  line-height: 1.3;
+}
+
+
+/* Help */
+
+.checkout-footer-help {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-bottom: 25px;
+
+  font-size: 11px;
+
+  color: #9da6ab;
+}
+
+.checkout-footer-help button {
+  border: none;
+
+  background: transparent;
+
+  color: #3BB4EC;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  padding: 3px 5px;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.checkout-footer-help button:hover {
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+
+/* Bottom */
+
+.checkout-footer-bottom {
+  padding-top: 18px;
+
+  border-top:
+    1px solid rgba(255,255,255,0.07);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  font-size: 9px;
+
+  color: #737d83;
+}
+
+.checkout-footer-bottom .footer-dot {
+  color: #3BB4EC;
+
+  font-size: 11px;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+  .checkout-footer {
+    margin-top: 30px;
+
+    padding:
+      34px 15px 18px;
+
+    border-radius:
+      20px 20px 0 0;
+  }
+
+
+  .checkout-footer-brand h3 {
+    font-size: 23px;
+  }
+
+
+  .checkout-footer-brand p {
+    margin-bottom: 23px;
+  }
+
+
+  .checkout-footer-trust {
+    flex-direction: column;
+
+    gap: 8px;
+
+    width: 100%;
+  }
+
+
+  .trust-item {
+    max-width: none;
+
+    width: 100%;
+
+    padding: 11px 12px;
+  }
+
+
+  .trust-icon {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+  }
+
+
+  .checkout-footer-help {
+    flex-direction: column;
+
+    gap: 4px;
+
+    margin-top: 20px;
+    margin-bottom: 22px;
+  }
+
+
+  .checkout-footer-bottom {
+    font-size: 8px;
+
+    gap: 5px;
+  }
+
+}   
     
         
   </style>
@@ -4197,6 +4515,67 @@ button[onclick*="addToCart"]:active {
   <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer;">Confirm Order (COD)</button>
 </div>
   </div>
+  <!-- =====================================================
+     LUMA DEALS — PREMIUM CHECKOUT FOOTER
+     ===================================================== -->
+
+<footer class="checkout-footer">
+
+  <div class="checkout-footer-brand">
+    <h3>Luma Deals</h3>
+    <p>Shop Smart. Live Better.</p>
+  </div>
+
+  <div class="checkout-footer-trust">
+
+    <div class="trust-item">
+      <span class="trust-icon">
+        <i class="fa-solid fa-lock"></i>
+      </span>
+      <div>
+        <strong>Secure Checkout</strong>
+        <small>Your information is protected</small>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <span class="trust-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </span>
+      <div>
+        <strong>Privacy Protected</strong>
+        <small>Your data stays secure</small>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <span class="trust-icon">
+        <i class="fa-solid fa-truck-fast"></i>
+      </span>
+      <div>
+        <strong>Reliable Delivery</strong>
+        <small>Delivered to your doorstep</small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="checkout-footer-help">
+    <span>Need help with your order?</span>
+    <button type="button" onclick="showPage('contact')">
+      Contact Us
+    </button>
+  </div>
+
+  <div class="checkout-footer-bottom">
+    <span>© 2026 Luma Deals</span>
+    <span class="footer-dot">•</span>
+    <span>All Rights Reserved</span>
+    <span class="footer-dot">•</span>
+    <span>v1.0.0</span>
+  </div>
+
+</footer>
 </div>
 
     <div id="custom-toast"></div>
