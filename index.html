@@ -4924,32 +4924,72 @@ function searchProducts() {
   const searchInput = document.getElementById('search-input');
   const searchSuggestions = document.getElementById('search-suggestions');
 
-  const query = searchInput.value.trim().toLowerCase();
+  if (!searchInput) return;
+
+  const originalQuery = searchInput.value.trim();
+  const query = originalQuery.toLowerCase();
+
   const source = window.products || [];
 
   const filtered = query
-    ? source.filter(p => p.name.toLowerCase().includes(query))
+    ? source.filter(p =>
+        String(p.name || '').toLowerCase().includes(query)
+      )
     : source;
 
   const html = filtered.length
     ? filtered.map(productCardHTML).join('')
     : "<p style='padding:20px; color:#888;'>Koi product nahi mila.</p>";
 
-  const homeGrid = document.getElementById('home-product-grid');
   const shopGrid = document.getElementById('shop-product-grid');
-  if (homeGrid) homeGrid.innerHTML = html;
-  if (shopGrid) shopGrid.innerHTML = html;
 
-  const shopHeading = document.getElementById('shop-heading');
-  if (shopHeading) {
-    shopHeading.innerText = query ? `Search results for "${searchInput.value.trim()}"` : 'Products';
+  if (shopGrid) {
+    shopGrid.innerHTML = html;
   }
 
-  if (typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
+  const shopHeading = document.getElementById('shop-heading');
 
-  if (query) showPage('shop');
+  if (shopHeading) {
+    shopHeading.innerText = query
+      ? `Search results for "${originalQuery}"`
+      : 'Products';
+  }
 
-  searchSuggestions.style.display = 'none';
+  // Shop page open karo WITHOUT showPage() reset
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+
+  const shopPage = document.getElementById('page-shop');
+
+  if (shopPage) {
+    shopPage.classList.add('active');
+  }
+
+  const homeHero = document.getElementById('home-hero');
+
+  if (homeHero) {
+    homeHero.style.display = 'none';
+  }
+
+  if (typeof restoreWishlistButtons === 'function') {
+    restoreWishlistButtons();
+  }
+
+  if (searchSuggestions) {
+    searchSuggestions.style.display = 'none';
+  }
+
+  // Search box clear
+  searchInput.value = '';
+
+  window.scrollTo(0, 0);
+
+  history.pushState(
+    { page: 'shop' },
+    '',
+    '/?page=shop'
+  );
 }
   function liveSearchProducts() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
