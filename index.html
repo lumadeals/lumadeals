@@ -3239,544 +3239,134 @@ button[onclick*="addToCart"]:active {
     transform: scale(.92);
 }
   
-/* =========================================================
-   LUMA DEALS — PREMIUM MOBILE BOTTOM NAVIGATION
-   ========================================================= */
+        
+    
+    /* ==========================================
+   LUMA DEALS - CLEAN MOBILE BOTTOM NAV
+   ========================================== */
 
 .mobile-bottom-nav {
   display: none;
 }
 
-
-/* =========================================================
-   MOBILE ONLY
-   ========================================================= */
-
 @media (max-width: 768px) {
-
-  /* ---------- Bottom Navigation ---------- */
 
   .mobile-bottom-nav {
     position: fixed;
-
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-
-    height: 68px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
 
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    align-items: stretch;
 
-    padding: 5px;
+    background: #ffffff;
+    border-top: 1px solid #e9edf0;
 
-    background:
-      linear-gradient(
-        145deg,
-        rgba(255,255,255,0.96),
-        rgba(248,250,252,0.92)
-      );
-
-    backdrop-filter: blur(22px) saturate(180%);
-    -webkit-backdrop-filter: blur(22px) saturate(180%);
-
-    border: 1px solid rgba(255,255,255,0.85);
-
-    border-radius: 24px;
-
-    box-shadow:
-      0 10px 35px rgba(15,23,42,0.14),
-      0 3px 10px rgba(15,23,42,0.08),
-      inset 0 1px 0 rgba(255,255,255,0.9);
+    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.06);
 
     z-index: 99999;
 
-    animation: bottomNavEnter 0.7s cubic-bezier(.22,1,.36,1);
-
-    overflow: hidden;
+    padding-bottom: env(safe-area-inset-bottom);
   }
-
-
-  /* ---------- Top Shine ---------- */
-
-  .mobile-bottom-nav::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: 8%;
-    right: 8%;
-
-    height: 1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(59,180,236,0.55),
-        transparent
-      );
-
-    opacity: 0.8;
-  }
-
-
-  /* ---------- Navigation Item ---------- */
 
   .bottom-nav-item {
     position: relative;
 
     flex: 1;
 
-    height: 58px;
-
     border: none;
-    outline: none;
-
     background: transparent;
-
-    border-radius: 19px;
 
     display: flex;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
 
-    gap: 4px;
+    gap: 5px;
 
-    color: #14171A;
+    color: #73777a;
+    font-family: inherit;
 
     cursor: pointer;
 
-    font-family: inherit;
-
     -webkit-tap-highlight-color: transparent;
 
-    transition:
-      color 0.3s ease,
-      transform 0.25s cubic-bezier(.22,1,.36,1);
+    transition: color 0.25s ease;
   }
 
-
-  /* ---------- Active Background ---------- */
-
-  .bottom-nav-item::before {
-    content: "";
-
-    position: absolute;
-
-    width: 48px;
-    height: 38px;
-
-    top: 8px;
-
-    border-radius: 15px;
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(59,180,236,0.18),
-        rgba(59,180,236,0.06)
-      );
-
-    opacity: 0;
-
-    transform:
-      scale(0.65)
-      translateY(5px);
-
+  .bottom-nav-item i {
+    font-size: 20px;
     transition:
-      opacity 0.35s ease,
-      transform 0.4s cubic-bezier(.22,1,.36,1);
-
-    z-index: 0;
+      transform 0.28s cubic-bezier(.34, 1.56, .64, 1);
   }
 
+  .bottom-nav-item span {
+    font-size: 10px;
+    font-weight: 600;
+    transition: transform 0.25s ease;
+  }
 
-  /* ---------- Active Item ---------- */
-
+  /* Active */
   .bottom-nav-item.active {
     color: #3BB4EC;
   }
 
-  .bottom-nav-item.active::before {
-    opacity: 1;
-
-    transform:
-      scale(1)
-      translateY(0);
-
-    animation: activeGlow 2.5s ease-in-out infinite;
-  }
-
-
-  /* ---------- Icon ---------- */
-
-  .bottom-nav-item i {
-    position: relative;
-
-    z-index: 2;
-
-    font-size: 19px;
-
-    line-height: 1;
-
-    transition:
-      transform 0.35s cubic-bezier(.22,1,.36,1),
-      filter 0.3s ease;
-  }
-
-
-  /* ---------- Text ---------- */
-
-  .bottom-nav-item span {
-    position: relative;
-
-    z-index: 2;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    letter-spacing: 0.1px;
-
-    transition:
-      transform 0.3s ease,
-      opacity 0.3s ease;
-  }
-
-
-  /* ---------- Active Icon Animation ---------- */
-
   .bottom-nav-item.active i {
-    transform:
-      translateY(-1px)
-      scale(1.13);
-
-    filter:
-      drop-shadow(0 3px 5px rgba(59,180,236,0.25));
-
-    animation:
-      navIconPop 0.5s cubic-bezier(.22,1,.36,1);
+    transform: translateY(-2px) scale(1.08);
   }
 
+  /* Animated top indicator */
+  .bottom-nav-item::before {
+    content: "";
+    position: absolute;
 
-  .bottom-nav-item.active span {
-    transform: translateY(-1px);
+    top: 0;
+
+    width: 0;
+    height: 3px;
+
+    border-radius: 0 0 10px 10px;
+
+    background: #3BB4EC;
+
+    transition:
+      width 0.3s cubic-bezier(.34, 1.56, .64, 1);
   }
 
+  .bottom-nav-item.active::before {
+    width: 32px;
+  }
 
-  /* ---------- Tap Animation ---------- */
-
-  .bottom-nav-item:active {
+  /* Touch */
+  .bottom-nav-item:active i {
     transform: scale(0.88);
   }
 
-
-  .bottom-nav-item:active i {
-    transform: scale(0.82);
-  }
-
-
-  /* =======================================================
-     RIPPLE EFFECT
-     ======================================================= */
-
-  .bottom-nav-item::after {
-    content: "";
-
-    position: absolute;
-
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: rgba(59,180,236,0.28);
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%) scale(0);
-
-    opacity: 0;
-
-    pointer-events: none;
-  }
-
-  .bottom-nav-item:active::after {
-    animation: navRipple 0.55s ease-out;
-  }
-
-
-  /* =======================================================
-     WISHLIST HEART ANIMATION
-     ======================================================= */
-
-  .bottom-nav-item:nth-child(3).active i {
-    animation:
-      heartBeat 0.55s cubic-bezier(.22,1,.36,1);
-  }
-
-
-  /* =======================================================
-     ORDERS ICON
-     ======================================================= */
-
-  .bottom-nav-item:nth-child(4).active i {
-    animation:
-      orderBounce 0.55s cubic-bezier(.22,1,.36,1);
-  }
-
-
-  /* =======================================================
-     PROFILE ICON
-     ======================================================= */
-
-  .bottom-nav-item:nth-child(5).active i {
-    animation:
-      profilePop 0.55s cubic-bezier(.22,1,.36,1);
-  }
-
-
-  /* =======================================================
-     ENTRANCE ANIMATION
-     ======================================================= */
-
-  @keyframes bottomNavEnter {
-
-    from {
-      opacity: 0;
-
-      transform:
-        translateY(35px)
-        scale(0.94);
-    }
-
-    to {
-      opacity: 1;
-
-      transform:
-        translateY(0)
-        scale(1);
-    }
-  }
-
-
-  /* =======================================================
-     ACTIVE GLOW
-     ======================================================= */
-
-  @keyframes activeGlow {
-
-    0%,
-    100% {
-      box-shadow:
-        0 0 0 rgba(59,180,236,0);
-    }
-
-    50% {
-      box-shadow:
-        0 0 18px rgba(59,180,236,0.12);
-    }
-  }
-
-
-  /* =======================================================
-     ICON POP
-     ======================================================= */
-
-  @keyframes navIconPop {
-
-    0% {
-      transform:
-        scale(0.7)
-        translateY(4px);
-    }
-
-    60% {
-      transform:
-        scale(1.2)
-        translateY(-2px);
-    }
-
-    100% {
-      transform:
-        scale(1.13)
-        translateY(-1px);
-    }
-  }
-
-
-  /* =======================================================
-     RIPPLE
-     ======================================================= */
-
-  @keyframes navRipple {
-
-    0% {
-      transform:
-        translate(-50%, -50%)
-        scale(0);
-
-      opacity: 0.8;
-    }
-
-    100% {
-      transform:
-        translate(-50%, -50%)
-        scale(25);
-
-      opacity: 0;
-    }
-  }
-
-
-  /* =======================================================
-     HEART
-     ======================================================= */
-
-  @keyframes heartBeat {
-
-    0% {
-      transform: scale(0.7);
-    }
-
-    35% {
-      transform: scale(1.3);
-    }
-
-    55% {
-      transform: scale(0.95);
-    }
-
-    75% {
-      transform: scale(1.18);
-    }
-
-    100% {
-      transform: scale(1.13);
-    }
-  }
-
-
-  /* =======================================================
-     ORDERS
-     ======================================================= */
-
-  @keyframes orderBounce {
-
-    0% {
-      transform:
-        translateY(4px)
-        scale(0.75);
-    }
-
-    45% {
-      transform:
-        translateY(-4px)
-        scale(1.18);
-    }
-
-    70% {
-      transform:
-        translateY(1px)
-        scale(1.05);
-    }
-
-    100% {
-      transform:
-        translateY(-1px)
-        scale(1.13);
-    }
-  }
-
-
-  /* =======================================================
-     PROFILE
-     ======================================================= */
-
-  @keyframes profilePop {
-
-    0% {
-      transform: scale(0.7);
-    }
-
-    50% {
-      transform: scale(1.22);
-    }
-
-    100% {
-      transform: scale(1.13);
-    }
-  }
-
-
-  /* =======================================================
-     SAFE AREA — MODERN PHONES
-     ======================================================= */
-
-  @supports (padding-bottom: env(safe-area-inset-bottom)) {
-
-    .mobile-bottom-nav {
-      bottom:
-        calc(10px + env(safe-area-inset-bottom));
-    }
-
-    body {
-      padding-bottom:
-        calc(88px + env(safe-area-inset-bottom));
-    }
-  }
-
-
-  /* =======================================================
-     CONTENT SPACE
-     ======================================================= */
-
+  /* Keep content above navigation */
   body {
-    padding-bottom: 88px;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
   }
-
 }
 
 
-/* =========================================================
-   DARK MODE
-   ========================================================= */
+/* DARK MODE */
 
-@media (max-width: 768px) {
+body.dark-mode .mobile-bottom-nav,
+body.dark .mobile-bottom-nav {
+  background: #14171A;
+  border-color: #2a2f33;
+}
 
-  body.dark-mode .mobile-bottom-nav,
-  body.dark .mobile-bottom-nav {
-    background:
-      linear-gradient(
-        145deg,
-        rgba(20,23,26,0.96),
-        rgba(25,30,35,0.94)
-      );
+body.dark-mode .bottom-nav-item,
+body.dark .bottom-nav-item {
+  color: #aeb5ba;
+}
 
-    border-color:
-      rgba(255,255,255,0.08);
-
-    box-shadow:
-      0 10px 35px rgba(0,0,0,0.4),
-      inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-
-  body.dark-mode .bottom-nav-item,
-  body.dark .bottom-nav-item {
-    color: #f5f7fa;
-  }
-
-  body.dark-mode .bottom-nav-item.active,
-  body.dark .bottom-nav-item.active {
-    color: #3BB4EC;
-  }
-
+body.dark-mode .bottom-nav-item.active,
+body.dark .bottom-nav-item.active {
+  color: #3BB4EC;
 }
   </style>
 </head>
@@ -4736,73 +4326,36 @@ button[onclick*="addToCart"]:active {
 </div>
 
     <div id="custom-toast"></div>
-<!-- =====================================================
-     LUMA DEALS — PREMIUM MOBILE BOTTOM NAVIGATION
-     ===================================================== -->
+<!-- LUMA DEALS MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
 
-<nav class="mobile-bottom-nav" id="mobileBottomNav">
-
-  <!-- HOME -->
-  <button
-    type="button"
-    class="bottom-nav-item active"
-    data-page="home"
-    onclick="showPage('home')"
-    aria-label="Home"
-  >
-    <i class="fas fa-house"></i>
+  <button class="bottom-nav-item active"
+          onclick="showPage('home')">
+    <i class="fa-solid fa-house"></i>
     <span>Home</span>
   </button>
 
-
-  <!-- CATEGORY -->
-  <button
-    type="button"
-    class="bottom-nav-item"
-    data-page="shop"
-    onclick="showPage('shop')"
-    aria-label="Category"
-  >
-    <i class="fas fa-grid-2"></i>
+  <button class="bottom-nav-item"
+          onclick="showPage('shop')">
+    <i class="fa-solid fa-table-cells-large"></i>
     <span>Category</span>
   </button>
 
-
-  <!-- WISHLIST -->
-  <button
-    type="button"
-    class="bottom-nav-item"
-    data-page="wishlist"
-    onclick="showPage('wishlist'); showWishlist()"
-    aria-label="Wishlist"
-  >
-    <i class="far fa-heart"></i>
+  <button class="bottom-nav-item"
+          onclick="showPage('wishlist'); showWishlist()">
+    <i class="fa-regular fa-heart"></i>
     <span>Wishlist</span>
   </button>
 
-
-  <!-- ORDERS -->
-  <button
-    type="button"
-    class="bottom-nav-item"
-    data-page="orders"
-    onclick="showPage('orders')"
-    aria-label="Orders"
-  >
-    <i class="fas fa-box"></i>
+  <button class="bottom-nav-item"
+          onclick="showPage('orders')">
+    <i class="fa-solid fa-bag-shopping"></i>
     <span>Orders</span>
   </button>
 
-
-  <!-- PROFILE -->
-  <button
-    type="button"
-    class="bottom-nav-item"
-    data-page="profile"
-    onclick="showPage('profile')"
-    aria-label="Profile"
-  >
-    <i class="far fa-user"></i>
+  <button class="bottom-nav-item"
+          onclick="showPage('profile')">
+    <i class="fa-regular fa-user"></i>
     <span>Profile</span>
   </button>
 
