@@ -4547,7 +4547,114 @@ button[onclick*="addToCart"]:active {
 
 }
 
-  
+  /* =========================================================
+   LUMA DEALS — FIRE HEART CLICK ANIMATION ❤️🔥
+   ========================================================= */
+
+.wishlist-btn {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Heart pop */
+.wishlist-btn.active .heart-icon {
+  animation: ldHeartFirePop .55s cubic-bezier(.17,.67,.35,1.4);
+}
+
+@keyframes ldHeartFirePop {
+  0% {
+    transform: scale(.65);
+  }
+
+  45% {
+    transform: scale(1.45) rotate(-8deg);
+  }
+
+  70% {
+    transform: scale(.92) rotate(5deg);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* 🔥 Fire glow around heart */
+.wishlist-btn.active::before {
+  content: "🔥";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  font-size: 20px;
+  transform: translate(-50%, -50%) scale(.3);
+  opacity: 0;
+  pointer-events: none;
+  animation: ldFireBurst .65s ease-out forwards;
+}
+
+/* ✨ Small sparkles */
+.wishlist-btn.active::after {
+  content: "✦ ･ ✦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  color: #ff4d4d;
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) scale(.3);
+  opacity: 0;
+  pointer-events: none;
+  animation: ldSparkBurst .7s ease-out forwards;
+}
+
+@keyframes ldFireBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(.3);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  65% {
+    opacity: .9;
+    transform: translate(-50%, -58%) scale(1.35);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -75%) scale(1.7);
+  }
+}
+
+@keyframes ldSparkBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(.3);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.8);
+  }
+}
+
+/* ❤️ Final active heart */
+.wishlist-btn.active .heart-icon {
+  fill: #ef4444 !important;
+  stroke: #ef4444 !important;
+  color: #ef4444 !important;
+}
   </style>
 </head>
 <body>
