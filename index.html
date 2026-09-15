@@ -3531,7 +3531,94 @@ button[onclick*="addToCart"]:active {
 }
 
 
-        
+        .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+
+    background: #fff;
+    border-radius: 26px 26px 0 0;
+    box-shadow: 0 -10px 30px rgba(15,23,42,0.14);
+
+    padding: 16px 6px max(10px, env(safe-area-inset-bottom));
+    overflow: visible;
+}
+
+.bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #a3a3ad;
+    cursor: pointer;
+    position: relative;
+    transition: color .3s ease;
+}
+
+.bottom-nav-icon-wrap {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 15px;
+    color: inherit;
+    position: relative;
+    transition: all .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+.bottom-nav-label {
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.bottom-nav-item.active {
+    color: #3BB4EC;
+}
+
+.bottom-nav-item.active .bottom-nav-icon-wrap {
+    background: linear-gradient(135deg, #3BB4EC, #0284c7);
+    color: #fff;
+    transform: translateY(-22px) scale(1.15);
+    box-shadow: 0 10px 20px rgba(2,132,199,0.4), 0 0 0 6px #fff;
+}
+
+.bottom-nav-item.active .bottom-nav-label {
+    transform: translateY(-10px);
+}
+
+.bottom-nav-badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .bottom-nav {
+        display: flex;
+    }
+    body {
+        padding-bottom: 78px;
+    }
+  }
   </style>
 </head>
 <body>
@@ -4512,7 +4599,28 @@ button[onclick*="addToCart"]:active {
 </div>
 
     <div id="custom-toast"></div>
-
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" onclick="setActiveNav(this); showPage('home');">
+    <span class="bottom-nav-icon-wrap"><i class="fas fa-house"></i></span>
+    <span class="bottom-nav-label">Home</span>
+  </div>
+  <div class="bottom-nav-item" onclick="setActiveNav(this); focusSearchBar();">
+    <span class="bottom-nav-icon-wrap"><i class="fas fa-magnifying-glass"></i></span>
+    <span class="bottom-nav-label">Search</span>
+  </div>
+  <div class="bottom-nav-item" onclick="setActiveNav(this); showPage('shop');">
+    <span class="bottom-nav-icon-wrap"><i class="fas fa-heart"></i></span>
+    <span class="bottom-nav-label">Wishlist</span>
+  </div>
+  <div class="bottom-nav-item" onclick="setActiveNav(this); toggleCart();">
+    <span class="bottom-nav-icon-wrap"><i class="fas fa-cart-shopping"></i><b id="bottom-cart-count" class="bottom-nav-badge">0</b></span>
+    <span class="bottom-nav-label">Cart</span>
+  </div>
+  <div class="bottom-nav-item" onclick="setActiveNav(this); showPage('login');">
+    <span class="bottom-nav-icon-wrap"><i class="fas fa-user"></i></span>
+    <span class="bottom-nav-label">Profile</span>
+  </div>
+</div>
 <script>
 window.products = [];
 
@@ -4771,6 +4879,15 @@ function updateCart() {
     cartCount.textContent = totalQuantity;
   }
 
+  // =========================
+  // BOTTOM NAV CART COUNT
+  // =========================
+
+  const bottomCartCount = document.getElementById("bottom-cart-count");
+  if (bottomCartCount) {
+    bottomCartCount.textContent = totalQuantity;
+  }
+
 
   // =========================
   // FLOATING CART COUNT
@@ -4807,8 +4924,6 @@ function updateCart() {
 
   // =========================
   // EMPTY CART
-  // =========================
-
   if (cart.length === 0) {
 
     cartItems.innerHTML = `
@@ -4868,9 +4983,7 @@ function updateCart() {
       item.image ||
       item.images?.[0] ||
       "";
-
-
-    return `
+return `
       <div class="cart-item" style="
         padding:12px 0;
         border-bottom:1px solid #eee;
@@ -4936,9 +5049,7 @@ function updateCart() {
             </div>
 
           </div>
-
-
-          <!-- REMOVE BUTTON -->
+<!-- REMOVE BUTTON -->
 
           <button
             type="button"
@@ -4976,6 +5087,10 @@ function updateCart() {
   }
 
 }
+                
+
+
+          
     
     
 
@@ -6752,6 +6867,21 @@ function hamburgerSubcategory(
     '/?page=shop'
   );
                             }
+    function setActiveNav(el) {
+  document.querySelectorAll('.bottom-nav-item').forEach(item => item.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function focusSearchBar() {
+  showPage('home');
+  setTimeout(() => {
+    const input = document.getElementById('search-input');
+    if (input) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      input.focus();
+    }
+  }, 150);
+}
   
   
 </script>
