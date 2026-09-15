@@ -3928,7 +3928,624 @@ button[onclick*="addToCart"]:active {
     font-size: 85px;
   }
 } 
-  
+  /* =========================================================
+   LUMA DEALS — ULTRA PREMIUM PRODUCT CARDS
+   ========================================================= */
+
+/* CARD */
+.product-card {
+  position: relative !important;
+
+  background: rgba(255, 255, 255, 0.96) !important;
+
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+
+  border-radius: 20px !important;
+
+  overflow: hidden !important;
+
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.07),
+    0 1px 2px rgba(15, 23, 42, 0.04) !important;
+
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease,
+    border-color .35s ease !important;
+}
+
+
+/* DESKTOP HOVER */
+@media (min-width: 769px) {
+
+  .product-card:hover {
+    transform: translateY(-8px) !important;
+
+    border-color: rgba(59, 180, 236, 0.35) !important;
+
+    box-shadow:
+      0 18px 40px rgba(15, 23, 42, 0.12),
+      0 8px 22px rgba(59, 180, 236, 0.12) !important;
+  }
+
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE AREA
+   ========================================================= */
+
+.product-image-wrap {
+  position: relative !important;
+
+  padding: 12px !important;
+
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(59, 180, 236, 0.08),
+      transparent 55%
+    ),
+    #f8fafc !important;
+
+  overflow: hidden !important;
+}
+
+
+/* subtle image-area shine */
+
+.product-image-wrap::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.55),
+    transparent
+  );
+
+  transform: skewX(-18deg);
+
+  transition: left .8s ease;
+
+  pointer-events: none;
+}
+
+
+@media (min-width: 769px) {
+
+  .product-card:hover .product-image-wrap::after {
+    left: 140%;
+  }
+
+}
+
+
+/* PRODUCT IMAGE */
+
+.product-image-wrap img {
+  width: 100% !important;
+
+  height: 190px !important;
+
+  object-fit: contain !important;
+
+  display: block !important;
+
+  background: #ffffff !important;
+
+  border-radius: 15px !important;
+
+  transition:
+    transform .5s cubic-bezier(.2,.8,.2,1),
+    filter .35s ease !important;
+}
+
+
+@media (min-width: 769px) {
+
+  .product-card:hover .product-image-wrap img {
+    transform: scale(1.065) !important;
+  }
+
+}
+
+
+/* =========================================================
+   DISCOUNT BADGE
+   ========================================================= */
+
+.product-discount-badge {
+  position: absolute !important;
+
+  top: 18px !important;
+  left: 18px !important;
+
+  z-index: 5 !important;
+
+  display: inline-flex !important;
+
+  align-items: center !important;
+
+  min-height: 28px;
+
+  padding: 5px 10px !important;
+
+  border-radius: 999px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff4d4d,
+      #ef3340
+    ) !important;
+
+  color: #fff !important;
+
+  font-size: 10px !important;
+
+  font-weight: 800 !important;
+
+  letter-spacing: .2px;
+
+  box-shadow:
+    0 7px 18px rgba(239, 68, 68, .25),
+    inset 0 1px 0 rgba(255,255,255,.25) !important;
+
+  animation:
+    ldDiscountPulse 2.8s ease-in-out infinite;
+}
+
+
+@keyframes ldDiscountPulse {
+
+  0%, 100% {
+    box-shadow:
+      0 7px 18px rgba(239,68,68,.22),
+      inset 0 1px 0 rgba(255,255,255,.25);
+  }
+
+  50% {
+    box-shadow:
+      0 8px 24px rgba(239,68,68,.38),
+      inset 0 1px 0 rgba(255,255,255,.30);
+  }
+
+}
+
+
+/* =========================================================
+   WISHLIST HEART
+   ========================================================= */
+
+.wishlist-btn {
+  position: absolute !important;
+
+  top: 17px !important;
+  right: 17px !important;
+
+  z-index: 6 !important;
+
+  width: 39px !important;
+  height: 39px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 0 !important;
+
+  border: 1px solid rgba(226,232,240,.9) !important;
+
+  border-radius: 50% !important;
+
+  background: rgba(255,255,255,.94) !important;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 7px 18px rgba(15,23,42,.10) !important;
+
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    box-shadow .25s ease !important;
+}
+
+
+.wishlist-btn:hover {
+  transform: scale(1.12) !important;
+
+  background: #ffffff !important;
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,.16) !important;
+}
+
+
+.wishlist-btn.active {
+  background: #fff1f2 !important;
+
+  color: #ef4444 !important;
+
+  border-color: #fecdd3 !important;
+}
+
+
+/* HEART SVG */
+
+.wishlist-btn .heart-icon {
+  width: 20px !important;
+  height: 20px !important;
+
+  fill: none !important;
+
+  stroke: currentColor !important;
+
+  stroke-width: 1.8 !important;
+
+  transition:
+    transform .25s ease,
+    fill .25s ease !important;
+}
+
+
+.wishlist-btn.active .heart-icon {
+  fill: #ef4444 !important;
+
+  stroke: #ef4444 !important;
+
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   PRODUCT INFORMATION
+   ========================================================= */
+
+.product-info {
+  padding: 15px 15px 16px !important;
+
+  background: #ffffff !important;
+}
+
+
+/* PRODUCT NAME */
+
+.product-info h4 {
+  color: #14171A !important;
+
+  font-size: 14px !important;
+
+  font-weight: 700 !important;
+
+  line-height: 1.45 !important;
+
+  min-height: 41px !important;
+
+  margin: 0 0 7px !important;
+
+  overflow: hidden !important;
+
+  display: -webkit-box !important;
+
+  -webkit-line-clamp: 2 !important;
+
+  -webkit-box-orient: vertical !important;
+}
+
+
+/* VERIFIED BADGE */
+
+.verified-badge {
+  width: 17px !important;
+  height: 17px !important;
+
+  margin-left: 4px !important;
+
+  vertical-align: -3px !important;
+}
+
+.verified-badge svg {
+  width: 17px !important;
+  height: 17px !important;
+}
+
+
+/* =========================================================
+   RATING
+   ========================================================= */
+
+.rating {
+  margin: 6px 0 8px !important;
+
+  color: #f5b301 !important;
+
+  font-size: 12px !important;
+
+  letter-spacing: 1.5px !important;
+
+  line-height: 1 !important;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.price-row {
+  display: flex !important;
+
+  align-items: baseline !important;
+
+  flex-wrap: wrap !important;
+
+  gap: 5px !important;
+
+  margin-top: 2px;
+}
+
+
+.price {
+  color: #168fc4 !important;
+
+  font-size: 18px !important;
+
+  font-weight: 850 !important;
+
+  letter-spacing: -.2px;
+}
+
+
+.old-price {
+  color: #94a3b8 !important;
+
+  font-size: 11px !important;
+
+  text-decoration: line-through !important;
+
+  margin-left: 2px !important;
+}
+
+
+/* =========================================================
+   GREEN DISCOUNT PILL
+   ========================================================= */
+
+.discount-pill {
+  display: inline-flex !important;
+
+  align-items: center;
+
+  width: fit-content;
+
+  margin-top: 8px !important;
+
+  padding: 4px 8px !important;
+
+  border-radius: 7px !important;
+
+  background: #ecfdf5 !important;
+
+  color: #16a34a !important;
+
+  border: 1px solid #bbf7d0 !important;
+
+  font-size: 9px !important;
+
+  font-weight: 800 !important;
+
+  letter-spacing: .2px;
+}
+
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+.add-cart-btn {
+  position: relative !important;
+
+  width: 100% !important;
+
+  min-height: 42px !important;
+
+  margin-top: 13px !important;
+
+  padding: 10px 12px !important;
+
+  border: none !important;
+
+  border-radius: 11px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #14171A,
+      #20262b
+    ) !important;
+
+  color: #ffffff !important;
+
+  font-size: 12px !important;
+
+  font-weight: 750 !important;
+
+  letter-spacing: .1px;
+
+  cursor: pointer !important;
+
+  overflow: hidden !important;
+
+  box-shadow:
+    0 6px 14px rgba(20,23,26,.16) !important;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    background .25s ease !important;
+}
+
+
+/* button shine */
+
+.add-cart-btn::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 70%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.18),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  transition: left .6s ease;
+}
+
+
+@media (min-width: 769px) {
+
+  .add-cart-btn:hover {
+    transform: translateY(-2px) !important;
+
+    background:
+      linear-gradient(
+        135deg,
+        #3BB4EC,
+        #168fc4
+      ) !important;
+
+    box-shadow:
+      0 10px 22px rgba(59,180,236,.28) !important;
+  }
+
+  .add-cart-btn:hover::before {
+    left: 130%;
+  }
+
+}
+
+
+.add-cart-btn:active {
+  transform: scale(.98) !important;
+}
+
+
+/* =========================================================
+   MOBILE PRODUCT CARDS
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .product-card {
+    border-radius: 17px !important;
+
+    box-shadow:
+      0 4px 14px rgba(15,23,42,.07) !important;
+  }
+
+  .product-card:active {
+    transform: scale(.985) !important;
+  }
+
+  .product-image-wrap {
+    padding: 9px !important;
+  }
+
+  .product-image-wrap img {
+    height: 175px !important;
+
+    border-radius: 13px !important;
+  }
+
+  .product-discount-badge {
+    top: 15px !important;
+    left: 15px !important;
+
+    padding: 5px 8px !important;
+
+    font-size: 9px !important;
+  }
+
+  .wishlist-btn {
+    top: 14px !important;
+    right: 14px !important;
+
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .wishlist-btn .heart-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .product-info {
+    padding: 12px !important;
+  }
+
+  .product-info h4 {
+    font-size: 12px !important;
+
+    min-height: 35px !important;
+
+    line-height: 1.4 !important;
+  }
+
+  .rating {
+    font-size: 10px !important;
+
+    letter-spacing: 1px !important;
+
+    margin: 5px 0 7px !important;
+  }
+
+  .price {
+    font-size: 15px !important;
+  }
+
+  .old-price {
+    font-size: 9px !important;
+  }
+
+  .discount-pill {
+    font-size: 8px !important;
+
+    padding: 3px 6px !important;
+  }
+
+  .add-cart-btn {
+    min-height: 38px !important;
+
+    margin-top: 10px !important;
+
+    padding: 9px 7px !important;
+
+    border-radius: 9px !important;
+
+    font-size: 10px !important;
+  }
+
+}
 
   
   </style>
