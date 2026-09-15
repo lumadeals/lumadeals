@@ -3530,8 +3530,7 @@ button[onclick*="addToCart"]:active {
 
 }
 
-
-        .bottom-nav {
+.bottom-nav {
     display: none;
     position: fixed;
     bottom: 0;
@@ -3539,13 +3538,12 @@ button[onclick*="addToCart"]:active {
     right: 0;
     z-index: 900;
 
-    background: rgba(255,255,255,0.96);
+    background: rgba(255,255,255,0.98);
     backdrop-filter: blur(14px);
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -12px 34px rgba(15,23,42,0.16), 0 -1px 0 rgba(15,23,42,0.04);
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -8px 24px rgba(15,23,42,0.10);
 
-    padding: 22px 10px max(12px, env(safe-area-inset-bottom));
-    overflow: visible;
+    padding: 10px 6px max(10px, env(safe-area-inset-bottom));
 }
 
 .bottom-nav-item {
@@ -3553,34 +3551,30 @@ button[onclick*="addToCart"]:active {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    gap: 5px;
+    justify-content: center;
+    gap: 4px;
 
     font-size: 10.5px;
     font-weight: 600;
-    letter-spacing: .1px;
     color: #9a9aa6;
     cursor: pointer;
-    position: relative;
-    transition: color .3s ease;
+    transition: color .25s ease;
 }
 
 .bottom-nav-icon-wrap {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    font-size: 15px;
+    font-size: 17px;
     color: inherit;
     position: relative;
-    transition: all .4s cubic-bezier(.34,1.56,.64,1);
+    transition: transform .25s ease, color .25s ease;
 }
 
 .bottom-nav-label {
-    transition: opacity .3s ease, transform .3s ease;
-    white-space: nowrap;
+    line-height: 1;
 }
 
 .bottom-nav-item.active {
@@ -3588,24 +3582,13 @@ button[onclick*="addToCart"]:active {
 }
 
 .bottom-nav-item.active .bottom-nav-icon-wrap {
-    width: 46px;
-    height: 46px;
-    background: linear-gradient(135deg, #3BB4EC, #0284c7);
-    color: #fff;
-    font-size: 18px;
-    transform: translateY(-26px);
-    box-shadow: 0 10px 22px rgba(2,132,199,0.4), 0 0 0 5px #fff;
-}
-
-.bottom-nav-item.active .bottom-nav-label {
-    transform: translateY(-14px);
-    font-weight: 700;
+    transform: scale(1.12);
 }
 
 .bottom-nav-badge {
     position: absolute;
-    top: -3px;
-    right: -5px;
+    top: -6px;
+    right: -8px;
     background: #ef4444;
     color: #fff;
     font-size: 9px;
@@ -3624,9 +3607,13 @@ button[onclick*="addToCart"]:active {
         display: flex;
     }
     body {
-        padding-bottom: 84px;
+        padding-bottom: 68px;
     }
-}
+  }
+        
+
+
+    
 
   </style>
 </head>
@@ -4623,7 +4610,7 @@ button[onclick*="addToCart"]:active {
   </div>
   <div class="bottom-nav-item" onclick="setActiveNav(this); toggleCart();">
     <span class="bottom-nav-icon-wrap"><i class="fas fa-cart-shopping"></i><b id="bottom-cart-count" class="bottom-nav-badge">0</b></span>
-    <span class="bottom-nav-label">Cart</span>
+    <span class="bottom-nav-label">Order Summary</span>
   </div>
   <div class="bottom-nav-item" onclick="setActiveNav(this); showPage('login');">
     <span class="bottom-nav-icon-wrap"><i class="fas fa-user"></i></span>
