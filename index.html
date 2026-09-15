@@ -7072,61 +7072,11 @@ function signInWithGoogle() {
     });
 }
      
-      /* ================================
-   LUMA DEALS WISHLIST SYSTEM
-   ================================ */
+      
 
-function getWishlist() {
-  try {
-    return JSON.parse(localStorage.getItem('lumaWishlist') || '[]');
-  } catch {
-    return [];
-  }
-}
+  
 
-function saveWishlist(list) {
-  localStorage.setItem('lumaWishlist', JSON.stringify(list));
-}
 
-function toggleWishlist(productId, button) {
-  let wishlist = getWishlist();
-
-  const index = wishlist.indexOf(productId);
-
-  if (index === -1) {
-    wishlist.push(productId);
-    button.classList.add('active');
-
-    if (navigator.vibrate) {
-      navigator.vibrate(50);
-    }
-  } else {
-    wishlist.splice(index, 1);
-    button.classList.remove('active');
-  }
-
-  saveWishlist(wishlist);
-}
-
-function restoreWishlistButtons() {
-  const wishlist = getWishlist();
-
-  document.querySelectorAll('.wishlist-btn').forEach(button => {
-    const onclick = button.getAttribute('onclick');
-
-    if (!onclick) return;
-
-    const match = onclick.match(/toggleWishlist\(([^,]+)/);
-
-    if (!match) return;
-
-    const productId = Number(match[1]);
-
-    if (wishlist.includes(productId)) {
-      button.classList.add('active');
-    }
-  });
-}
 
  </script>
 <script>
@@ -7175,97 +7125,122 @@ function restoreWishlistButtons() {
 })();
       
 
-
-
-
-
-      
-
-      
-      
-
-
-
 // ===============================
-// WISHLIST
+// LUMA DEALS — WISHLIST
 // ===============================
 
-// Get wishlist from browser
 function getWishlist() {
-
   try {
-
     return JSON.parse(
-      localStorage.getItem("lumaWishlist")
-    ) || [];
-
+      localStorage.getItem("lumaWishlist") || "[]"
+    );
   } catch (error) {
-
     return [];
-
   }
-
 }
 
 
-// Save wishlist
-function saveWishlist(wishlist) {
+// ===============================
+// SAVE WISHLIST
+// ===============================
 
+function saveWishlist(wishlist) {
   localStorage.setItem(
     "lumaWishlist",
     JSON.stringify(wishlist)
   );
-
 }
 
 
-// Add / Remove product from wishlist
-window.toggleWishlist = function (productId) {
+// ===============================
+// ADD / REMOVE WISHLIST
+// ===============================
+
+window.toggleWishlist = function(productId, button) {
 
   let wishlist = getWishlist();
 
   productId = String(productId);
 
-  const index =
-    wishlist.indexOf(productId);
+  const index = wishlist.indexOf(productId);
 
 
-  // Remove
+  // ===============================
+  // REMOVE
+  // ===============================
+
   if (index !== -1) {
 
     wishlist.splice(index, 1);
 
+    if (button) {
+      button.classList.remove("active");
+      button.classList.remove("ld-fire");
+    }
+
   }
 
-  // Add
+
+  // ===============================
+  // ADD
+  // ===============================
+
   else {
 
     wishlist.push(productId);
 
+    if (button) {
+
+      // ❤️ Make heart red
+      button.classList.add("active");
+
+      // 🔥 Fire animation ONLY on this click
+      button.classList.remove("ld-fire");
+
+      // Restart animation
+      void button.offsetWidth;
+
+      button.classList.add("ld-fire");
+
+      // Remove fire after animation
+      setTimeout(function() {
+        button.classList.remove("ld-fire");
+      }, 700);
+
+    }
+
+    // Mobile vibration
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+
   }
 
 
+  // Save
   saveWishlist(wishlist);
+
 
   // Refresh wishlist page if open
   if (
     typeof showPage === "function" &&
     window.location.hash === "#wishlist"
   ) {
-
     showWishlist();
-
   }
 
 
-  // Update heart icons
+  // Update all hearts
   updateWishlistButtons();
 
 };
 
 
-// Check if product is in wishlist
-window.isInWishlist = function (productId) {
+// ===============================
+// CHECK WISHLIST
+// ===============================
+
+window.isInWishlist = function(productId) {
 
   const wishlist = getWishlist();
 
@@ -7276,37 +7251,40 @@ window.isInWishlist = function (productId) {
 };
 
 
-// Update all wishlist hearts
+// ===============================
+// UPDATE ALL HEARTS
+// ===============================
+
 function updateWishlistButtons() {
 
-  const buttons =
-    document.querySelectorAll(
-      "[data-wishlist-id]"
+  document.querySelectorAll(".wishlist-btn").forEach(function(button) {
+
+    const onclick = button.getAttribute("onclick");
+
+    if (!onclick) return;
+
+    const match = onclick.match(
+      /toggleWishlist\(([^,]+)/
     );
 
+    if (!match) return;
 
-  buttons.forEach(function (button) {
+    const productId =
+      String(match[1].trim());
 
-    const id =
-      button.getAttribute(
-        "data-wishlist-id"
-      );
+    if (isInWishlist(productId)) {
 
-    if (isInWishlist(id)) {
+      // ❤️ Already saved
+      button.classList.add("active");
 
-      button.classList.add(
-        "wishlist-active"
-      );
-
-      button.innerHTML = "❤️";
+      // IMPORTANT:
+      // No fire animation here
+      button.classList.remove("ld-fire");
 
     } else {
 
-      button.classList.remove(
-        "wishlist-active"
-      );
-
-      button.innerHTML = "♡";
+      button.classList.remove("active");
+      button.classList.remove("ld-fire");
 
     }
 
@@ -7319,7 +7297,7 @@ function updateWishlistButtons() {
 // SHOW WISHLIST PRODUCTS
 // ===============================
 
-window.showWishlist = function () {
+window.showWishlist = function() {
 
   const container =
     document.getElementById(
@@ -7342,9 +7320,8 @@ window.showWishlist = function () {
     getWishlist();
 
 
-  if (
-    !wishlist.length
-  ) {
+  // Empty wishlist
+  if (!wishlist.length) {
 
     container.innerHTML = `
       <div style="text-align:center;padding:50px 20px;">
@@ -7365,7 +7342,7 @@ window.showWishlist = function () {
 
 
   const wishlistProducts =
-    products.filter(function (product) {
+    products.filter(function(product) {
 
       return wishlist.includes(
         String(
@@ -7377,6 +7354,7 @@ window.showWishlist = function () {
     });
 
 
+  // Products not found
   if (!wishlistProducts.length) {
 
     container.innerHTML = `
@@ -7392,9 +7370,10 @@ window.showWishlist = function () {
   }
 
 
+  // Render products
   container.innerHTML =
     wishlistProducts
-      .map(function (product) {
+      .map(function(product) {
 
         if (
           typeof productCardHTML === "function"
@@ -7410,9 +7389,12 @@ window.showWishlist = function () {
       .join("");
 
 
+  // Restore red hearts
   updateWishlistButtons();
 
 };
+
+          
 </script>
   <button
   id="floating-cart-btn"
