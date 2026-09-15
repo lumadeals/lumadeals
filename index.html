@@ -3539,11 +3539,12 @@ button[onclick*="addToCart"]:active {
     right: 0;
     z-index: 900;
 
-    background: #fff;
-    border-radius: 26px 26px 0 0;
-    box-shadow: 0 -10px 30px rgba(15,23,42,0.14);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(14px);
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -12px 34px rgba(15,23,42,0.16), 0 -1px 0 rgba(15,23,42,0.04);
 
-    padding: 16px 6px max(10px, env(safe-area-inset-bottom));
+    padding: 22px 10px max(12px, env(safe-area-inset-bottom));
     overflow: visible;
 }
 
@@ -3553,19 +3554,20 @@ button[onclick*="addToCart"]:active {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 4px;
+    gap: 5px;
 
     font-size: 10.5px;
     font-weight: 600;
-    color: #a3a3ad;
+    letter-spacing: .1px;
+    color: #9a9aa6;
     cursor: pointer;
     position: relative;
     transition: color .3s ease;
 }
 
 .bottom-nav-icon-wrap {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3573,32 +3575,37 @@ button[onclick*="addToCart"]:active {
     font-size: 15px;
     color: inherit;
     position: relative;
-    transition: all .35s cubic-bezier(.34,1.56,.64,1);
+    transition: all .4s cubic-bezier(.34,1.56,.64,1);
 }
 
 .bottom-nav-label {
     transition: opacity .3s ease, transform .3s ease;
+    white-space: nowrap;
 }
 
 .bottom-nav-item.active {
-    color: #3BB4EC;
+    color: #0284c7;
 }
 
 .bottom-nav-item.active .bottom-nav-icon-wrap {
+    width: 46px;
+    height: 46px;
     background: linear-gradient(135deg, #3BB4EC, #0284c7);
     color: #fff;
-    transform: translateY(-22px) scale(1.15);
-    box-shadow: 0 10px 20px rgba(2,132,199,0.4), 0 0 0 6px #fff;
+    font-size: 18px;
+    transform: translateY(-26px);
+    box-shadow: 0 10px 22px rgba(2,132,199,0.4), 0 0 0 5px #fff;
 }
 
 .bottom-nav-item.active .bottom-nav-label {
-    transform: translateY(-10px);
+    transform: translateY(-14px);
+    font-weight: 700;
 }
 
 .bottom-nav-badge {
     position: absolute;
-    top: -4px;
-    right: -6px;
+    top: -3px;
+    right: -5px;
     background: #ef4444;
     color: #fff;
     font-size: 9px;
@@ -3609,6 +3616,7 @@ button[onclick*="addToCart"]:active {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 0 2px #fff;
 }
 
 @media (max-width: 768px) {
@@ -3616,9 +3624,10 @@ button[onclick*="addToCart"]:active {
         display: flex;
     }
     body {
-        padding-bottom: 78px;
+        padding-bottom: 84px;
     }
-  }
+}
+
   </style>
 </head>
 <body>
