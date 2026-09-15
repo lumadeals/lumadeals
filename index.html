@@ -7104,49 +7104,80 @@ function signInWithGoogle() {
 })();
       
 
-// ===============================
-// LUMA DEALS — WISHLIST
-// ===============================
+/* =========================================
+   LUMA DEALS — WISHLIST SYSTEM
+   ========================================= */
 
 function getWishlist() {
   try {
-    return JSON.parse(
-      localStorage.getItem("lumaWishlist") || "[]"
-    );
+    const saved = localStorage.getItem("lumaWishlist");
+
+    if (!saved) return [];
+
+    const parsed = JSON.parse(saved);
+
+    return Array.isArray(parsed)
+      ? parsed.map(String)
+      : [];
+
   } catch (error) {
+    console.error("Wishlist load error:", error);
     return [];
   }
 }
 
 
-// ===============================
-// SAVE WISHLIST
-// ===============================
+/* =========================================
+   SAVE WISHLIST
+   ========================================= */
 
 function saveWishlist(wishlist) {
-  localStorage.setItem(
-    "lumaWishlist",
-    JSON.stringify(wishlist)
-  );
+  try {
+    const cleanWishlist = [
+      ...new Set(
+        wishlist
+          .map(String)
+          .filter(id => id !== "undefined" && id !== "null")
+      )
+    ];
+
+    localStorage.setItem(
+      "lumaWishlist",
+      JSON.stringify(cleanWishlist)
+    );
+
+    return true;
+
+  } catch (error) {
+    console.error("Wishlist save error:", error);
+    return false;
+  }
 }
 
 
-// ===============================
-// ADD / REMOVE WISHLIST
-// ===============================
+/* =========================================
+   ADD / REMOVE WISHLIST
+   ========================================= */
 
 window.toggleWishlist = function(productId, button) {
 
-  let wishlist = getWishlist();
-
   productId = String(productId);
+
+  if (
+    productId === "undefined" ||
+    productId === "null" ||
+    productId === ""
+  ) {
+    console.error("Invalid wishlist product ID:", productId);
+    return;
+  }
+
+  let wishlist = getWishlist();
 
   const index = wishlist.indexOf(productId);
 
 
-  // ===============================
-  // REMOVE
-  // ===============================
+  /* REMOVE */
 
   if (index !== -1) {
 
@@ -7160,9 +7191,7 @@ window.toggleWishlist = function(productId, button) {
   }
 
 
-  // ===============================
-  // ADD
-  // ===============================
+  /* ADD */
 
   else {
 
@@ -7170,25 +7199,20 @@ window.toggleWishlist = function(productId, button) {
 
     if (button) {
 
-      // ❤️ Make heart red
       button.classList.add("active");
 
-      // 🔥 Fire animation ONLY on this click
       button.classList.remove("ld-fire");
 
-      // Restart animation
       void button.offsetWidth;
 
       button.classList.add("ld-fire");
 
-      // Remove fire after animation
       setTimeout(function() {
         button.classList.remove("ld-fire");
       }, 700);
 
     }
 
-    // Mobile vibration
     if (navigator.vibrate) {
       navigator.vibrate(50);
     }
@@ -7196,85 +7220,105 @@ window.toggleWishlist = function(productId, button) {
   }
 
 
-  // Save
+  /* SAVE */
+
   saveWishlist(wishlist);
 
 
-  // Refresh wishlist page if open
+  /* UPDATE ALL HEARTS */
+
+  updateWishlistButtons();
+
+
+  /* IF WISHLIST PAGE IS OPEN */
+
+  const wishlistPage =
+    document.getElementById("page-wishlist");
+
   if (
-    typeof showPage === "function" &&
-    window.location.hash === "#wishlist"
+    wishlistPage &&
+    wishlistPage.classList.contains("active")
   ) {
     showWishlist();
   }
 
-
-  // Update all hearts
-  updateWishlistButtons();
-
 };
 
 
-// ===============================
-// CHECK WISHLIST
-// ===============================
+/* =========================================
+   CHECK WISHLIST
+   ========================================= */
 
 window.isInWishlist = function(productId) {
 
-  const wishlist = getWishlist();
-
-  return wishlist.includes(
+  return getWishlist().includes(
     String(productId)
   );
 
 };
 
 
-// ===============================
-// UPDATE ALL HEARTS
-// ===============================
+/* =========================================
+   UPDATE ALL HEARTS
+   ========================================= */
 
 function updateWishlistButtons() {
 
-  document.querySelectorAll(".wishlist-btn").forEach(function(button) {
+  document
+    .querySelectorAll(".wishlist-btn")
+    .forEach(function(button) {
 
-    const onclick = button.getAttribute("onclick");
+      const onclick =
+        button.getAttribute("onclick");
 
-    if (!onclick) return;
+      if (!onclick) return;
 
-    const match = onclick.match(
-      /toggleWishlist\(([^,]+)/
-    );
+      const match =
+        onclick.match(
+          /toggleWishlist\(([^,]+)/
+        );
 
-    if (!match) return;
+      if (!match) return;
 
-    const productId =
-      String(match[1].trim());
+      const productId =
+        String(match[1].trim());
 
-    if (isInWishlist(productId)) {
+      if (isInWishlist(productId)) {
 
-      // ❤️ Already saved
-      button.classList.add("active");
+        button.classList.add("active");
 
-      // IMPORTANT:
-      // No fire animation here
-      button.classList.remove("ld-fire");
+        button.classList.remove("ld-fire");
 
-    } else {
+      } else {
 
-      button.classList.remove("active");
-      button.classList.remove("ld-fire");
+        button.classList.remove("active");
 
-    }
+        button.classList.remove("ld-fire");
 
-  });
+      }
+
+    });
 
 }
 
 
-// ===============================
-// SHOW WISHLIST PRODUCTS
-// ===============================
+/* =========================================
+   COMPATIBILITY FUNCTION
+   =========================================
+   Tumhare baaki code mein
+   restoreWishlistButtons() call ho raha hai.
+   Isliye usko updateWishlistButtons se connect
+   kar rahe hain.
+   ========================================= */
+
+function restoreWishlistButtons() {
+  updateWishlistButtons();
+}
+
+
+/* =========================================
+   SHOW WISHLIST PRODUCTS
+   ========================================= */
 
 window.showWishlist = function() {
 
@@ -7283,15 +7327,11 @@ window.showWishlist = function() {
       "wishlist-products"
     );
 
-
   if (!container) {
-
     console.error(
       "wishlist-products container not found."
     );
-
     return;
-
   }
 
 
@@ -7299,57 +7339,78 @@ window.showWishlist = function() {
     getWishlist();
 
 
-  // Empty wishlist
+  /* EMPTY */
+
   if (!wishlist.length) {
 
     container.innerHTML = `
-      <div style="text-align:center;padding:50px 20px;">
+      <div style="
+        text-align:center;
+        padding:50px 20px;
+      ">
         <div style="font-size:50px;">❤️</div>
+
         <h3>Your Wishlist is Empty</h3>
-        <p>Add products to your wishlist and they will appear here.</p>
+
+        <p>
+          Add products to your wishlist
+          and they will appear here.
+        </p>
       </div>
     `;
 
     return;
-
   }
 
 
-  // Firebase products
+  /* PRODUCTS */
+
   const products =
-    window.products || [];
+    Array.isArray(window.products)
+      ? window.products
+      : [];
 
 
   const wishlistProducts =
     products.filter(function(product) {
 
-      return wishlist.includes(
+      const productId =
         String(
-          product.id ||
-          product.productId
-        )
-      );
+          product.id ??
+          product.productId ??
+          ""
+        );
+
+      return wishlist.includes(productId);
 
     });
 
 
-  // Products not found
+  /* PRODUCTS NOT FOUND */
+
   if (!wishlistProducts.length) {
 
     container.innerHTML = `
-      <div style="text-align:center;padding:50px 20px;">
+      <div style="
+        text-align:center;
+        padding:50px 20px;
+      ">
         <div style="font-size:50px;">❤️</div>
+
         <h3>No Wishlist Products Found</h3>
-        <p>Your saved products could not be found.</p>
+
+        <p>
+          Your saved products could not be found.
+        </p>
       </div>
     `;
 
     return;
-
   }
 
 
-  // Render products
+  /* RENDER */
+
   container.innerHTML =
     wishlistProducts
       .map(function(product) {
@@ -7357,9 +7418,7 @@ window.showWishlist = function() {
         if (
           typeof productCardHTML === "function"
         ) {
-
           return productCardHTML(product);
-
         }
 
         return "";
@@ -7368,11 +7427,16 @@ window.showWishlist = function() {
       .join("");
 
 
-  // Restore red hearts
+  /* RESTORE HEARTS */
+
   updateWishlistButtons();
 
 };
 
+
+            
+
+  
           
 </script>
   <button
