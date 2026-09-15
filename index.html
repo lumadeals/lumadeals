@@ -3283,6 +3283,324 @@ button[onclick*="addToCart"]:active {
     flex: 0 0 250px;
   }
      }
+  /* =====================================================
+   LUMA DEALS — PROFESSIONAL HERO CAROUSEL
+   ===================================================== */
+
+.ld-hero-carousel {
+  width: 100%;
+  max-width: 1400px;
+  margin: 22px auto 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(20, 23, 26, 0.14);
+}
+
+.ld-hero-track {
+  display: flex;
+  width: 500%;
+  transition: transform 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ld-hero-slide {
+  width: 20%;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+
+  padding: 45px 7%;
+
+  background:
+    radial-gradient(circle at 85% 20%,
+      rgba(255,255,255,0.28),
+      transparent 30%),
+    linear-gradient(
+      135deg,
+      #3BB4EC 0%,
+      #198dcc 55%,
+      #14171A 100%
+    );
+
+  color: white;
+}
+
+.ld-hero-slide:nth-child(2) {
+  background:
+    radial-gradient(circle at 80% 30%,
+      rgba(255,255,255,0.25),
+      transparent 30%),
+    linear-gradient(
+      135deg,
+      #14171A,
+      #30363b,
+      #3BB4EC
+    );
+}
+
+.ld-hero-slide:nth-child(3) {
+  background:
+    radial-gradient(circle at 85% 20%,
+      rgba(255,255,255,0.30),
+      transparent 28%),
+    linear-gradient(
+      135deg,
+      #3BB4EC,
+      #267eae,
+      #14171A
+    );
+}
+
+.ld-hero-slide:nth-child(4) {
+  background:
+    radial-gradient(circle at 80% 25%,
+      rgba(255,255,255,0.22),
+      transparent 32%),
+    linear-gradient(
+      135deg,
+      #14171A,
+      #1d6f96,
+      #3BB4EC
+    );
+}
+
+.ld-hero-slide:nth-child(5) {
+  background:
+    radial-gradient(circle at 82% 25%,
+      rgba(255,255,255,0.28),
+      transparent 32%),
+    linear-gradient(
+      135deg,
+      #3BB4EC,
+      #14171A
+    );
+}
+
+
+/* Content */
+
+.ld-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.ld-hero-tag {
+  display: inline-block;
+
+  padding: 7px 14px;
+  margin-bottom: 12px;
+
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.ld-hero-content h1 {
+  margin: 0 0 8px;
+
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1.05;
+
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.ld-hero-content p {
+  margin: 0 0 18px;
+
+  font-size: 17px;
+  opacity: 0.92;
+}
+
+.ld-hero-offer {
+  display: inline-block;
+
+  margin-bottom: 22px;
+  padding: 9px 18px;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+
+  backdrop-filter: blur(12px);
+}
+
+.ld-hero-offer strong {
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.ld-hero-content button {
+  display: block;
+
+  border: none;
+  outline: none;
+
+  padding: 12px 22px;
+
+  border-radius: 12px;
+
+  background: white;
+  color: #14171A;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ld-hero-content button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+}
+
+
+/* Decorative icon */
+
+.ld-hero-decoration {
+  position: absolute;
+
+  right: 8%;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 120px;
+
+  opacity: 0.16;
+
+  filter: blur(0.2px);
+
+  animation: ldHeroFloat 3s ease-in-out infinite;
+}
+
+@keyframes ldHeroFloat {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+  }
+
+  50% {
+    transform: translateY(-55%) scale(1.08);
+  }
+}
+
+
+/* Dots */
+
+.ld-hero-dots {
+  position: absolute;
+
+  bottom: 15px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 7px;
+
+  z-index: 10;
+}
+
+.ld-hero-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.45);
+
+  cursor: pointer;
+
+  transition:
+    width 0.3s ease,
+    background 0.3s ease;
+}
+
+.ld-hero-dot.active {
+  width: 24px;
+  border-radius: 10px;
+  background: white;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+  .ld-hero-carousel {
+    margin: 15px 12px 25px;
+    border-radius: 18px;
+  }
+
+  .ld-hero-slide {
+    min-height: 300px;
+    padding: 32px 25px 40px;
+  }
+
+  .ld-hero-content {
+    max-width: 75%;
+  }
+
+  .ld-hero-content h1 {
+    font-size: 30px;
+  }
+
+  .ld-hero-content p {
+    font-size: 14px;
+  }
+
+  .ld-hero-decoration {
+    right: -10px;
+    font-size: 90px;
+  }
+
+  .ld-hero-content button {
+    padding: 11px 18px;
+  }
+}
+
+
+/* Small phones */
+
+@media (max-width: 420px) {
+
+  .ld-hero-slide {
+    min-height: 285px;
+    padding: 28px 20px 38px;
+  }
+
+  .ld-hero-content h1 {
+    font-size: 27px;
+  }
+
+  .ld-hero-content p {
+    font-size: 13px;
+  }
+
+  .ld-hero-decoration {
+    font-size: 70px;
+    right: -5px;
+  }
+}
 
   </style>
 </head>
@@ -3994,13 +4312,125 @@ button[onclick*="addToCart"]:active {
 
 
 
-  <div class="hero-banner flip-card" id="home-hero">
-    <div class="hero-content">
+  <!-- =====================================================
+     LUMA DEALS — PROFESSIONAL HERO CAROUSEL
+     ===================================================== -->
+
+<div class="ld-hero-carousel" id="ldHeroCarousel">
+
+  <div class="ld-hero-track">
+
+    <!-- BANNER 1 -->
+    <div class="ld-hero-slide">
+      <div class="ld-hero-content">
+        <span class="ld-hero-tag">☀️ SUMMER SPECIAL</span>
         <h1>Mega Summer Sale</h1>
-        <p>Get up to 20% OFF on premium gadgets & lifestyle products</p>
-        <a href="javascript:void(0)" class="hero-btn" onclick="showPage('shop')">Shop Now</a>
+        <p>Hot deals are waiting for you!</p>
+
+        <div class="ld-hero-offer">
+          <strong>UP TO 20% OFF</strong>
+        </div>
+
+        <button onclick="showPage('shop')">
+          Shop Now →
+        </button>
+      </div>
+
+      <div class="ld-hero-decoration">☀️</div>
     </div>
+
+
+    <!-- BANNER 2 -->
+    <div class="ld-hero-slide">
+      <div class="ld-hero-content">
+        <span class="ld-hero-tag">⚡ LIMITED TIME</span>
+        <h1>Flash Deals</h1>
+        <p>Grab your favourite products before they're gone.</p>
+
+        <div class="ld-hero-offer">
+          <strong>HOT PRICES</strong>
+        </div>
+
+        <button onclick="showPage('shop')">
+          Explore Deals →
+        </button>
+      </div>
+
+      <div class="ld-hero-decoration">⚡</div>
+    </div>
+
+
+    <!-- BANNER 3 -->
+    <div class="ld-hero-slide">
+      <div class="ld-hero-content">
+        <span class="ld-hero-tag">🔥 TRENDING NOW</span>
+        <h1>Shop What's New</h1>
+        <p>Discover products everyone's talking about.</p>
+
+        <div class="ld-hero-offer">
+          <strong>NEW ARRIVALS</strong>
+        </div>
+
+        <button onclick="showPage('shop')">
+          Shop New →
+        </button>
+      </div>
+
+      <div class="ld-hero-decoration">✨</div>
+    </div>
+
+
+    <!-- BANNER 4 -->
+    <div class="ld-hero-slide">
+      <div class="ld-hero-content">
+        <span class="ld-hero-tag">💎 SMART SHOPPING</span>
+        <h1>Better Deals. Better Prices.</h1>
+        <p>Find more value without compromising on quality.</p>
+
+        <div class="ld-hero-offer">
+          <strong>SAVE MORE</strong>
+        </div>
+
+        <button onclick="showPage('shop')">
+          Start Shopping →
+        </button>
+      </div>
+
+      <div class="ld-hero-decoration">💎</div>
+    </div>
+
+
+    <!-- BANNER 5 -->
+    <div class="ld-hero-slide">
+      <div class="ld-hero-content">
+        <span class="ld-hero-tag">🛍️ LUMA DEALS</span>
+        <h1>Your Shopping Starts Here</h1>
+        <p>Shop smart. Find better deals every day.</p>
+
+        <div class="ld-hero-offer">
+          <strong>SHOP SMART</strong>
+        </div>
+
+        <button onclick="showPage('shop')">
+          Shop Luma Deals →
+        </button>
+      </div>
+
+      <div class="ld-hero-decoration">🛍️</div>
+    </div>
+
   </div>
+
+  <!-- Carousel dots -->
+  <div class="ld-hero-dots">
+    <span class="ld-hero-dot active" onclick="ldHeroGoTo(0)"></span>
+    <span class="ld-hero-dot" onclick="ldHeroGoTo(1)"></span>
+    <span class="ld-hero-dot" onclick="ldHeroGoTo(2)"></span>
+    <span class="ld-hero-dot" onclick="ldHeroGoTo(3)"></span>
+    <span class="ld-hero-dot" onclick="ldHeroGoTo(4)"></span>
+  </div>
+
+</div>
   
 
   <!-- ALL PRODUCTS -->
@@ -6509,7 +6939,78 @@ function focusSearchBar() {
     }
   }, 150);
 }
-  
+  /* =====================================================
+   LUMA DEALS — HERO CAROUSEL
+   ===================================================== */
+
+let ldHeroCurrent = 0;
+let ldHeroTimer;
+
+function ldHeroUpdate() {
+
+  const track = document.querySelector('.ld-hero-track');
+  const dots = document.querySelectorAll('.ld-hero-dot');
+
+  if (!track) return;
+
+  track.style.transform =
+    `translateX(-${ldHeroCurrent * 20}%)`;
+
+  dots.forEach((dot, index) => {
+    dot.classList.toggle(
+      'active',
+      index === ldHeroCurrent
+    );
+  });
+}
+
+
+function ldHeroGoTo(index) {
+
+  ldHeroCurrent = index;
+
+  ldHeroUpdate();
+
+  ldHeroRestart();
+}
+
+
+function ldHeroNext() {
+
+  ldHeroCurrent++;
+
+  if (ldHeroCurrent >= 5) {
+    ldHeroCurrent = 0;
+  }
+
+  ldHeroUpdate();
+}
+
+
+function ldHeroRestart() {
+
+  clearInterval(ldHeroTimer);
+
+  ldHeroTimer = setInterval(
+    ldHeroNext,
+    4500
+  );
+}
+
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function () {
+
+    ldHeroUpdate();
+
+    ldHeroTimer = setInterval(
+      ldHeroNext,
+      4500
+    );
+
+  }
+);
   
 </script>
 </body>
