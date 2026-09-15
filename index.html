@@ -4168,32 +4168,38 @@ button[onclick*="addToCart"]:active {
     <h3> Your Cart</h3>
     <span onclick="toggleCart()">✖</span>
   </div>
+
   <div id="cart-items"></div>
+
   <div class="cart-total">
     <p>Total: Rs <span id="cart-total">0</span></p>
     <button class="checkout-btn" onclick="showCheckoutForm()">Checkout</button>
 
-<div id="lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
-  <h3 style="margin-bottom: 12px; font-size: 16px; color: #0f172a; font-weight: 700;">Delivery Details (COD)</h3>
-  
-  <div style="margin-bottom: 10px;">
-    <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+    <div id="lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+      <h3 style="margin-bottom: 12px; font-size: 16px; color: #0f172a; font-weight: 700;">Delivery Details (COD)</h3>
+      
+      <div style="margin-bottom: 10px;">
+        <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <input type="text" id="cust-house" placeholder="House / Flat No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+        <input type="text" id="cust-street" placeholder="Street / Road No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+        <input type="text" id="cust-area" placeholder="Area" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+        <input type="text" id="cust-city" placeholder="City" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <input type="text" id="cust-phone" placeholder="Phone Number (03XXXXXXXXX)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">
+        Confirm Order
+      </button>
+
+    </div>
+
   </div>
-
-
-
-<div style="margin-bottom: 10px;">
-  <input type="text" id="cust-house" placeholder="House / Flat No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-  <input type="text" id="cust-street" placeholder="Street / Road No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-  <input type="text" id="cust-area" placeholder="Area" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-  <input type="text" id="cust-city" placeholder="City" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
-</div>
-
-  <div style="margin-bottom: 15px;">
-    <input type="text" id="cust-phone" placeholder="Phone Number (03XXXXXXXXX)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
-  </div>
-
-<button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">Confirm Order</button>
 
 </div>
       
