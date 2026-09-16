@@ -6430,19 +6430,12 @@ function showPage(pageName, updateUrl = true) {
   }
 
   if (updateUrl) {
-
-    const url =
-      pageName === 'home'
-        ? '/'
-        : '/?page=' + pageName;
-
-    history.pushState(
-      { page: pageName },
-      '',
-      url
-    );
+  history.replaceState(
+    { page: pageName },
+    '',
+    '/'
+  );
   }
-}
   
 
      function submitContact(e) {
@@ -6524,12 +6517,7 @@ function searchProducts() {
 
   window.scrollTo(0, 0);
 
-  history.pushState(
-    { page: 'shop' },
-    '',
-    '/?page=shop'
-  );
-}
+  
   function liveSearchProducts() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
   const homeGrid = document.getElementById('home-product-grid');
