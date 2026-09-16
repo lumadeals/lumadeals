@@ -6429,13 +6429,18 @@ function showPage(pageName, updateUrl = true) {
     });
   }
 
-  if (updateUrl) {
-  history.replaceState(
+if (updateUrl) {
+  const url =
+    pageName === 'home'
+      ? '/'
+      : '/?page=' + pageName;
+
+  history.pushState(
     { page: pageName },
     '',
-    '/'
+    url
   );
-  }
+}
   
 
      function submitContact(e) {
@@ -6516,7 +6521,12 @@ function searchProducts() {
   searchInput.value = '';
 
   window.scrollTo(0, 0);
-
+  
+history.pushState(
+  { page: 'shop' },
+  '',
+  '/?page=shop'
+);
   
   function liveSearchProducts() {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
