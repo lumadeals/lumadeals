@@ -8089,5 +8089,35 @@ document.addEventListener(
 );
   
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedPage = params.get('page');
+
+  if (requestedPage) {
+
+    const validPages = [
+      'home',
+      'shop',
+      'about',
+      'contact',
+      'login',
+      'wishlist',
+      'product-detail'
+    ];
+
+    if (validPages.includes(requestedPage)) {
+      showPage(requestedPage, false);
+    } else {
+      showPage('home', false);
+    }
+
+  } else {
+    showPage('home', false);
+  }
+
+});
+</script>
 </body>
 </html>                     
