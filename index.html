@@ -8193,26 +8193,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+  
   function bnNavigate(pageId, el){
   document.querySelectorAll('.bn-item').forEach(function(item){
     item.classList.remove('active');
   });
   el.classList.add('active');
   showPage(pageId);
-}
-
-// showPage() call hone par bhi bottom nav ko sync rakhne ke liye
-var originalShowPage = showPage;
-showPage = function(pageId){
-  originalShowPage(pageId);
-  document.querySelectorAll('.bn-item').forEach(function(item){
-    if(item.getAttribute('data-page') === pageId){
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-};
+  }
 </script>
   <footer>
   <div class="footer-container">
