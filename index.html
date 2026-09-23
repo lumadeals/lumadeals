@@ -4665,6 +4665,69 @@ button[onclick*="addToCart"]:active {
 .bn-orders .bn-icon{ font-size:22px; }
 .bn-orders .bn-label{ display:none; }
 .bn-orders.active{ color:#fff !important; }
+  .bn-item{
+  transition: color .25s ease, transform .2s ease;
+}
+
+.bn-item .bn-icon{
+  display:inline-block;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.bn-item.active .bn-icon{
+  transform: translateY(-3px) scale(1.15);
+}
+
+.bn-item.active .bn-label{
+  font-weight:600;
+  transform: translateY(-1px);
+  transition: transform .25s ease, font-weight .2s ease;
+}
+
+.bn-item:active{
+  transform: scale(0.88);
+}
+
+.bn-item::after{
+  content:'';
+  position:absolute;
+  bottom:2px;
+  width:4px; height:4px;
+  border-radius:50%;
+  background:#e91e63;
+  opacity:0;
+  transform:scale(0);
+  transition: all .25s ease;
+}
+
+.bn-item.active::after{
+  opacity:1;
+  transform:scale(1);
+}
+
+.bn-item{ position:relative; }
+
+.bn-orders{
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
+}
+
+.bn-orders:active{
+  transform: scale(0.9);
+}
+
+.bn-orders.active{
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:0 6px 16px rgba(233,30,99,0.55);
+}
+
+.bottom-navbar{
+  animation: bnSlideUp .4s ease;
+}
+
+@keyframes bnSlideUp{
+  from{ transform: translateY(100%); opacity:0; }
+  to{ transform: translateY(0); opacity:1; }
+}
   </style>
 </head>
 <body>
