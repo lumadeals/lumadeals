@@ -5283,6 +5283,27 @@ body.dark-mode .back-settings {
     align-items: center;
   }
   }
+
+/* for order thank you */
+  .thank-you-card{
+  max-width:480px; margin:24px auto 0; padding:28px 20px;
+  text-align:center; background:linear-gradient(135deg,#f0f9ff,#e0f2fe);
+  border-radius:16px; border:1px solid #bae6fd;
+}
+.ty-badge{
+  width:52px; height:52px; border-radius:50%;
+  background:#22c55e; display:flex; align-items:center; justify-content:center;
+  margin:0 auto 14px; box-shadow:0 4px 12px rgba(34,197,94,0.35);
+}
+.thank-you-card h3{
+  font-size:17px; color:#0c4a6e; margin:0 0 8px; font-weight:700;
+}
+.thank-you-card p{
+  font-size:13px; color:#475569; line-height:1.6; margin:0 0 14px; max-width:340px; margin-left:auto; margin-right:auto;
+}
+.ty-signature{
+  font-size:13px; font-weight:700; color:#29ABE2; letter-spacing:0.3px;
+}
 </style>
 </head>
 <body>
@@ -6784,6 +6805,16 @@ body.dark-mode .back-settings {
     <h2>My Orders</h2>
     <div id="orders-list" style="margin-top:20px;">
       <p style="color:#888; text-align:center;">Loading orders...</p>
+    </div>
+    <div class="thank-you-card">
+  <div class="ty-badge">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <h3>Thank You for Shopping with Us!</h3>
+  <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
+  <div class="ty-signature">— Team Luma Deals</div>
     </div>
   </div>
 </section>
