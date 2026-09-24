@@ -6379,8 +6379,8 @@ body.dark-mode .back-settings {
         <input type="text" id="cust-phone" placeholder="Phone Number (03XXXXXXXXX)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
       </div>
 
-      <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">
-        Confirm Order
+      <button onclick="placeFirebaseOrder()" style="width: 100%; background: #3BB4EC; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(59,180,236,0.3);">
+  Confirm Order
       </button>
 
     </div>
@@ -7789,75 +7789,274 @@ document.addEventListener('click', function(e) {
   }
 });
 
-async function sendWhatsAppOrder() {
+/* =========================================
+   LUMA DEALS — FIREBASE ORDER SYSTEM
+   WhatsApp order removed
+   ========================================= */
+
+async function placeFirebaseOrder() {
+
+  /* Customer must be logged in */
+
   if (!window.currentUser) {
     alert("Please login first to place an order!");
     showPage('login');
     return;
   }
-  const name = document.getElementById('cust-name').value;
-  const house = document.getElementById('cust-house').value;
-  const street = document.getElementById('cust-street').value;
-  const area = document.getElementById('cust-area').value;
-  const city = document.getElementById('cust-city').value;
-  const phone = document.getElementById('cust-phone').value;
 
-  if (!name || !house || !street || !area || !city || !phone) {
+
+  /* Get customer information */
+
+  const name =
+    document.getElementById('cust-name').value.trim();
+
+  const house =
+    document.getElementById('cust-house').value.trim();
+
+  const street =
+    document.getElementById('cust-street').value.trim();
+
+  const area =
+    document.getElementById('cust-area').value.trim();
+
+  const city =
+    document.getElementById('cust-city').value.trim();
+
+  const phone =
+    document.getElementById('cust-phone').value.trim();
+
+
+  /* Validate */
+
+  if (
+    !name ||
+    !house ||
+    !street ||
+    !area ||
+    !city ||
+    !phone
+  ) {
     alert("Please fill all fields!");
     return;
   }
 
-  const productsList = cart.map(item => {
-    const qty = item.quantity || 1;
-    return `- ${item.name} (x${qty}) (Rs ${item.price * qty})`;
-  }).join('%0A');
 
-  const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-  const deliveryCharge = cart.length * 200;
-  const total = subtotal + deliveryCharge;
-const trackingId = 'LD' + Date.now().toString().slice(-8);
-  const message = `🛍️ *Order Details to Luma Deals*%0A%0A📦 *Tracking ID:* ${trackingId}%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
-  async function saveOrderToFirestore() {
-  const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const db = getFirestore(window.firebaseApp);
+  if (!cart || cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
 
-  await addDoc(collection(db, "orders"), {
-   trackingId: trackingId,
-    userId: window.currentUser.uid,
-    userEmail: window.currentUser.email,
-    customerName: name,
-    phone: phone,
-    address: { house, street, area, city },
-    items: cart.map(item => ({
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity || 1,
-      img: item.img || ''
-    })),
-    subtotal: subtotal,
-    deliveryCharge: deliveryCharge,
-    total: total,
-    status: "Order Placed",
-    cancelled: false,
-    createdAt: serverTimestamp()
-  });
+
+  /* Calculate order */
+
+  const subtotal =
+    cart.reduce(
+      (sum, item) =>
+        sum +
+        (Number(item.price) * (item.quantity || 1)),
+      0
+    );
+
+
+  const deliveryCharge =
+    cart.length * 200;
+
+
+  const total =
+    subtotal + deliveryCharge;
+
+
+  /* Generate Luma Deals Order ID */
+
+  const trackingId =
+    'LD' +
+    Date.now()
+      .toString()
+      .slice(-8);
+
+
+  try {
+
+    /* Firebase Firestore */
+
+    const {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp
+    } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+    );
+
+
+    const db =
+      getFirestore(window.firebaseApp);
+
+
+    /* Save order */
+
+    await addDoc(
+      collection(db, "orders"),
+      {
+
+        /* Order ID */
+        trackingId: trackingId,
+
+
+        /* Customer account */
+        userId:
+          window.currentUser.uid,
+
+        userEmail:
+          window.currentUser.email || "",
+
+
+        /* Customer information */
+        customerName:
+          name,
+
+        phone:
+          phone,
+
+
+        /* Delivery address */
+        address: {
+          house: house,
+          street: street,
+          area: area,
+          city: city
+        },
+
+
+        /* Products */
+        items:
+          cart.map(item => ({
+            name:
+              item.name,
+
+            price:
+              Number(item.price),
+
+            quantity:
+              item.quantity || 1,
+
+            img:
+              item.img ||
+              item.image ||
+              ""
+          })),
+
+
+        /* Payment */
+        paymentMethod:
+          "Cash on Delivery",
+
+
+        /* Amounts */
+        subtotal:
+          subtotal,
+
+        deliveryCharge:
+          deliveryCharge,
+
+        total:
+          total,
+
+
+        /* Order status */
+        status:
+          "Order Placed",
+
+        cancelled:
+          false,
+
+
+        /* Courier fields */
+        courier:
+          "",
+
+        courierTrackingId:
+          "",
+
+        courierTrackingUrl:
+          "",
+
+
+        /* Timestamp */
+        createdAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    /* Clear cart */
+
+    cart = [];
+
+    localStorage.removeItem('lumaCart');
+
+
+    /* Update cart UI */
+
+    if (typeof updateCart === "function") {
+      updateCart();
+    }
+
+
+    /* Close cart */
+
+    const cartSidebar =
+      document.getElementById('cart-sidebar');
+
+    if (cartSidebar) {
+      cartSidebar.classList.remove('active');
+    }
+
+
+    /* Show success */
+
+    alert(
+      "✅ Order placed successfully!\n\n" +
+      "Order ID: " +
+      trackingId
+    );
+
+
+    /* Open customer's Orders page */
+
+    showPage('orders');
+
+
+    /* Load orders from Firebase */
+
+    if (typeof loadOrders === "function") {
+      loadOrders();
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Firebase order error:",
+      error
+    );
+
+    alert(
+      "❌ Order could not be placed.\n\n" +
+      error.message
+    );
+
+  }
+
 }
 
-await saveOrderToFirestore(); 
-  window.open(`https://wa.me/923376454384?text=${message}`);
-}
-document.getElementById('lumadeals-checkout-box').innerHTML = `
-  <div class="thank-you-card">
-    <div class="ty-badge">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </div>
-    <h3>Thank You for Shopping with Us!</h3>
-    <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
-    <div class="ty-signature">— Team Luma Deals</div>
-  </div>
-`;
+
+/* Make function available to HTML */
+
+window.placeFirebaseOrder =
+  placeFirebaseOrder;
+  
   function filterCat(category, element) {
 
   /* ==========================================
