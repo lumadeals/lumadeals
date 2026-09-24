@@ -439,6 +439,68 @@ textarea{
     display:none;
   }
 }
+    /* ===== LUMA ADMIN NAVIGATION ===== */
+.admin-nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.admin-nav button {
+    border: 0;
+    padding: 11px 18px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    color: #14171A;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.admin-nav button:hover,
+.admin-nav button.active {
+    background: #3BB4EC;
+    color: white;
+}
+
+.admin-section {
+    display: none;
+}
+
+.admin-section.active {
+    display: block;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+.dashboard-card .icon {
+    font-size: 26px;
+}
+
+.dashboard-card h3 {
+    margin: 10px 0 5px;
+    font-size: 28px;
+}
+
+.dashboard-card p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
 </style>
 </head>
 
@@ -545,7 +607,59 @@ Logout
 </button>
 
 </header>
+<!-- ===== ADMIN NAVIGATION ===== -->
+<div class="admin-nav">
+    <button class="active" onclick="showAdminSection('dashboard', this)">
+        🏠 Dashboard
+    </button>
 
+    <button onclick="showAdminSection('add-product', this)">
+        ➕ Add Product
+    </button>
+
+    <button onclick="showAdminSection('products', this)">
+        📦 Products
+    </button>
+
+    <button onclick="showAdminSection('reviews', this)">
+        ⭐ Reviews
+    </button>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="admin-dashboard" class="admin-section active">
+
+    <h2>Welcome to Luma Deals Admin 👋</h2>
+    <p>Manage your store from one place.</p>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+            <div class="icon">📦</div>
+            <h3 id="dashboardTotalProducts">0</h3>
+            <p>Total Products</p>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="icon">🛍️</div>
+            <h3 id="dashboardCategories">0</h3>
+            <p>Categories</p>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="icon">🟢</div>
+            <h3 id="dashboardInStock">0</h3>
+            <p>In Stock</p>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="icon">⭐</div>
+            <h3 id="dashboardReviews">0</h3>
+            <p>Reviews</p>
+        </div>
+
+    </div>
+</div>
 
 <main class="container">
 
