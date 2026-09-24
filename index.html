@@ -5308,24 +5308,7 @@ body.dark-mode .back-settings {
   .account-hero{
   position:relative;
 }
-.switch-account-btn{
-  position:absolute;
-  top:20px; right:20px;
-  background:rgba(255,255,255,0.12);
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.25);
-  padding:7px 14px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-.switch-account-btn:active{
-  background:rgba(255,255,255,0.22);
-}
+
 </style>
 </head>
 <body>
@@ -6460,9 +6443,7 @@ body.dark-mode .back-settings {
         <h1 id="account-page-name" data-translate="myAccount" onclick="showPage('login')" style="cursor:pointer;">My Account</h1>
         <p id="account-page-email">Sign in to manage your account</p>
       </div>
-       <button class="switch-account-btn" onclick="switchAccount()">
-    <span>🔄</span> Switch
-       </button>
+       
     </div>
 
     <div class="account-grid">
@@ -6839,7 +6820,7 @@ body.dark-mode .back-settings {
   </div>
   <h3>Thank You for Shopping with Us!</h3>
   <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
-  <div class="ty-signature">— Team Luma Deals</div>
+  <div class="ty-signature"> Team Luma Deals</div>
     </div>
   </div>
 </section>
@@ -10259,17 +10240,7 @@ async function syncWishlistWithFirebase() {
 
 })();
   
-  function switchAccount() {
-  if (!confirm('Log out and switch to a different account?')) return;
-
-  window.firebaseSignOut(window.firebaseAuth).then(() => {
-    localStorage.removeItem('isLoggedIn');
-    showToast('Logged out. Please sign in with another account.');
-    showPage('login');
-  }).catch((error) => {
-    alert('Error: ' + error.message);
-  });
-  }
+  
 </script>
   <footer>
   <div class="footer-container">
