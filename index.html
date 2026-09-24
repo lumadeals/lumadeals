@@ -6047,7 +6047,7 @@ button[onclick*="addToCart"]:active {
     <span class="bn-icon">❤️</span>
     <span class="bn-label">Wishlist</span>
   </div>
-  <div class="bn-item" data-page="login" onclick="openMobileProfile(this)">
+  <div class="bn-item" data-page="profile" onclick="openMobileProfile(this)">
   <span class="bn-icon">👤</span>
   <span class="bn-label">Profile</span>
   </div>
@@ -8882,32 +8882,26 @@ document.addEventListener(
 
 function openMobileProfile(element) {
 
-  // Profile menu ko update karo
   updateHeaderProfile();
 
-  // Agar profile menu already bana hua hai
   const menu = document.getElementById("profile-menu");
 
-  if (menu) {
-
-    // Mobile bottom navbar ke click par
-    // profile menu open karo
-    menu.classList.add("show");
-
-    // Desktop positioning ko mobile ke liye adjust karo
-    menu.style.position = "fixed";
-    menu.style.right = "12px";
-    menu.style.bottom = "75px";
-    menu.style.top = "auto";
-
-  } else {
-
-    // Agar menu kisi wajah se available nahi
-    // to existing login page open karo
+  if (!menu) {
     showPage("login");
-
+    return;
   }
 
+  menu.classList.toggle("show");
+
+  menu.style.position = "fixed";
+  menu.style.left = "12px";
+  menu.style.right = "12px";
+  menu.style.bottom = "75px";
+  menu.style.top = "auto";
+  menu.style.width = "auto";
+  menu.style.maxWidth = "420px";
+  menu.style.margin = "0 auto";
+  menu.style.zIndex = "99999";
 }
 </script>
   <footer>
