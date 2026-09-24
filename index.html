@@ -5309,6 +5309,264 @@ body.dark-mode .back-settings {
   position:relative;
 }
 
+
+  /* =========================================
+   LUMA DEALS — ORDER SUCCESS MODAL
+   ========================================= */
+
+.luma-success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(20, 23, 26, 0.55);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  animation: lumaOverlayIn 0.2s ease;
+}
+
+
+.luma-success-box {
+  position: relative;
+
+  width: 100%;
+  max-width: 390px;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  padding: 32px 26px 26px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.18);
+
+  animation: lumaSuccessIn 0.28s ease;
+}
+
+
+.luma-success-close {
+  position: absolute;
+
+  top: 12px;
+  right: 14px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  background: transparent;
+
+  color: #777;
+
+  font-size: 27px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  border-radius: 50%;
+}
+
+
+.luma-success-close:hover {
+  background: #f3f3f3;
+}
+
+
+.luma-success-icon {
+  width: 64px;
+  height: 64px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf8f0;
+
+  color: #22a05a;
+
+  font-size: 32px;
+  font-weight: 700;
+
+  border: 5px solid #f4fcf7;
+}
+
+
+.luma-success-box h2 {
+  margin: 0 0 9px;
+
+  color: #14171A;
+
+  font-size: 23px;
+  font-weight: 700;
+}
+
+
+.luma-success-text {
+  margin: 0 auto 20px;
+
+  max-width: 320px;
+
+  color: #707070;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+.luma-order-id-box {
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  background: #f7fbfd;
+
+  border: 1px solid #e2f1f7;
+
+  border-radius: 10px;
+
+  text-align: left;
+}
+
+
+.luma-order-id-box span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #8a8a8a;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+}
+
+
+.luma-order-id-box strong {
+  display: block;
+
+  color: #14171A;
+
+  font-size: 16px;
+
+  letter-spacing: 0.4px;
+}
+
+
+.luma-view-order-btn {
+  width: 100%;
+
+  border: none;
+
+  padding: 13px 18px;
+
+  border-radius: 10px;
+
+  background: #3BB4EC;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.luma-view-order-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 18px rgba(59, 180, 236, 0.25);
+}
+
+
+.luma-continue-btn {
+  width: 100%;
+
+  border: none;
+
+  background: transparent;
+
+  padding: 12px 18px;
+
+  color: #666;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.luma-continue-btn:hover {
+  color: #14171A;
+}
+
+
+@keyframes lumaOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes lumaSuccessIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .luma-success-overlay {
+    padding: 16px;
+  }
+
+  .luma-success-box {
+    max-width: 100%;
+
+    padding:
+      30px 20px 22px;
+
+    border-radius: 16px;
+  }
+
+  .luma-success-box h2 {
+    font-size: 21px;
+  }
+
+}
 </style>
 </head>
 <body>
@@ -7906,10 +8164,7 @@ document.addEventListener('click', function(e) {
     }
 
     // SUCCESS MESSAGE
-    alert(
-      "✅ Order placed successfully!\n\n" +
-      "Order ID: " + trackingId
-    );
+    showOrderSuccessModal(trackingId);
 
     // OPEN ORDERS PAGE
     showPage("orders");
@@ -7933,7 +8188,87 @@ document.addEventListener('click', function(e) {
 
 
         
-      
+      function showOrderSuccessModal(orderId) {
+
+  // Remove old modal if already exists
+  const oldModal = document.getElementById("luma-order-success-modal");
+  if (oldModal) oldModal.remove();
+
+  const modal = document.createElement("div");
+
+  modal.id = "luma-order-success-modal";
+
+  modal.innerHTML = `
+    <div class="luma-success-overlay">
+
+      <div class="luma-success-box">
+
+        <button class="luma-success-close" onclick="closeOrderSuccessModal()">
+          ×
+        </button>
+
+        <div class="luma-success-icon">
+          ✓
+        </div>
+
+        <h2>Order Placed Successfully!</h2>
+
+        <p class="luma-success-text">
+          Thank you for shopping with Luma Deals.
+          Your order has been received successfully.
+        </p>
+
+        <div class="luma-order-id-box">
+          <span>Order ID</span>
+          <strong>${orderId}</strong>
+        </div>
+
+        <button
+          class="luma-view-order-btn"
+          onclick="viewOrderAfterSuccess()">
+          View My Order
+        </button>
+
+        <button
+          class="luma-continue-btn"
+          onclick="closeOrderSuccessModal()">
+          Continue Shopping
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closeOrderSuccessModal() {
+
+  const modal =
+    document.getElementById("luma-order-success-modal");
+
+  if (modal) {
+    modal.remove();
+  }
+
+  document.body.style.overflow = "";
+}
+
+
+function viewOrderAfterSuccess() {
+
+  closeOrderSuccessModal();
+
+  showPage("orders");
+
+  if (typeof loadOrders === "function") {
+    loadOrders();
+  }
+}
 
   
   function filterCat(category, element) {
