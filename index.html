@@ -5258,6 +5258,59 @@ body.dark-mode p {
 body.dark-mode .back-settings {
   color: #ffffff;
 }
+
+  html[dir="rtl"] {
+  direction: rtl;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Urdu mein navigation ko ulta na karo */
+html[dir="rtl"] .bottom-navbar,
+html[dir="rtl"] .nav-icons,
+html[dir="rtl"] .header-actions {
+  direction: ltr;
+}
+
+/* Icons aur buttons apni natural position par rahen */
+html[dir="rtl"] button,
+html[dir="rtl"] .btn,
+html[dir="rtl"] .bn-item {
+  direction: ltr;
+}
+
+/* Text ko Urdu direction dein */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] p,
+html[dir="rtl"] li,
+html[dir="rtl"] label {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Product cards ka layout disturb na ho */
+html[dir="rtl"] .product-grid,
+html[dir="rtl"] .products-grid {
+  direction: ltr;
+}
+
+html[dir="rtl"] .product-card {
+  direction: rtl;
+}
+
+/* Forms */
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  direction: rtl;
+  text-align: right;
+  }
 </style>
 </head>
 <body>
@@ -9926,7 +9979,12 @@ aboutGoal: "Our goal is simple: bridge the gap between quality and affordability
 whyChoose: "Why Choose Us?",
 getInTouch: "Get in Touch With Us",
 aboutSupport: "Have questions about a product or need help tracking your order? We're always here to help — reach out via WhatsApp and our friendly support team will assist you right away.",
-aboutThanks: "Thank you for choosing Luma Deals — where smart deals meet happy customers!"
+aboutThanks: "Thank you for choosing Luma Deals — where smart deals meet happy customers!",
+ cod: "100% Cash on Delivery: Shop with complete peace of mind — pay only when your order arrives at your doorstep.",
+trendingProducts: "Curated Trending Products: We stay ahead of trends to bring you unique, high-quality items.",
+whatsappSupport: "Direct WhatsApp Support: No complicated ticket systems — chat with us directly and place orders instantly.",
+customerFirst: "Customer-First Approach: Every product passes our strict quality checks before it reaches you."
+  
   },
 
   ur: {
@@ -9958,7 +10016,11 @@ aboutGoal: "ہمارا مقصد سادہ ہے: معیاری اور مناسب ق
 whyChoose: "ہمیں کیوں منتخب کریں؟",
 getInTouch: "ہم سے رابطہ کریں",
 aboutSupport: "کسی پروڈکٹ کے بارے میں سوال ہے یا اپنے آرڈر کو ٹریک کرنے میں مدد چاہیے؟ ہم ہمیشہ آپ کی مدد کے لیے موجود ہیں — واٹس ایپ کے ذریعے ہم سے رابطہ کریں اور ہماری دوستانہ سپورٹ ٹیم فوری طور پر آپ کی مدد کرے گی۔",
-aboutThanks: "Luma Deals کو منتخب کرنے کا شکریہ — جہاں بہترین ڈیلز خوش صارفین سے ملتی ہیں!"
+aboutThanks: "Luma Deals کو منتخب کرنے کا شکریہ — جہاں بہترین ڈیلز خوش صارفین سے ملتی ہیں!",
+ cod: "100% کیش آن ڈیلیوری: مکمل اطمینان کے ساتھ خریداری کریں — ادائیگی صرف اس وقت کریں جب آپ کا آرڈر آپ کی دہلیز پر پہنچ جائے۔",
+trendingProducts: "منتخب کردہ جدید مصنوعات: ہم جدید رجحانات پر نظر رکھتے ہیں تاکہ آپ کے لیے منفرد اور اعلیٰ معیار کی مصنوعات لائیں۔",
+whatsappSupport: "براہِ راست واٹس ایپ سپورٹ: پیچیدہ ٹکٹ سسٹم کی ضرورت نہیں — ہم سے براہِ راست چیٹ کریں اور فوراً آرڈر دیں۔",
+customerFirst: "صارفین کو اولین ترجیح: ہر پروڈکٹ آپ تک پہنچنے سے پہلے ہمارے سخت معیار کی جانچ سے گزرتی ہے۔"
   }
 };
 
