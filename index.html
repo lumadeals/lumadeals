@@ -6884,6 +6884,7 @@ const trackingId = 'LD' + Date.now().toString().slice(-8);
     })),
     total: total,
     status: "Order Placed",
+    cancelled: false,
     createdAt: serverTimestamp()
   });
 }
@@ -8254,7 +8255,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   }
   
-  function computeOrderStatus(createdAtSeconds) {
+  function computeOrderStatus(createdAtSeconds, cancelled) {
+  if (cancelled) return { index: -1, label: 'Cancelled' };
+
   const now = Date.now() / 1000;
   const elapsedHours = (now - createdAtSeconds) / 3600;
 
@@ -8262,7 +8265,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (elapsedHours >= 144) return { index: 2, label: 'Out for Delivery' };
   if (elapsedHours >= 12) return { index: 1, label: 'Processing' };
   return { index: 0, label: 'Order Placed' };
-}
+  }
 
 async function loadOrders() {
   const ordersList = document.getElementById('orders-list');
@@ -8286,8 +8289,7 @@ async function loadOrders() {
   }
 
   let orders = [];
-  snapshot.forEach(doc => orders.push(doc.data()));
-
+  snapshot.forEach(doc => orders.push({ ...doc.data(), _docId: doc.id }));
   orders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
   const stepLabels = ['Order Placed', 'Processing', 'Out for Delivery', 'Delivered'];
@@ -8298,8 +8300,10 @@ async function loadOrders() {
       : '';
 
     const status = order.createdAt?.seconds
-      ? computeOrderStatus(order.createdAt.seconds)
+      ? computeOrderStatus(order.createdAt.seconds, order.cancelled)
       : { index: 0, label: 'Order Placed' };
+
+    const canCancel = !order.cancelled && status.index === 0;
 
     const itemsHTML = order.items.map(item =>
       `<div class="order-item-row"><span>${item.name} (x${item.quantity})</span><span>Rs ${item.price * item.quantity}</span></div>`
@@ -8327,11 +8331,26 @@ async function loadOrders() {
         ${order.courierTrackingId ? `<div style="font-size:12px; color:#16a34a; font-weight:700; margin-bottom:8px;">🚚 Courier Tracking: ${order.courierTrackingId}</div>` : ''}
         ${itemsHTML}
         <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
-        <div class="mini-tracker">${trackerHTML}</div>
+        ${status.index >= 0 ? `<div class="mini-tracker">${trackerHTML}</div>` : ''}
+        ${canCancel ? `<button onclick="cancelOrder('${order._docId}')" style="width:100%; margin-top:14px; background:#fff; color:#ef4444; border:1px solid #ef4444; padding:10px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Cancel Order</button>` : ''}
       </div>
     `;
   }).join('');
 }
+  async function cancelOrder(docId) {
+  if (!confirm('Kya aap waqai ye order cancel karna chahte hain?')) return;
+
+  const { getFirestore, doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  try {
+    await updateDoc(doc(db, "orders", docId), { cancelled: true });
+    showToast('Order cancelled successfully');
+    loadOrders();
+  } catch (error) {
+    alert('Error: ' + error.message);
+  }
+  }
 </script>
   <footer>
   <div class="footer-container">
