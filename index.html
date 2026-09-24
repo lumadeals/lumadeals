@@ -9299,7 +9299,8 @@ document.addEventListener('DOMContentLoaded', function () {
   return { index: 0, label: 'Order Placed' };
   }
 
-async function loadOrders() {
+
+  async function loadOrders() {
   const ordersList = document.getElementById('orders-list');
 
   if (!window.currentUser) {
@@ -9312,9 +9313,8 @@ async function loadOrders() {
   const { getFirestore, collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
 
-  
-    const q = query(collection(db, "orders"), where("userId", "==", window.currentUser.uid));
-    const snapshot = await getDocs(q);
+  const q = query(collection(db, "orders"), where("userId", "==", window.currentUser.uid));
+  const snapshot = await getDocs(q);
 
   if (snapshot.empty) {
     ordersList.innerHTML = '<p style="color:#888; text-align:center;">No orders yet.</p>';
@@ -9328,7 +9328,6 @@ async function loadOrders() {
   const stepLabels = ['Order Placed', 'Processing', 'Out for Delivery', 'Delivered'];
 
   ordersList.innerHTML = orders.map(order => {
-    
     const dateStr = order.createdAt?.seconds
       ? new Date(order.createdAt.seconds * 1000).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
       : '';
@@ -9389,11 +9388,7 @@ async function loadOrders() {
       </div>
     `;
   }).join('');
-}
-  } catch (error) {
-    ordersList.innerHTML = '<p style="color:#ef4444; text-align:center;">Error loading orders: ' + error.message + '</p>';
-    console.error('Orders error:', error);
-  }
+    }
   async function cancelOrder(docId) {
   if (!confirm('Are you sure you want to cancel this order?')) return;
 
