@@ -5183,7 +5183,7 @@ button[onclick*="addToCart"]:active {
   line-height: 1.5;
 }
 
-/* Mobile */
+
 @media (max-width: 768px) {
 
   .account-page,
@@ -5259,57 +5259,19 @@ body.dark-mode .back-settings {
   color: #ffffff;
 }
 
-  html[dir="rtl"] {
-  direction: rtl;
-}
+  /* For desktop profile*/
+  @media (min-width: 769px) {
+  .profile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 
-html[dir="rtl"] body {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Urdu mein navigation ko ulta na karo */
-html[dir="rtl"] .bottom-navbar,
-html[dir="rtl"] .nav-icons,
-html[dir="rtl"] .header-actions {
-  direction: ltr;
-}
-
-/* Icons aur buttons apni natural position par rahen */
-html[dir="rtl"] button,
-html[dir="rtl"] .btn,
-html[dir="rtl"] .bn-item {
-  direction: ltr;
-}
-
-/* Text ko Urdu direction dein */
-html[dir="rtl"] h1,
-html[dir="rtl"] h2,
-html[dir="rtl"] h3,
-html[dir="rtl"] h4,
-html[dir="rtl"] p,
-html[dir="rtl"] li,
-html[dir="rtl"] label {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Product cards ka layout disturb na ho */
-html[dir="rtl"] .product-grid,
-html[dir="rtl"] .products-grid {
-  direction: ltr;
-}
-
-html[dir="rtl"] .product-card {
-  direction: rtl;
-}
-
-/* Forms */
-html[dir="rtl"] input,
-html[dir="rtl"] textarea,
-html[dir="rtl"] select {
-  direction: rtl;
-  text-align: right;
+  .profile-menu > * {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
   }
 </style>
 </head>
@@ -5401,7 +5363,7 @@ html[dir="rtl"] select {
 
   <!-- PROFILE -->
   <div class="profile-wrapper">
-    <button class="profile-button" onclick="showPage('profile'); toggleProfileMenu(event)">
+    <button class="profile-button" onclick="showPage('profile')">
       <div class="profile-avatar" id="header-profile-avatar">👤</div>
       <span class="profile-label">Profile</span>
     </button>
