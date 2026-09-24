@@ -6427,7 +6427,7 @@ body.dark-mode .back-settings {
       <div class="account-avatar-large" id="account-page-avatar">👤</div>
 
       <div>
-        <h1 id="account-page-name" onclick="showPage('login')" style="cursor:pointer;">My Account</h1>
+        <h1 id="account-page-name" data-translate="myAccount" onclick="showPage('login')" style="cursor:pointer;">My Account</h1>
         <p id="account-page-email">Sign in to manage your account</p>
       </div>
     </div>
@@ -6437,7 +6437,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('edit-profile')">
         <div class="account-card-icon">✏️</div>
         <div>
-          <h3>Edit Profile</h3>
+          <h3 data-translate="editProfile">Edit Profile</h3>
           <p>Update your name and profile information.</p>
         </div>
       </div>
@@ -6445,7 +6445,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('security')">
         <div class="account-card-icon">🔐</div>
         <div>
-          <h3>Security</h3>
+          <h3 data-translate="security">Security</h3>
           <p>Manage your account security and password.</p>
         </div>
       </div>
@@ -6453,7 +6453,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('language')">
         <div class="account-card-icon">🌐</div>
         <div>
-          <h3>Language</h3>
+          <h3 data-translate="language">Language</h3>
           <p>Choose your preferred language.</p>
         </div>
       </div>
@@ -6461,7 +6461,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('appearance')">
         <div class="account-card-icon">🌙</div>
         <div>
-          <h3>Appearance</h3>
+          <h3 data-translate="appearance">Appearance</h3>
           <p>Customize the look of Luma Deals.</p>
         </div>
       </div>
@@ -6469,7 +6469,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('notifications')">
         <div class="account-card-icon">🔔</div>
         <div>
-          <h3>Notifications</h3>
+          <h3 data-translate="notifications">Notifications</h3>
           <p>Manage your shopping notifications.</p>
         </div>
       </div>
@@ -6477,7 +6477,7 @@ body.dark-mode .back-settings {
       <div class="account-card" onclick="showPage('help')">
         <div class="account-card-icon">❓</div>
         <div>
-          <h3>Help & Support</h3>
+          <h3 data-translate="help">Help & Support</h3>
           <p>Get help with your Luma Deals account.</p>
         </div>
       </div>
@@ -9915,8 +9915,11 @@ window.showPage =
     price: "Price",
     discount: "Discount",
     language: "Language",
-    appearance: "Appearance",
-    help: "Help & Support"
+appearance: "Appearance",
+help: "Help & Support",
+editProfile: "Edit Profile",
+security: "Security",
+notifications: "Notifications"
   },
 
   ur: {
@@ -9937,8 +9940,11 @@ window.showPage =
     price: "قیمت",
     discount: "رعایت",
     language: "زبان",
-    appearance: "ظاہری شکل",
-    help: "مدد اور معاونت"
+appearance: "ظاہری شکل",
+help: "مدد اور معاونت",
+editProfile: "پروفائل میں ترمیم",
+security: "سیکیورٹی",
+notifications: "اطلاعات"
   }
 };
 
@@ -9958,6 +9964,13 @@ function applyLanguage(language) {
     }
   });
 }
+  document.addEventListener("DOMContentLoaded", function () {
+  const savedLanguage = localStorage.getItem("lumaLanguage");
+
+  if (savedLanguage) {
+    applyLanguage(savedLanguage);
+  }
+});
 </script>
   <footer>
   <div class="footer-container">
