@@ -6396,23 +6396,23 @@ body.dark-mode .back-settings {
       <div class="bottom-navbar">
   <div class="bn-item active" data-page="home" onclick="bnNavigate('home', this)">
     <span class="bn-icon">🏠</span>
-    <span class="bn-label">Home</span>
+    <span class="bn-label" data-translate="home">Home</span>
   </div>
   <div class="bn-item" data-page="shop" onclick="bnNavigate('shop', this)">
     <span class="bn-icon">🛍️</span>
-    <span class="bn-label">Shop</span>
+    <span class="bn-label" data-translate="shop">Shop</span>
   </div>
   <div class="bn-item bn-orders" data-page="orders" onclick="bnNavigate('orders', this)">
     <span class="bn-icon">📦</span>
-    <span class="bn-label">Orders</span>
+    <span class="bn-label" data-translate="orders">Orders</span>
   </div>
   <div class="bn-item" data-page="wishlist" onclick="bnNavigate('wishlist', this)">
     <span class="bn-icon">❤️</span>
-    <span class="bn-label">Wishlist</span>
+    <span class="bn-label" data-translate="wishlist">Wishlist</span>
   </div>
   <div class="bn-item" data-page="profile" onclick="bnNavigate('profile', this)">
   <span class="bn-icon">👤</span>
-  <span class="bn-label">Profile</span>
+  <span class="bn-label" data-translate="profile">Profile</span>
   </div>
       </div>
   <!-- =========================================
@@ -9832,58 +9832,9 @@ async function sendPasswordResetFromSecurity() {
 /* Language */
 
 function saveLanguage(language) {
-  localStorage.setItem('lumaLanguage', language);
-
-  if (language === 'Urdu') {
-    document.documentElement.setAttribute('dir', 'rtl');
-    document.documentElement.lang = 'ur';
-
-    // Basic website text
-    document.querySelectorAll('.bn-label').forEach(function(el) {
-      const text = el.textContent.trim();
-
-      if (text === 'Home') el.textContent = 'ہوم';
-      if (text === 'Shop') el.textContent = 'شاپ';
-      if (text === 'Orders') el.textContent = 'آرڈرز';
-      if (text === 'Wishlist') el.textContent = 'پسندیدہ';
-      if (text === 'Profile') el.textContent = 'پروفائل';
-    });
-
-  } else {
-    document.documentElement.setAttribute('dir', 'ltr');
-    document.documentElement.lang = 'en';
-
-    document.querySelectorAll('.bn-label').forEach(function(el) {
-      const text = el.textContent.trim();
-
-      if (
-        text === 'ہوم' ||
-        text === 'Home'
-      ) el.textContent = 'Home';
-
-      if (
-        text === 'شاپ' ||
-        text === 'Shop'
-      ) el.textContent = 'Shop';
-
-      if (
-        text === 'آرڈرز' ||
-        text === 'Orders'
-      ) el.textContent = 'Orders';
-
-      if (
-        text === 'پسندیدہ' ||
-        text === 'Wishlist'
-      ) el.textContent = 'Wishlist';
-
-      if (
-        text === 'پروفائل' ||
-        text === 'Profile'
-      ) el.textContent = 'Profile';
-    });
-  }
+  localStorage.setItem("lumaLanguage", language);
+  applyLanguage(language);
 }
-
 
 function setAppearance(mode) {
   localStorage.setItem('lumaAppearance', mode);
@@ -9945,6 +9896,68 @@ window.showPage =
     }
 
   };
+  const translations = {
+  en: {
+    home: "Home",
+    shop: "Shop",
+    about: "About Us",
+    contact: "Contact",
+    profile: "Profile",
+    orders: "Orders",
+    wishlist: "Wishlist",
+    myAccount: "My Account",
+    login: "Login",
+    logout: "Log Out",
+    search: "Search",
+    addToCart: "Add to Cart",
+    buyNow: "Buy Now",
+    checkout: "Checkout",
+    price: "Price",
+    discount: "Discount",
+    language: "Language",
+    appearance: "Appearance",
+    help: "Help & Support"
+  },
+
+  ur: {
+    home: "ہوم",
+    shop: "شاپ",
+    about: "ہمارے بارے میں",
+    contact: "رابطہ",
+    profile: "پروفائل",
+    orders: "آرڈرز",
+    wishlist: "پسندیدہ",
+    myAccount: "میرا اکاؤنٹ",
+    login: "لاگ اِن",
+    logout: "لاگ آؤٹ",
+    search: "تلاش",
+    addToCart: "کارٹ میں شامل کریں",
+    buyNow: "ابھی خریدیں",
+    checkout: "چیک آؤٹ",
+    price: "قیمت",
+    discount: "رعایت",
+    language: "زبان",
+    appearance: "ظاہری شکل",
+    help: "مدد اور معاونت"
+  }
+};
+
+function applyLanguage(language) {
+  const lang = language === "Urdu" ? "ur" : "en";
+
+  localStorage.setItem("lumaLanguage", language);
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-translate]").forEach(function(el) {
+    const key = el.getAttribute("data-translate");
+
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+}
 </script>
   <footer>
   <div class="footer-container">
