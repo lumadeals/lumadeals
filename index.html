@@ -6047,9 +6047,9 @@ button[onclick*="addToCart"]:active {
     <span class="bn-icon">❤️</span>
     <span class="bn-label">Wishlist</span>
   </div>
-  <div class="bn-item" data-page="login" onclick="bnNavigate('login', this)">
-    <span class="bn-icon">👤</span>
-    <span class="bn-label">Account</span>
+  <div class="bn-item" data-page="login" onclick="openMobileProfile(this)">
+  <span class="bn-icon">👤</span>
+  <span class="bn-label">Profile</span>
   </div>
       </div>
   <!-- ORDERS -->
@@ -8875,6 +8875,40 @@ document.addEventListener(
 
   }
 );
+  /* =========================================
+   MOBILE PROFILE
+   Same Profile menu as Desktop
+   ========================================= */
+
+function openMobileProfile(element) {
+
+  // Profile menu ko update karo
+  updateHeaderProfile();
+
+  // Agar profile menu already bana hua hai
+  const menu = document.getElementById("profile-menu");
+
+  if (menu) {
+
+    // Mobile bottom navbar ke click par
+    // profile menu open karo
+    menu.classList.add("show");
+
+    // Desktop positioning ko mobile ke liye adjust karo
+    menu.style.position = "fixed";
+    menu.style.right = "12px";
+    menu.style.bottom = "75px";
+    menu.style.top = "auto";
+
+  } else {
+
+    // Agar menu kisi wajah se available nahi
+    // to existing login page open karo
+    showPage("login");
+
+  }
+
+}
 </script>
   <footer>
   <div class="footer-container">
