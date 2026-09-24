@@ -4827,9 +4827,20 @@ button[onclick*="addToCart"]:active {
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
   <div class="nav-icons">
-    <div class="icon" onclick="showPage('login')">👤<span>Account</span></div>
-    <div class="icon" onclick="showPage('contact')">✉️<span>Contact</span></div>
-    <div class="icon cart-icon" onclick="toggleCart()">🛒<span>Cart</span><b id="cart-count">0</b></div>
+  <div class="icon" onclick="showPage('login')">
+    👤
+    <span>Profile</span>
+  </div>
+
+  <div class="icon" onclick="showPage('orders'); loadOrders();">
+    📦
+    <span>Orders</span>
+  </div>
+
+  <div class="icon" onclick="showPage('wishlist'); showWishlist();">
+    ❤️
+    <span>Wishlist</span>
+  </div>
   </div>
       </header>
   
