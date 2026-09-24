@@ -8203,10 +8203,12 @@ async function saveWishlist(wishlist) {
     ];
 
     // Local backup — existing system safe rahega
-    localStorage.setItem(
-      "lumaWishlist",
-      JSON.stringify(cleanWishlist)
-    );
+    if (!window.currentUser) {
+  localStorage.setItem(
+    "lumaWishlist",
+    JSON.stringify(cleanWishlist)
+  );
+    }
 
     // Firebase sync only when user is logged in
     const user = window.currentUser;
@@ -10105,10 +10107,7 @@ async function syncWishlistWithFirebase() {
         ? data.productIds.map(String)
         : [];
 
-    localStorage.setItem(
-      "lumaWishlist",
-      JSON.stringify(firebaseWishlist)
-    );
+    localStorage.removeItem("lumaWishlist");
 
     if (typeof updateWishlistButtons === "function") {
       updateWishlistButtons();
