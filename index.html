@@ -4711,6 +4711,26 @@ button[onclick*="addToCart"]:active {
   box-shadow:0 6px 16px rgba(41,171,226,0.55);
 }
 .bn-orders:active{ transform: scale(0.9); }
+  .order-card{
+  background:#fff; border:1px solid #eee; border-radius:12px;
+  padding:16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+.order-card-header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-bottom:10px; margin-bottom:10px; border-bottom:1px solid #f0f0f0;
+}
+.order-card-header .order-date{ font-size:12px; color:#888; }
+.order-status-badge{
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  background:#e0f2fe; color:#0284c7;
+}
+.order-item-row{
+  display:flex; justify-content:space-between; font-size:13px; color:#444; margin-bottom:6px;
+}
+.order-card-total{
+  display:flex; justify-content:space-between; font-weight:700; font-size:14px;
+  margin-top:10px; padding-top:10px; border-top:1px dashed #ddd;
+}
   </style>
 </head>
 <body>
@@ -5806,7 +5826,15 @@ button[onclick*="addToCart"]:active {
     <span class="bn-label">Account</span>
   </div>
       </div>
-  
+  <!-- ORDERS -->
+<section id="page-orders" class="page">
+  <div class="products-section">
+    <h2>My Orders</h2>
+    <div id="orders-list" style="margin-top:20px;">
+      <p style="color:#888; text-align:center;">Loading orders...</p>
+    </div>
+  </div>
+</section>
 
 <script>
 window.products = [];
@@ -8210,6 +8238,57 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   el.classList.add('active');
   showPage(pageId);
+
+  if (pageId === 'orders') {
+    loadOrders();
+  }
+  }
+  async function loadOrders() {
+  const ordersList = document.getElementById('orders-list');
+
+  if (!window.currentUser) {
+    ordersList.innerHTML = '<p style="color:#888; text-align:center;">Please login to view your orders.</p>';
+    return;
+  }
+
+  ordersList.innerHTML = '<p style="color:#888; text-align:center;">Loading orders...</p>';
+
+  const { getFirestore, collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
+
+  const q = query(collection(db, "orders"), where("userId", "==", window.currentUser.uid));
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+    ordersList.innerHTML = '<p style="color:#888; text-align:center;">No orders yet.</p>';
+    return;
+  }
+
+  let orders = [];
+  snapshot.forEach(doc => orders.push(doc.data()));
+
+  orders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+  ordersList.innerHTML = orders.map(order => {
+    const dateStr = order.createdAt?.seconds
+      ? new Date(order.createdAt.seconds * 1000).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+      : '';
+
+    const itemsHTML = order.items.map(item =>
+      `<div class="order-item-row"><span>${item.name} (x${item.quantity})</span><span>Rs ${item.price * item.quantity}</span></div>`
+    ).join('');
+
+    return `
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-date">${dateStr}</span>
+          <span class="order-status-badge">${order.status || 'Order Placed'}</span>
+        </div>
+        ${itemsHTML}
+        <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
+      </div>
+    `;
+  }).join('');
   }
 </script>
   <footer>
