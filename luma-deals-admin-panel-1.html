@@ -1023,7 +1023,26 @@ class="status">
 
 
 </form>
+<!-- ================================
+     LUMA DEALS — ORDER MANAGEMENT
+     ================================ -->
 
+<div class="card" id="ordersManagementCard">
+
+  <div class="ct">
+    📦 Order Management
+  </div>
+
+  <div class="help">
+    Customer order select karo, courier choose karo aur
+    courier tracking ID save karo.
+  </div>
+
+  <div id="adminOrdersList">
+    <p style="color:#888;">Loading orders...</p>
+  </div>
+
+</div>
 </main>
 
 </div>
@@ -1051,18 +1070,18 @@ from
 
 
 import {
-getFirestore,
-collection,
-getDocs,
-doc,
-setDoc,
-serverTimestamp
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  updateDoc,
+  serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-
-const firebaseConfig={
+  const firebaseConfig={
 
 apiKey:
 "AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
@@ -1873,6 +1892,589 @@ toggleLoginPassword.addEventListener('click', function () {
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
+
+
+  /* =========================================
+   LUMA DEALS — ORDER MANAGEMENT
+   COURIER TRACKING SYSTEM
+   ========================================= */
+
+const courierTrackingURLs = {
+
+  "TCS": function(trackingId) {
+    /*
+      TCS official website.
+      TCS tracking URL structure can change,
+      so we open the official TCS site.
+    */
+    return "https://www.tcs.com.pk/";
+  },
+
+  "Leopards": function(trackingId) {
+
+    /*
+      Leopards public tracking page.
+      Cn = Consignment Number
+    */
+    return "https://pk.leopardscourier.com/shipment_tracking_view?Cn="
+      + encodeURIComponent(trackingId);
+  },
+
+  "M&P": function(trackingId) {
+
+    /*
+      M&P tracking page.
+    */
+    return "https://www.mulphilog.com/tracking/"
+      + encodeURIComponent(trackingId);
+  },
+
+  "Call Courier / PostEx": function(trackingId) {
+
+    /*
+      CallCourier / PostEx tracking page.
+    */
+    return "https://callcourier.com.pk/tracking/?tc="
+      + encodeURIComponent(trackingId);
+  },
+
+  "Other": function(trackingId) {
+
+    /*
+      If you use another courier,
+      admin can still save the tracking ID.
+    */
+    return "";
+  }
+
+};
+
+
+/* =========================================
+   LOAD ORDERS
+   ========================================= */
+
+async function loadAdminOrders() {
+
+  const container =
+    document.getElementById("adminOrdersList");
+
+  if (!container) return;
+
+  container.innerHTML =
+    '<p style="color:#888;">Loading orders...</p>';
+
+  try {
+
+    const snapshot =
+      await getDocs(collection(db, "orders"));
+
+    if (snapshot.empty) {
+
+      container.innerHTML =
+        '<p style="color:#888;">No orders found.</p>';
+
+      return;
+    }
+
+    let orders = [];
+
+    snapshot.forEach(orderDoc => {
+
+      orders.push({
+        id: orderDoc.id,
+        ...orderDoc.data()
+      });
+
+    });
+
+
+    /* Newest orders first */
+
+    orders.sort((a, b) => {
+
+      const aTime =
+        a.createdAt?.seconds || 0;
+
+      const bTime =
+        b.createdAt?.seconds || 0;
+
+      return bTime - aTime;
+
+    });
+
+
+    container.innerHTML = orders.map(order => {
+
+      const createdDate =
+        order.createdAt?.seconds
+          ? new Date(
+              order.createdAt.seconds * 1000
+            ).toLocaleString("en-GB")
+          : "Date unavailable";
+
+
+      return `
+
+        <div
+          class="admin-order-card"
+          style="
+            background:#fff;
+            border:1px solid #e5e7eb;
+            border-radius:14px;
+            padding:18px;
+            margin-top:15px;
+            box-shadow:0 3px 12px rgba(0,0,0,.06);
+          "
+        >
+
+          <!-- ORDER HEADER -->
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              gap:10px;
+              flex-wrap:wrap;
+              margin-bottom:12px;
+            "
+          >
+
+            <div>
+
+              <strong style="font-size:15px;">
+                📦 ${escapeAdminHTML(
+                  order.trackingId || "N/A"
+                )}
+              </strong>
+
+              <div
+                style="
+                  font-size:12px;
+                  color:#888;
+                  margin-top:4px;
+                "
+              >
+                ${createdDate}
+              </div>
+
+            </div>
+
+
+            <span
+              style="
+                background:#e0f2fe;
+                color:#0369a1;
+                padding:5px 10px;
+                border-radius:20px;
+                font-size:12px;
+                font-weight:700;
+              "
+            >
+              ${escapeAdminHTML(
+                order.status || "Order Placed"
+              )}
+            </span>
+
+          </div>
+
+
+          <!-- CUSTOMER -->
+
+          <div
+            style="
+              background:#f8fafc;
+              border-radius:10px;
+              padding:12px;
+              margin-bottom:12px;
+            "
+          >
+
+            <div style="font-weight:700;">
+              👤 ${escapeAdminHTML(
+                order.customerName || "Customer"
+              )}
+            </div>
+
+            <div style="font-size:13px;margin-top:5px;">
+              📞 ${escapeAdminHTML(
+                order.phone || ""
+              )}
+            </div>
+
+            <div style="font-size:13px;margin-top:5px;">
+              📍 ${
+                order.address
+                  ? escapeAdminHTML(
+                      [
+                        order.address.house,
+                        order.address.street,
+                        order.address.area,
+                        order.address.city
+                      ]
+                      .filter(Boolean)
+                      .join(", ")
+                    )
+                  : ""
+              }
+            </div>
+
+          </div>
+
+
+          <!-- COURIER -->
+
+          <label
+            style="
+              display:block;
+              font-size:13px;
+              font-weight:700;
+              margin-bottom:6px;
+            "
+          >
+            🚚 Courier
+          </label>
+
+          <select
+            id="courier-${order.id}"
+            style="
+              width:100%;
+              padding:11px;
+              border:1px solid #d1d5db;
+              border-radius:8px;
+              background:#fff;
+              margin-bottom:12px;
+              font-size:14px;
+            "
+          >
+
+            <option value="">
+              Select Courier
+            </option>
+
+            <option
+              value="TCS"
+              ${order.courier === "TCS" ? "selected" : ""}
+            >
+              TCS
+            </option>
+
+            <option
+              value="Leopards"
+              ${order.courier === "Leopards" ? "selected" : ""}
+            >
+              Leopards Courier
+            </option>
+
+            <option
+              value="M&P"
+              ${order.courier === "M&P" ? "selected" : ""}
+            >
+              M&P
+            </option>
+
+            <option
+              value="Call Courier / PostEx"
+              ${
+                order.courier === "Call Courier / PostEx"
+                  ? "selected"
+                  : ""
+              }
+            >
+              Call Courier / PostEx
+            </option>
+
+            <option
+              value="Other"
+              ${order.courier === "Other" ? "selected" : ""}
+            >
+              Other
+            </option>
+
+          </select>
+
+
+          <!-- TRACKING ID -->
+
+          <label
+            style="
+              display:block;
+              font-size:13px;
+              font-weight:700;
+              margin-bottom:6px;
+            "
+          >
+            🔢 Courier Tracking ID
+          </label>
+
+          <input
+            type="text"
+            id="tracking-${order.id}"
+            value="${escapeAdminAttribute(
+              order.courierTrackingId || ""
+            )}"
+            placeholder="Enter courier tracking ID"
+            style="
+              width:100%;
+              padding:11px;
+              border:1px solid #d1d5db;
+              border-radius:8px;
+              font-size:14px;
+              margin-bottom:12px;
+            "
+          >
+
+
+          <!-- SAVE -->
+
+          <button
+            type="button"
+            onclick="saveCourierTracking('${order.id}')"
+            style="
+              width:100%;
+              background:#3BB4EC;
+              color:#fff;
+              border:none;
+              padding:12px;
+              border-radius:8px;
+              cursor:pointer;
+              font-weight:700;
+            "
+          >
+            💾 Save Courier Tracking
+          </button>
+
+
+          ${
+            order.courierTrackingId
+              ? `
+                <div
+                  style="
+                    margin-top:12px;
+                    padding:10px;
+                    background:#f0fdf4;
+                    border:1px solid #bbf7d0;
+                    border-radius:8px;
+                    font-size:13px;
+                  "
+                >
+
+                  🚚
+                  <strong>
+                    ${escapeAdminHTML(
+                      order.courier || ""
+                    )}
+                  </strong>
+
+                  <br>
+
+                  Tracking ID:
+                  <strong>
+                    ${escapeAdminHTML(
+                      order.courierTrackingId
+                    )}
+                  </strong>
+
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "Order loading error:",
+      error
+    );
+
+    container.innerHTML = `
+      <p style="color:#ef4444;">
+        Failed to load orders:
+        ${escapeAdminHTML(error.message)}
+      </p>
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   SAVE COURIER TRACKING
+   ========================================= */
+
+async function saveCourierTracking(orderId) {
+
+  const courierElement =
+    document.getElementById(
+      "courier-" + orderId
+    );
+
+  const trackingElement =
+    document.getElementById(
+      "tracking-" + orderId
+    );
+
+
+  if (!courierElement || !trackingElement) {
+
+    alert("Order fields not found.");
+
+    return;
+
+  }
+
+
+  const courier =
+    courierElement.value.trim();
+
+  const courierTrackingId =
+    trackingElement.value.trim();
+
+
+  if (!courier) {
+
+    alert("Please select a courier.");
+
+    return;
+
+  }
+
+
+  if (!courierTrackingId) {
+
+    alert("Please enter courier tracking ID.");
+
+    return;
+
+  }
+
+
+  try {
+
+    const orderRef =
+      doc(
+        db,
+        "orders",
+        orderId
+      );
+
+
+    await updateDoc(
+      orderRef,
+      {
+
+        courier:
+          courier,
+
+        courierTrackingId:
+          courierTrackingId,
+
+        courierTrackingUrl:
+          courierTrackingURLs[courier]
+            ? courierTrackingURLs[courier](
+                courierTrackingId
+              )
+            : "",
+
+        courierUpdatedAt:
+          serverTimestamp(),
+
+        courierUpdatedBy:
+          auth.currentUser
+            ? auth.currentUser.uid
+            : ""
+
+      }
+    );
+
+
+    alert(
+      "✅ Courier tracking saved successfully!"
+    );
+
+
+    loadAdminOrders();
+
+
+  } catch (error) {
+
+    console.error(
+      "Tracking save error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to save tracking:\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   HTML SECURITY HELPERS
+   ========================================= */
+
+function escapeAdminHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAdminAttribute(value) {
+
+  return escapeAdminHTML(value);
+
+}
+
+
+/* =========================================
+   MAKE FUNCTIONS AVAILABLE TO HTML
+   ========================================= */
+
+window.loadAdminOrders =
+  loadAdminOrders;
+
+window.saveCourierTracking =
+  saveCourierTracking;
+
+
+/* =========================================
+   LOAD ORDERS AFTER ADMIN LOGIN
+   ========================================= */
+
+onAuthStateChanged(
+  auth,
+  function(user) {
+
+    if (user) {
+
+      setTimeout(
+        loadAdminOrders,
+        500
+      );
+
+    }
+
+  }
+);
+  
 </script>
 <script>
   if ('serviceWorker' in navigator) {
