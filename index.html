@@ -112,7 +112,10 @@ window.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
   window.firebaseResetPassword = sendPasswordResetEmail;
   window.firebaseOnAuthChange = onAuthStateChanged;
   window.firebaseSignOut = signOut;
-  
+  window.currentUser = null;
+onAuthStateChanged(auth, function(user) {
+  window.currentUser = user;
+});
 </script>
 <style>
   body {
@@ -6545,11 +6548,7 @@ if (updateUrl) {
      }
                   
 
-function submitLogin(e) {
-  e.preventDefault();
-  alert("Welcome to Luma Deals!");
-  showPage('home');
-}
+
 
 
 function searchProducts() {
@@ -6801,7 +6800,12 @@ document.addEventListener('click', function(e) {
   }
 });
 
-function sendWhatsAppOrder() {
+async function sendWhatsAppOrder() {
+  if (!window.currentUser) {
+    alert("Please login first to place an order!");
+    showPage('login');
+    return;
+  }
   const name = document.getElementById('cust-name').value;
   const house = document.getElementById('cust-house').value;
   const street = document.getElementById('cust-street').value;
@@ -6824,7 +6828,29 @@ function sendWhatsAppOrder() {
   const total = subtotal + deliveryCharge;
 
   const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
+async function saveOrderToFirestore() {
+  const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const db = getFirestore(window.firebaseApp);
 
+  await addDoc(collection(db, "orders"), {
+    userId: window.currentUser.uid,
+    userEmail: window.currentUser.email,
+    customerName: name,
+    phone: phone,
+    address: { house, street, area, city },
+    items: cart.map(item => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity || 1,
+      img: item.img || ''
+    })),
+    total: total,
+    status: "Order Placed",
+    createdAt: serverTimestamp()
+  });
+}
+
+await saveOrderToFirestore(); 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
 
@@ -6980,24 +7006,6 @@ function showToast(message) {
   }
 
 
-function submitLogin(event) {
-  event.preventDefault();
-  const inputs = event.target.querySelectorAll('input');
-  const emailInput = inputs[0].value;
-  const passwordInput = inputs[1].value;
-
-  firebase.auth().signInWithEmailAndPassword(emailInput, passwordInput)
-    .then((userCredential) => {
-      showToast('Login Successful!');
-      localStorage.setItem('isLoggedIn', 'true');
-      setTimeout(() => {
-        showPage('home');
-      }, 1500);
-    })
-    .catch((error) => {
-      showToast('Wrong Email or Password!');
-    });
-}
 
   async function submitForgotPassword(event) {
   event.preventDefault();
