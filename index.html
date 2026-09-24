@@ -4740,7 +4740,162 @@ button[onclick*="addToCart"]:active {
 .mini-tracker .mt-step.completed .mt-label{color:#22c55e;font-weight:600;}
 .mini-tracker .mt-step.current .mt-dot{background:#29ABE2;box-shadow:0 0 0 4px rgba(41,171,226,0.2);}
 .mini-tracker .mt-step.current .mt-label{color:#29ABE2;font-weight:700;}
-  </style>
+
+
+  /* =========================================
+   LUMA DEALS — CHATGPT STYLE PROFILE MENU
+   ========================================= */
+
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  padding: 0;
+}
+
+.profile-button:hover {
+  color: #3BB4EC;
+}
+
+.profile-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #3BB4EC;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  overflow: hidden;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  margin-top: 2px;
+  color: #475569;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 260px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.15);
+  padding: 8px;
+  display: none;
+  z-index: 10000;
+  animation: profileMenuIn .18s ease;
+}
+
+.profile-menu.show {
+  display: block;
+}
+
+@keyframes profileMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.profile-menu-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.profile-avatar.large {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.profile-menu-user strong {
+  display: block;
+  font-size: 14px;
+  color: #14171A;
+}
+
+.profile-menu-user small {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 3px;
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-divider {
+  height: 1px;
+  background: #eef2f5;
+  margin: 6px 4px;
+}
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 11px;
+  border-radius: 9px;
+  cursor: pointer;
+  color: #334155;
+  font-size: 13px;
+  transition: .18s;
+}
+
+.profile-menu-item:hover {
+  background: #f1f8fc;
+  color: #3BB4EC;
+}
+
+.profile-menu-item.logout {
+  color: #ef4444;
+}
+
+.profile-menu-item.logout:hover {
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+/* Mobile par profile dropdown hide */
+@media (max-width: 768px) {
+  .profile-menu {
+    display: none !important;
+  }
+                               }
+</style>
 </head>
 <body>
 
@@ -4826,22 +4981,73 @@ button[onclick*="addToCart"]:active {
   <button onclick="searchProducts()">🔍</button>
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
-  <div class="nav-icons">
-  <div class="icon" onclick="showPage('login')">
-    👤
-    <span>Profile</span>
+ <div class="nav-icons">
+
+  <!-- PROFILE -->
+  <div class="profile-wrapper">
+    <button class="profile-button" onclick="toggleProfileMenu(event)">
+      <div class="profile-avatar" id="header-profile-avatar">👤</div>
+      <span class="profile-label">Profile</span>
+    </button>
+
+    <div class="profile-menu" id="profile-menu">
+
+      <div class="profile-menu-user">
+        <div class="profile-avatar large" id="menu-profile-avatar">👤</div>
+        <div>
+          <strong id="profile-menu-name">Guest</strong>
+          <small id="profile-menu-email">Sign in to your account</small>
+        </div>
+      </div>
+
+      <div class="profile-divider"></div>
+
+      <div class="profile-menu-item" onclick="showPage('login'); closeProfileMenu();">
+        👤 <span>My Account</span>
+      </div>
+
+      <div class="profile-menu-item" onclick="showPage('login'); closeProfileMenu();">
+        ✏️ <span>Edit Profile</span>
+      </div>
+
+      <div class="profile-menu-item" onclick="showPage('login'); closeProfileMenu();">
+        🔐 <span>Security</span>
+      </div>
+
+      <div class="profile-menu-item" onclick="showPage('login'); closeProfileMenu();">
+        🌐 <span>Language</span>
+      </div>
+
+      <div class="profile-menu-item" onclick="toggleAppearance(); closeProfileMenu();">
+        🌙 <span>Appearance</span>
+      </div>
+
+      <div class="profile-menu-item" onclick="showPage('contact'); closeProfileMenu();">
+        ❓ <span>Help & Support</span>
+      </div>
+
+      <div class="profile-divider"></div>
+
+      <div class="profile-menu-item logout" onclick="logoutFromProfile();">
+        🚪 <span>Log Out</span>
+      </div>
+
+    </div>
   </div>
 
-  <div class="icon" onclick="showPage('orders'); loadOrders();">
+  <!-- ORDERS -->
+  <div class="icon" onclick="showPage('orders');">
     📦
     <span>Orders</span>
   </div>
 
+  <!-- WISHLIST -->
   <div class="icon" onclick="showPage('wishlist'); showWishlist();">
     ❤️
     <span>Wishlist</span>
   </div>
-  </div>
+
+ </div>
       </header>
   
   <div id="mobile-sidebar" class="mobile-sidebar">
@@ -8362,6 +8568,313 @@ async function loadOrders() {
     alert('Error: ' + error.message);
   }
   }
+
+
+  /* =========================================
+   LUMA DEALS — PROFILE MENU
+   GOOGLE PROFILE PHOTO SUPPORT
+   ========================================= */
+
+function toggleProfileMenu(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const menu = document.getElementById("profile-menu");
+
+  if (menu) {
+    menu.classList.toggle("show");
+  }
+
+  updateHeaderProfile();
+}
+
+
+function closeProfileMenu() {
+  const menu = document.getElementById("profile-menu");
+
+  if (menu) {
+    menu.classList.remove("show");
+  }
+}
+
+
+/* Menu ke bahar click karne par close */
+document.addEventListener("click", function(event) {
+
+  const wrapper =
+    document.querySelector(".profile-wrapper");
+
+  if (
+    wrapper &&
+    !wrapper.contains(event.target)
+  ) {
+    closeProfileMenu();
+  }
+
+});
+
+
+/* =========================================
+   UPDATE PROFILE
+   ========================================= */
+
+function updateHeaderProfile() {
+
+  const user =
+    window.firebaseAuth?.currentUser ||
+    window.currentUser ||
+    null;
+
+  const headerAvatar =
+    document.getElementById(
+      "header-profile-avatar"
+    );
+
+  const menuAvatar =
+    document.getElementById(
+      "menu-profile-avatar"
+    );
+
+  const name =
+    document.getElementById(
+      "profile-menu-name"
+    );
+
+  const email =
+    document.getElementById(
+      "profile-menu-email"
+    );
+
+
+  /* ==============================
+     USER NOT LOGGED IN
+     ============================== */
+
+  if (!user) {
+
+    if (headerAvatar) {
+      headerAvatar.innerHTML = "👤";
+    }
+
+    if (menuAvatar) {
+      menuAvatar.innerHTML = "👤";
+    }
+
+    if (name) {
+      name.innerText = "Guest";
+    }
+
+    if (email) {
+      email.innerText =
+        "Sign in to your account";
+    }
+
+    return;
+  }
+
+
+  /* ==============================
+     GOOGLE PROFILE PHOTO
+     ============================== */
+
+  if (user.photoURL) {
+
+    const photoURL =
+      user.photoURL;
+
+    if (headerAvatar) {
+
+      headerAvatar.innerHTML = `
+        <img
+          src="${photoURL}"
+          alt="Profile Photo"
+          referrerpolicy="no-referrer"
+        >
+      `;
+
+    }
+
+    if (menuAvatar) {
+
+      menuAvatar.innerHTML = `
+        <img
+          src="${photoURL}"
+          alt="Profile Photo"
+          referrerpolicy="no-referrer"
+        >
+      `;
+
+    }
+
+  } else {
+
+    /* ==============================
+       PHOTO NA HO TO INITIAL
+       ============================== */
+
+    const initial =
+      (
+        user.displayName ||
+        user.email ||
+        "U"
+      )
+      .trim()
+      .charAt(0)
+      .toUpperCase();
+
+
+    if (headerAvatar) {
+      headerAvatar.innerText =
+        initial;
+    }
+
+    if (menuAvatar) {
+      menuAvatar.innerText =
+        initial;
+    }
+
+  }
+
+
+  /* ==============================
+     USER NAME
+     ============================== */
+
+  if (name) {
+
+    name.innerText =
+      user.displayName ||
+      "Luma Deals User";
+
+  }
+
+
+  /* ==============================
+     USER EMAIL
+     ============================== */
+
+  if (email) {
+
+    email.innerText =
+      user.email ||
+      "";
+
+  }
+
+}
+
+
+/* =========================================
+   FIREBASE AUTH STATE
+   ========================================= */
+
+function initializeProfileAuthListener() {
+
+  if (
+    window.firebaseAuth &&
+    window.firebaseOnAuthChange
+  ) {
+
+    window.firebaseOnAuthChange(
+      window.firebaseAuth,
+      function(user) {
+
+        window.currentUser =
+          user || null;
+
+        setTimeout(
+          function() {
+            updateHeaderProfile();
+          },
+          100
+        );
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   LOGOUT
+   ========================================= */
+
+async function logoutFromProfile() {
+
+  try {
+
+    if (
+      window.firebaseAuth &&
+      window.firebaseSignOut
+    ) {
+
+      await window.firebaseSignOut(
+        window.firebaseAuth
+      );
+
+    }
+
+    window.currentUser = null;
+
+    closeProfileMenu();
+
+    updateHeaderProfile();
+
+    showPage("home");
+
+  } catch (error) {
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+    alert(
+      "Unable to logout. Please try again."
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   APPEARANCE
+   ========================================= */
+
+function toggleAppearance() {
+
+  document.body.classList.toggle(
+    "dark-mode"
+  );
+
+}
+
+
+/* =========================================
+   PAGE LOAD
+   ========================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    setTimeout(
+      function() {
+
+        initializeProfileAuthListener();
+
+        updateHeaderProfile();
+
+      },
+      300
+    );
+
+  }
+);
 </script>
   <footer>
   <div class="footer-container">
