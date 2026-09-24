@@ -6863,13 +6863,14 @@ async function sendWhatsAppOrder() {
   const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   const deliveryCharge = cart.length * 200;
   const total = subtotal + deliveryCharge;
-
-  const message = `🛍️ *Order Details to Luma Deals*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
-async function saveOrderToFirestore() {
+const trackingId = 'LD' + Date.now().toString().slice(-8);
+  const message = `🛍️ *Order Details to Luma Deals*%0A%0A📦 *Tracking ID:* ${trackingId}%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A📍 *Address:*%0AHouse: ${house}%0AStreet: ${street}%0AArea: ${area}%0ACity: ${city}%0A%0A🛒 *Order Details:*%0A${productsList}%0A%0A💵 *Subtotal: Rs ${subtotal}*%0A🚚 *Delivery: Rs ${deliveryCharge}*%0A💰 *Total: Rs ${total}*`;
+  async function saveOrderToFirestore() {
   const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
 
   await addDoc(collection(db, "orders"), {
+   trackingId: trackingId,
     userId: window.currentUser.uid,
     userEmail: window.currentUser.email,
     customerName: name,
@@ -8322,6 +8323,7 @@ async function loadOrders() {
           <span class="order-date">${dateStr}</span>
           <span class="order-status-badge">${status.label}</span>
         </div>
+        <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:8px;">📦 ${order.trackingId || 'N/A'}</div>
         ${itemsHTML}
         <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
         <div class="mini-tracker">${trackerHTML}</div>
