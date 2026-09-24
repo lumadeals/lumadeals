@@ -4900,6 +4900,325 @@ button[onclick*="addToCart"]:active {
     display: none !important;
   }
     }
+  /* =========================================
+   LUMA DEALS ACCOUNT & SETTINGS PAGES
+   ========================================= */
+
+.account-page,
+.settings-page {
+  max-width: 900px;
+  margin: 45px auto;
+  padding: 0 20px;
+}
+
+.account-hero {
+  background: linear-gradient(135deg, #14171A, #26323a);
+  color: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+
+.account-avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #3BB4EC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.account-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-hero h1 {
+  margin: 0 0 5px;
+  font-size: 25px;
+}
+
+.account-hero p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.account-card {
+  background: #fff;
+  border: 1px solid #e8eef2;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
+}
+
+.account-card:hover {
+  transform: translateY(-3px);
+  border-color: #3BB4EC;
+  box-shadow: 0 8px 22px rgba(59,180,236,.15);
+}
+
+.account-card-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background: #eef9fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  flex-shrink: 0;
+}
+
+.account-card h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.account-card p {
+  color: #64748b;
+  font-size: 12px !important;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.settings-page {
+  max-width: 700px;
+}
+
+.back-settings {
+  background: transparent;
+  border: none;
+  color: #3BB4EC;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.settings-icon {
+  width: 52px;
+  height: 52px;
+  background: #eef9fe;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.settings-header h2 {
+  margin: 0 0 5px;
+}
+
+.settings-header p {
+  margin: 0;
+  color: #64748b;
+}
+
+.settings-form,
+.security-box,
+.option-list {
+  background: #fff;
+  border: 1px solid #e8eef2;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
+}
+
+.settings-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 7px;
+}
+
+.settings-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dbe3e8;
+  border-radius: 9px;
+  margin-bottom: 17px;
+  outline: none;
+}
+
+.settings-form input:focus {
+  border-color: #3BB4EC;
+}
+
+.settings-save-btn {
+  width: 100%;
+  background: #3BB4EC;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.settings-message {
+  text-align: center;
+  margin-top: 12px;
+  color: #16a34a;
+}
+
+.security-row,
+.option-row,
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 17px 5px;
+  border-bottom: 1px solid #edf2f5;
+}
+
+.security-row:last-child,
+.option-row:last-child,
+.toggle-row:last-child {
+  border-bottom: none;
+}
+
+.security-row strong,
+.option-row strong,
+.toggle-row strong {
+  font-size: 14px;
+}
+
+.security-row p,
+.option-row p,
+.toggle-row p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 12px !important;
+  line-height: 1.5;
+}
+
+.security-status {
+  background: #ecfdf5;
+  color: #16a34a;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.small-action-btn {
+  background: #f1f8fc;
+  color: #3BB4EC;
+  border: 1px solid #ccecf9;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.appearance-option {
+  cursor: pointer;
+}
+
+.appearance-option:hover {
+  background: #f8fbfd;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.support-card {
+  background: #fff;
+  border: 1px solid #e8eef2;
+  border-radius: 15px;
+  padding: 22px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.support-card:hover {
+  transform: translateY(-3px);
+  border-color: #3BB4EC;
+}
+
+.support-card span {
+  font-size: 27px;
+}
+
+.support-card h3 {
+  margin: 10px 0 6px;
+  font-size: 14px;
+}
+
+.support-card p {
+  color: #64748b;
+  font-size: 11px !important;
+  line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .account-page,
+  .settings-page {
+    margin: 25px auto;
+    padding: 0 14px;
+  }
+
+  .account-hero {
+    padding: 22px;
+  }
+
+  .account-avatar-large {
+    width: 58px;
+    height: 58px;
+  }
+
+  .account-hero h1 {
+    font-size: 20px;
+  }
+
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .security-row,
+  .option-row,
+  .toggle-row {
+    align-items: flex-start;
+  }
+}
 </style>
 </head>
 <body>
@@ -6057,6 +6376,375 @@ button[onclick*="addToCart"]:active {
   <span class="bn-label">Profile</span>
   </div>
       </div>
+  <!-- =========================================
+     LUMA DEALS — PROFILE PAGES
+     ========================================= -->
+
+<!-- MY ACCOUNT -->
+<section id="page-profile" class="page">
+  <div class="account-page">
+
+    <div class="account-hero">
+      <div class="account-avatar-large" id="account-page-avatar">👤</div>
+
+      <div>
+        <h1 id="account-page-name">My Account</h1>
+        <p id="account-page-email">Sign in to manage your account</p>
+      </div>
+    </div>
+
+    <div class="account-grid">
+
+      <div class="account-card" onclick="showPage('edit-profile')">
+        <div class="account-card-icon">✏️</div>
+        <div>
+          <h3>Edit Profile</h3>
+          <p>Update your name and profile information.</p>
+        </div>
+      </div>
+
+      <div class="account-card" onclick="showPage('security')">
+        <div class="account-card-icon">🔐</div>
+        <div>
+          <h3>Security</h3>
+          <p>Manage your account security and password.</p>
+        </div>
+      </div>
+
+      <div class="account-card" onclick="showPage('language')">
+        <div class="account-card-icon">🌐</div>
+        <div>
+          <h3>Language</h3>
+          <p>Choose your preferred language.</p>
+        </div>
+      </div>
+
+      <div class="account-card" onclick="showPage('appearance')">
+        <div class="account-card-icon">🌙</div>
+        <div>
+          <h3>Appearance</h3>
+          <p>Customize the look of Luma Deals.</p>
+        </div>
+      </div>
+
+      <div class="account-card" onclick="showPage('notifications')">
+        <div class="account-card-icon">🔔</div>
+        <div>
+          <h3>Notifications</h3>
+          <p>Manage your shopping notifications.</p>
+        </div>
+      </div>
+
+      <div class="account-card" onclick="showPage('help')">
+        <div class="account-card-icon">❓</div>
+        <div>
+          <h3>Help & Support</h3>
+          <p>Get help with your Luma Deals account.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- EDIT PROFILE -->
+<section id="page-edit-profile" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">✏️</div>
+      <div>
+        <h2>Edit Profile</h2>
+        <p>Update your personal information.</p>
+      </div>
+    </div>
+
+    <div class="settings-form">
+
+      <label>Full Name</label>
+      <input
+        type="text"
+        id="edit-profile-name"
+        placeholder="Your name"
+      >
+
+      <label>Email Address</label>
+      <input
+        type="email"
+        id="edit-profile-email"
+        readonly
+      >
+
+      <button class="settings-save-btn" onclick="saveProfileChanges()">
+        Save Changes
+      </button>
+
+      <p id="profile-save-message" class="settings-message"></p>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- SECURITY -->
+<section id="page-security" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">🔐</div>
+      <div>
+        <h2>Security</h2>
+        <p>Keep your Luma Deals account secure.</p>
+      </div>
+    </div>
+
+    <div class="security-box">
+
+      <div class="security-row">
+        <div>
+          <strong>Account Protection</strong>
+          <p>Your account is protected by Firebase Authentication.</p>
+        </div>
+        <span class="security-status">Protected</span>
+      </div>
+
+      <div class="security-row">
+        <div>
+          <strong>Google Sign-In</strong>
+          <p>Use your Google account to securely sign in.</p>
+        </div>
+        <span class="security-status">Available</span>
+      </div>
+
+      <div class="security-row">
+        <div>
+          <strong>Password</strong>
+          <p>For email/password accounts, you can reset your password.</p>
+        </div>
+        <button class="small-action-btn" onclick="sendPasswordResetFromSecurity()">
+          Reset Password
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- LANGUAGE -->
+<section id="page-language" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">🌐</div>
+      <div>
+        <h2>Language</h2>
+        <p>Select your preferred language.</p>
+      </div>
+    </div>
+
+    <div class="option-list">
+
+      <label class="option-row">
+        <div>
+          <strong>English</strong>
+          <p>Use Luma Deals in English.</p>
+        </div>
+        <input
+          type="radio"
+          name="language"
+          value="English"
+          checked
+          onchange="saveLanguage('English')"
+        >
+      </label>
+
+      <label class="option-row">
+        <div>
+          <strong>اردو</strong>
+          <p>Use Luma Deals in Urdu.</p>
+        </div>
+        <input
+          type="radio"
+          name="language"
+          value="Urdu"
+          onchange="saveLanguage('Urdu')"
+        >
+      </label>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- APPEARANCE -->
+<section id="page-appearance" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">🌙</div>
+      <div>
+        <h2>Appearance</h2>
+        <p>Choose how Luma Deals looks to you.</p>
+      </div>
+    </div>
+
+    <div class="option-list">
+
+      <div class="option-row appearance-option"
+           onclick="setAppearance('light')">
+        <div>
+          <strong>☀️ Light</strong>
+          <p>Clean and bright Luma Deals experience.</p>
+        </div>
+        <span>›</span>
+      </div>
+
+      <div class="option-row appearance-option"
+           onclick="setAppearance('dark')">
+        <div>
+          <strong>🌙 Dark</strong>
+          <p>Dark appearance for comfortable viewing.</p>
+        </div>
+        <span>›</span>
+      </div>
+
+      <div class="option-row appearance-option"
+           onclick="setAppearance('system')">
+        <div>
+          <strong>⚙️ System</strong>
+          <p>Follow your device appearance.</p>
+        </div>
+        <span>›</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- NOTIFICATIONS -->
+<section id="page-notifications" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">🔔</div>
+      <div>
+        <h2>Notifications</h2>
+        <p>Choose which updates you want to receive.</p>
+      </div>
+    </div>
+
+    <div class="option-list">
+
+      <label class="toggle-row">
+        <div>
+          <strong>Order Updates</strong>
+          <p>Receive updates about your orders.</p>
+        </div>
+        <input
+          type="checkbox"
+          checked
+          onchange="saveNotificationSetting('orders', this.checked)"
+        >
+      </label>
+
+      <label class="toggle-row">
+        <div>
+          <strong>New Deals</strong>
+          <p>Get notified about new deals and products.</p>
+        </div>
+        <input
+          type="checkbox"
+          checked
+          onchange="saveNotificationSetting('deals', this.checked)"
+        >
+      </label>
+
+      <label class="toggle-row">
+        <div>
+          <strong>Special Offers</strong>
+          <p>Receive special promotions from Luma Deals.</p>
+        </div>
+        <input
+          type="checkbox"
+          onchange="saveNotificationSetting('offers', this.checked)"
+        >
+      </label>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- HELP & SUPPORT -->
+<section id="page-help" class="page">
+  <div class="settings-page">
+
+    <button class="back-settings" onclick="showPage('profile')">
+      ← Back to My Account
+    </button>
+
+    <div class="settings-header">
+      <div class="settings-icon">❓</div>
+      <div>
+        <h2>Help & Support</h2>
+        <p>We're here to help.</p>
+      </div>
+    </div>
+
+    <div class="support-grid">
+
+      <div class="support-card" onclick="showPage('contact')">
+        <span>💬</span>
+        <h3>Contact Us</h3>
+        <p>Send a message to Luma Deals.</p>
+      </div>
+
+      <div class="support-card" onclick="showPage('orders')">
+        <span>📦</span>
+        <h3>Order Help</h3>
+        <p>Check your orders and their status.</p>
+      </div>
+
+      <div class="support-card"
+           onclick="window.open('https://wa.me/923296687828','_blank')">
+        <span>📱</span>
+        <h3>WhatsApp Support</h3>
+        <p>Chat with Luma Deals support.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
   <!-- ORDERS -->
 <section id="page-orders" class="page">
   <div class="products-section">
@@ -8444,14 +9132,22 @@ document.addEventListener('DOMContentLoaded', function () {
   if (requestedPage) {
 
     const validPages = [
-      'home',
-      'shop',
-      'about',
-      'contact',
-      'login',
-      'wishlist',
-      'product-detail'
-    ];
+  'home',
+  'shop',
+  'about',
+  'contact',
+  'login',
+  'wishlist',
+  'product-detail',
+
+  'profile',
+  'edit-profile',
+  'security',
+  'language',
+  'appearance',
+  'notifications',
+  'help'
+];
 
     if (validPages.includes(requestedPage)) {
       showPage(requestedPage, false);
@@ -8908,6 +9604,258 @@ function openMobileProfile(element) {
   menu.style.margin = "0 auto";
   menu.style.zIndex = "99999";
 }
+  /* =========================================
+   LUMA DEALS ACCOUNT PAGES
+   ========================================= */
+
+function updateAccountPage() {
+
+  const user =
+    window.firebaseAuth?.currentUser ||
+    window.currentUser ||
+    null;
+
+  const avatar =
+    document.getElementById("account-page-avatar");
+
+  const name =
+    document.getElementById("account-page-name");
+
+  const email =
+    document.getElementById("account-page-email");
+
+  const editName =
+    document.getElementById("edit-profile-name");
+
+  const editEmail =
+    document.getElementById("edit-profile-email");
+
+  if (!user) {
+
+    if (avatar) avatar.innerHTML = "👤";
+    if (name) name.innerText = "My Account";
+    if (email) email.innerText = "Sign in to manage your account";
+
+    if (editName) editName.value = "";
+    if (editEmail) editEmail.value = "";
+
+    return;
+  }
+
+  if (user.photoURL) {
+
+    const photo = `
+      <img
+        src="${user.photoURL}"
+        alt="Profile"
+        referrerpolicy="no-referrer"
+      >
+    `;
+
+    if (avatar) avatar.innerHTML = photo;
+
+  } else {
+
+    const initial =
+      (user.displayName || user.email || "U")
+      .charAt(0)
+      .toUpperCase();
+
+    if (avatar) avatar.innerText = initial;
+  }
+
+  if (name) {
+    name.innerText =
+      user.displayName || "Luma Deals User";
+  }
+
+  if (email) {
+    email.innerText =
+      user.email || "";
+  }
+
+  if (editName) {
+    editName.value =
+      user.displayName || "";
+  }
+
+  if (editEmail) {
+    editEmail.value =
+      user.email || "";
+  }
+}
+
+
+/* Edit Profile */
+
+async function saveProfileChanges() {
+
+  const user =
+    window.firebaseAuth?.currentUser;
+
+  if (!user) {
+    showPage("login");
+    return;
+  }
+
+  const name =
+    document.getElementById(
+      "edit-profile-name"
+    ).value.trim();
+
+  if (!name) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  try {
+
+    await window.firebaseUpdateProfile(
+      user,
+      {
+        displayName: name
+      }
+    );
+
+    window.currentUser = user;
+
+    updateAccountPage();
+    updateHeaderProfile();
+
+    document.getElementById(
+      "profile-save-message"
+    ).innerText =
+      "Profile updated successfully.";
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Unable to update profile: " +
+      error.message
+    );
+  }
+}
+
+
+/* Password Reset */
+
+async function sendPasswordResetFromSecurity() {
+
+  const user =
+    window.firebaseAuth?.currentUser;
+
+  if (!user || !user.email) {
+    showPage("login");
+    return;
+  }
+
+  try {
+
+    await window.firebaseResetPassword(
+      window.firebaseAuth,
+      user.email
+    );
+
+    alert(
+      "Password reset email has been sent to " +
+      user.email
+    );
+
+  } catch (error) {
+
+    alert(
+      "Unable to send reset email: " +
+      error.message
+    );
+  }
+}
+
+
+/* Language */
+
+function saveLanguage(language) {
+
+  localStorage.setItem(
+    "lumadeals_language",
+    language
+  );
+
+  alert(
+    "Language preference saved: " +
+    language
+  );
+}
+
+
+/* Appearance */
+
+function setAppearance(mode) {
+
+  localStorage.setItem(
+    "lumadeals_appearance",
+    mode
+  );
+
+  if (mode === "dark") {
+    document.body.classList.add("dark-mode");
+  } else if (mode === "light") {
+    document.body.classList.remove("dark-mode");
+  } else {
+
+    const dark =
+      window.matchMedia &&
+      window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+    document.body.classList.toggle(
+      "dark-mode",
+      dark
+    );
+  }
+}
+
+
+/* Notifications */
+
+function saveNotificationSetting(
+  type,
+  enabled
+) {
+
+  localStorage.setItem(
+    "lumadeals_notification_" + type,
+    enabled ? "1" : "0"
+  );
+}
+
+
+/* Update account page whenever opened */
+
+const originalShowPage =
+  window.showPage;
+
+window.showPage =
+  function(pageName, updateUrl = true) {
+
+    originalShowPage(
+      pageName,
+      updateUrl
+    );
+
+    if (
+      pageName === "profile" ||
+      pageName === "edit-profile"
+    ) {
+      setTimeout(
+        updateAccountPage,
+        100
+      );
+    }
+
+  };
 </script>
   <footer>
   <div class="footer-container">
