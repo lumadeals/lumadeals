@@ -8323,7 +8323,8 @@ async function loadOrders() {
           <span class="order-date">${dateStr}</span>
           <span class="order-status-badge">${status.label}</span>
         </div>
-        <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:8px;">📦 ${order.trackingId || 'N/A'}</div>
+        <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:4px;">📦 Order ID: ${order.trackingId || 'N/A'}</div>
+        ${order.courierTrackingId ? `<div style="font-size:12px; color:#16a34a; font-weight:700; margin-bottom:8px;">🚚 Courier Tracking: ${order.courierTrackingId}</div>` : ''}
         ${itemsHTML}
         <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
         <div class="mini-tracker">${trackerHTML}</div>
