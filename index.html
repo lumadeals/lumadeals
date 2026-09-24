@@ -4731,6 +4731,15 @@ button[onclick*="addToCart"]:active {
   display:flex; justify-content:space-between; font-weight:700; font-size:14px;
   margin-top:10px; padding-top:10px; border-top:1px dashed #ddd;
 }
+  .mini-tracker{display:flex;justify-content:space-between;margin-top:16px;position:relative;}
+.mini-tracker::before{content:'';position:absolute;top:10px;left:5%;right:5%;height:2px;background:#e5e5e5;z-index:0;}
+.mini-tracker .mt-step{flex:1;text-align:center;position:relative;z-index:1;}
+.mini-tracker .mt-dot{width:20px;height:20px;border-radius:50%;background:#e5e5e5;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;}
+.mini-tracker .mt-label{font-size:10px;color:#94a3b8;}
+.mini-tracker .mt-step.completed .mt-dot{background:#22c55e;}
+.mini-tracker .mt-step.completed .mt-label{color:#22c55e;font-weight:600;}
+.mini-tracker .mt-step.current .mt-dot{background:#29ABE2;box-shadow:0 0 0 4px rgba(41,171,226,0.2);}
+.mini-tracker .mt-step.current .mt-label{color:#29ABE2;font-weight:700;}
   </style>
 </head>
 <body>
@@ -8243,7 +8252,18 @@ document.addEventListener('DOMContentLoaded', function () {
     loadOrders();
   }
   }
-  async function loadOrders() {
+  
+  function computeOrderStatus(createdAtSeconds) {
+  const now = Date.now() / 1000;
+  const elapsedHours = (now - createdAtSeconds) / 3600;
+
+  if (elapsedHours >= 168) return { index: 3, label: 'Delivered' };
+  if (elapsedHours >= 144) return { index: 2, label: 'Out for Delivery' };
+  if (elapsedHours >= 12) return { index: 1, label: 'Processing' };
+  return { index: 0, label: 'Order Placed' };
+}
+
+async function loadOrders() {
   const ordersList = document.getElementById('orders-list');
 
   if (!window.currentUser) {
@@ -8269,27 +8289,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
   orders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
+  const stepLabels = ['Order Placed', 'Processing', 'Out for Delivery', 'Delivered'];
+
   ordersList.innerHTML = orders.map(order => {
     const dateStr = order.createdAt?.seconds
       ? new Date(order.createdAt.seconds * 1000).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
       : '';
 
+    const status = order.createdAt?.seconds
+      ? computeOrderStatus(order.createdAt.seconds)
+      : { index: 0, label: 'Order Placed' };
+
     const itemsHTML = order.items.map(item =>
       `<div class="order-item-row"><span>${item.name} (x${item.quantity})</span><span>Rs ${item.price * item.quantity}</span></div>`
     ).join('');
+
+    const trackerHTML = stepLabels.map((label, i) => {
+      let cls = '';
+      if (i < status.index) cls = 'completed';
+      else if (i === status.index) cls = 'current';
+      return `
+        <div class="mt-step ${cls}">
+          <div class="mt-dot">${i < status.index ? '✔' : ''}</div>
+          <div class="mt-label">${label}</div>
+        </div>
+      `;
+    }).join('');
 
     return `
       <div class="order-card">
         <div class="order-card-header">
           <span class="order-date">${dateStr}</span>
-          <span class="order-status-badge">${order.status || 'Order Placed'}</span>
+          <span class="order-status-badge">${status.label}</span>
         </div>
         ${itemsHTML}
         <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
+        <div class="mini-tracker">${trackerHTML}</div>
       </div>
     `;
   }).join('');
-  }
+}
 </script>
   <footer>
   <div class="footer-container">
