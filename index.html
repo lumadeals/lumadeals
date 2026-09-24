@@ -9368,7 +9368,84 @@ try {
           <span class="order-status-badge">${status.label}</span>
         </div>
         <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:4px;">📦 Order ID: ${order.trackingId || 'N/A'}</div>
-        ${order.courierTrackingId ? `<div style="font-size:12px; color:#16a34a; font-weight:700; margin-bottom:8px;">🚚 Courier Tracking: ${order.courierTrackingId}</div>` : ''}
+        ${order.courierTrackingId ? `
+  <div
+    style="
+      margin:10px 0;
+      padding:12px;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      border-radius:10px;
+    "
+  >
+
+    <div
+      style="
+        font-size:12px;
+        color:#15803d;
+        font-weight:700;
+        margin-bottom:5px;
+      "
+    >
+      🚚 Courier Tracking
+    </div>
+
+    <div
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        flex-wrap:wrap;
+      "
+    >
+
+      <span
+        style="
+          font-size:13px;
+          font-weight:700;
+          color:#14171A;
+        "
+      >
+        ${order.courier
+          ? escapeHTML(order.courier)
+          : "Courier"
+        }
+        :
+        ${escapeHTML(order.courierTrackingId)}
+      </span>
+
+
+      ${
+        order.courierTrackingUrl
+          ? `
+            <a
+              href="${escapeAttribute(order.courierTrackingUrl)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="
+                display:inline-flex;
+                align-items:center;
+                gap:5px;
+                background:#3BB4EC;
+                color:#fff;
+                text-decoration:none;
+                padding:7px 12px;
+                border-radius:20px;
+                font-size:12px;
+                font-weight:700;
+              "
+            >
+              Track ↗
+            </a>
+          `
+          : ""
+      }
+
+    </div>
+
+  </div>
+` : ''}
         ${itemsHTML}
         <div class="order-breakdown">
           <div class="order-breakdown-line"><span>Subtotal</span><span>Rs ${order.subtotal ?? order.total}</span></div>
@@ -9384,6 +9461,30 @@ try {
     ordersList.innerHTML = '<p style="color:#ef4444; text-align:center;">Error: ' + error.message + '</p>';
 }
     }
+
+
+
+  /* =========================================
+   ORDER TRACKING HTML HELPERS
+   ========================================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHTML(value);
+
+}
   async function cancelOrder(docId) {
   if (!confirm('Are you sure you want to cancel this order?')) return;
 
