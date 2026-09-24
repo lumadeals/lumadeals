@@ -8186,25 +8186,69 @@ function getWishlist() {
    SAVE WISHLIST
    ========================================= */
 
-function saveWishlist(wishlist) {
+async function saveWishlist(wishlist) {
   try {
+
     const cleanWishlist = [
       ...new Set(
         wishlist
           .map(String)
-          .filter(id => id !== "undefined" && id !== "null")
+          .filter(
+            id =>
+              id !== "undefined" &&
+              id !== "null" &&
+              id !== ""
+          )
       )
     ];
 
+    // Local backup — existing system safe rahega
     localStorage.setItem(
       "lumaWishlist",
       JSON.stringify(cleanWishlist)
     );
 
+    // Firebase sync only when user is logged in
+    const user = window.currentUser;
+
+    if (user) {
+
+      const {
+        getFirestore,
+        doc,
+        setDoc
+      } = await import(
+        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+      );
+
+      const db = getFirestore(window.firebaseApp);
+
+      await setDoc(
+        doc(
+          db,
+          "users",
+          user.uid,
+          "wishlist",
+          "items"
+        ),
+        {
+          productIds: cleanWishlist,
+          updatedAt: new Date()
+        }
+      );
+
+      console.log("Wishlist saved to Firebase.");
+    }
+
     return true;
 
   } catch (error) {
-    console.error("Wishlist save error:", error);
+
+    console.error(
+      "Wishlist save error:",
+      error
+    );
+
     return false;
   }
 }
@@ -8214,8 +8258,7 @@ function saveWishlist(wishlist) {
    ADD / REMOVE WISHLIST
    ========================================= */
 
-window.toggleWishlist = function(productId, button) {
-
+window.toggleWishlist = async function(productId, button) {
   productId = String(productId);
 
   if (
@@ -8277,7 +8320,7 @@ window.toggleWishlist = function(productId, button) {
 
   /* SAVE */
 
-  saveWishlist(wishlist);
+ await saveWishlist(wishlist);
 
 
   /* UPDATE ALL HEARTS */
@@ -9976,6 +10019,159 @@ function applyLanguage(language) {
     applyLanguage(savedLanguage);
   }
 });
+
+  /* =========================================
+   LUMA DEALS — FIREBASE WISHLIST SYNC
+   ========================================= */
+
+async function syncWishlistWithFirebase() {
+  const user = window.currentUser;
+
+  if (!user) return;
+
+  try {
+    const {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc
+    } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+    );
+
+    const db = getFirestore(window.firebaseApp);
+
+    const wishlistRef = doc(
+      db,
+      "users",
+      user.uid,
+      "wishlist",
+      "items"
+    );
+
+    const firebaseSnap = await getDoc(wishlistRef);
+
+    /*
+      FIRST LOGIN:
+      Agar Firebase mein wishlist nahi hai,
+      existing local wishlist ko Firebase mein migrate karo.
+    */
+
+    if (!firebaseSnap.exists()) {
+
+      const localSaved =
+        localStorage.getItem("lumaWishlist");
+
+      let localWishlist = [];
+
+      if (localSaved) {
+        try {
+          const parsed = JSON.parse(localSaved);
+
+          if (Array.isArray(parsed)) {
+            localWishlist = [
+              ...new Set(
+                parsed.map(String)
+              )
+            ];
+          }
+
+        } catch (e) {
+          localWishlist = [];
+        }
+      }
+
+      await setDoc(wishlistRef, {
+        productIds: localWishlist,
+        updatedAt: new Date()
+      });
+
+      console.log(
+        "Existing wishlist migrated to Firebase."
+      );
+
+      return;
+    }
+
+    /*
+      Firebase wishlist already exists:
+      Firebase ko source of truth rakho.
+    */
+
+    const data = firebaseSnap.data();
+
+    const firebaseWishlist =
+      Array.isArray(data.productIds)
+        ? data.productIds.map(String)
+        : [];
+
+    localStorage.setItem(
+      "lumaWishlist",
+      JSON.stringify(firebaseWishlist)
+    );
+
+    if (typeof updateWishlistButtons === "function") {
+      updateWishlistButtons();
+    }
+
+    if (
+      typeof showWishlist === "function"
+    ) {
+      const wishlistPage =
+        document.getElementById("page-wishlist");
+
+      if (
+        wishlistPage &&
+        wishlistPage.classList.contains("active")
+      ) {
+        showWishlist();
+      }
+    }
+
+    console.log(
+      "Wishlist loaded from Firebase."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Firebase wishlist sync error:",
+      error
+    );
+
+  }
+}
+  (function startWishlistFirebaseSync() {
+
+  let synced = false;
+
+  const checkUser = setInterval(async function() {
+
+    if (synced) {
+      clearInterval(checkUser);
+      return;
+    }
+
+    const user = window.currentUser;
+
+    if (user) {
+
+      synced = true;
+
+      clearInterval(checkUser);
+
+      await syncWishlistWithFirebase();
+
+      if (typeof updateWishlistButtons === "function") {
+        updateWishlistButtons();
+      }
+
+    }
+
+  }, 500);
+
+})();
+  
 </script>
   <footer>
   <div class="footer-container">
