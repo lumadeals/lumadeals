@@ -9369,82 +9369,59 @@ try {
         </div>
         <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:4px;">📦 Order ID: ${order.trackingId || 'N/A'}</div>
         ${order.courierTrackingId ? `
-  <div
-    style="
-      margin:10px 0;
-      padding:12px;
-      background:#f0fdf4;
-      border:1px solid #bbf7d0;
-      border-radius:10px;
-    "
-  >
+<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:10px 0;
+    padding:10px 12px;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    border-radius:10px;
+">
 
-    <div
-      style="
+    <div style="
         font-size:12px;
         color:#15803d;
         font-weight:700;
-        margin-bottom:5px;
-      "
-    >
-      🚚 Courier Tracking
+    ">
+        🚚 ${order.courier || "Courier"}:
+        <span style="color:#14171A;">
+            ${order.courierTrackingId}
+        </span>
     </div>
 
-    <div
-      style="
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:10px;
-        flex-wrap:wrap;
-      "
-    >
-
-      <span
-        style="
-          font-size:13px;
-          font-weight:700;
-          color:#14171A;
-        "
-      >
-        ${order.courier
-          ? escapeHTML(order.courier)
-          : "Courier"
-        }
-        :
-        ${escapeHTML(order.courierTrackingId)}
-      </span>
-
-
-      ${
+    ${
         order.courierTrackingUrl
-          ? `
-            <a
-              href="${escapeAttribute(order.courierTrackingUrl)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              style="
+        ? `
+        <a
+            href="${order.courierTrackingUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="
                 display:inline-flex;
                 align-items:center;
+                justify-content:center;
                 gap:5px;
                 background:#3BB4EC;
-                color:#fff;
+                color:white;
                 text-decoration:none;
-                padding:7px 12px;
+                padding:7px 13px;
                 border-radius:20px;
                 font-size:12px;
                 font-weight:700;
-              "
-            >
-              Track ↗
-            </a>
-          `
-          : ""
-      }
+                white-space:nowrap;
+                cursor:pointer;
+            "
+        >
+            Track ↗
+        </a>
+        `
+        : ""
+    }
 
-    </div>
-
-  </div>
+</div>
 ` : ''}
         ${itemsHTML}
         <div class="order-breakdown">
