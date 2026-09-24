@@ -6794,16 +6794,6 @@ body.dark-mode .back-settings {
     <div id="orders-list" style="margin-top:20px;">
       <p style="color:#888; text-align:center;">Loading orders...</p>
     </div>
-    <div class="thank-you-card">
-  <div class="ty-badge">
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-  </div>
-  <h3>Thank You for Shopping with Us!</h3>
-  <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
-  <div class="ty-signature"> Team Luma Deals</div>
-    </div>
   </div>
 </section>
 
@@ -7856,7 +7846,18 @@ const trackingId = 'LD' + Date.now().toString().slice(-8);
 await saveOrderToFirestore(); 
   window.open(`https://wa.me/923376454384?text=${message}`);
 }
-
+document.getElementById('lumadeals-checkout-box').innerHTML = `
+  <div class="thank-you-card">
+    <div class="ty-badge">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h3>Thank You for Shopping with Us!</h3>
+    <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
+    <div class="ty-signature">— Team Luma Deals</div>
+  </div>
+`;
   function filterCat(category, element) {
 
   /* ==========================================
