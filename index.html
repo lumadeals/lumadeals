@@ -6812,16 +6812,7 @@ body.dark-mode .back-settings {
     <div id="orders-list" style="margin-top:20px;">
       <p style="color:#888; text-align:center;">Loading orders...</p>
     </div>
-    <div class="thank-you-card">
-  <div class="ty-badge">
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-  </div>
-  <h3>Thank You for Shopping with Us!</h3>
-  <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
-  <div class="ty-signature"> Team Luma Deals</div>
-    </div>
+    
   </div>
 </section>
 
@@ -9321,7 +9312,7 @@ async function loadOrders() {
   const { getFirestore, collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
 
-  try {
+  
     const q = query(collection(db, "orders"), where("userId", "==", window.currentUser.uid));
     const snapshot = await getDocs(q);
 
@@ -9337,6 +9328,19 @@ async function loadOrders() {
   const stepLabels = ['Order Placed', 'Processing', 'Out for Delivery', 'Delivered'];
 
   ordersList.innerHTML = orders.map(order => {
+    ...
+  }).join('') + `
+    <div class="thank-you-card">
+      <div class="ty-badge">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3>Thank You for Shopping with Us!</h3>
+      <p>Every order matters to us. We're committed to delivering quality products with care, right to your doorstep.</p>
+      <div class="ty-signature">— Team Luma Deals</div>
+    </div>
+  `;
     const dateStr = order.createdAt?.seconds
       ? new Date(order.createdAt.seconds * 1000).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
       : '';
@@ -9412,10 +9416,7 @@ async function loadOrders() {
     await updateDoc(doc(db, "orders", docId), { cancelled: true });
     showToast('Order cancelled successfully');
     loadOrders();
-  } catch (error) {
-    alert('Error: ' + error.message);
-  }
-  }
+  
 
 
   /* =========================================
