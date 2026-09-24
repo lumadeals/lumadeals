@@ -9408,7 +9408,11 @@ document.addEventListener('DOMContentLoaded', function () {
     await updateDoc(doc(db, "orders", docId), { cancelled: true });
     showToast('Order cancelled successfully');
     loadOrders();
-  
+    
+  } catch (error) {
+    alert('Error: ' + error.message);
+  }
+  }
 
 
   /* =========================================
