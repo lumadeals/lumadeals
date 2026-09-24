@@ -7796,7 +7796,9 @@ document.addEventListener('click', function(e) {
 
 async function placeFirebaseOrder() {
 
-  /* Customer must be logged in */
+  alert("BUTTON WORKING");
+
+  try {
 
   if (!window.currentUser) {
     alert("Please login first to place an order!");
