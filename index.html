@@ -5219,6 +5219,26 @@ button[onclick*="addToCart"]:active {
     align-items: flex-start;
   }
 }
+  .profile-logout-section {
+  margin: 20px 0 30px;
+  padding: 0 16px;
+}
+
+.profile-logout-btn {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ff4d4d;
+  border-radius: 12px;
+  background: transparent;
+  color: #ff4d4d;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-logout-btn:active {
+  transform: scale(0.98);
+  }
 </style>
 </head>
 <body>
@@ -6446,6 +6466,11 @@ button[onclick*="addToCart"]:active {
     </div>
 
   </div>
+  <div class="profile-logout-section">
+  <button class="profile-logout-btn" onclick="logoutFromProfile()">
+    🚪 Log Out
+  </button>
+  </div>
 </section>
 
 
@@ -6746,23 +6771,7 @@ button[onclick*="addToCart"]:active {
   </div>
 </section>
   
-<!-- Log out account -->
-  <section id="page-logout" class="page">
-  <div class="profile-page-container">
 
-    <div class="profile-setting-card logout-card" onclick="logoutFromProfile()">
-      <div class="profile-setting-icon">🚪</div>
-
-      <div class="profile-setting-info">
-        <strong>Log Out</strong>
-        <span>Sign out from your Luma Deals account</span>
-      </div>
-
-      <div class="profile-setting-arrow">›</div>
-    </div>
-
-  </div>
-  </section>
   <!-- ORDERS -->
 <section id="page-orders" class="page">
   <div class="products-section">
