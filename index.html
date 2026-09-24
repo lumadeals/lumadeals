@@ -9188,11 +9188,16 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.bn-item').forEach(function(item){
     item.classList.remove('active');
   });
+
   el.classList.add('active');
   showPage(pageId);
 
   if (pageId === 'orders') {
     loadOrders();
+  }
+
+  if (pageId === 'wishlist') {
+    showWishlist();
   }
   }
   
