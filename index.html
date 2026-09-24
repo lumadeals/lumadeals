@@ -4741,7 +4741,14 @@ button[onclick*="addToCart"]:active {
 .mini-tracker .mt-step.current .mt-dot{background:#29ABE2;box-shadow:0 0 0 4px rgba(41,171,226,0.2);}
 .mini-tracker .mt-step.current .mt-label{color:#29ABE2;font-weight:700;}
 
-
+.order-item-row-detailed{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.order-item-row-detailed img{width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #eee;flex-shrink:0;}
+.order-item-info{flex:1;display:flex;flex-direction:column;}
+.order-item-info .oi-name{font-size:13px;color:#333;font-weight:500;}
+.order-item-info .oi-qty{font-size:12px;color:#888;}
+.order-item-price{font-size:13px;font-weight:600;color:#333;}
+.order-breakdown{margin-top:10px;padding-top:10px;border-top:1px dashed #ddd;}
+.order-breakdown-line{display:flex;justify-content:space-between;font-size:13px;color:#666;margin-bottom:4px;}
   /* =========================================
    LUMA DEALS — CHATGPT STYLE PROFILE MENU
    ========================================= */
@@ -7815,6 +7822,8 @@ const trackingId = 'LD' + Date.now().toString().slice(-8);
       quantity: item.quantity || 1,
       img: item.img || ''
     })),
+    subtotal: subtotal,
+    deliveryCharge: deliveryCharge,
     total: total,
     status: "Order Placed",
     cancelled: false,
@@ -9297,9 +9306,16 @@ async function loadOrders() {
 
     const canCancel = !order.cancelled && status.index === 0;
 
-    const itemsHTML = order.items.map(item =>
-      `<div class="order-item-row"><span>${item.name} (x${item.quantity})</span><span>Rs ${item.price * item.quantity}</span></div>`
-    ).join('');
+    const itemsHTML = order.items.map(item => `
+      <div class="order-item-row-detailed">
+        <img src="${item.img || ''}" alt="${item.name}">
+        <div class="order-item-info">
+          <span class="oi-name">${item.name}</span>
+          <span class="oi-qty">Qty: ${item.quantity}</span>
+        </div>
+        <span class="order-item-price">Rs ${item.price * item.quantity}</span>
+      </div>
+    `).join('');
 
     const trackerHTML = stepLabels.map((label, i) => {
       let cls = '';
@@ -9322,6 +9338,10 @@ async function loadOrders() {
         <div style="font-size:12px; color:#0284c7; font-weight:700; margin-bottom:4px;">📦 Order ID: ${order.trackingId || 'N/A'}</div>
         ${order.courierTrackingId ? `<div style="font-size:12px; color:#16a34a; font-weight:700; margin-bottom:8px;">🚚 Courier Tracking: ${order.courierTrackingId}</div>` : ''}
         ${itemsHTML}
+        <div class="order-breakdown">
+          <div class="order-breakdown-line"><span>Subtotal</span><span>Rs ${order.subtotal ?? order.total}</span></div>
+          <div class="order-breakdown-line"><span>Delivery Charges</span><span>Rs ${order.deliveryCharge ?? 0}</span></div>
+        </div>
         <div class="order-card-total"><span>Total</span><span>Rs ${order.total}</span></div>
         ${status.index >= 0 ? `<div class="mini-tracker">${trackerHTML}</div>` : ''}
         ${canCancel ? `<button onclick="cancelOrder('${order._docId}')" style="width:100%; margin-top:14px; background:#fff; color:#ef4444; border:1px solid #ef4444; padding:10px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Cancel Order</button>` : ''}
