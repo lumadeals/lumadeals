@@ -8164,87 +8164,25 @@ function signInWithGoogle() {
    ========================================= */
 
 
-async function getWishlist() {
-
-  const user = window.currentUser;
-
-  // Logged-in user → Firebase
-  if (user) {
-
-    try {
-
-      const {
-        getFirestore,
-        doc,
-        getDoc
-      } = await import(
-        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-      );
-
-      const db =
-        getFirestore(window.firebaseApp);
-
-      const wishlistRef =
-        doc(
-          db,
-          "users",
-          user.uid,
-          "wishlist",
-          "items"
-        );
-
-      const snap =
-        await getDoc(wishlistRef);
-
-      if (!snap.exists()) {
-        return [];
-      }
-
-      const data = snap.data();
-
-      return Array.isArray(data.productIds)
-        ? data.productIds.map(String)
-        : [];
-
-    } catch (error) {
-
-      console.error(
-        "Firebase wishlist load error:",
-        error
-      );
-
-      return [];
-    }
-  }
 
 
-  // Logged-out user → localStorage
+function getWishlist() {
   try {
-
-    const saved =
-      localStorage.getItem("lumaWishlist");
+    const saved = localStorage.getItem("lumaWishlist");
 
     if (!saved) return [];
 
-    const parsed =
-      JSON.parse(saved);
+    const parsed = JSON.parse(saved);
 
     return Array.isArray(parsed)
       ? parsed.map(String)
       : [];
 
   } catch (error) {
-
-    console.error(
-      "Local wishlist load error:",
-      error
-    );
-
+    console.error("Wishlist load error:", error);
     return [];
   }
 }
-
-
 /* =========================================
    SAVE WISHLIST
    ========================================= */
