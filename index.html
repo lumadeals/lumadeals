@@ -10030,7 +10030,7 @@ function applyLanguage(language) {
   localStorage.setItem("lumaLanguage", language);
 
   document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+  document.documentElement.dir = "ltr";
 
   document.querySelectorAll("[data-translate]").forEach(function(el) {
     const key = el.getAttribute("data-translate");
