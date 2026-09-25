@@ -5666,6 +5666,601 @@ body.dark-mode .back-settings {
   50%{ opacity:0.5; transform:translateY(-50%) scale(1.2); }
 }
 </style>
+  <style> 
+    /* =========================================================
+   LUMA DEALS — PROFESSIONAL CATEGORY SYSTEM
+   ========================================================= */
+
+/* CATEGORY SECTION */
+.home-feature-section {
+  padding: 30px 50px;
+  margin: 0;
+}
+
+
+/* SECTION HEADING */
+.home-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.home-section-heading span {
+  display: block;
+  color: #0284c7;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  margin-bottom: 5px;
+}
+
+.home-section-heading h2 {
+  margin: 0;
+  color: #14171A;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.home-section-heading button {
+  border: none;
+  background: transparent;
+  color: #0284c7;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.home-section-heading button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   CATEGORY CARDS
+   ========================================================= */
+
+.category-showcase {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+
+/* NORMAL CARD */
+.category-card {
+  width: 100%;
+  min-width: 0;
+  min-height: 175px;
+
+  background: rgba(255,255,255,0.96);
+  border: 1px solid #e5eaf0;
+  border-radius: 20px;
+
+  padding: 18px 12px;
+  box-sizing: border-box;
+
+  text-align: center;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+
+  box-shadow:
+    0 2px 5px rgba(15,23,42,0.04),
+    0 8px 20px rgba(15,23,42,0.06);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease,
+    background .25s ease;
+}
+
+
+/* SOFT LIGHT EFFECT */
+.category-card::before {
+  content: "";
+  position: absolute;
+  top: -45%;
+  left: -35%;
+
+  width: 90px;
+  height: 180px;
+
+  background: rgba(255,255,255,0.65);
+
+  transform: rotate(25deg);
+  filter: blur(12px);
+
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+
+/* HOVER */
+.category-card:hover {
+  transform: translateY(-5px);
+
+  border-color: #bae6fd;
+
+  box-shadow:
+    0 8px 16px rgba(15,23,42,0.08),
+    0 18px 35px rgba(2,132,199,0.12);
+}
+
+.category-card:hover::before {
+  opacity: 1;
+}
+
+
+/* CATEGORY ICON */
+.category-icon {
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f8fcff,
+      #eef8fd
+    );
+
+  font-size: 28px;
+
+  box-shadow:
+    0 4px 12px rgba(15,23,42,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;
+}
+
+
+.category-card:hover .category-icon {
+  transform: translateY(-2px) scale(1.04);
+}
+
+
+/* CATEGORY TITLE */
+.category-card h3 {
+  margin: 0 0 5px;
+
+  color: #14171A;
+
+  font-size: 14px;
+  line-height: 1.2;
+
+  font-weight: 750;
+
+  white-space: nowrap;
+}
+
+
+/* DESCRIPTION */
+.category-card p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 10px !important;
+  line-height: 1.3;
+
+  max-width: 100%;
+
+  white-space: normal;
+}
+
+
+/* ARROW */
+.category-arrow {
+  display: inline-block;
+
+  margin-left: 3px;
+
+  font-size: 14px;
+
+  transition:
+    transform .25s ease;
+}
+
+
+/* =========================================================
+   SELECTED CATEGORY
+   ========================================================= */
+
+.category-card.active {
+  background:
+    linear-gradient(
+      145deg,
+      #38bdf8 0%,
+      #0ea5e9 45%,
+      #0284c7 100%
+    );
+
+  border-color: transparent;
+
+  color: #fff;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.45) inset,
+    0 -7px 16px rgba(2,132,199,0.30) inset,
+    0 12px 25px rgba(2,132,199,0.30),
+    0 5px 10px rgba(2,132,199,0.20);
+}
+
+
+/* ACTIVE TEXT */
+.category-card.active h3,
+.category-card.active p,
+.category-card.active .category-icon {
+  color: #fff;
+}
+
+
+/* ACTIVE ICON */
+.category-card.active .category-icon {
+  background: rgba(255,255,255,0.20);
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.12) inset,
+    0 2px 8px rgba(255,255,255,0.10);
+
+  transform: scale(1.06);
+}
+
+
+/* ACTIVE ARROW */
+.category-card.active .category-arrow {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   SUBCATEGORY CONTAINER
+   ========================================================= */
+
+.category-subcategories {
+  display: none;
+
+  width: 100%;
+
+  margin-top: 16px;
+  padding: 4px 0 5px;
+
+  box-sizing: border-box;
+}
+
+
+.category-subcategories.show {
+  display: block;
+}
+
+
+/* =========================================================
+   SUBCATEGORY GROUP
+   ========================================================= */
+
+.subcategory-group {
+  display: none;
+
+  width: 100%;
+
+  gap: 9px;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+}
+
+
+.subcategory-group.show {
+  display: flex;
+}
+
+
+/* =========================================================
+   SUBCATEGORY BUTTONS
+   ========================================================= */
+
+.subcategory-group button {
+  flex: 0 0 auto;
+
+  border: 1px solid #dfe7ed;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f8fafc
+    );
+
+  color: #14171A;
+
+  padding: 9px 15px;
+
+  border-radius: 24px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 5px rgba(15,23,42,0.04),
+    0 5px 12px rgba(15,23,42,0.04);
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+
+/* SUBCATEGORY HOVER */
+.subcategory-group button:hover {
+  background:
+    linear-gradient(
+      145deg,
+      #38bdf8,
+      #0284c7
+    );
+
+  color: #fff;
+
+  border-color: transparent;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 15px rgba(2,132,199,0.20);
+}
+
+
+/* ACTIVE SUBCATEGORY */
+.subcategory-group button.active {
+  background:
+    linear-gradient(
+      145deg,
+      #38bdf8,
+      #0284c7
+    );
+
+  color: #fff;
+
+  border-color: transparent;
+
+  box-shadow:
+    0 5px 12px rgba(2,132,199,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .home-feature-section {
+    padding: 28px 25px;
+  }
+
+  .category-showcase {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .category-card {
+    min-height: 160px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .home-feature-section {
+    padding: 22px 18px;
+  }
+
+
+  /* HEADING */
+  .home-section-heading {
+    margin-bottom: 18px;
+  }
+
+  .home-section-heading h2 {
+    font-size: 20px;
+  }
+
+  .home-section-heading span {
+    font-size: 9px;
+  }
+
+
+  /* 2 COLUMNS — NO CUTTING */
+  .category-showcase {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    width: 100%;
+  }
+
+
+  /* MOBILE CARD */
+  .category-card {
+    width: 100%;
+
+    min-width: 0;
+    min-height: 145px;
+
+    padding: 16px 10px;
+
+    border-radius: 18px;
+  }
+
+
+  /* ICON */
+  .category-icon {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 9px;
+
+    border-radius: 16px;
+
+    font-size: 24px;
+  }
+
+
+  /* TITLE */
+  .category-card h3 {
+    font-size: 13px;
+  }
+
+
+  /* DESCRIPTION */
+  .category-card p {
+    font-size: 9px !important;
+  }
+
+
+  /* ACTIVE */
+  .category-card.active {
+    transform: translateY(-3px) scale(1.015);
+
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.40) inset,
+      0 -6px 14px rgba(2,132,199,0.30) inset,
+      0 10px 22px rgba(2,132,199,0.25);
+  }
+
+
+  /* =======================================================
+     SUBCATEGORIES — WRAP, DON'T CUT
+     ======================================================= */
+
+  .category-subcategories {
+    margin-top: 13px;
+
+    padding: 2px 0 4px;
+
+    width: 100%;
+  }
+
+
+  .subcategory-group {
+    display: none;
+
+    width: 100%;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    justify-content: flex-start;
+  }
+
+
+  .subcategory-group.show {
+    display: flex;
+  }
+
+
+  .subcategory-group button {
+    padding: 8px 12px;
+
+    font-size: 11px;
+
+    border-radius: 20px;
+
+    max-width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .home-feature-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .category-showcase {
+    gap: 9px;
+  }
+
+  .category-card {
+    min-height: 135px;
+
+    padding: 13px 7px;
+  }
+
+  .category-icon {
+    width: 45px;
+    height: 45px;
+
+    font-size: 22px;
+  }
+
+  .category-card h3 {
+    font-size: 12px;
+  }
+
+  .category-card p {
+    font-size: 8px !important;
+  }
+
+  .subcategory-group button {
+    padding: 7px 10px;
+
+    font-size: 10px;
+  }
+
+    }
+  </style>
 </head>
 <body>
 
