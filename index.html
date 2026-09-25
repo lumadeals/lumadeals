@@ -7595,6 +7595,7 @@ async function loadReviews(productId) {
   list.innerHTML = reviews.map(r => `
     <div style="border-bottom:1px solid #f0f0f0; padding:10px 0; display:flex; justify-content:space-between; align-items:flex-start;">
       <div>
+        <div style="font-size:12px; font-weight:600; color:#14171A; margin-bottom:2px;">${r.userName || 'Anonymous'}</div>
         <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
         <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
       </div>
@@ -7608,7 +7609,7 @@ async function loadReviews(productId) {
       ` : ''}
     </div>
   `).join('');
-}
+  }
 async function submitReview() {
   if (!window.firebaseAuth.currentUser) {
     alert("Please sign in to submit a review.");
@@ -7620,6 +7621,9 @@ async function submitReview() {
   const rating = document.getElementById('review-rating').value;
   if (!text) { alert('Review is required'); return; }
 
+  const user = window.firebaseAuth.currentUser;
+  const reviewerName = user.displayName || user.email.split('@')[0];
+
   const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
 
@@ -7627,7 +7631,8 @@ async function submitReview() {
     productId: String(productId),
     text: text,
     rating: rating,
-    userId: window.firebaseAuth.currentUser.uid,
+    userId: user.uid,
+    userName: reviewerName,
     createdAt: serverTimestamp()
   });
 
