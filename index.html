@@ -6586,7 +6586,12 @@ body.dark-mode .back-settings {
       <button onclick="submitReview()" style="width:100%; margin-top:10px; background:#3BB4EC; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Submit Review</button>
     </div>
   </div>
+  <div style="margin-top:30px; padding-top:20px; border-top:1px solid #eee;">
+  <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">You May Also Like</h3>
+  <div class="product-grid" id="related-products-grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px;"></div>
+  </div>
 </section>
+  
 <!-- ABOUT -->
 
 <section id="page-about" class="page">
@@ -7649,7 +7654,25 @@ function showProductDetail(id) {
   document.getElementById('detail-description').innerText = p.description || `${p.name} — Best quality and price, only at Luma Deals. A top favorite in our ${p.category} category.`;
 
   if (typeof loadReviews === 'function') loadReviews(p.id);
+  loadRelatedProducts(p);
   if (typeof showPage === 'function') showPage('product-detail');
+}
+
+function loadRelatedProducts(currentProduct) {
+  const grid = document.getElementById('related-products-grid');
+  if (!grid) return;
+
+  const related = window.products.filter(p =>
+    p.category === currentProduct.category && p.id !== currentProduct.id
+  ).slice(0, 6);
+
+  if (related.length === 0) {
+    grid.innerHTML = '<p style="color:#888; font-size:13px;">No related products found.</p>';
+    return;
+  }
+
+  grid.innerHTML = related.map(productCardHTML).join('');
+  restoreWishlistButtons();
 }
 
 function getDeviceId() {
