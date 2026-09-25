@@ -7595,7 +7595,10 @@ async function loadReviews(productId) {
   list.innerHTML = reviews.map(r => `
     <div style="border-bottom:1px solid #f0f0f0; padding:10px 0; display:flex; justify-content:space-between; align-items:flex-start;">
       <div>
-        <div style="font-size:12px; font-weight:600; color:#14171A; margin-bottom:2px;">${r.userName || 'Anonymous'}</div>
+        <div style="font-size:12px; font-weight:600; color:#14171A; margin-bottom:2px; display:flex; align-items:center; gap:6px;">
+          ${r.userName || 'Anonymous'}
+          ${r.verified ? `<span style="background:#dcfce7; color:#16a34a; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px;">✔ Verified</span>` : ''}
+        </div>
         <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
         <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
       </div>
@@ -7624,8 +7627,16 @@ async function submitReview() {
   const user = window.firebaseAuth.currentUser;
   const reviewerName = user.displayName || user.email.split('@')[0];
 
-  const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
+
+  const orderQuery = query(
+    collection(db, "orders"),
+    where("userId", "==", user.uid),
+    where("productIds", "array-contains", String(productId))
+  );
+  const orderSnapshot = await getDocs(orderQuery);
+  const isVerified = !orderSnapshot.empty;
 
   await addDoc(collection(db, "reviews"), {
     productId: String(productId),
@@ -7633,6 +7644,7 @@ async function submitReview() {
     rating: rating,
     userId: user.uid,
     userName: reviewerName,
+    verified: isVerified,
     createdAt: serverTimestamp()
   });
 
@@ -8137,6 +8149,8 @@ document.addEventListener('click', function(e) {
           img: item.img || item.image || ""
         })),
 
+        productIds: cart.map(item => String(item.id)),
+
         subtotal: subtotal,
 
         deliveryCharge: deliveryCharge,
@@ -8158,7 +8172,6 @@ document.addEventListener('click', function(e) {
         createdAt: serverTimestamp()
       }
     );
-
     // CLEAR CART ONLY AFTER SUCCESS
     cart = [];
 
