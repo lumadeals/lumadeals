@@ -2658,7 +2658,7 @@ button[onclick*="addToCart"]:active {
 .category-card.active .category-icon {
   background: rgba(255,255,255,0.22);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15) inset;
-  transform: scale(1.08);
+  transform: scale(1.05);
   transition: transform 0.25s ease, background 0.25s ease;
 }
 
@@ -2688,7 +2688,13 @@ button[onclick*="addToCart"]:active {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
-
+.category-icon {
+  line-height: 1;
+  overflow: visible;
+}
+  .category-card {
+  overflow: visible;
+  }
 .category-subcategories::-webkit-scrollbar {
   display: none;
 }
