@@ -7595,9 +7595,17 @@ async function loadReviews(productId) {
   list.innerHTML = reviews.map(r => `
     <div style="border-bottom:1px solid #f0f0f0; padding:10px 0; display:flex; justify-content:space-between; align-items:flex-start;">
       <div>
-        <div style="font-size:12px; font-weight:600; color:#14171A; margin-bottom:2px; display:flex; align-items:center; gap:6px;">
-          ${r.userName || 'Anonymous'}
-          ${r.verified ? `<span style="background:#dcfce7; color:#16a34a; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px;">✔ Verified</span>` : ''}
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          ${r.userPhoto
+            ? `<img src="${r.userPhoto}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">`
+            : `<div style="width:28px; height:28px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#64748b;">${(r.userName || 'A')[0].toUpperCase()}</div>`
+          }
+          <div>
+            <div style="font-size:12px; font-weight:600; color:#14171A; display:flex; align-items:center; gap:6px;">
+              ${r.userName || 'Anonymous'}
+              ${r.verified ? `<span style="background:#dcfce7; color:#16a34a; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px;">✔ Verified</span>` : ''}
+            </div>
+          </div>
         </div>
         <div style="color:#f5a623; font-size:13px;">${r.rating}</div>
         <p style="font-size:13px; color:#444; margin-top:4px;">${r.text}</p>
@@ -7626,7 +7634,7 @@ async function submitReview() {
 
   const user = window.firebaseAuth.currentUser;
   const reviewerName = user.displayName || user.email.split('@')[0];
-
+  const reviewerPhoto = user.photoURL || '';
   const { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
   const db = getFirestore(window.firebaseApp);
 
@@ -7644,6 +7652,7 @@ async function submitReview() {
     rating: rating,
     userId: user.uid,
     userName: reviewerName,
+    userPhoto: reviewerPhoto,
     verified: isVerified,
     createdAt: serverTimestamp()
   });
