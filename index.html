@@ -5618,6 +5618,29 @@ body.dark-mode .back-settings {
   }
 
 }
+
+/*/ for mic search /*/
+  .search-box{
+  position:relative;
+  align-items:stretch;
+}
+.search-box input{
+  padding-right:40px !important;
+}
+#voice-search-btn{
+  position:absolute;
+  right:52px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+}
+#voice-search-btn.listening{
+  animation:micPulse 1s infinite;
+}
+@keyframes micPulse{
+  0%,100%{ opacity:1; transform:translateY(-50%) scale(1); }
+  50%{ opacity:0.5; transform:translateY(-50%) scale(1.2); }
+}
 </style>
 </head>
 <body>
@@ -5700,7 +5723,8 @@ body.dark-mode .back-settings {
   </div>
 
   <div class="search-box" style="position:relative;">
-  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions(); liveSearchProducts();" autocomplete="off">
+  <input type="text" id="search-input" placeholder="Search Products..." onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
+  <button type="button" id="voice-search-btn" onclick="startVoiceSearch()" style="background:none; border:none; font-size:18px; cursor:pointer; padding:0 10px; color:#3BB4EC;">🎤</button>
   <button onclick="searchProducts()">🔍</button>
   <div id="search-suggestions" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200; max-height:250px; overflow-y:auto;"></div>
   </div>
@@ -10812,6 +10836,72 @@ async function syncWishlistWithFirebase() {
 
 })();
   
+  function startSearchPlaceholderRotation() {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+
+  let names = [];
+  let index = 0;
+
+  function getRandomNames() {
+    if (!Array.isArray(window.products) || window.products.length === 0) return [];
+    const shuffled = [...window.products].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 8).map(p => p.name);
+  }
+
+  function rotatePlaceholder() {
+    if (names.length === 0) {
+      names = getRandomNames();
+      if (names.length === 0) return;
+    }
+    if (document.activeElement !== input && input.value === '') {
+      input.setAttribute('placeholder', 'Search for ' + names[index]);
+      index = (index + 1) % names.length;
+    }
+  }
+
+  rotatePlaceholder();
+  setInterval(rotatePlaceholder, 2500);
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(startSearchPlaceholderRotation, 1500);
+});
+
+  function startVoiceSearch() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert('Voice search is not supported on this browser.');
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  const btn = document.getElementById('voice-search-btn');
+  const input = document.getElementById('search-input');
+
+  btn.classList.add('listening');
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    input.value = transcript;
+    searchProducts();
+  };
+
+  recognition.onerror = function() {
+    btn.classList.remove('listening');
+  };
+
+  recognition.onend = function() {
+    btn.classList.remove('listening');
+  };
+  }
   
 </script>
   <footer>
