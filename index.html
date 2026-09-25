@@ -7163,6 +7163,15 @@ let cart = [];
         </div>
 
         ${
+          p.stock !== undefined
+            ? (p.stock > 0
+                ? `<div style="font-size:11px; color:${p.stock <= 5 ? '#ef4444' : '#16a34a'}; font-weight:700; margin-top:4px;">${p.stock <= 5 ? `⚠️ Only ${p.stock} left` : `✔ In Stock (${p.stock})`}</div>`
+                : `<div style="font-size:11px; color:#ef4444; font-weight:700; margin-top:4px;">❌ Out of Stock</div>`
+              )
+            : ''
+        }
+
+        ${
           discount
             ? `<span class="discount-pill">${discount} OFF</span>`
             : ''
