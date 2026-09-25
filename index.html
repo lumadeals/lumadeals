@@ -10900,6 +10900,9 @@ async function syncWishlistWithFirebase() {
 
   typeLoop();
   }
+  window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(startSearchPlaceholderRotation, 1500);
+});
 
   function startVoiceSearch() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
