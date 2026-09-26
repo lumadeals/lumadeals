@@ -1948,6 +1948,9 @@ const courierTrackingURLs = {
 /* =========================================
    LOAD ORDERS
    ========================================= */
+/* =========================================
+   LOAD ORDERS
+   ========================================= */
 
 async function loadAdminOrders() {
 
@@ -2009,6 +2012,87 @@ async function loadAdminOrders() {
           : "Date unavailable";
 
 
+      /* =========================================
+         ORDER ITEMS
+         ========================================= */
+
+      const itemsHTML =
+        Array.isArray(order.items) && order.items.length
+          ? order.items.map(item => {
+
+              const itemTotal =
+                Number(item.price || 0) *
+                Number(item.quantity || 1);
+
+              return `
+                <div
+                  style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:10px;
+                    padding:10px 0;
+                    border-bottom:1px solid #e5e7eb;
+                    font-size:13px;
+                  "
+                >
+
+                  <div style="flex:1;">
+
+                    <div style="font-weight:700;">
+                      ${escapeAdminHTML(
+                        item.name || "Product"
+                      )}
+                    </div>
+
+                    <div
+                      style="
+                        color:#64748b;
+                        margin-top:3px;
+                      "
+                    >
+                      Qty: ${Number(item.quantity || 1)}
+                      × Rs ${Number(item.price || 0).toLocaleString()}
+                    </div>
+
+                  </div>
+
+                  <strong>
+                    Rs ${itemTotal.toLocaleString()}
+                  </strong>
+
+                </div>
+              `;
+
+            }).join("")
+          : `
+              <div
+                style="
+                  color:#888;
+                  font-size:13px;
+                "
+              >
+                No product details available.
+              </div>
+            `;
+
+
+      /* =========================================
+         ADDRESS
+         ========================================= */
+
+      const fullAddress =
+        order.address
+          ? [
+              order.address.house,
+              order.address.street,
+              order.address.area,
+              order.address.city
+            ]
+            .filter(Boolean)
+            .join(", ")
+          : "";
+
+
       return `
 
         <div
@@ -2039,7 +2123,7 @@ async function loadAdminOrders() {
 
               <strong style="font-size:15px;">
                 📦 ${escapeAdminHTML(
-                  order.trackingId || "N/A"
+                  order.trackingId || order.id || "N/A"
                 )}
               </strong>
 
@@ -2091,30 +2175,159 @@ async function loadAdminOrders() {
               )}
             </div>
 
-            <div style="font-size:13px;margin-top:5px;">
+            <div
+              style="
+                font-size:13px;
+                margin-top:5px;
+              "
+            >
               📞 ${escapeAdminHTML(
                 order.phone || ""
               )}
             </div>
 
-            <div style="font-size:13px;margin-top:5px;">
-              📍 ${
-                order.address
-                  ? escapeAdminHTML(
-                      [
-                        order.address.house,
-                        order.address.street,
-                        order.address.area,
-                        order.address.city
-                      ]
-                      .filter(Boolean)
-                      .join(", ")
-                    )
-                  : ""
-              }
+            <div
+              style="
+                font-size:13px;
+                margin-top:5px;
+              "
+            >
+              📍 ${escapeAdminHTML(
+                fullAddress
+              )}
             </div>
 
           </div>
+
+
+          <!-- ORDER ITEMS -->
+
+          <div
+            style="
+              background:#fff;
+              border:1px solid #e5e7eb;
+              border-radius:10px;
+              padding:12px;
+              margin-bottom:12px;
+            "
+          >
+
+            <div
+              style="
+                font-weight:800;
+                margin-bottom:5px;
+              "
+            >
+              🛍️ Order Items
+            </div>
+
+            ${itemsHTML}
+
+            <div
+              style="
+                margin-top:12px;
+                font-size:13px;
+              "
+            >
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  margin-bottom:5px;
+                "
+              >
+                <span>Subtotal</span>
+                <strong>
+                  Rs ${Number(
+                    order.subtotal || 0
+                  ).toLocaleString()}
+                </strong>
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  margin-bottom:5px;
+                "
+              >
+                <span>Delivery</span>
+                <strong>
+                  Rs ${Number(
+                    order.deliveryCharge || 0
+                  ).toLocaleString()}
+                </strong>
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding-top:8px;
+                  margin-top:5px;
+                  border-top:1px solid #e5e7eb;
+                  font-size:15px;
+                "
+              >
+                <strong>Total</strong>
+
+                <strong style="color:#0284c7;">
+                  Rs ${Number(
+                    order.total || 0
+                  ).toLocaleString()}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAYMENT -->
+
+          <div
+            style="
+              background:#f0fdf4;
+              border:1px solid #bbf7d0;
+              border-radius:10px;
+              padding:10px;
+              margin-bottom:12px;
+              font-size:13px;
+            "
+          >
+            💵
+            <strong>
+              Payment:
+            </strong>
+
+            ${escapeAdminHTML(
+              order.paymentMethod || "Cash on Delivery"
+            )}
+
+          </div>
+
+
+          <!-- SEND CONFIRMATION -->
+
+          <button
+            type="button"
+            onclick="sendOrderConfirmation('${order.id}')"
+            style="
+              width:100%;
+              background:#25D366;
+              color:#fff;
+              border:none;
+              padding:13px;
+              border-radius:9px;
+              cursor:pointer;
+              font-weight:800;
+              margin-bottom:12px;
+            "
+          >
+            📱 Send Order Confirmation
+          </button>
 
 
           <!-- COURIER -->
@@ -2300,6 +2513,211 @@ async function loadAdminOrders() {
 
 }
 
+   /* =========================================
+   SEND ORDER CONFIRMATION
+   ========================================= */
+
+async function sendOrderConfirmation(orderId) {
+
+  try {
+
+    const orderRef =
+      doc(
+        db,
+        "orders",
+        orderId
+      );
+
+    const orderSnap =
+      await getDocs(
+        collection(db, "orders")
+      );
+
+    let order = null;
+
+    orderSnap.forEach(orderDoc => {
+
+      if (orderDoc.id === orderId) {
+
+        order = {
+          id: orderDoc.id,
+          ...orderDoc.data()
+        };
+
+      }
+
+    });
+
+
+    if (!order) {
+
+      alert("Order not found.");
+
+      return;
+
+    }
+
+
+    if (!order.phone) {
+
+      alert(
+        "This order does not have a customer phone number."
+      );
+
+      return;
+
+    }
+
+
+    /* =========================================
+       FORMAT CUSTOMER PHONE FOR WHATSAPP
+       ========================================= */
+
+    let phone =
+      String(order.phone)
+        .replace(/\D/g, "");
+
+
+    if (phone.startsWith("0")) {
+
+      phone =
+        "92" + phone.substring(1);
+
+    }
+
+    else if (
+      phone.startsWith("92")
+    ) {
+
+      // Already international format
+
+    }
+
+    else if (
+      phone.length === 10
+    ) {
+
+      phone =
+        "92" + phone;
+
+    }
+
+
+    /* =========================================
+       ORDER ITEMS
+       ========================================= */
+
+    let itemsText = "";
+
+    if (
+      Array.isArray(order.items) &&
+      order.items.length
+    ) {
+
+      order.items.forEach(item => {
+
+        const quantity =
+          Number(item.quantity || 1);
+
+        const price =
+          Number(item.price || 0);
+
+        const itemTotal =
+          price * quantity;
+
+        itemsText +=
+          `• ${item.name || "Product"} — Qty: ${quantity} — Rs ${itemTotal.toLocaleString()}\n`;
+
+      });
+
+    }
+
+
+    /* =========================================
+       ADDRESS
+       ========================================= */
+
+    const address =
+      order.address
+        ? [
+            order.address.house,
+            order.address.street,
+            order.address.area,
+            order.address.city
+          ]
+          .filter(Boolean)
+          .join(", ")
+        : "Not provided";
+
+
+    /* =========================================
+       MESSAGE
+       ========================================= */
+
+    const message =
+
+`Hi ${order.customerName || "there"}! 👋
+
+Thank you for shopping with LUMA DEALS! 🛍️
+
+We’ve received your order and just need a quick confirmation before we process it.
+
+📦 *Order Details*
+
+Order ID: ${order.trackingId || order.id}
+
+${itemsText}
+💰 Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
+🚚 Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
+💵 *Total: Rs ${Number(order.total || 0).toLocaleString()}
+
+💳 Payment: ${order.paymentMethod || "Cash on Delivery"}
+
+📍 Delivery Address:
+${address}
+
+Would you like us to proceed with your order?
+
+Please reply *“Yes, Confirm”* to confirm your order. 😊
+
+Thank you for choosing *LUMA DEALS*! 💙
+Shop Smart. Find Better Deals.`;
+
+
+    /* =========================================
+       OPEN WHATSAPP
+       ========================================= */
+
+    const whatsappURL =
+      "https://wa.me/" +
+      phone +
+      "?text=" +
+      encodeURIComponent(message);
+
+
+    window.open(
+      whatsappURL,
+      "_blank"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Confirmation message error:",
+      error
+    );
+
+    alert(
+      "❌ Could not prepare confirmation message:\n" +
+      error.message
+    );
+
+  }
+
+}    
+             
+   
 
 /* =========================================
    SAVE COURIER TRACKING
@@ -2449,6 +2867,8 @@ window.loadAdminOrders =
 window.saveCourierTracking =
   saveCourierTracking;
 
+window.sendOrderConfirmation =
+  sendOrderConfirmation;
 
 /* =========================================
    LOAD ORDERS AFTER ADMIN LOGIN
