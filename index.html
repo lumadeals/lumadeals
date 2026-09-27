@@ -6919,7 +6919,207 @@ body.dark-mode .back-settings {
 
 }
   
-  
+  /* ================================
+   LUMA DEALS PHONE AUTH
+   ================================ */
+
+.phone-auth-box {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.phone-auth-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #14171A;
+  margin-bottom: 7px;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  transition: .2s ease;
+}
+
+.phone-input-wrapper:focus-within {
+  border-color: #3BB4EC;
+  box-shadow: 0 0 0 3px rgba(59,180,236,.12);
+}
+
+.country-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 92px;
+  padding: 0 10px;
+  border: none;
+  border-right: 1px solid #e5e7eb;
+  background: #fff;
+  color: #14171A;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.country-selector-btn:hover {
+  background: #f8fafc;
+}
+
+.country-arrow {
+  font-size: 15px;
+  color: #64748b;
+  margin-left: auto;
+}
+
+.phone-number-input {
+  flex: 1;
+  min-width: 0;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 13px;
+  font-size: 15px;
+  color: #14171A;
+  background: transparent;
+}
+
+.phone-number-input::placeholder {
+  color: #9ca3af;
+}
+
+
+/* Country dropdown */
+
+.country-list {
+  position: relative;
+  width: 100%;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  z-index: 9999;
+}
+
+.country-search-box {
+  position: sticky;
+  top: 0;
+  padding: 9px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.country-search-box input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 11px;
+  outline: none;
+  font-size: 14px;
+}
+
+.country-search-box input:focus {
+  border-color: #3BB4EC;
+}
+
+.country-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 13px;
+  border: none;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.country-option:hover {
+  background: #f5f7f9;
+}
+
+.country-option-flag {
+  font-size: 21px;
+}
+
+.country-option-name {
+  flex: 1;
+  font-size: 14px;
+  color: #14171A;
+}
+
+.country-option-code {
+  font-size: 13px;
+  color: #64748b;
+}
+
+
+/* Continue button */
+
+.phone-continue-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 9px;
+  background: #14171A;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.phone-continue-btn:hover {
+  transform: translateY(-1px);
+  opacity: .94;
+}
+
+.phone-continue-btn:active {
+  transform: translateY(0);
+}
+
+
+/* OTP */
+
+.otp-input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+  padding: 0 14px;
+  font-size: 18px;
+  letter-spacing: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.otp-input:focus {
+  border-color: #3BB4EC;
+  box-shadow: 0 0 0 3px rgba(59,180,236,.12);
+}
+
+.change-phone-btn {
+  width: 100%;
+  margin-top: 8px;
+  border: none;
+  background: transparent;
+  color: #3BB4EC;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.phone-recaptcha {
+  margin-top: 12px;
+    }
   
 
 
@@ -7937,7 +8137,117 @@ body.dark-mode .back-settings {
   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
   Sign in with Google
 </button>
+<div class="phone-auth-box">
 
+  <div class="phone-auth-label">
+    Phone number
+  </div>
+
+  <div class="phone-input-wrapper">
+
+    <button
+      type="button"
+      id="country-selector-btn"
+      class="country-selector-btn"
+      onclick="toggleCountryList()"
+    >
+      <span id="selected-country-flag">🇵🇰</span>
+      <span id="selected-country-code">+92</span>
+      <span class="country-arrow">⌄</span>
+    </button>
+
+    <input
+      type="tel"
+      id="phone-number"
+      class="phone-number-input"
+      placeholder="3XX XXXXXXX"
+      autocomplete="tel"
+      inputmode="tel"
+    >
+
+  </div>
+
+
+  <!-- Country list -->
+
+  <div
+    id="country-list"
+    class="country-list"
+    style="display:none;"
+  >
+
+    <div class="country-search-box">
+
+      <input
+        type="text"
+        id="country-search"
+        placeholder="Search country..."
+        oninput="searchCountries()"
+      >
+
+    </div>
+
+    <div id="country-options"></div>
+
+  </div>
+
+
+  <button
+    type="button"
+    id="send-phone-otp-btn"
+    class="phone-continue-btn"
+    onclick="sendPhoneOTP()"
+  >
+    Continue with Phone
+  </button>
+
+
+  <!-- OTP -->
+
+  <div
+    id="phone-otp-box"
+    style="display:none;"
+  >
+
+    <div class="phone-auth-label">
+      Verification code
+    </div>
+
+    <input
+      type="text"
+      id="phone-otp"
+      class="otp-input"
+      placeholder="Enter 6-digit code"
+      inputmode="numeric"
+      maxlength="6"
+      autocomplete="one-time-code"
+    >
+
+    <button
+      type="button"
+      class="phone-continue-btn"
+      onclick="verifyPhoneOTP()"
+    >
+      Verify Code
+    </button>
+
+    <button
+      type="button"
+      class="change-phone-btn"
+      onclick="changePhoneNumber()"
+    >
+      Change phone number
+    </button>
+
+  </div>
+
+
+  <div
+    id="phone-recaptcha"
+    class="phone-recaptcha"
+  ></div>
+
+</div>
     </form>
     <p class="switch-text">Don't you have an account? <a href="javascript:void(0)" onclick="showPage('signup')">Sign Up </a></p>
   </div>
@@ -7967,77 +8277,7 @@ body.dark-mode .back-settings {
   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
   Sign in with Google
 </button>
-      <div style="margin-top:15px; padding-top:15px; border-top:1px solid #e5e7eb;">
-
-  <div style="text-align:center; margin-bottom:10px; color:#64748b; font-size:13px;">
-    OR
-  </div>
-
-  <input
-    type="tel"
-    id="phone-number"
-    placeholder="Phone Number e.g. 03371234567"
-    autocomplete="tel"
-    style="width:100%;"
-  >
-
-  <button
-    type="button"
-    id="send-phone-otp-btn"
-    onclick="sendPhoneOTP()"
-    style="
-      width:100%;
-      background:#14171A;
-      color:#fff;
-      border:none;
-      padding:12px;
-      border-radius:8px;
-      font-size:15px;
-      font-weight:600;
-      cursor:pointer;
-      margin-top:8px;
-    "
-  >
-    📱 Send OTP
-  </button>
-
-  <div id="phone-otp-box" style="display:none; margin-top:10px;">
-
-    <input
-      type="text"
-      id="phone-otp"
-      placeholder="Enter 6-digit OTP"
-      inputmode="numeric"
-      maxlength="6"
-      autocomplete="one-time-code"
-      style="width:100%;"
-    >
-
-    <button
-      type="button"
-      onclick="verifyPhoneOTP()"
-      style="
-        width:100%;
-        background:#3BB4EC;
-        color:#fff;
-        border:none;
-        padding:12px;
-        border-radius:8px;
-        font-size:15px;
-        font-weight:600;
-        cursor:pointer;
-        margin-top:8px;
-      "
-    >
-      ✓ Verify OTP
-    </button>
-
-  </div>
-
-  <!-- Firebase reCAPTCHA -->
-  <div id="phone-recaptcha" style="margin-top:12px;"></div>
-
-      </div>
+      
 
   <button type="submit">Sign Up</button>
 </form>
@@ -12369,6 +12609,204 @@ async function syncWishlistWithFirebase() {
 
   document.title = titles[pageId] || 'Luma Deals';
   }
+
+  <script>
+const phoneCountries = [
+  { name: "Pakistan", flag: "🇵🇰", code: "+92" },
+  { name: "United States", flag: "🇺🇸", code: "+1" },
+  { name: "Canada", flag: "🇨🇦", code: "+1" },
+  { name: "United Kingdom", flag: "🇬🇧", code: "+44" },
+  { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" },
+  { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" },
+  { name: "Qatar", flag: "🇶🇦", code: "+974" },
+  { name: "Kuwait", flag: "🇰🇼", code: "+965" },
+  { name: "Oman", flag: "🇴🇲", code: "+968" },
+  { name: "Bahrain", flag: "🇧🇭", code: "+973" },
+  { name: "India", flag: "🇮🇳", code: "+91" },
+  { name: "Turkey", flag: "🇹🇷", code: "+90" },
+  { name: "Australia", flag: "🇦🇺", code: "+61" },
+  { name: "Germany", flag: "🇩🇪", code: "+49" },
+  { name: "France", flag: "🇫🇷", code: "+33" },
+  { name: "Italy", flag: "🇮🇹", code: "+39" },
+  { name: "Spain", flag: "🇪🇸", code: "+34" },
+  { name: "Malaysia", flag: "🇲🇾", code: "+60" },
+  { name: "Singapore", flag: "🇸🇬", code: "+65" },
+  { name: "China", flag: "🇨🇳", code: "+86" },
+  { name: "Japan", flag: "🇯🇵", code: "+81" },
+  { name: "South Korea", flag: "🇰🇷", code: "+82" },
+  { name: "South Africa", flag: "🇿🇦", code: "+27" }
+];
+
+let selectedCountry = phoneCountries[0];
+
+function renderCountries(list = phoneCountries) {
+
+  const container =
+    document.getElementById("country-options");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  list.forEach(country => {
+
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+    button.className = "country-option";
+
+    button.innerHTML = `
+      <span class="country-option-flag">
+        ${country.flag}
+      </span>
+
+      <span class="country-option-name">
+        ${country.name}
+      </span>
+
+      <span class="country-option-code">
+        ${country.code}
+      </span>
+    `;
+
+    button.onclick = function () {
+
+      selectedCountry = country;
+
+      document.getElementById(
+        "selected-country-flag"
+      ).textContent = country.flag;
+
+      document.getElementById(
+        "selected-country-code"
+      ).textContent = country.code;
+
+      document.getElementById(
+        "country-list"
+      ).style.display = "none";
+
+      document.getElementById(
+        "country-search"
+      ).value = "";
+
+      renderCountries();
+
+    };
+
+    container.appendChild(button);
+
+  });
+}
+
+
+function toggleCountryList() {
+
+  const list =
+    document.getElementById(
+      "country-list"
+    );
+
+  if (!list) return;
+
+  if (list.style.display === "none") {
+
+    list.style.display = "block";
+
+    renderCountries();
+
+    setTimeout(() => {
+
+      const search =
+        document.getElementById(
+          "country-search"
+        );
+
+      if (search) {
+        search.focus();
+      }
+
+    }, 50);
+
+  } else {
+
+    list.style.display = "none";
+
+  }
+}
+
+
+function searchCountries() {
+
+  const input =
+    document.getElementById(
+      "country-search"
+    );
+
+  if (!input) return;
+
+  const query =
+    input.value
+      .toLowerCase()
+      .trim();
+
+  const filtered =
+    phoneCountries.filter(country =>
+      country.name
+        .toLowerCase()
+        .includes(query) ||
+      country.code
+        .includes(query)
+    );
+
+  renderCountries(filtered);
+}
+
+
+function changePhoneNumber() {
+
+  const otpBox =
+    document.getElementById(
+      "phone-otp-box"
+    );
+
+  const sendButton =
+    document.getElementById(
+      "send-phone-otp-btn"
+    );
+
+  if (otpBox) {
+    otpBox.style.display = "none";
+  }
+
+  if (sendButton) {
+    sendButton.style.display = "block";
+  }
+
+  const otp =
+    document.getElementById(
+      "phone-otp"
+    );
+
+  if (otp) {
+    otp.value = "";
+  }
+
+  window.phoneConfirmationResult = null;
+}
+
+
+/* Default Pakistan */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    renderCountries();
+
+  }
+);
+</script>
 </script>
   <footer>
   <div class="footer-container">
