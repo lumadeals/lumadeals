@@ -42,9 +42,6 @@
     signInWithPhoneNumber
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  window.firebaseGoogleProvider = new GoogleAuthProvider();
-  window.firebaseSignInWithPopup = signInWithPopup;
-
   import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -72,6 +69,13 @@
   window.firebaseApp = app;
   window.auth = auth;
 
+  /* =========================
+     EXISTING AUTH FUNCTIONS
+     ========================= */
+
+  window.firebaseGoogleProvider = new GoogleAuthProvider();
+  window.firebaseSignInWithPopup = signInWithPopup;
+
   window.firebaseCreateUser = createUserWithEmailAndPassword;
   window.firebaseUpdateProfile = updateProfile;
   window.firebaseSignIn = signInWithEmailAndPassword;
@@ -79,41 +83,69 @@
   window.firebaseOnAuthChange = onAuthStateChanged;
   window.firebaseSignOut = signOut;
 
-  /* ============================
-     LUMA DEALS — PHONE AUTH
-     ============================ */
+  window.firebaseAuth = auth;
+  window.currentUser = null;
 
-  window.firebaseRecaptchaVerifier = null;
-  window.firebasePhoneConfirmation = null;
+
+  /* =========================
+     PHONE OTP AUTH
+     ========================= */
+
+  window.phoneRecaptchaVerifier = null;
+  window.phoneConfirmationResult = null;
+
 
   window.setupPhoneRecaptcha = function () {
 
-    if (window.firebaseRecaptchaVerifier) {
-      return window.firebaseRecaptchaVerifier;
+    if (window.phoneRecaptchaVerifier) {
+      return window.phoneRecaptchaVerifier;
     }
 
-    window.firebaseRecaptchaVerifier = new RecaptchaVerifier(
+    const recaptchaContainer =
+      document.getElementById("phone-recaptcha");
+
+    if (!recaptchaContainer) {
+      console.error("phone-recaptcha element not found.");
+      return null;
+    }
+
+    window.phoneRecaptchaVerifier = new RecaptchaVerifier(
       auth,
       "phone-recaptcha",
       {
         size: "normal",
+
         callback: function () {
           console.log("Phone reCAPTCHA verified.");
         },
+
         "expired-callback": function () {
-          window.firebaseRecaptchaVerifier = null;
           console.log("Phone reCAPTCHA expired.");
+
+          if (window.phoneRecaptchaVerifier) {
+            try {
+              window.phoneRecaptchaVerifier.clear();
+            } catch (e) {}
+
+            window.phoneRecaptchaVerifier = null;
+          }
         }
       }
     );
 
-    return window.firebaseRecaptchaVerifier;
+    return window.phoneRecaptchaVerifier;
   };
+
 
   window.sendPhoneOTP = async function () {
 
-    const phoneInput = document.getElementById("phone-number");
-    if (!phoneInput) return;
+    const phoneInput =
+      document.getElementById("phone-number");
+
+    if (!phoneInput) {
+      console.error("phone-number input not found.");
+      return;
+    }
 
     let phone = phoneInput.value.trim();
 
@@ -122,9 +154,10 @@
       return;
     }
 
-    /* Pakistan number conversion:
+
+    /* Pakistan format:
        03371234567
-       becomes
+       →
        +923371234567
     */
 
@@ -133,103 +166,470 @@
     }
 
     if (!phone.startsWith("+92")) {
-      showToast("Please enter a valid Pakistani phone number.");
+      showToast(
+        "Please enter a valid Pakistani phone number."
+      );
       return;
     }
+
 
     try {
 
-      const appVerifier = window.setupPhoneRecaptcha();
+      const appVerifier =
+        window.setupPhoneRecaptcha();
 
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phone,
-        appVerifier
-      );
+      if (!appVerifier) {
+        showToast("Please refresh the page and try again.");
+        return;
+      }
 
-      window.firebasePhoneConfirmation = confirmationResult;
 
-      document.getElementById("phone-otp-box").style.display = "block";
-      document.getElementById("send-phone-otp-btn").style.display = "none";
+      const confirmationResult =
+        await signInWithPhoneNumber(
+          auth,
+          phone,
+          appVerifier
+        );
 
-      showToast("OTP sent to your phone.");
+
+      window.phoneConfirmationResult =
+        confirmationResult;
+
+
+      const otpBox =
+        document.getElementById("phone-otp-box");
+
+      const sendButton =
+        document.getElementById("send-phone-otp-btn");
+
+
+      if (otpBox) {
+        otpBox.style.display = "block";
+      }
+
+      if (sendButton) {
+        sendButton.style.display = "none";
+      }
+
+
+      showToast("OTP sent successfully.");
 
     } catch (error) {
 
-      console.error("Phone OTP error:", error);
+      console.error(
+        "Phone OTP error:",
+        error
+      );
 
-      window.firebaseRecaptchaVerifier = null;
 
-      let message = "Unable to send OTP.";
+      if (window.phoneRecaptchaVerifier) {
+        try {
+          window.phoneRecaptchaVerifier.clear();
+        } catch (e) {}
+
+        window.phoneRecaptchaVerifier = null;
+      }
+
+
+      let message =
+        "Unable to send OTP.";
 
       if (error.code === "auth/invalid-phone-number") {
-        message = "Invalid phone number.";
-      } else if (error.code === "auth/too-many-requests") {
-        message = "Too many attempts. Please try again later.";
-      } else if (error.code === "auth/quota-exceeded") {
-        message = "SMS limit reached. Please try again later.";
+        message =
+          "Invalid phone number.";
+      }
+
+      else if (error.code === "auth/too-many-requests") {
+        message =
+          "Too many attempts. Please try again later.";
+      }
+
+      else if (error.code === "auth/quota-exceeded") {
+        message =
+          "SMS limit reached. Please try again later.";
+      }
+
+      else if (error.code === "auth/captcha-check-failed") {
+        message =
+          "reCAPTCHA verification failed.";
       }
 
       showToast(message);
-
     }
   };
 
+
   window.verifyPhoneOTP = async function () {
 
-    const otpInput = document.getElementById("phone-otp");
+    const otpInput =
+      document.getElementById("phone-otp");
 
-    if (!otpInput) return;
+    if (!otpInput) {
+      return;
+    }
 
-    const otp = otpInput.value.trim();
+    const otp =
+      otpInput.value.trim();
+
 
     if (!otp || otp.length !== 6) {
-      showToast("Please enter the 6-digit OTP.");
+      showToast(
+        "Please enter the 6-digit OTP."
+      );
       return;
     }
 
-    if (!window.firebasePhoneConfirmation) {
-      showToast("Please request a new OTP first.");
+
+    if (!window.phoneConfirmationResult) {
+      showToast(
+        "Please request a new OTP first."
+      );
       return;
     }
+
 
     try {
 
       const result =
-        await window.firebasePhoneConfirmation.confirm(otp);
+        await window.phoneConfirmationResult.confirm(
+          otp
+        );
 
-      const user = result.user;
+      const user =
+        result.user;
 
-      console.log("Phone login successful:", user.uid);
+      console.log(
+        "Phone authentication successful:",
+        user.uid
+      );
 
-      showToast("Phone login successful!");
 
-      setTimeout(() => {
-        showPage("home");
+      showToast(
+        "Phone login successful!"
+      );
+
+
+      /* Reset OTP state */
+
+      window.phoneConfirmationResult =
+        null;
+
+
+      if (window.phoneRecaptchaVerifier) {
+        try {
+          window.phoneRecaptchaVerifier.clear();
+        } catch (e) {}
+
+        window.phoneRecaptchaVerifier =
+          null;
+      }
+
+
+      /* Go home after successful login */
+
+      setTimeout(function () {
+
+        if (typeof showPage === "function") {
+          showPage("home");
+        }
+
       }, 800);
+
 
     } catch (error) {
 
-      console.error("OTP verification error:", error);
+      console.error(
+        "OTP verification error:",
+        error
+      );
 
-      let message = "Invalid OTP.";
 
-      if (error.code === "auth/invalid-verification-code") {
-        message = "Incorrect OTP. Please try again.";
-      } else if (error.code === "auth/code-expired") {
-        message = "OTP expired. Please request a new one.";
+      let message =
+        "Incorrect OTP.";
+
+      if (
+        error.code ===
+        "auth/invalid-verification-code"
+      ) {
+        message =
+          "Incorrect OTP. Please try again.";
       }
 
-      showToast(message);
+      else if (
+        error.code ===
+        "auth/code-expired"
+      ) {
+        message =
+          "OTP expired. Please request a new OTP.";
+      }
 
+
+      showToast(message);
     }
   };
 
-  window.currentUser = null;
 
-  onAuthStateChanged(auth, function(user) {
-    window.currentUser = user;
-  });
+  /* =========================
+     FIREBASE AUTH STATE
+     ========================= */
+
+  onAuthStateChanged(
+    auth,
+    function(user) {
+
+      window.currentUser = user;
+
+      console.log(
+        "Firebase user:",
+        user
+      );
+
+    }
+  );
+
+
+  /* =========================
+     FIRESTORE PRODUCTS
+     ========================= */
+
+  async function loadProductsFromFirestore() {
+
+    const homeGrid =
+      document.getElementById(
+        "home-product-grid"
+      );
+
+    const shopGrid =
+      document.getElementById(
+        "shop-product-grid"
+      );
+
+
+    const skeletonCard = `
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-btn"></div>
+      </div>
+    `;
+
+
+    const loadingHTML =
+      '<div class="skeleton-grid">' +
+      skeletonCard.repeat(6) +
+      '</div>';
+
+
+    if (homeGrid) {
+      homeGrid.innerHTML =
+        loadingHTML;
+    }
+
+    if (shopGrid) {
+      shopGrid.innerHTML =
+        loadingHTML;
+    }
+
+
+    try {
+
+      const {
+        getFirestore,
+        collection,
+        getDocs
+      } = await import(
+        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+      );
+
+
+      const db =
+        getFirestore(
+          window.firebaseApp
+        );
+
+      window.firebaseDB =
+        db;
+
+
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "products"
+          )
+        );
+
+
+      window.products = [];
+
+
+      snapshot.forEach(function(doc) {
+
+        window.products.push({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        });
+
+      });
+
+
+      console.log(
+        "Products loaded:",
+        window.products.length
+      );
+
+
+      if (
+        typeof filterCat ===
+        "function"
+      ) {
+
+        filterCat("All");
+
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "Products loading error:",
+        error
+      );
+
+
+      window.products = [];
+
+
+      const errorHTML = `
+        <div style="
+          grid-column:1/-1;
+          text-align:center;
+          padding:40px 20px;
+          color:#666;
+        ">
+          <div style="
+            font-size:40px;
+            margin-bottom:10px;
+          ">
+            ⚠️
+          </div>
+
+          <strong>
+            Unable to load products
+          </strong>
+
+          <p style="
+            margin-top:8px;
+            font-size:14px;
+          ">
+            Please refresh the page and try again.
+          </p>
+        </div>
+      `;
+
+
+      if (homeGrid) {
+        homeGrid.innerHTML =
+          errorHTML;
+      }
+
+      if (shopGrid) {
+        shopGrid.innerHTML =
+          errorHTML;
+      }
+    }
+  }
+
+
+  /* =========================
+     DELETE BASE64 PRODUCTS
+     ========================= */
+
+  async function deleteBase64Products() {
+
+    const {
+      getFirestore,
+      collection,
+      getDocs,
+      deleteDoc,
+      doc
+    } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+    );
+
+
+    const db =
+      getFirestore(
+        window.firebaseApp
+      );
+
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "products"
+        )
+      );
+
+
+    let deletedCount = 0;
+
+
+    for (
+      const docSnap
+      of snapshot.docs
+    ) {
+
+      const data =
+        docSnap.data();
+
+
+      if (
+        data.img &&
+        data.img.startsWith(
+          "data:image"
+        )
+      ) {
+
+        await deleteDoc(
+          doc(
+            db,
+            "products",
+            docSnap.id
+          )
+        );
+
+        deletedCount++;
+
+      }
+
+    }
+
+
+    alert(
+      `Deleted ${deletedCount} slow products!`
+    );
+  }
+
+
+  window.deleteBase64Products =
+    deleteBase64Products;
+
+
+  /* =========================
+     LOAD PRODUCTS
+     ========================= */
+
+  window.addEventListener(
+    "DOMContentLoaded",
+    loadProductsFromFirestore
+  );
+
 </script>
 <style>
   body {
