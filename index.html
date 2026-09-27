@@ -8137,110 +8137,217 @@ body.dark-mode .back-settings {
   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
   Sign in with Google
 </button>
-<div class="phone-auth-box">
+</div>
+  <!-- =========================================
+     SIGN IN WITH PHONE
+========================================= -->
 
-  <div class="phone-auth-label">
+<button
+  type="button"
+  id="phone-signin-toggle"
+  class="phone-signin-toggle"
+  onclick="openPhoneSignIn()"
+>
+  <svg
+    class="phone-login-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <rect
+      x="7"
+      y="2.5"
+      width="10"
+      height="19"
+      rx="2.5"
+    ></rect>
+
+    <line
+      x1="10"
+      y1="5.5"
+      x2="14"
+      y2="5.5"
+    ></line>
+
+    <circle
+      cx="12"
+      cy="18.5"
+      r=".7"
+    ></circle>
+  </svg>
+
+  <span>Sign in with Phone number</span>
+</button>
+
+
+<!-- =========================================
+     PHONE SIGN IN AREA
+========================================= -->
+
+<div
+  id="phone-signin-area"
+  class="phone-signin-area"
+  style="display:none;"
+>
+
+  <div class="phone-number-label">
     Phone number
   </div>
 
-  <div class="phone-input-wrapper">
+
+  <!-- PHONE NUMBER FIELD -->
+
+  <div class="phone-number-field">
 
     <button
       type="button"
-      id="country-selector-btn"
-      class="country-selector-btn"
-      onclick="toggleCountryList()"
+      class="phone-country-button"
+      onclick="togglePhoneCountries()"
+      aria-label="Select country"
     >
-      <span id="selected-country-flag">🇵🇰</span>
-      <span id="selected-country-code">+92</span>
-      <span class="country-arrow">⌄</span>
+
+      <span id="selected-phone-flag">
+        🇵🇰
+      </span>
+
+      <span id="selected-phone-code">
+        +92
+      </span>
+
+      <span class="phone-country-arrow">
+        ⌄
+      </span>
+
     </button>
+
 
     <input
       type="tel"
       id="phone-number"
       class="phone-number-input"
-      placeholder="3XX XXXXXXX"
-      autocomplete="tel"
+      placeholder="300 1234567"
       inputmode="tel"
+      autocomplete="tel"
     >
 
   </div>
 
 
-  <!-- Country list -->
+  <!-- =========================================
+       COUNTRY MENU
+  ========================================= -->
 
   <div
-    id="country-list"
-    class="country-list"
+    id="phone-country-menu"
+    class="phone-country-menu"
     style="display:none;"
   >
 
-    <div class="country-search-box">
+    <div class="phone-country-search">
+
+      <svg
+        class="country-search-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle
+          cx="11"
+          cy="11"
+          r="7"
+        ></circle>
+
+        <line
+          x1="16.5"
+          y1="16.5"
+          x2="21"
+          y2="21"
+        ></line>
+      </svg>
 
       <input
         type="text"
-        id="country-search"
-        placeholder="Search country..."
-        oninput="searchCountries()"
+        id="phone-country-search"
+        placeholder="Search country"
+        oninput="searchPhoneCountries()"
       >
 
     </div>
 
-    <div id="country-options"></div>
+
+    <div id="phone-country-list"></div>
 
   </div>
 
+
+  <!-- =========================================
+       CONTINUE BUTTON
+  ========================================= -->
 
   <button
     type="button"
     id="send-phone-otp-btn"
-    class="phone-continue-btn"
+    class="phone-continue-button"
     onclick="sendPhoneOTP()"
   >
-    Continue with Phone
+    Continue
   </button>
 
 
-  <!-- OTP -->
+  <!-- =========================================
+       OTP AREA
+  ========================================= -->
 
   <div
     id="phone-otp-box"
+    class="phone-otp-box"
     style="display:none;"
   >
 
-    <div class="phone-auth-label">
-      Verification code
+    <div class="phone-number-label">
+      Enter verification code
     </div>
+
 
     <input
       type="text"
       id="phone-otp"
-      class="otp-input"
-      placeholder="Enter 6-digit code"
-      inputmode="numeric"
+      class="phone-otp-input"
+      placeholder="000000"
       maxlength="6"
+      inputmode="numeric"
       autocomplete="one-time-code"
     >
 
-    <button
-      type="button"
-      class="phone-continue-btn"
-      onclick="verifyPhoneOTP()"
-    >
-      Verify Code
-    </button>
 
     <button
       type="button"
-      class="change-phone-btn"
+      class="phone-continue-button"
+      onclick="verifyPhoneOTP()"
+    >
+      Verify
+    </button>
+
+
+    <button
+      type="button"
+      class="phone-change-button"
       onclick="changePhoneNumber()"
     >
-      Change phone number
+      Use a different number
     </button>
 
   </div>
 
+
+  <!-- Firebase reCAPTCHA -->
 
   <div
     id="phone-recaptcha"
