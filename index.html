@@ -5,6 +5,7 @@
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
   <title>Luma Deals</title>
+  <link rel="canonical" href="https://www.lumadeals.shop/">
   <meta name="description" content="Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.">
   <meta name="keywords" content="Luma Deals, online shopping Pakistan, smart gadgets, home utilities, cash on delivery">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8586,6 +8587,8 @@ function removeFromCart(index) {
 
 function showPage(pageName, updateUrl = true) {
 
+  updatePageTitle(pageName);
+
   document.querySelectorAll('.page').forEach(p =>
     p.classList.remove('active')
   );
@@ -8667,7 +8670,6 @@ function showPage(pageName, updateUrl = true) {
       restoreWishlistButtons();
     }
   }
-
   window.scrollTo(0, 0);
 
   if (pageName === 'login') {
@@ -8692,7 +8694,8 @@ if (updateUrl) {
     url
   );
 }
-      }
+}
+
 
      function submitContact(e) {
   e.preventDefault();
@@ -11727,7 +11730,20 @@ async function syncWishlistWithFirebase() {
     btn.classList.remove('listening');
   };
   }
-  
+
+  function updatePageTitle(pageId) {
+  const titles = {
+    'home': 'Luma Deals - Online Shopping in Pakistan',
+    'shop': 'Shop All Products - Luma Deals',
+    'contact': 'Contact Us - Luma Deals',
+    'about': 'About Us - Luma Deals',
+    'login': 'Login - Luma Deals',
+    'orders': 'My Orders - Luma Deals',
+    'profile': 'My Account - Luma Deals'
+  };
+
+  document.title = titles[pageId] || 'Luma Deals';
+  }
 </script>
   <footer>
   <div class="footer-container">
