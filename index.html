@@ -9315,7 +9315,7 @@ function submitSignup(event) {
     .then(() => {
       emailjs.send("service_2gzvpcb", "template_rzeref6", {
         to_name: name,
-        to_email: email
+        email: email
       }).catch((err) => {
         console.error('Welcome email failed:', err);
       });
