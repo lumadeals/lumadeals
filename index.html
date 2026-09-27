@@ -35,22 +35,28 @@
 }
 </script>
 <script type="module">
-  import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  
-
-window.firebaseGoogleProvider = new GoogleAuthProvider();
-window.firebaseSignInWithPopup = signInWithPopup;
   import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  signOut,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    GoogleAuthProvider,
+    signInWithPopup,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  window.firebaseGoogleProvider = new GoogleAuthProvider();
+  window.firebaseSignInWithPopup = signInWithPopup;
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  
+
   const firebaseConfig = {
     apiKey: "AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
     authDomain: "luma-deals.firebaseapp.com",
@@ -62,67 +68,168 @@ window.firebaseSignInWithPopup = signInWithPopup;
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-window.firebaseApp = app;
+
+  window.firebaseApp = app;
   window.auth = auth;
+
   window.firebaseCreateUser = createUserWithEmailAndPassword;
   window.firebaseUpdateProfile = updateProfile;
-  async function loadProductsFromFirestore() {
-  const homeGrid = document.getElementById('home-product-grid');
-  const shopGrid = document.getElementById('shop-product-grid');
-  const skeletonCard = `
-  <div class="skeleton-card">
-    <div class="skeleton-img"></div>
-    <div class="skeleton-line"></div>
-    <div class="skeleton-line short"></div>
-    <div class="skeleton-btn"></div>
-  </div>`;
-const loadingHTML = '<div class="skeleton-grid">' + skeletonCard.repeat(6) + '</div>';
-  if (homeGrid) homeGrid.innerHTML = loadingHTML;
-  if (shopGrid) shopGrid.innerHTML = loadingHTML;
-
-  const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const db = getFirestore(window.firebaseApp);
-window.firebaseDB = db;
-const snapshot = await getDocs(collection(db, "products"));
-
-window.products = [];
-
-snapshot.forEach((doc) => {
-  window.products.push({
-    id: doc.id,
-    ...doc.data()
-  });
-});
-
-filterCat('All');
-  }
-  async function deleteBase64Products() {
-  const { getFirestore, collection, getDocs, deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const db = getFirestore(window.firebaseApp);
-  const snapshot = await getDocs(collection(db, "products"));
-
-  let deletedCount = 0;
-  for (const docSnap of snapshot.docs) {
-    const data = docSnap.data();
-    if (data.img && data.img.startsWith("data:image")) {
-      await deleteDoc(doc(db, "products", docSnap.id));
-      deletedCount++;
-    }
-  }
-  alert(`Deleted ${deletedCount} slow products!`);
-}
-window.deleteBase64Products = deleteBase64Products;
-window.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
-  window.firebaseAuth = auth;
-  window.firebaseCreateUser = createUserWithEmailAndPassword;
   window.firebaseSignIn = signInWithEmailAndPassword;
   window.firebaseResetPassword = sendPasswordResetEmail;
   window.firebaseOnAuthChange = onAuthStateChanged;
   window.firebaseSignOut = signOut;
+
+  /* ============================
+     LUMA DEALS — PHONE AUTH
+     ============================ */
+
+  window.firebaseRecaptchaVerifier = null;
+  window.firebasePhoneConfirmation = null;
+
+  window.setupPhoneRecaptcha = function () {
+
+    if (window.firebaseRecaptchaVerifier) {
+      return window.firebaseRecaptchaVerifier;
+    }
+
+    window.firebaseRecaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "phone-recaptcha",
+      {
+        size: "normal",
+        callback: function () {
+          console.log("Phone reCAPTCHA verified.");
+        },
+        "expired-callback": function () {
+          window.firebaseRecaptchaVerifier = null;
+          console.log("Phone reCAPTCHA expired.");
+        }
+      }
+    );
+
+    return window.firebaseRecaptchaVerifier;
+  };
+
+  window.sendPhoneOTP = async function () {
+
+    const phoneInput = document.getElementById("phone-number");
+    if (!phoneInput) return;
+
+    let phone = phoneInput.value.trim();
+
+    if (!phone) {
+      showToast("Please enter your phone number.");
+      return;
+    }
+
+    /* Pakistan number conversion:
+       03371234567
+       becomes
+       +923371234567
+    */
+
+    if (phone.startsWith("03")) {
+      phone = "+92" + phone.substring(1);
+    }
+
+    if (!phone.startsWith("+92")) {
+      showToast("Please enter a valid Pakistani phone number.");
+      return;
+    }
+
+    try {
+
+      const appVerifier = window.setupPhoneRecaptcha();
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+
+      window.firebasePhoneConfirmation = confirmationResult;
+
+      document.getElementById("phone-otp-box").style.display = "block";
+      document.getElementById("send-phone-otp-btn").style.display = "none";
+
+      showToast("OTP sent to your phone.");
+
+    } catch (error) {
+
+      console.error("Phone OTP error:", error);
+
+      window.firebaseRecaptchaVerifier = null;
+
+      let message = "Unable to send OTP.";
+
+      if (error.code === "auth/invalid-phone-number") {
+        message = "Invalid phone number.";
+      } else if (error.code === "auth/too-many-requests") {
+        message = "Too many attempts. Please try again later.";
+      } else if (error.code === "auth/quota-exceeded") {
+        message = "SMS limit reached. Please try again later.";
+      }
+
+      showToast(message);
+
+    }
+  };
+
+  window.verifyPhoneOTP = async function () {
+
+    const otpInput = document.getElementById("phone-otp");
+
+    if (!otpInput) return;
+
+    const otp = otpInput.value.trim();
+
+    if (!otp || otp.length !== 6) {
+      showToast("Please enter the 6-digit OTP.");
+      return;
+    }
+
+    if (!window.firebasePhoneConfirmation) {
+      showToast("Please request a new OTP first.");
+      return;
+    }
+
+    try {
+
+      const result =
+        await window.firebasePhoneConfirmation.confirm(otp);
+
+      const user = result.user;
+
+      console.log("Phone login successful:", user.uid);
+
+      showToast("Phone login successful!");
+
+      setTimeout(() => {
+        showPage("home");
+      }, 800);
+
+    } catch (error) {
+
+      console.error("OTP verification error:", error);
+
+      let message = "Invalid OTP.";
+
+      if (error.code === "auth/invalid-verification-code") {
+        message = "Incorrect OTP. Please try again.";
+      } else if (error.code === "auth/code-expired") {
+        message = "OTP expired. Please request a new one.";
+      }
+
+      showToast(message);
+
+    }
+  };
+
   window.currentUser = null;
-onAuthStateChanged(auth, function(user) {
-  window.currentUser = user;
-});
+
+  onAuthStateChanged(auth, function(user) {
+    window.currentUser = user;
+  });
 </script>
 <style>
   body {
@@ -7460,6 +7567,77 @@ body.dark-mode .back-settings {
   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
   Sign in with Google
 </button>
+      <div style="margin-top:15px; padding-top:15px; border-top:1px solid #e5e7eb;">
+
+  <div style="text-align:center; margin-bottom:10px; color:#64748b; font-size:13px;">
+    OR
+  </div>
+
+  <input
+    type="tel"
+    id="phone-number"
+    placeholder="Phone Number e.g. 03371234567"
+    autocomplete="tel"
+    style="width:100%;"
+  >
+
+  <button
+    type="button"
+    id="send-phone-otp-btn"
+    onclick="sendPhoneOTP()"
+    style="
+      width:100%;
+      background:#14171A;
+      color:#fff;
+      border:none;
+      padding:12px;
+      border-radius:8px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      margin-top:8px;
+    "
+  >
+    📱 Send OTP
+  </button>
+
+  <div id="phone-otp-box" style="display:none; margin-top:10px;">
+
+    <input
+      type="text"
+      id="phone-otp"
+      placeholder="Enter 6-digit OTP"
+      inputmode="numeric"
+      maxlength="6"
+      autocomplete="one-time-code"
+      style="width:100%;"
+    >
+
+    <button
+      type="button"
+      onclick="verifyPhoneOTP()"
+      style="
+        width:100%;
+        background:#3BB4EC;
+        color:#fff;
+        border:none;
+        padding:12px;
+        border-radius:8px;
+        font-size:15px;
+        font-weight:600;
+        cursor:pointer;
+        margin-top:8px;
+      "
+    >
+      ✓ Verify OTP
+    </button>
+
+  </div>
+
+  <!-- Firebase reCAPTCHA -->
+  <div id="phone-recaptcha" style="margin-top:12px;"></div>
+
+      </div>
 
   <button type="submit">Sign Up</button>
 </form>
