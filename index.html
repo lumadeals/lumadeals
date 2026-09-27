@@ -9301,31 +9301,72 @@ function viewOrderAfterSuccess() {
 
   }
 
-function submitSignup(event) {
+async function submitSignup(event) {
   event.preventDefault();
 
   const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value;
+  const email = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
 
-  window.firebaseCreateUser(window.auth, email, password)
-    .then((userCredential) => {
-      return window.firebaseUpdateProfile(userCredential.user, { displayName: name });
-    })
-    .then(() => {
-      emailjs.send("service_2gzvpcb", "template_rzeref6", {
-        to_name: name,
-        email: email
-      }).catch((err) => {
-        console.error('Welcome email failed:', err);
-      });
+  if (!name || !email || !password) {
+    showToast('Please fill all fields.');
+    return;
+  }
 
-      showToast('Account created successfully!');
+  try {
+    // 1. Create Firebase account
+    const userCredential = await window.firebaseCreateUser(
+      window.auth,
+      email,
+      password
+    );
+
+    // 2. Save user's name in Firebase Auth
+    await window.firebaseUpdateProfile(
+      userCredential.user,
+      { displayName: name }
+    );
+
+    // 3. Send Welcome Email through EmailJS
+    try {
+      const response = await emailjs.send(
+        "service_2gzvpcb",
+        "template_rzeref6",
+        {
+          to_name: name,
+          email: email
+        }
+      );
+
+      console.log("Welcome email sent successfully:", response.status, response.text);
+
+    } catch (emailError) {
+      console.error("Welcome email failed:", emailError);
+    }
+
+    // 4. Show success message
+    showToast('Account created successfully!');
+
+    // 5. Open login page
+    setTimeout(() => {
       showPage('login');
-    })
-    .catch((error) => {
-      showToast('Signup failed: ' + error.message);
-    });
+    }, 800);
+
+  } catch (error) {
+    console.error("Signup error:", error);
+
+    let message = error.message;
+
+    if (error.code === 'auth/email-already-in-use') {
+      message = 'This email is already registered.';
+    } else if (error.code === 'auth/invalid-email') {
+      message = 'Please enter a valid email address.';
+    } else if (error.code === 'auth/weak-password') {
+      message = 'Password is too weak.';
+    }
+
+    showToast('Signup failed: ' + message);
+  }
 }
 
 function showToast(message) {
