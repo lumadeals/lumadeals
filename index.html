@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function() {
+    emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
+  })();
+</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6818700482266745"
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
@@ -117,12 +123,6 @@ window.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
 onAuthStateChanged(auth, function(user) {
   window.currentUser = user;
 });
-</script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-  (function() {
-    emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
-  })();
 </script>
 <style>
   body {
