@@ -1029,8 +1029,7 @@ class="status">
   </div>
 
   <div class="help">
-    Customer order select karo, courier choose karo aur
-    courier tracking ID save karo.
+    Select the customer order, choose the courier, and save the courier tracking ID.
   </div>
 
   <div id="adminOrdersList">
@@ -1933,8 +1932,18 @@ const courierTrackingURLs = {
       + encodeURIComponent(trackingId);
   },
 
-  "Other": function(trackingId) {
 
+"DEX": function(trackingId) {
+
+    /*
+      M&P tracking page.
+    */
+    return "https://www.dex.com.pk/tracking?references="
+      + encodeURIComponent(trackingId);
+
+  
+  "Other": function(trackingId) {
+  
     /*
       If you use another courier,
       admin can still save the tracking ID.
@@ -2218,7 +2227,7 @@ async function loadAdminOrders() {
                 margin-bottom:5px;
               "
             >
-              🛍️ Order Items
+               Order Items
             </div>
 
             ${itemsHTML}
@@ -2297,7 +2306,7 @@ async function loadAdminOrders() {
               font-size:13px;
             "
           >
-            💵
+            
             <strong>
               Payment:
             </strong>
@@ -2326,7 +2335,7 @@ async function loadAdminOrders() {
               margin-bottom:12px;
             "
           >
-            📱 Send Order Confirmation
+             Send Order Confirmation
           </button>
 
 
@@ -2656,29 +2665,29 @@ async function sendOrderConfirmation(orderId) {
 
     const message =
 
-`Hi ${order.customerName || "there"}! 👋
+`Hi ${order.customerName || "there"}! 
 
-Thank you for shopping with LUMA DEALS! 🛍️
+Thank you for shopping with LUMA DEALS! 
 
 We’ve received your order and just need a quick confirmation before we process it.
 
-📦 *Order Details*
+ *Order Details*
 
 Order ID: ${order.trackingId || order.id}
 
 ${itemsText}
-💰 Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
-🚚 Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
-💵 *Total: Rs ${Number(order.total || 0).toLocaleString()}
+ Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
+Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
+ *Total: Rs ${Number(order.total || 0).toLocaleString()}
 
-💳 Payment: ${order.paymentMethod || "Cash on Delivery"}
+ Payment: ${order.paymentMethod || "Cash on Delivery"}
 
-📍 Delivery Address:
+ Delivery Address:
 ${address}
 
 Would you like us to proceed with your order?
 
-Please reply *“Yes, Confirm”* to confirm your order. 😊
+Please reply *“Yes, Confirm”* to confirm your order. 
 
 Thank you for choosing *LUMA DEALS*! 💙
 Shop Smart. Find Better Deals.`;
