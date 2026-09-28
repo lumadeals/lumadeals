@@ -2402,6 +2402,13 @@ async function loadAdminOrders() {
             </option>
 
             <option
+              value="DEX"
+              ${order.courier === "DEX" ? "selected" : ""}
+            >
+              DEX 
+            </option>
+
+            <option
               value="Other"
               ${order.courier === "Other" ? "selected" : ""}
             >
@@ -2668,17 +2675,15 @@ async function sendOrderConfirmation(orderId) {
 `Hi ${order.customerName || "there"}! 
 
 Thank you for shopping with LUMA DEALS! 
-
 We’ve received your order and just need a quick confirmation before we process it.
 
  *Order Details*
-
 Order ID: ${order.trackingId || order.id}
 
 ${itemsText}
- Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
+Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
 Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
- Total: Rs ${Number(order.total || 0).toLocaleString()}
+Total: Rs ${Number(order.total || 0).toLocaleString()}
 
  Payment: ${order.paymentMethod || "Cash on Delivery"}
 
@@ -2686,10 +2691,9 @@ Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
 ${address}
 
 Would you like us to proceed with your order?
-
 Please reply *“Yes, Confirm”* to confirm your order. 
 
-Thank you for choosing *LUMA DEALS*! 💙
+Thank you for choosing *LUMA DEALS*! 
 Shop Smart. Find Better Deals.`;
 
 
