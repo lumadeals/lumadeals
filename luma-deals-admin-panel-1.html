@@ -1941,7 +1941,7 @@ const courierTrackingURLs = {
     return "https://www.dex.com.pk/tracking?references="
       + encodeURIComponent(trackingId);
 
-  
+},
   "Other": function(trackingId) {
   
     /*
@@ -2678,7 +2678,7 @@ Order ID: ${order.trackingId || order.id}
 ${itemsText}
  Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
 Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
- *Total: Rs ${Number(order.total || 0).toLocaleString()}
+ Total: Rs ${Number(order.total || 0).toLocaleString()}
 
  Payment: ${order.paymentMethod || "Cash on Delivery"}
 
