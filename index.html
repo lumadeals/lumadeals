@@ -9605,16 +9605,17 @@ function selectSuggestion(id) {
     }
     </script>
 <script>
-function showCheckoutForm() {
+               
+      function showCheckoutPage() {
 
-  if (typeof cart === 'undefined' || cart.length === 0) {
-    alert("Your cart is empty! Add product first");
+  if (typeof cart === 'undefined' || !Array.isArray(cart) || cart.length === 0) {
+    alert("Your cart is empty! Add a product first.");
     return;
   }
 
-  const cartContent = document.querySelector('.cart-sidebar');
+  const cartSidebar = document.querySelector('.cart-sidebar');
 
-  if (!cartContent) {
+  if (!cartSidebar) {
     console.error("Cart sidebar not found.");
     return;
   }
@@ -9622,622 +9623,509 @@ function showCheckoutForm() {
   let itemsHTML = '';
   let totalAmount = 0;
 
-  cart.forEach(function(item) {
+  cart.forEach(function (item) {
 
-    const quantity = item.quantity || 1;
-    const price = Number(item.price) || 0;
+    const quantity = Number(item.quantity) || 1;
+    const price = Number(item.salePrice ?? item.price ?? 0);
+    const itemTotal = price * quantity;
 
-    totalAmount += price * quantity;
+    totalAmount += itemTotal;
 
-    const imgSrc =
-      item.image ||
+    const image =
       item.img ||
-      item.photo ||
-      '';
+      item.image ||
+      (Array.isArray(item.images) ? item.images[0] : '') ||
+      './images/assets/favicon.png';
+
+    const name = item.name || item.title || 'Product';
 
     itemsHTML += `
-      <div style="
-        display:flex;
-        align-items:center;
-        gap:12px;
-        background:#f8fafc;
-        padding:10px;
-        border-radius:8px;
-        margin-bottom:10px;
-        border:1px solid #e2e8f0;
-      ">
-
+      <div class="checkout-product">
         <img
-          src="${imgSrc}"
-          alt=""
-          style="
-            width:50px;
-            height:50px;
-            object-fit:cover;
-            border-radius:6px;
-            background:#e2e8f0;
-          "
+          src="${image}"
+          alt="${name}"
+          class="checkout-product-image"
+          onerror="this.src='./images/assets/favicon.png'"
         >
 
-        <div style="flex-grow:1;">
-
-          <h4 style="
-            font-size:13px;
-            font-weight:600;
-            color:#0f172a;
-            margin:0 0 4px 0;
-          ">
-            ${item.name}
-          </h4>
-
-          <span style="
-            font-size:12px;
-            color:#64748b;
-          ">
-            Qty: ${quantity} | Rs ${price}
-          </span>
-
+        <div class="checkout-product-info">
+          <h4>${name}</h4>
+          <p>Qty: ${quantity}</p>
+          <strong>Rs ${itemTotal.toLocaleString()}</strong>
         </div>
-
       </div>
     `;
   });
 
+  cartSidebar.innerHTML = `
+    <div class="checkout-page">
 
-  const deliveryCharge = cart.length * 200;
-  const grandTotal = totalAmount + deliveryCharge;
-
-
-  /* ==========================================
-     CHECKOUT FORM
-  ========================================== */
-
-  cartContent.innerHTML = `
-
-    <div style="
-      padding:10px;
-      padding-bottom:30px;
-    ">
-
-      <!-- HEADER -->
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:15px;
-        border-bottom:2px solid #f1f5f9;
-        padding-bottom:10px;
-      ">
-
-        <h2 style="
-          font-size:18px;
-          font-weight:700;
-          color:#0f172a;
-          margin:0;
-        ">
-          Checkout (COD)
-        </h2>
-
-        <span
-          onclick="closeCheckoutForm()"
-          style="
-            font-size:20px;
-            cursor:pointer;
-            color:#64748b;
-            padding:4px 8px;
-          "
+      <div class="checkout-header">
+        <button
+          type="button"
+          class="checkout-back-btn"
+          onclick="showPage('home')"
         >
-          &times;
-        </span>
+          ← Back
+        </button>
 
+        <h2>Complete Your Order</h2>
+        <p>Enter your delivery details below</p>
       </div>
 
+      <div class="checkout-layout">
 
-      <!-- ORDER SUMMARY -->
+        <!-- ORDER SUMMARY -->
+        <div class="checkout-summary">
 
-      <div style="margin-bottom:18px;">
+          <h3>Order Summary</h3>
 
-        <p style="
-          font-size:12px;
-          font-weight:600;
-          color:#64748b;
-          margin-bottom:8px;
-        ">
-          Order Summary
-        </p>
+          <div class="checkout-products">
+            ${itemsHTML}
+          </div>
 
-        ${itemsHTML}
+          <div class="checkout-total">
+            <span>Total</span>
+            <strong>Rs ${totalAmount.toLocaleString()}</strong>
+          </div>
 
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          font-size:13px;
-          color:#475569;
-          padding:5px;
-        ">
-          <span>Subtotal:</span>
-          <span>Rs ${totalAmount}</span>
         </div>
 
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          font-size:13px;
-          color:#475569;
-          padding:5px;
-        ">
-          <span>Delivery:</span>
-          <span>Rs ${deliveryCharge}</span>
-        </div>
+        <!-- CUSTOMER FORM -->
+        <div class="checkout-form-box">
 
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          font-size:15px;
-          font-weight:700;
-          color:#0f172a;
-          padding:8px 5px;
-          border-top:1px solid #e2e8f0;
-          margin-top:5px;
-        ">
-          <span>Total:</span>
-          <span>Rs ${grandTotal}</span>
-        </div>
+          <h3>Delivery Information</h3>
 
-      </div>
+          <form id="checkoutForm">
 
+            <div class="form-group">
+              <label for="customerName">Full Name</label>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                placeholder="Enter your full name"
+                required
+              >
+            </div>
 
-      <!-- CUSTOMER DETAILS -->
+            <div class="form-group">
+              <label for="customerPhone">Phone Number</label>
+              <input
+                type="tel"
+                id="customerPhone"
+                name="customerPhone"
+                placeholder="03XXXXXXXXX"
+                required
+              >
+            </div>
 
-      <div style="
-        margin-bottom:12px;
-      ">
+            <div class="form-group">
+              <label for="houseAddress">House / Shop No.</label>
+              <input
+                type="text"
+                id="houseAddress"
+                name="houseAddress"
+                placeholder="House / Shop number"
+                required
+              >
+            </div>
 
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          Full Name
-        </label>
+            <div class="form-group">
+              <label for="streetAddress">Street / Road</label>
+              <input
+                type="text"
+                id="streetAddress"
+                name="streetAddress"
+                placeholder="Street / Road name"
+                required
+              >
+            </div>
 
-        <input
-          type="text"
-          id="cust-name"
-          placeholder="Enter your full name"
-          autocomplete="name"
-          style="
-            width:100%;
-            padding:11px;
-            border:1px solid #cbd5e1;
-            border-radius:8px;
-            font-size:14px;
-            outline:none;
-            background:#fff;
-            box-sizing:border-box;
-          "
-        >
+            <div class="form-group">
+              <label for="areaAddress">Area / Mohalla</label>
+              <input
+                type="text"
+                id="areaAddress"
+                name="areaAddress"
+                placeholder="Area / Mohalla"
+                required
+              >
+            </div>
 
-      </div>
+            <div class="form-group">
+              <label for="cityAddress">City</label>
+              <select
+                id="cityAddress"
+                name="cityAddress"
+                required
+              >
+                <option value="">Select City</option>
+                <option value="Rahim Yar Khan">Rahim Yar Khan</option>
+                <option value="Lahore">Lahore</option>
+                <option value="Karachi">Karachi</option>
+                <option value="Islamabad">Islamabad</option>
+                <option value="Rawalpindi">Rawalpindi</option>
+                <option value="Multan">Multan</option>
+                <option value="Bahawalpur">Bahawalpur</option>
+                <option value="Faisalabad">Faisalabad</option>
+                <option value="Sahiwal">Sahiwal</option>
+                <option value="Gujranwala">Gujranwala</option>
+                <option value="Peshawar">Peshawar</option>
+                <option value="Quetta">Quetta</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
+            <div class="form-group">
+              <label for="customerNotes">Additional Notes</label>
+              <textarea
+                id="customerNotes"
+                name="customerNotes"
+                placeholder="Any delivery instructions? (Optional)"
+                rows="3"
+              ></textarea>
+            </div>
 
-      <!-- HOUSE -->
+            <div class="payment-method">
+              <h4>Payment Method</h4>
 
-      <div style="margin-bottom:12px;">
+              <label class="payment-option">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="Cash on Delivery"
+                  checked
+                >
+                <span>Cash on Delivery</span>
+              </label>
+            </div>
 
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          House / Flat No.
-        </label>
+            <button
+              type="submit"
+              class="place-order-btn"
+            >
+              Place Order
+            </button>
 
-        <input
-          type="text"
-          id="cust-house"
-          placeholder="House / Flat No."
-          autocomplete="street-address"
-          style="
-            width:100%;
-            padding:11px;
-            border:1px solid #cbd5e1;
-            border-radius:8px;
-            font-size:14px;
-            outline:none;
-            background:#fff;
-            box-sizing:border-box;
-          "
-        >
-
-      </div>
-
-
-      <!-- STREET -->
-
-      <div style="margin-bottom:12px;">
-
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          Street / Road
-        </label>
-
-        <input
-          type="text"
-          id="cust-street"
-          placeholder="Street / Road"
-          style="
-            width:100%;
-            padding:11px;
-            border:1px solid #cbd5e1;
-            border-radius:8px;
-            font-size:14px;
-            outline:none;
-            background:#fff;
-            box-sizing:border-box;
-          "
-        >
-
-      </div>
-
-
-      <!-- CITY -->
-
-      <div style="margin-bottom:12px;">
-
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          City
-        </label>
-
-        <div style="
-          position:relative;
-          width:100%;
-        ">
-
-          <select
-            id="cust-city"
-            required
-            style="
-              width:100%;
-              padding:11px 38px 11px 11px;
-              border:1px solid #cbd5e1;
-              border-radius:8px;
-              background:#fff;
-              color:#334155;
-              font-size:14px;
-              box-sizing:border-box;
-              appearance:none;
-              -webkit-appearance:none;
-              cursor:pointer;
-              outline:none;
-            "
-          >
-
-            <option value="">
-              Select City
-            </option>
-
-          </select>
-
-          <span style="
-            position:absolute;
-            right:13px;
-            top:50%;
-            transform:translateY(-50%);
-            pointer-events:none;
-            color:#64748b;
-            font-size:12px;
-          ">
-            ▼
-          </span>
+          </form>
 
         </div>
 
       </div>
-
-
-      <!-- AREA -->
-
-      <div style="margin-bottom:12px;">
-
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          Area
-        </label>
-
-        <div style="
-          position:relative;
-          width:100%;
-        ">
-
-          <select
-            id="cust-area"
-            required
-            disabled
-            style="
-              width:100%;
-              padding:11px 38px 11px 11px;
-              border:1px solid #cbd5e1;
-              border-radius:8px;
-              background:#f8fafc;
-              color:#334155;
-              font-size:14px;
-              box-sizing:border-box;
-              appearance:none;
-              -webkit-appearance:none;
-              cursor:pointer;
-              outline:none;
-            "
-          >
-
-            <option value="">
-              Select City First
-            </option>
-
-          </select>
-
-          <span style="
-            position:absolute;
-            right:13px;
-            top:50%;
-            transform:translateY(-50%);
-            pointer-events:none;
-            color:#64748b;
-            font-size:12px;
-          ">
-            ▼
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- PHONE -->
-
-      <div style="margin-bottom:20px;">
-
-        <label style="
-          display:block;
-          font-size:12px;
-          font-weight:600;
-          color:#475569;
-          margin-bottom:5px;
-        ">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          id="cust-phone"
-          placeholder="03XXXXXXXXX"
-          inputmode="numeric"
-          autocomplete="tel"
-          style="
-            width:100%;
-            padding:11px;
-            border:1px solid #cbd5e1;
-            border-radius:8px;
-            font-size:14px;
-            outline:none;
-            background:#fff;
-            box-sizing:border-box;
-          "
-        >
-
-      </div>
-
-
-      <!-- CONFIRM -->
-
-      <button
-        type="button"
-        onclick="sendWhatsAppOrder()"
-        style="
-          width:100%;
-          background:#22c55e;
-          color:#fff;
-          border:none;
-          padding:14px;
-          border-radius:8px;
-          font-size:16px;
-          font-weight:700;
-          cursor:pointer;
-          box-shadow:0 4px 12px rgba(34,197,94,0.3);
-        "
-      >
-        Confirm Order
-      </button>
 
     </div>
   `;
 
+  // Hide/close cart sidebar if it is being used as the checkout container
+  cartSidebar.classList.add('checkout-active');
 
-  /* ==========================================
-     LOAD CITIES AFTER FORM IS CREATED
-  ========================================== */
+  // Checkout form submit
+  const checkoutForm = document.getElementById('checkoutForm');
 
-  const citySelect =
-    document.getElementById("cust-city");
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', async function (event) {
 
-  const areaSelect =
-    document.getElementById("cust-area");
+      event.preventDefault();
 
+      const submitButton =
+        checkoutForm.querySelector('.place-order-btn');
 
-  if (!citySelect || !areaSelect) {
-    console.error("City/Area dropdowns not found.");
-    return;
-  }
-
-
-  /* pakistanLocations already exists
-     in your file near the bottom.
-  */
-
-  if (
-    typeof pakistanLocations !== "undefined"
-  ) {
-
-    Object.keys(pakistanLocations)
-      .sort()
-      .forEach(function(cityName) {
-
-        const option =
-          document.createElement("option");
-
-        option.value = cityName;
-        option.textContent = cityName;
-
-        citySelect.appendChild(option);
-
-      });
-
-  }
-
-
-  /* ==========================================
-     CITY → AREA
-  ========================================== */
-
-  citySelect.addEventListener(
-    "change",
-    function() {
-
-      const selectedCity =
-        this.value;
-
-      areaSelect.innerHTML = "";
-
-      if (!selectedCity) {
-
-        areaSelect.disabled = true;
-
-        areaSelect.style.background =
-          "#f8fafc";
-
-        areaSelect.innerHTML =
-          '<option value="">Select City First</option>';
-
-        return;
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Placing Order...';
       }
 
+      try {
 
-      areaSelect.disabled = false;
+        const customerName =
+          document.getElementById('customerName').value.trim();
 
-      areaSelect.style.background =
-        "#fff";
+        const customerPhone =
+          document.getElementById('customerPhone').value.trim();
 
+        const houseAddress =
+          document.getElementById('houseAddress').value.trim();
 
-      const firstOption =
-        document.createElement("option");
+        const streetAddress =
+          document.getElementById('streetAddress').value.trim();
 
-      firstOption.value = "";
-      firstOption.textContent =
-        "Select Area";
+        const areaAddress =
+          document.getElementById('areaAddress').value.trim();
 
-      areaSelect.appendChild(
-        firstOption
-      );
+        const cityAddress =
+          document.getElementById('cityAddress').value.trim();
 
+        const customerNotes =
+          document.getElementById('customerNotes').value.trim();
 
-      const areas =
-        pakistanLocations[selectedCity] || [];
+        const paymentMethod =
+          document.querySelector(
+            'input[name="paymentMethod"]:checked'
+          )?.value || 'Cash on Delivery';
 
+        if (
+          !customerName ||
+          !customerPhone ||
+          !houseAddress ||
+          !streetAddress ||
+          !areaAddress ||
+          !cityAddress
+        ) {
+          alert("Please fill in all required delivery details.");
 
-      areas
-        .slice()
-        .sort(function(a, b) {
-          return a.localeCompare(b);
-        })
-        .forEach(function(areaName) {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Place Order';
+          }
 
-          const option =
-            document.createElement("option");
+          return;
+        }
 
-          option.value = areaName;
-          option.textContent = areaName;
+        const orderItems = cart.map(function (item) {
 
-          areaSelect.appendChild(
-            option
-          );
+          const quantity = Number(item.quantity) || 1;
+          const price = Number(item.salePrice ?? item.price ?? 0);
+
+          return {
+            productId: item.id || item.productId || '',
+            name: item.name || item.title || 'Product',
+            price: price,
+            quantity: quantity,
+            total: price * quantity,
+            image:
+              item.img ||
+              item.image ||
+              (Array.isArray(item.images)
+                ? item.images[0]
+                : '') ||
+              ''
+          };
 
         });
 
-    }
-  );
+        const orderData = {
 
-}
+          customerName: customerName,
+          customerPhone: customerPhone,
+
+          address: {
+            house: houseAddress,
+            street: streetAddress,
+            area: areaAddress,
+            city: cityAddress
+          },
+
+          houseAddress: houseAddress,
+          streetAddress: streetAddress,
+          areaAddress: areaAddress,
+          cityAddress: cityAddress,
+
+          notes: customerNotes,
+
+          paymentMethod: paymentMethod,
+
+          items: orderItems,
+
+          totalAmount: totalAmount,
+
+          status: 'Order Confirmed',
+
+          courier: '',
+          trackingId: '',
+
+          createdAt:
+            typeof firebase !== 'undefined' &&
+            firebase.firestore &&
+            firebase.firestore.FieldValue
+              ? firebase.firestore.FieldValue.serverTimestamp()
+              : new Date().toISOString()
+        };
+
+        /*
+         * Firebase order save
+         */
+        if (
+          typeof db !== 'undefined' &&
+          db &&
+          typeof db.collection === 'function'
+        ) {
+
+          const user =
+            typeof firebase !== 'undefined' &&
+            firebase.auth &&
+            firebase.auth().currentUser
+              ? firebase.auth().currentUser
+              : null;
+
+          orderData.userId = user ? user.uid : 'guest';
+
+          const orderRef =
+            await db.collection('orders').add(orderData);
+
+          orderData.orderId = orderRef.id;
+
+        } else {
+
+          console.error(
+            'Firebase Firestore "db" is not available.'
+          );
+
+          alert(
+            'Order system is not connected to Firebase. Please try again.'
+          );
+
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Place Order';
+          }
+
+          return;
+        }
+
+        // Clear cart only after successful Firebase order
+        cart = [];
+
+        if (typeof saveCart === 'function') {
+          saveCart();
+        } else {
+          localStorage.removeItem('cart');
+        }
+
+        // Update cart UI if function exists
+        if (typeof updateCartUI === 'function') {
+          updateCartUI();
+        }
+
+        alert(
+          'Order placed successfully! Thank you for shopping with Luma Deals.'
+        );
+
+        // Go to orders page if available
+        if (typeof showPage === 'function') {
+          showPage('orders');
+        }
+
+      } catch (error) {
+
+        console.error('Order placement error:', error);
+
+        alert(
+          'Unable to place your order right now. Please try again.'
+        );
+
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Place Order';
+        }
+      }
+
+    });
+  }
+  }
+            
+
+          
+
+      
+
+                
 </script>
   
 <script>
-
-      async function sendWhatsAppOrder() {
+async function sendWhatsAppOrder() {
 
   try {
 
+    // ==============================
     // LOGIN CHECK
+    // ==============================
     if (!window.currentUser) {
       alert("Please login first to place an order!");
-      showPage('login');
+      showPage("login");
       return;
     }
 
+    // ==============================
     // CART CHECK
-    if (!cart || cart.length === 0) {
+    // ==============================
+    if (!Array.isArray(cart) || cart.length === 0) {
       alert("Your cart is empty!");
       return;
     }
 
+    // ==============================
     // GET CUSTOMER DETAILS
-    const name = document.getElementById("cust-name").value;
-const house = document.getElementById("cust-house").value;
-const street = document.getElementById("cust-street").value;
-const city = document.getElementById("cust-city").value;
-const area = document.getElementById("cust-area").value;
-const fullAddress = document.getElementById("cust-full-address")?.value.trim() || "";
-const phone = document.getElementById("cust-phone").value;
+    // ==============================
+    const name =
+      document.getElementById("cust-name")?.value.trim() || "";
+
+    const house =
+      document.getElementById("cust-house")?.value.trim() || "";
+
+    const street =
+      document.getElementById("cust-street")?.value.trim() || "";
+
+    const area =
+      document.getElementById("cust-area")?.value.trim() || "";
+
+    const city =
+      document.getElementById("cust-city")?.value.trim() || "";
+
+    const fullAddress =
+      document.getElementById("cust-full-address")?.value.trim() || "";
+
+    const phone =
+      document.getElementById("cust-phone")?.value.trim() || "";
+
+
+    // ==============================
     // VALIDATION
-    if (!name || !house || !street || !area || !city || !phone) {
-      alert("Please fill all fields!");
+    // ==============================
+    if (
+      !name ||
+      !house ||
+      !street ||
+      !area ||
+      !city ||
+      !phone
+    ) {
+      alert("Please fill all required fields!");
       return;
     }
 
-    // CALCULATE TOTAL
+
+    // ==============================
+    // CALCULATE ORDER TOTAL
+    // ==============================
     const subtotal = cart.reduce(
-      (sum, item) =>
-        sum + Number(item.price) * (item.quantity || 1),
+      (sum, item) => {
+
+        const price = Number(item.price) || 0;
+        const quantity = Number(item.quantity) || 1;
+
+        return sum + (price * quantity);
+
+      },
       0
     );
 
+    // Rs 200 delivery per cart item
     const deliveryCharge = cart.length * 200;
+
     const total = subtotal + deliveryCharge;
 
-    // ORDER ID
+
+    // ==============================
+    // GENERATE TRACKING / ORDER ID
+    // ==============================
     const trackingId =
       "LD" + Date.now().toString().slice(-8);
 
-    // FIRESTORE
+
+    // ==============================
+    // FIREBASE FIRESTORE
+    // ==============================
     const {
       getFirestore,
       collection,
@@ -10249,83 +10137,181 @@ const phone = document.getElementById("cust-phone").value;
 
     const db = getFirestore(window.firebaseApp);
 
-// SAVE ORDER TO FIREBASE
-await addDoc(
-  collection(db, "orders"),
-  {
-    trackingId: trackingId,
 
-    userId: window.currentUser.uid,
+    // ==============================
+    // PREPARE ORDER ITEMS
+    // ==============================
+    const orderItems = cart.map(item => ({
 
-    userEmail:
-      window.currentUser.email || "",
+      productId:
+        item.id ||
+        item.productId ||
+        "",
 
-    customerName: name,
+      name:
+        item.name ||
+        item.title ||
+        "Product",
 
-    phone: phone,
+      price:
+        Number(item.price) || 0,
 
-    address: {
-      house: house,
-      street: street,
-      city: city,
-      area: area,
-      fullAddress: fullAddress
-    },
+      quantity:
+        Number(item.quantity) || 1,
 
-    items: cart.map(item => ({
-      name: item.name,
-      price: Number(item.price),
-      quantity: item.quantity || 1,
-      img: item.img || item.image || ""
-    }))
-  }
-);
+      img:
+        item.img ||
+        item.image ||
+        (
+          Array.isArray(item.images)
+            ? item.images[0]
+            : ""
+        ) ||
+        ""
 
-        productIds: cart.map(item => String(item.id)),
+    }));
 
+
+    // ==============================
+    // SAVE ORDER TO FIREBASE
+    // ==============================
+    await addDoc(
+      collection(db, "orders"),
+      {
+
+        // ORDER INFORMATION
+        trackingId: trackingId,
+
+        userId:
+          window.currentUser.uid,
+
+        userEmail:
+          window.currentUser.email || "",
+
+
+        // CUSTOMER INFORMATION
+        customerName: name,
+
+        phone: phone,
+
+
+        // DELIVERY ADDRESS
+        address: {
+
+          house: house,
+
+          street: street,
+
+          area: area,
+
+          city: city,
+
+          fullAddress: fullAddress
+
+        },
+
+
+        // PRODUCTS
+        items: orderItems,
+
+        productIds:
+          cart.map(item =>
+            String(
+              item.id ||
+              item.productId ||
+              ""
+            )
+          ),
+
+
+        // PRICE INFORMATION
         subtotal: subtotal,
 
         deliveryCharge: deliveryCharge,
 
         total: total,
 
-        paymentMethod: "Cash on Delivery",
-orderConfirmed: false,
-        status: "Order Placed",
 
-        cancelled: false,
+        // PAYMENT
+        paymentMethod:
+          "Cash on Delivery",
 
-        courier: "",
 
-        courierTrackingId: "",
+        // ORDER STATUS
+        orderConfirmed: false,
 
-        courierTrackingUrl: "",
+        status:
+          "Order Placed",
 
-        createdAt: serverTimestamp()
+        cancelled:
+          false,
+
+
+        // COURIER INFORMATION
+        courier:
+          "",
+
+        courierTrackingId:
+          "",
+
+        courierTrackingUrl:
+          "",
+
+
+        // TIMESTAMP
+        createdAt:
+          serverTimestamp()
+
       }
     );
+
+
+    // ==============================
     // CLEAR CART ONLY AFTER SUCCESS
+    // ==============================
     cart = [];
 
     localStorage.removeItem("lumaCart");
 
+
+    // UPDATE CART UI
     if (typeof updateCart === "function") {
       updateCart();
     }
 
-    // SUCCESS MESSAGE
-    showOrderSuccessModal(trackingId);
 
+    // ==============================
+    // SUCCESS MESSAGE
+    // ==============================
+    if (typeof showOrderSuccessModal === "function") {
+      showOrderSuccessModal(trackingId);
+    } else {
+      alert(
+        "Order placed successfully!\n\n" +
+        "Order ID: " +
+        trackingId
+      );
+    }
+
+
+    // ==============================
     // OPEN ORDERS PAGE
+    // ==============================
     showPage("orders");
 
+
+    // LOAD ORDERS
     if (typeof loadOrders === "function") {
       loadOrders();
     }
 
+
   } catch (error) {
 
-    console.error("ORDER ERROR:", error);
+    console.error(
+      "ORDER ERROR:",
+      error
+    );
 
     alert(
       "❌ Order failed!\n\n" +
@@ -10334,9 +10320,10 @@ orderConfirmed: false,
 
   }
 
-      }
+}
+          
 
-
+    
         
       function showOrderSuccessModal(orderId) {
 
