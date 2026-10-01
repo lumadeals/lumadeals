@@ -7979,71 +7979,204 @@ body.dark-mode .back-settings {
 </section>
   
 <div class="cart-sidebar" id="cart-sidebar">
+
+  <!-- Cart Header -->
   <div class="cart-header">
-    <h3> Your Cart</h3>
+    <h3>Your Cart</h3>
     <span onclick="toggleCart()">✖</span>
   </div>
 
+  <!-- Cart Items -->
   <div id="cart-items"></div>
 
+  <!-- Cart Total -->
   <div class="cart-total">
-    <p>Total: Rs <span id="cart-total">0</span></p>
-    <button class="checkout-btn" onclick="showCheckoutForm()">Checkout</button>
 
-    <div id="lumadeals-checkout-box" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
-      <h3 style="margin-bottom: 12px; font-size: 16px; color: #0f172a; font-weight: 700;">Delivery Details (COD)</h3>
-      
-      <div style="margin-bottom: 10px;">
-        <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+    <p>
+      Total: Rs <span id="cart-total">0</span>
+    </p>
+
+    <!-- Checkout Button -->
+    <button
+      class="checkout-btn"
+      onclick="showCheckoutForm()">
+      Checkout
+    </button>
+
+    <!-- Checkout Form -->
+    <div
+      id="lumadeals-checkout-box"
+      style="
+        display:none;
+        margin-top:15px;
+        padding:15px;
+        background:#f8fafc;
+        border-radius:12px;
+        border:1px solid #e2e8f0;
+      ">
+
+      <h3
+        style="
+          margin-bottom:12px;
+          font-size:16px;
+          color:#0f172a;
+          font-weight:700;
+        ">
+        Delivery Details (COD)
+      </h3>
+
+
+      <!-- Full Name -->
+      <div style="margin-bottom:10px;">
+
+        <input
+          type="text"
+          id="cust-name"
+          placeholder="Full Name"
+          style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
+
       </div>
 
-      <div style="margin-bottom: 10px;">
 
-  <input type="text"
-         id="cust-house"
-         placeholder="House / Flat No."
-         style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+      <!-- Address -->
+      <div style="margin-bottom:10px;">
 
-  <input type="text"
-         id="cust-street"
-         placeholder="Street / Road No."
-         style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
+        <!-- House / Flat -->
+        <input
+          type="text"
+          id="cust-house"
+          placeholder="House / Flat No."
+          style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
 
-  <!-- CITY -->
-  <select
-      id="cust-city"
-      required
-      style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px; background:#fff; font-size:14px;">
-      <option value="">Select City</option>
-  </select>
 
-  <!-- AREA -->
-  <select
-      id="cust-area"
-      required
-      disabled
-      style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px; background:#fff; font-size:14px;">
-      <option value="">Select City First</option>
-  </select>
+        <!-- Street / Road -->
+        <input
+          type="text"
+          id="cust-street"
+          placeholder="Street / Road No."
+          style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
 
-</div>
 
-<div style="margin-bottom: 15px;">
-  <input
-      type="text"
-      id="cust-phone"
-      placeholder="Phone Number (03XXXXXXXXX)"
-      style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
-</div>
+        <!-- City -->
+        <select
+          id="cust-city"
+          required
+          style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            background:#fff;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
 
-<button
-    onclick="sendWhatsAppOrder()"
-    style="width:100%; background:#22c55e; color:#fff; border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.3);">
-    Confirm Order
-</button>
+          <option value="">
+            Select City
+          </option>
+
+        </select>
+
+
+        <!-- Area -->
+        <select
+          id="cust-area"
+          required
+          disabled
+          style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            background:#fff;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
+
+          <option value="">
+            Select City First
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Phone -->
+      <div style="margin-bottom:15px;">
+
+        <input
+          type="text"
+          id="cust-phone"
+          placeholder="Phone Number (03XXXXXXXXX)"
+          inputmode="numeric"
+          autocomplete="tel"
+          style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
+
+      </div>
+
+
+      <!-- Confirm Order -->
+      <button
+        type="button"
+        onclick="sendWhatsAppOrder()"
+        style="
+          width:100%;
+          background:#22c55e;
+          color:#fff;
+          border:none;
+          padding:14px;
+          border-radius:8px;
+          font-size:16px;
+          font-weight:700;
+          cursor:pointer;
+          box-shadow:0 4px 12px rgba(34,197,94,0.3);
+        ">
+        Confirm Order
+      </button>
+
+    </div>
+    <!-- End Checkout Form -->
+
   </div>
-  </div>
+  <!-- End Cart Total -->
+
 </div>
+<!-- End Cart Sidebar -->
+
+  
       <div class="bottom-navbar">
   <div class="bn-item active" data-page="home" onclick="bnNavigate('home', this)">
     <span class="bn-icon">🏠</span>
