@@ -7998,23 +7998,51 @@ body.dark-mode .back-settings {
       </div>
 
       <div style="margin-bottom: 10px;">
-        <input type="text" id="cust-house" placeholder="House / Flat No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-        <input type="text" id="cust-street" placeholder="Street / Road No." style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-        <input type="text" id="cust-area" placeholder="Area" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
-        <input type="text" id="cust-city" placeholder="City" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
-      </div>
 
-      <div style="margin-bottom: 15px;">
-        <input type="text" id="cust-phone" placeholder="Phone Number (03XXXXXXXXX)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
-      </div>
+  <input type="text"
+         id="cust-house"
+         placeholder="House / Flat No."
+         style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
 
-      <button onclick="sendWhatsAppOrder()" style="width: 100%; background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">
-        Confirm Order</button>
+  <input type="text"
+         id="cust-street"
+         placeholder="Street / Road No."
+         style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;">
 
-    </div>
+  <!-- CITY -->
+  <select
+      id="cust-city"
+      required
+      style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px; background:#fff; font-size:14px;">
+      <option value="">Select City</option>
+  </select>
 
+  <!-- AREA -->
+  <select
+      id="cust-area"
+      required
+      disabled
+      style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px; background:#fff; font-size:14px;">
+      <option value="">Select City First</option>
+  </select>
+
+</div>
+
+<div style="margin-bottom: 15px;">
+  <input
+      type="text"
+      id="cust-phone"
+      placeholder="Phone Number (03XXXXXXXXX)"
+      style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px;">
+</div>
+
+<button
+    onclick="sendWhatsAppOrder()"
+    style="width:100%; background:#22c55e; color:#fff; border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.3);">
+    Confirm Order
+</button>
   </div>
-
+  </div>
 </div>
       <div class="bottom-navbar">
   <div class="bn-item active" data-page="home" onclick="bnNavigate('home', this)">
@@ -12498,7 +12526,839 @@ document.addEventListener(
 
   }
 );
-  </script>
+</script>
+  <script>
+/* =========================================
+   LUMA DEALS - CITY → AREA
+========================================= */
+
+const pakistanLocations = {
+
+  "Lahore": [
+    "DHA Lahore",
+    "Gulberg",
+    "Johar Town",
+    "Model Town",
+    "Wapda Town",
+    "Township",
+    "Garden Town",
+    "Faisal Town",
+    "Bahria Town",
+    "Iqbal Town",
+    "Samanabad",
+    "Shadman",
+    "Garhi Shahu",
+    "Cantt",
+    "Askari",
+    "Valencia Town",
+    "Lake City",
+    "Sabzazar",
+    "Muslim Town",
+    "Wahdat Road",
+    "Canal View",
+    "Thokar Niaz Baig",
+    "Multan Road",
+    "Ferozepur Road",
+    "Harbanspura",
+    "Mughalpura",
+    "Shahdara",
+    "Barki",
+    "Manawan",
+    "Batapur"
+  ],
+
+  "Karachi": [
+    "DHA Phase 1",
+    "DHA Phase 2",
+    "DHA Phase 4",
+    "DHA Phase 5",
+    "DHA Phase 6",
+    "DHA Phase 7",
+    "DHA Phase 8",
+    "Clifton",
+    "Gulshan-e-Iqbal",
+    "Gulistan-e-Jauhar",
+    "North Nazimabad",
+    "Nazimabad",
+    "Federal B Area",
+    "PECHS",
+    "Bahadurabad",
+    "Tariq Road",
+    "Gulshan-e-Maymar",
+    "Buffer Zone",
+    "Surjani Town",
+    "New Karachi",
+    "North Karachi",
+    "Orangi Town",
+    "Korangi",
+    "Landhi",
+    "Malir",
+    "Model Colony",
+    "Shah Faisal Colony",
+    "Saudabad",
+    "Saddar",
+    "Garden",
+    "Jamshed Road",
+    "Soldier Bazaar",
+    "Lyari",
+    "Kemari",
+    "Baldia Town",
+    "SITE",
+    "Manghopir",
+    "Bahria Town Karachi",
+    "Scheme 33",
+    "Gulzar-e-Hijri",
+    "Askari",
+    "Cantt",
+    "Defence View",
+    "Mehmoodabad",
+    "Azam Basti",
+    "Qayyumabad"
+  ],
+
+  "Islamabad": [
+    "F-5",
+    "F-6",
+    "F-7",
+    "F-8",
+    "F-10",
+    "F-11",
+    "G-5",
+    "G-6",
+    "G-7",
+    "G-8",
+    "G-9",
+    "G-10",
+    "G-11",
+    "G-13",
+    "G-14",
+    "G-15",
+    "I-8",
+    "I-9",
+    "I-10",
+    "I-11",
+    "I-12",
+    "E-7",
+    "E-11",
+    "D-12",
+    "B-17",
+    "DHA Islamabad",
+    "Bahria Town Islamabad",
+    "Park View City",
+    "Gulberg Greens",
+    "Gulberg Residencia",
+    "Soan Garden",
+    "PWD",
+    "Pakistan Town",
+    "Khanna",
+    "Koral",
+    "Tarlai",
+    "Chak Shahzad",
+    "Bhara Kahu",
+    "Margalla Town",
+    "Sihala"
+  ],
+
+  "Rawalpindi": [
+    "Saddar",
+    "Satellite Town",
+    "Commercial Market",
+    "6th Road",
+    "Chandni Chowk",
+    "Chaklala",
+    "Westridge",
+    "Lalazar",
+    "Peshawar Road",
+    "Adiala Road",
+    "Gulrez",
+    "Khayaban-e-Sir Syed",
+    "Raja Bazaar",
+    "Murree Road",
+    "Bahria Town Rawalpindi",
+    "DHA Rawalpindi",
+    "Askari",
+    "Airport Housing Society",
+    "Media Town",
+    "Soan Garden",
+    "Koral",
+    "Tench Bhata"
+  ],
+
+  "Faisalabad": [
+    "D Ground",
+    "Peoples Colony",
+    "Madina Town",
+    "Gulberg",
+    "Millat Town",
+    "Samanabad",
+    "Jinnah Colony",
+    "Ghulam Muhammad Abad",
+    "Kohinoor City",
+    "Canal Road",
+    "Susan Road",
+    "Satiana Road",
+    "Jaranwala Road",
+    "Sargodha Road",
+    "Sheikhupura Road",
+    "Narwala Road",
+    "Factory Area",
+    "Civil Lines",
+    "University Town",
+    "Wapda City",
+    "Eden Garden",
+    "Eden Valley",
+    "Khayaban Gardens",
+    "Gatwala"
+  ],
+
+  "Multan": [
+    "Gulgasht Colony",
+    "Bosan Road",
+    "Cantt",
+    "Mumtazabad",
+    "New Multan",
+    "Shah Rukn-e-Alam",
+    "Wapda Town",
+    "Nawan Shehr",
+    "Chungi No. 6",
+    "Chungi No. 9",
+    "MDA Chowk",
+    "Qasim Bela",
+    "Suraj Miani",
+    "Shujabad Road",
+    "Vehari Road",
+    "Khanewal Road",
+    "Bosan",
+    "Matti Tal",
+    "Industrial Estate",
+    "Hussain Agahi",
+    "Haram Gate",
+    "Daulat Gate",
+    "Garden Town"
+  ],
+
+  "Gujranwala": [
+    "Satellite Town",
+    "Model Town",
+    "Peoples Colony",
+    "Civil Lines",
+    "DC Colony",
+    "Master City",
+    "Wapda Town",
+    "Garden Town",
+    "Citi Housing",
+    "Gujranwala Cantt",
+    "Sialkot Road",
+    "GT Road",
+    "Gondlanwala Road",
+    "Pasrur Road",
+    "Nowshera Road",
+    "Sheikhupura Road",
+    "Jinnah Road",
+    "Railway Road"
+  ],
+
+  "Sialkot": [
+    "Sialkot Cantt",
+    "Model Town",
+    "Paris Road",
+    "Kashmir Road",
+    "Daska Road",
+    "Pasrur Road",
+    "Wazirabad Road",
+    "Ugoki",
+    "Rangpura",
+    "Murray College Road",
+    "Small Industrial Estate",
+    "Defence Road",
+    "Sambrial Road",
+    "Allama Iqbal Road",
+    "Hajipura",
+    "Shahabpura",
+    "Neka Pura"
+  ],
+
+  "Bahawalpur": [
+    "Model Town",
+    "Satellite Town",
+    "DHA Bahawalpur",
+    "Bahawalpur Cantt",
+    "Gulberg",
+    "Shadab Colony",
+    "Baghdad-ul-Jadeed",
+    "Dubai Mahal Road",
+    "University Chowk",
+    "Circular Road",
+    "Farid Gate",
+    "Airport Road",
+    "Yazman Road",
+    "Hasilpur Road",
+    "Ahmedpur Road",
+    "Railway Road"
+  ],
+
+  "Sargodha": [
+    "Satellite Town",
+    "Model Town",
+    "Sargodha Cantt",
+    "University Road",
+    "Faisal Colony",
+    "Lahore Road",
+    "Jail Road",
+    "Fatima Jinnah Road",
+    "Bhalwal Road",
+    "Khayam Chowk",
+    "Mianwali Road",
+    "Company Bagh",
+    "Civil Lines",
+    "Gulberg",
+    "Islam Pura",
+    "Farooq Colony"
+  ],
+
+  "Rahim Yar Khan": [
+    "Model Town",
+    "Satellite Town",
+    "Abbasia Town",
+    "Shahi Road",
+    "Khanpur Road",
+    "Airport Road",
+    "Railway Road",
+    "Jinnah Park",
+    "Abbasia Bungalows",
+    "Sadiq Colony",
+    "Gulshan-e-Iqbal",
+    "Sheikh Zayed Road",
+    "Hospital Road",
+    "Dubai Chowk"
+  ],
+
+  "Sahiwal": [
+    "Faridia Park",
+    "Model Town",
+    "Fateh Sher Colony",
+    "Jinnah Road",
+    "GT Road",
+    "High Street",
+    "Railway Road",
+    "Harappa Road",
+    "Faridia Town",
+    "Pakpattan Road",
+    "Civil Lines"
+  ],
+
+  "Gujrat": [
+    "Model Town",
+    "Satellite Town",
+    "Fatehpur",
+    "Jalalpur Jattan Road",
+    "GT Road",
+    "Shadiwal Road",
+    "Service More",
+    "Kacheri Road",
+    "Fawara Chowk",
+    "Gujrat Cantt",
+    "Marghzar Colony",
+    "Gulberg"
+  ],
+
+  "Sheikhupura": [
+    "Model Town",
+    "Civil Lines",
+    "Jinnah Park",
+    "Lahore Road",
+    "Ferozepur Road",
+    "Gujranwala Road",
+    "Farooqabad Road",
+    "Bhikhi Road",
+    "Satellite Town",
+    "Housing Colony"
+  ],
+
+  "Kasur": [
+    "Model Town",
+    "Kot Murad Khan",
+    "Railway Road",
+    "Ferozepur Road",
+    "Kot Radha Kishan Road",
+    "Raja Jang",
+    "Defence Road",
+    "Mandi Usman Wala",
+    "Chunian Road"
+  ],
+
+  "Okara": [
+    "Model Town",
+    "Satellite Town",
+    "Depalpur Road",
+    "GT Road",
+    "Renala Khurd Road",
+    "Faisal Colony",
+    "Cantt",
+    "Jinnah Colony",
+    "College Road",
+    "Pakpattan Road"
+  ],
+
+  "Dera Ghazi Khan": [
+    "Model Town",
+    "Satellite Town",
+    "DG Khan Cantt",
+    "College Road",
+    "Jampur Road",
+    "Multan Road",
+    "Quetta Road",
+    "Airport Road",
+    "Sakhi Sarwar Road",
+    "Gulshan-e-Madina",
+    "Civil Lines"
+  ],
+
+  "Jhang": [
+    "Satellite Town",
+    "Model Town",
+    "Civil Lines",
+    "Ayub Park",
+    "Chiniot Road",
+    "Toba Road",
+    "Shorkot Road",
+    "Railway Road",
+    "Jhang Saddar"
+  ],
+
+  "Khanewal": [
+    "Model Town",
+    "Satellite Town",
+    "Multan Road",
+    "Jhang Road",
+    "Lahore Road",
+    "Railway Road",
+    "Khanewal Cantt",
+    "Civil Lines",
+    "Abbasia Town"
+  ],
+
+  "Vehari": [
+    "Model Town",
+    "Satellite Town",
+    "College Road",
+    "Multan Road",
+    "Burewala Road",
+    "Luddan Road",
+    "Jinnah Road",
+    "Civil Lines",
+    "D Block",
+    "E Block"
+  ],
+
+  "Bahawalnagar": [
+    "Model Town",
+    "Satellite Town",
+    "Fort Abbas Road",
+    "Chishtian Road",
+    "Haroonabad Road",
+    "Minchinabad Road",
+    "Railway Road",
+    "Civil Lines"
+  ],
+
+  "Muzaffargarh": [
+    "Model Town",
+    "Satellite Town",
+    "Jhang Road",
+    "Multan Road",
+    "DG Khan Road",
+    "Alipur Road",
+    "Kot Addu Road",
+    "Civil Lines",
+    "Railway Road"
+  ],
+
+  "Mianwali": [
+    "Model Town",
+    "Satellite Town",
+    "Mianwali Cantt",
+    "Bannu Road",
+    "Sargodha Road",
+    "Talagang Road",
+    "Kalabagh Road",
+    "Railway Road"
+  ],
+
+  "Attock": [
+    "Attock Cantt",
+    "Kamra",
+    "Model Town",
+    "Hazro",
+    "Hassan Abdal",
+    "Fateh Jang Road",
+    "Pindi Road",
+    "Jand",
+    "Lawrencepur"
+  ],
+
+  "Chakwal": [
+    "Model Town",
+    "Satellite Town",
+    "Chakwal Cantt",
+    "Talagang Road",
+    "Jhelum Road",
+    "Balkassar",
+    "Kallar Kahar Road",
+    "Civil Lines"
+  ],
+
+  "Peshawar": [
+    "Hayatabad Phase 1",
+    "Hayatabad Phase 2",
+    "Hayatabad Phase 3",
+    "Hayatabad Phase 4",
+    "Hayatabad Phase 5",
+    "Hayatabad Phase 6",
+    "Hayatabad Phase 7",
+    "University Town",
+    "Saddar",
+    "Gulbahar",
+    "Board Bazaar",
+    "Warsak Road",
+    "Ring Road",
+    "Dabgari Garden",
+    "Khyber Bazaar",
+    "Hashtnagri",
+    "Karkhano Market",
+    "Regi Model Town",
+    "Nothia",
+    "Tehkal",
+    "Chamkani",
+    "GT Road"
+  ],
+
+  "Mardan": [
+    "Sheikh Maltoon Town",
+    "Cantt",
+    "Baghdada",
+    "Nowshera Road",
+    "Charsadda Road",
+    "Gujar Garhi",
+    "Mardan City",
+    "Bank Road",
+    "Malakand Road",
+    "Ring Road",
+    "Par Hoti",
+    "Takht-i-Bahi Road"
+  ],
+
+  "Abbottabad": [
+    "Jinnahabad",
+    "Mandian",
+    "Supply",
+    "Cantt",
+    "Nawanshehr",
+    "Kakul",
+    "Salhad",
+    "Jhangi",
+    "Kehal",
+    "Murree Road",
+    "Mansehra Road"
+  ],
+
+  "Kohat": [
+    "Kohat Cantt",
+    "KDA",
+    "Jangalkhel",
+    "Bannu Road",
+    "Rawalpindi Road",
+    "Pindi Road",
+    "City Area",
+    "Togh Bala"
+  ],
+
+  "Dera Ismail Khan": [
+    "Cantt",
+    "Model Town",
+    "Township",
+    "Bannu Road",
+    "Peshawar Road",
+    "Tank Road",
+    "Multan Road",
+    "University Road",
+    "Circular Road",
+    "Railway Road"
+  ],
+
+  "Nowshera": [
+    "Nowshera Cantt",
+    "Nowshera Kalan",
+    "Pabbi",
+    "Akbarpura",
+    "Amangarh",
+    "GT Road",
+    "Risalpur",
+    "Jehangira"
+  ],
+
+  "Swabi": [
+    "Topi",
+    "Shahmansoor",
+    "Swabi City",
+    "Jehangira Road",
+    "Mardan Road",
+    "Karnal Sher Khan",
+    "Gulo Dheri",
+    "Kalu Khan"
+  ],
+
+  "Charsadda": [
+    "Charsadda City",
+    "Tangi",
+    "Shabqadar",
+    "Rajjar",
+    "Umerzai",
+    "Prang",
+    "Mardan Road"
+  ],
+
+  "Mansehra": [
+    "Mansehra City",
+    "Shinkiari",
+    "Baffa",
+    "Balakot",
+    "Oghi",
+    "Kaghan Road",
+    "Abbottabad Road",
+    "Karakoram Highway"
+  ],
+
+  "Haripur": [
+    "Haripur City",
+    "Khalabat Township",
+    "Hattar",
+    "Sarai Saleh",
+    "Khanpur",
+    "Ghazi",
+    "Taxila Road",
+    "GT Road"
+  ],
+
+  "Quetta": [
+    "Jinnah Road",
+    "Satellite Town",
+    "Samungli Road",
+    "Brewery Road",
+    "Airport Road",
+    "Quetta Cantt",
+    "Zarghoon Road",
+    "Sariab Road",
+    "Kuchlak",
+    "Nawakilli",
+    "Spini Road",
+    "Western Bypass",
+    "Eastern Bypass",
+    "Hazara Town",
+    "Mariabad",
+    "Chaman Road",
+    "Joint Road",
+    "Prince Road"
+  ],
+
+  "Turbat": [
+    "Turbat City",
+    "Absor",
+    "Satellite Town",
+    "Airport Road",
+    "Mulla Qadir Road",
+    "Kech Road",
+    "Hoshab Road",
+    "Tump"
+  ],
+
+  "Khuzdar": [
+    "Khuzdar City",
+    "Jhalawan",
+    "Airport Road",
+    "Quetta Road",
+    "Karachi Road",
+    "Cantt",
+    "Civil Colony",
+    "Wadh Road"
+  ],
+
+  "Chaman": [
+    "Chaman City",
+    "Railway Road",
+    "Quetta Road",
+    "Mall Road",
+    "Border Area",
+    "Civil Lines",
+    "Model Town"
+  ],
+
+  "Gwadar": [
+    "Gwadar City",
+    "New Town",
+    "Old Town",
+    "Singhar Housing",
+    "Marine Drive",
+    "Airport Road",
+    "Jiwani",
+    "Pasni",
+    "Sur Bandar"
+  ],
+
+  "Muzaffarabad": [
+    "Upper Chattar",
+    "Lower Chattar",
+    "Domel",
+    "Chehla",
+    "Ambore",
+    "Gojra",
+    "Plate",
+    "Naluchi",
+    "Airport Road",
+    "University Road"
+  ],
+
+  "Mirpur": [
+    "Sector A",
+    "Sector B",
+    "Sector C",
+    "Sector D",
+    "Sector F",
+    "New Mirpur City",
+    "Islamgarh Road",
+    "Chakswari",
+    "Dadyal Road",
+    "Mangla"
+  ],
+
+  "Kotli": [
+    "Kotli City",
+    "Khuiratta",
+    "Charhoi",
+    "Sehnsa",
+    "Nakyal",
+    "Fatehpur Thakiala",
+    "Poonch Road"
+  ],
+
+  "Gilgit": [
+    "Jutial",
+    "Danyore",
+    "Konodas",
+    "Nomal",
+    "River View",
+    "Sakwar",
+    "NLI Market",
+    "Jinnah Road",
+    "Airport Road"
+  ],
+
+  "Skardu": [
+    "Skardu City",
+    "Sadpara",
+    "Hussainabad",
+    "Shigar Road",
+    "Kachura",
+    "New Bazaar",
+    "Old Bazaar",
+    "Airport Road",
+    "Satpara Road"
+  ],
+
+  "Hunza": [
+    "Aliabad",
+    "Karimabad",
+    "Altit",
+    "Baltit",
+    "Ganish",
+    "Gulmit",
+    "Passu",
+    "Sost"
+  ]
+
+};
+
+
+/* =========================================
+   CITY + AREA ELEMENTS
+========================================= */
+
+const city = document.getElementById("cust-city");
+const area = document.getElementById("cust-area");
+
+
+/* =========================================
+   LOAD CITIES
+========================================= */
+
+Object.keys(pakistanLocations)
+  .sort()
+  .forEach(function(cityName) {
+
+    const option = document.createElement("option");
+
+    option.value = cityName;
+    option.textContent = cityName;
+
+    city.appendChild(option);
+
+  });
+
+
+/* =========================================
+   CITY SELECTED
+========================================= */
+
+city.addEventListener("change", function() {
+
+    const selectedCity = this.value;
+
+    area.innerHTML = "";
+
+    if (!selectedCity) {
+
+        area.disabled = true;
+
+        area.innerHTML =
+            '<option value="">Select City First</option>';
+
+        return;
+    }
+
+
+    area.disabled = false;
+
+    const firstOption = document.createElement("option");
+
+    firstOption.value = "";
+    firstOption.textContent = "Select Area";
+
+    area.appendChild(firstOption);
+
+
+    pakistanLocations[selectedCity]
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(function(areaName) {
+
+        const option = document.createElement("option");
+
+        option.value = areaName;
+        option.textContent = areaName;
+
+        area.appendChild(option);
+
+      });
+
+});
+
+
+/* =========================================
+   INITIAL STATE
+========================================= */
+
+area.disabled = true;
+
+    </script>
   <footer>
   <div class="footer-container">
     <h4>Contact Info</h4>
