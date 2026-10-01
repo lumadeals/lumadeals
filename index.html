@@ -10209,42 +10209,44 @@ async function sendWhatsAppOrder() {
       return;
     }
 
-    // ==============================
-    // GET CUSTOMER DETAILS
-    // ==============================
-    const name =
-      document.getElementById("cust-name")?.value.trim() || "";
+// ==============================
+// GET CUSTOMER DETAILS
+// ==============================
 
-    const houseStreet =
+const name =
+  document.getElementById("cust-name")?.value.trim() || "";
+
+const house =
   document.getElementById("cust-house-street")?.value.trim() || "";
 
-    const area =
-      document.getElementById("cust-area")?.value.trim() || "";
+const area =
+  document.getElementById("cust-area")?.value.trim() || "";
 
-    const city =
-      document.getElementById("cust-city")?.value.trim() || "";
+const city =
+  document.getElementById("cust-city")?.value.trim() || "";
 
-    const fullAddress =
-      document.getElementById("cust-full-address")?.value.trim() || "";
+const fullAddress =
+  document.getElementById("cust-full-address")?.value.trim() || "";
 
-    const phone =
-      document.getElementById("cust-phone")?.value.trim() || "";
+const phone =
+  document.getElementById("cust-phone")?.value.trim() || "";
 
 
-    // ==============================
-    // VALIDATION
-    // ==============================
-    if (
-      !name ||
-      !house ||
-      !street ||
-      !area ||
-      !city ||
-      !phone
-    ) {
-      alert("Please fill all required fields!");
-      return;
-    }
+// ==============================
+// VALIDATION
+// ==============================
+
+if (
+  !name ||
+  !house ||
+  !area ||
+  !city ||
+  !fullAddress ||
+  !phone
+) {
+  alert("Please fill all fields!");
+  return;
+}
 
 
     // ==============================
@@ -10348,13 +10350,12 @@ async function sendWhatsAppOrder() {
 
 
         // Firebase DELIVERY ADDRESS
-        address: {
-  houseStreet: houseStreet,
+address: {
+  house: house,
   city: city,
   area: area,
   fullAddress: fullAddress
 },
-
 
         // PRODUCTS
         items: orderItems,
