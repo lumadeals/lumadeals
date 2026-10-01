@@ -9605,7 +9605,579 @@ function selectSuggestion(id) {
     }
     </script>
 <script>
-               
+      function showCheckoutForm() {
+
+if (typeof cart === 'undefined' || cart.length === 0) {
+alert("Your cart is empty! Add product first");
+return;
+}
+
+const cartContent = document.querySelector('.cart-sidebar');
+
+if (!cartContent) {
+console.error("Cart sidebar not found.");
+return;
+}
+
+let itemsHTML = '';
+let totalAmount = 0;
+
+cart.forEach(function(item) {
+
+const quantity = item.quantity || 1;  
+const price = Number(item.price) || 0;  
+
+totalAmount += price * quantity;  
+
+const imgSrc =  
+  item.image ||  
+  item.img ||  
+  item.photo ||  
+  '';  
+
+itemsHTML += `  
+  <div style="  
+    display:flex;  
+    align-items:center;  
+    gap:12px;  
+    background:#f8fafc;  
+    padding:10px;  
+    border-radius:8px;  
+    margin-bottom:10px;  
+    border:1px solid #e2e8f0;  
+  ">  
+
+    <img  
+      src="${imgSrc}"  
+      alt=""  
+      style="  
+        width:50px;  
+        height:50px;  
+        object-fit:cover;  
+        border-radius:6px;  
+        background:#e2e8f0;  
+      "  
+    >  
+
+    <div style="flex-grow:1;">  
+
+      <h4 style="  
+        font-size:13px;  
+        font-weight:600;  
+        color:#0f172a;  
+        margin:0 0 4px 0;  
+      ">  
+        ${item.name}  
+      </h4>  
+
+      <span style="  
+        font-size:12px;  
+        color:#64748b;  
+      ">  
+        Qty: ${quantity} | Rs ${price}  
+      </span>  
+
+    </div>  
+
+  </div>  
+`;
+
+});
+
+const deliveryCharge = cart.length * 200;
+const grandTotal = totalAmount + deliveryCharge;
+
+/* ==========================================CHECKOUT FORM
+========================================== */
+
+cartContent.innerHTML = `
+
+<div style="  
+  padding:10px;  
+  padding-bottom:30px;  
+">  
+
+  <!-- HEADER -->  
+
+  <div style="  
+    display:flex;  
+    justify-content:space-between;  
+    align-items:center;  
+    margin-bottom:15px;  
+    border-bottom:2px solid #f1f5f9;  
+    padding-bottom:10px;  
+  ">  
+
+    <h2 style="  
+      font-size:18px;  
+      font-weight:700;  
+      color:#0f172a;  
+      margin:0;  
+    ">  
+      Checkout (COD)  
+    </h2>  
+
+    <span  
+      onclick="closeCheckoutForm()"  
+      style="  
+        font-size:20px;  
+        cursor:pointer;  
+        color:#64748b;  
+        padding:4px 8px;  
+      "  
+    >  
+      &times;  
+    </span>  
+
+  </div>  
+
+
+  <!-- ORDER SUMMARY -->  
+
+  <div style="margin-bottom:18px;">  
+
+    <p style="  
+      font-size:12px;  
+      font-weight:600;  
+      color:#64748b;  
+      margin-bottom:8px;  
+    ">  
+      Order Summary  
+    </p>  
+
+    ${itemsHTML}  
+
+    <div style="  
+      display:flex;  
+      justify-content:space-between;  
+      font-size:13px;  
+      color:#475569;  
+      padding:5px;  
+    ">  
+      <span>Subtotal:</span>  
+      <span>Rs ${totalAmount}</span>  
+    </div>  
+
+    <div style="  
+      display:flex;  
+      justify-content:space-between;  
+      font-size:13px;  
+      color:#475569;  
+      padding:5px;  
+    ">  
+      <span>Delivery:</span>  
+      <span>Rs ${deliveryCharge}</span>  
+    </div>  
+
+    <div style="  
+      display:flex;  
+      justify-content:space-between;  
+      font-size:15px;  
+      font-weight:700;  
+      color:#0f172a;  
+      padding:8px 5px;  
+      border-top:1px solid #e2e8f0;  
+      margin-top:5px;  
+    ">  
+      <span>Total:</span>
+
+<span>Rs ${grandTotal}</span>
+</div>
+
+</div>  
+
+
+  <!-- CUSTOMER DETAILS -->  
+
+  <div style="  
+    margin-bottom:12px;  
+  ">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      Full Name  
+    </label>  
+
+    <input  
+      type="text"  
+      id="cust-name"  
+      placeholder="Enter your full name"  
+      autocomplete="name"  
+      style="  
+        width:100%;  
+        padding:11px;  
+        border:1px solid #cbd5e1;  
+        border-radius:8px;  
+        font-size:14px;  
+        outline:none;  
+        background:#fff;  
+        box-sizing:border-box;  
+      "  
+    >  
+
+  </div>  
+
+
+  <!-- HOUSE -->  
+
+  <div style="margin-bottom:12px;">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      House / Flat No.  
+    </label>  
+
+    <input  
+      type="text"  
+      id="cust-house"  
+      placeholder="House / Flat No."  
+      autocomplete="street-address"  
+      style="  
+        width:100%;  
+        padding:11px;  
+        border:1px solid #cbd5e1;  
+        border-radius:8px;  
+        font-size:14px;  
+        outline:none;  
+        background:#fff;  
+        box-sizing:border-box;  
+      "  
+    >
+
+</div>  <!-- STREET -->  
+
+  <div style="margin-bottom:12px;">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      Street / Road  
+    </label>  
+
+    <input  
+      type="text"  
+      id="cust-street"  
+      placeholder="Street / Road"  
+      style="  
+        width:100%;  
+        padding:11px;  
+        border:1px solid #cbd5e1;  
+        border-radius:8px;  
+        font-size:14px;  
+        outline:none;  
+        background:#fff;  
+        box-sizing:border-box;  
+      "  
+    >  
+
+  </div>  
+
+
+  <!-- CITY -->  
+
+  <div style="margin-bottom:12px;">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      City  
+    </label>  
+
+    <div style="  
+      position:relative;  
+      width:100%;  
+    ">  
+
+      <select  
+        id="cust-city"  
+        required  
+        style="  
+          width:100%;  
+          padding:11px 38px 11px 11px;  
+          border:1px solid #cbd5e1;  
+          border-radius:8px;  
+          background:#fff;  
+          color:#334155;  
+          font-size:14px;  
+          box-sizing:border-box;  
+          appearance:none;  
+          -webkit-appearance:none;  
+          cursor:pointer;  
+          outline:none;  
+        "  
+      >
+
+<option value="">  
+              Select City  
+            </option>  </select>  
+
+      <span style="  
+        position:absolute;  
+        right:13px;  
+        top:50%;  
+        transform:translateY(-50%);  
+        pointer-events:none;  
+        color:#64748b;  
+        font-size:12px;  
+      ">  
+        ▼  
+      </span>  
+
+    </div>  
+
+  </div>  
+
+
+  <!-- AREA -->  
+
+  <div style="margin-bottom:12px;">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      Area  
+    </label>  
+
+    <div style="  
+      position:relative;  
+      width:100%;  
+    ">
+
+<select  
+id="cust-area"  
+required  
+disabled  
+style="  
+width:100%;  
+padding:11px 38px 11px 11px;  
+border:1px solid #cbd5e1;  
+border-radius:8px;  
+background:#f8fafc;  
+color:#334155;  
+font-size:14px;  
+box-sizing:border-box;  
+appearance:none;  
+-webkit-appearance:none;  
+cursor:pointer;  
+outline:none;  
+"  
+>
+
+<option value="">  
+          Select City First  
+        </option>  
+
+      </select>  
+
+      <span style="  
+        position:absolute;  
+        right:13px;  
+        top:50%;  
+        transform:translateY(-50%);  
+        pointer-events:none;  
+        color:#64748b;  
+        font-size:12px;  
+      ">  
+        ▼  
+      </span>  
+
+    </div>  
+
+  </div>  
+
+
+  <!-- PHONE -->  
+
+  <div style="margin-bottom:20px;">  
+
+    <label style="  
+      display:block;  
+      font-size:12px;  
+      font-weight:600;  
+      color:#475569;  
+      margin-bottom:5px;  
+    ">  
+      Phone Number  
+    </label>  
+
+    <input  
+      type="tel"  
+      id="cust-phone"  
+      placeholder="03XXXXXXXXX"  
+      inputmode="numeric"  
+      autocomplete="tel"  
+      style="  
+        width:100%;  
+        padding:11px;  
+        border:1px solid #cbd5e1;  
+        border-radius:8px;  
+        font-size:14px;  
+        outline:none;  
+        background:#fff;  
+        box-sizing:border-box;  
+      "  
+    >
+
+</div>  <!-- CONFIRM -->  
+
+  <button  
+    type="button"  
+    onclick="sendWhatsAppOrder()"  
+    style="  
+      width:100%;  
+      background:#22c55e;  
+      color:#fff;  
+      border:none;  
+      padding:14px;  
+      border-radius:8px;  
+      font-size:16px;  
+      font-weight:700;  
+      cursor:pointer;  
+      box-shadow:0 4px 12px rgba(34,197,94,0.3);  
+    "  
+  >  
+    Confirm Order  
+  </button>  
+
+</div>
+
+`;
+
+/* ==========================================
+LOAD CITIES AFTER FORM IS CREATED
+========================================== */
+
+const citySelect =
+document.getElementById("cust-city");
+
+const areaSelect =
+document.getElementById("cust-area");
+
+if (!citySelect || !areaSelect) {
+console.error("City/Area dropdowns not found.");
+return;
+}
+
+/* pakistanLocations already exists
+in your file near the bottom.
+*/
+
+if (
+typeof pakistanLocations !== "undefined"
+) {
+
+Object.keys(pakistanLocations)  
+  .sort()  
+  .forEach(function(cityName) {  
+
+    const option =  
+      document.createElement("option");
+
+option.value = cityName;
+option.textContent = cityName;
+
+citySelect.appendChild(option);  
+
+  });
+
+}
+
+/* ==========================================
+CITY → AREA
+========================================== */
+
+citySelect.addEventListener(
+"change",
+function() {
+
+const selectedCity =  
+    this.value;  
+
+  areaSelect.innerHTML = "";  
+
+  if (!selectedCity) {  
+
+    areaSelect.disabled = true;  
+
+    areaSelect.style.background =  
+      "#f8fafc";  
+
+    areaSelect.innerHTML =  
+      '<option value="">Select City First</option>';  
+
+    return;  
+  }  
+
+
+  areaSelect.disabled = false;  
+
+  areaSelect.style.background =  
+    "#fff";  
+
+
+  const firstOption =  
+    document.createElement("option");  
+
+  firstOption.value = "";  
+  firstOption.textContent =  
+    "Select Area";  
+
+  areaSelect.appendChild(  
+    firstOption  
+  );  
+
+
+  const areas =  
+    pakistanLocations[selectedCity] || [];  
+
+
+  areas  
+    .slice()
+
+.sort(function(a, b) {
+return a.localeCompare(b);
+})
+.forEach(function(areaName) {
+
+const option =  
+        document.createElement("option");  
+
+      option.value = areaName;  
+      option.textContent = areaName;  
+
+      areaSelect.appendChild(  
+        option  
+      );  
+
+    });  
+
+}
+
+);
+
+      }         
                                   
           
   
