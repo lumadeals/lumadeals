@@ -10210,14 +10210,13 @@ function showCheckoutForm() {
     }
 
     // GET CUSTOMER DETAILS
-    const name = document.getElementById('cust-name')?.value.trim();
-    const house = document.getElementById('cust-house')?.value.trim();
-    const street = document.getElementById('cust-street')?.value.trim();
-    const area = document.getElementById('cust-area')?.value.trim();
-   const city = document.getElementById('cust-city')?.value.trim();
-   const fullAddress = document.getElementById("cust-full-address")?.value.trim();
-    const phone = document.getElementById('cust-phone')?.value.trim();
-
+    const name = document.getElementById("cust-name").value;
+const house = document.getElementById("cust-house").value;
+const street = document.getElementById("cust-street").value;
+const city = document.getElementById("cust-city").value;
+const area = document.getElementById("cust-area").value;
+const fullAddress = document.getElementById("cust-full-address")?.value.trim() || "";
+const phone = document.getElementById("cust-phone").value;
     // VALIDATION
     if (!name || !house || !street || !area || !city || !phone) {
       alert("Please fill all fields!");
@@ -10250,35 +10249,37 @@ function showCheckoutForm() {
 
     const db = getFirestore(window.firebaseApp);
 
-    // SAVE ORDER TO FIREBASE
-    await addDoc(
-      collection(db, "orders"),
-      {
-        trackingId: trackingId,
+// SAVE ORDER TO FIREBASE
+await addDoc(
+  collection(db, "orders"),
+  {
+    trackingId: trackingId,
 
-        userId: window.currentUser.uid,
+    userId: window.currentUser.uid,
 
-        userEmail:
-          window.currentUser.email || "",
+    userEmail:
+      window.currentUser.email || "",
 
-        customerName: name,
+    customerName: name,
 
-        phone: phone,
+    phone: phone,
 
-        address: {
-  house: house,
-  street: street,
-  city: city,
-  area: area,
-  fullAddress: fullAddress
-        }
+    address: {
+      house: house,
+      street: street,
+      city: city,
+      area: area,
+      fullAddress: fullAddress
+    },
 
-        items: cart.map(item => ({
-          name: item.name,
-          price: Number(item.price),
-          quantity: item.quantity || 1,
-          img: item.img || item.image || ""
-        })),
+    items: cart.map(item => ({
+      name: item.name,
+      price: Number(item.price),
+      quantity: item.quantity || 1,
+      img: item.img || item.image || ""
+    }))
+  }
+);
 
         productIds: cart.map(item => String(item.id)),
 
