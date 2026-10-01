@@ -8080,51 +8080,81 @@ body.dark-mode .back-settings {
           ">
 
 
-        <!-- City -->
-        <select
-          id="cust-city"
-          required
-          style="
-            width:100%;
-            padding:10px;
-            margin-bottom:8px;
-            border:1px solid #cbd5e1;
-            border-radius:6px;
-            background:#fff;
-            font-size:13px;
-            box-sizing:border-box;
-          ">
+        <!-- CITY -->
+<div style="position:relative; width:100%; margin-bottom:8px;">
 
-          <option value="">
-            Select City
-          </option>
+  <select
+    id="cust-city"
+    required
+    style="
+      width:100%;
+      padding:10px 38px 10px 10px;
+      border:1px solid #cbd5e1;
+      border-radius:6px;
+      background:#fff;
+      font-size:13px;
+      box-sizing:border-box;
+      appearance:none;
+      -webkit-appearance:none;
+      cursor:pointer;
+    ">
+    <option value="">Select City</option>
+  </select>
 
-        </select>
+  <span
+    style="
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      pointer-events:none;
+      color:#64748b;
+      font-size:14px;
+      font-weight:bold;
+    ">
+    ▼
+  </span>
+
+</div>
 
 
-        <!-- Area -->
-        <select
-          id="cust-area"
-          required
-          disabled
-          style="
-            width:100%;
-            padding:10px;
-            margin-bottom:8px;
-            border:1px solid #cbd5e1;
-            border-radius:6px;
-            background:#fff;
-            font-size:13px;
-            box-sizing:border-box;
-          ">
+<!-- AREA -->
+<div style="position:relative; width:100%; margin-bottom:8px;">
 
-          <option value="">
-            Select City First
-          </option>
+  <select
+    id="cust-area"
+    required
+    disabled
+    style="
+      width:100%;
+      padding:10px 38px 10px 10px;
+      border:1px solid #cbd5e1;
+      border-radius:6px;
+      background:#fff;
+      font-size:13px;
+      box-sizing:border-box;
+      appearance:none;
+      -webkit-appearance:none;
+      cursor:pointer;
+    ">
+    <option value="">Select City First</option>
+  </select>
 
-        </select>
+  <span
+    style="
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      pointer-events:none;
+      color:#64748b;
+      font-size:14px;
+      font-weight:bold;
+    ">
+    ▼
+  </span>
 
-      </div>
+</div>
 
 
       <!-- Phone -->
