@@ -430,19 +430,13 @@ body {
 .luma-ai-container {
   position: relative;
 
-  width: min(900px, 94%);
-  height: calc(100vh - 300px);
-
-  min-height: 450px;
-  max-height: 700px;
-
-  margin: 30px auto;
+  height: calc(100vh - 180px);
 
   display: flex;
   flex-direction: column;
 
   overflow: hidden;
-
+}
   background:
     linear-gradient(
       145deg,
@@ -495,20 +489,13 @@ body {
    ========================================= */
 
 #luma-ai-messages {
-
   flex: 1;
-
   min-height: 0;
 
   overflow-y: auto;
   overflow-x: hidden;
 
   padding: 27px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
 
   scroll-behavior: smooth;
 }
@@ -656,26 +643,23 @@ body {
    ========================================= */
 
 .luma-ai-input-area {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 
   flex-shrink: 0;
 
-  width: 100%;
-
   display: flex;
-
   align-items: center;
-
   gap: 10px;
 
   padding: 14px 16px;
 
-  background:
-    rgba(10,13,15,.88);
+  background: rgba(10, 13, 15, 0.96);
 
-  border-top:
-    1px solid rgba(255,255,255,.07);
+  border-top: 1px solid rgba(255,255,255,.08);
 
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
 }
 
 
