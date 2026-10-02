@@ -7713,6 +7713,49 @@
   }
 
 }
+    .desktop-ai-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-left: 12px;
+  padding: 9px 16px;
+
+  border: 1px solid rgba(59,180,236,.45);
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #14171A,
+    #20262b
+  );
+
+  color: #3BB4EC;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  transition: .25s;
+}
+
+.desktop-ai-button:hover {
+  transform: translateY(-2px);
+
+  border-color: #3BB4EC;
+
+  box-shadow:
+    0 8px 22px rgba(59,180,236,.25);
+}
+
+.desktop-ai-button i {
+  font-size: 14px;
+}
   </style>
 
 
@@ -8263,7 +8306,16 @@
       <li onclick="showPage('about')">About Us</li>
       <li onclick="showPage('contact')">Contact</li>
       <li onclick="showPage('login')">Login</li>
-
+<li>
+  <button
+    type="button"
+    class="desktop-ai-button"
+    onclick="window.location.href='luma-ai.html'"
+  >
+    <i class="fas fa-robot"></i>
+    LumaDeals AI
+  </button>
+</li>
     </ul>
   </nav>
 
