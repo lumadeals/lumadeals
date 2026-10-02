@@ -1970,14 +1970,12 @@ async function sendLumaAIMessage() {
     }
 
 
-    const reply =
-  data.reply ||
-  "Sorry, I couldn't generate a response.";
-
-addLumaAIMessage(
-  reply,
-  "ai"
+    addLumaAIMessage(
+  "AI Error: " + (error.message || "Unknown error"),
+  "error"
 );
+
+console.error("FULL LumaDeals AI ERROR:", error);
 
 if (
   Array.isArray(data.products) &&
