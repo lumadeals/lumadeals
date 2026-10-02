@@ -2912,9 +2912,6 @@ if (
 let lumaPlaybackContext = null;
 let lumaNextAudioTime = 0;
                           
-
-        
-          
 async function playLumaAudio(base64Audio) {
   try {
     const binary = atob(base64Audio);
@@ -2966,31 +2963,21 @@ async function playLumaAudio(base64Audio) {
       lumaPlaybackContext.destination
     );
 
-    const currentTime =
+    /*
+     * Schedule every incoming audio chunk
+     * continuously without adding a large delay.
+     */
+
+    const now =
       lumaPlaybackContext.currentTime;
 
-    /*
-     * Keep a tiny safety buffer between
-     * incoming audio chunks so they don't
-     * collide or create gaps.
-     */
-    const minimumStartTime =
-      currentTime + 0.05;
-
-    if (
-      lumaNextAudioTime <
-      minimumStartTime
-    ) {
-      lumaNextAudioTime =
-        minimumStartTime;
+    if (lumaNextAudioTime < now) {
+      lumaNextAudioTime = now + 0.01;
     }
 
-    source.start(
-      lumaNextAudioTime
-    );
+    source.start(lumaNextAudioTime);
 
-    lumaNextAudioTime +=
-      audioBuffer.duration;
+    lumaNextAudioTime += audioBuffer.duration;
 
   } catch (error) {
     console.error(
@@ -2999,7 +2986,8 @@ async function playLumaAudio(base64Audio) {
     );
   }
 }
-
+        
+          
 
 
     
