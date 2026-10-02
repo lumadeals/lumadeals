@@ -2079,7 +2079,71 @@ body {
     animation: none !important;
   }
 }
+/* ===== DESKTOP ONLY — MOBILE STYLE AI CORE ===== */
+@media (min-width: 601px) {
 
+  .luma-aurora-center {
+    width: 250px !important;
+    height: 250px !important;
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .luma-ai-core {
+    width: 250px !important;
+    height: 250px !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .luma-ai-glow {
+    width: 125px !important;
+    height: 125px !important;
+  }
+
+  .luma-ai-logo-wrap {
+    width: 92px !important;
+    height: 92px !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) translateZ(40px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+  }
+
+  .luma-ai-center-logo {
+    width: 68px !important;
+    height: 68px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+  }
+
+  .luma-ai-ring-1 {
+    width: 145px !important;
+    height: 145px !important;
+  }
+
+  .luma-ai-ring-2 {
+    width: 190px !important;
+    height: 190px !important;
+  }
+
+  .luma-ai-core::before {
+    width: 170px !important;
+    height: 170px !important;
+  }
+}
   #luma-live-caption {
   position: fixed;
   left: 50%;
