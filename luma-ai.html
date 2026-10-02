@@ -1497,31 +1497,14 @@ body {
 
 /* Main blue atmospheric glow */
 
+
 .luma-ai-glow {
-  position: absolute;
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,255,255,.24) 0%,
-      rgba(59,180,236,.30) 18%,
-      rgba(59,180,236,.16) 38%,
-      rgba(59,180,236,.07) 58%,
-      transparent 75%
-    );
-
-  filter: blur(8px);
-
+  opacity: 0.22;
+  filter: blur(14px);
   box-shadow:
-    0 0 35px rgba(59,180,236,.32),
-    0 0 75px rgba(59,180,236,.22),
-    0 0 130px rgba(59,180,236,.12);
-
-  animation:
-    lumaCoreGlow 4s ease-in-out infinite;
+    0 0 20px rgba(59,180,236,.12),
+    0 0 45px rgba(59,180,236,.07),
+    0 0 75px rgba(59,180,236,.035);
 }
 
 
@@ -1560,20 +1543,18 @@ body {
 
 
 /* Actual LumaDeals AI logo */
-
 .luma-ai-center-logo {
   width: 82px;
   height: 82px;
-
   object-fit: contain;
   border-radius: 50%;
   display: block;
 
-  opacity: 0.72;
+  opacity: 0.50;
 
   filter:
-    drop-shadow(0 0 4px rgba(59,180,236,.25))
-    drop-shadow(0 0 10px rgba(59,180,236,.12));
+    drop-shadow(0 0 3px rgba(59,180,236,.16))
+    drop-shadow(0 0 7px rgba(59,180,236,.08));
 
   animation: lumaLogoBreath 3.5s ease-in-out infinite;
 }
