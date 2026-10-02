@@ -2079,27 +2079,47 @@ body {
     animation: none !important;
   }
 }
-/* ===== DESKTOP ONLY — MOBILE STYLE AI CORE ===== */
+
+
+  /* =========================================
+   DESKTOP — SAME CORE DESIGN AS MOBILE
+   ========================================= */
+
 @media (min-width: 601px) {
 
   .luma-aurora-center {
-    width: 250px !important;
-    height: 250px !important;
-    position: fixed !important;
+    position: absolute !important;
+
     left: 50% !important;
     top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-  }
 
-  .luma-ai-core {
     width: 250px !important;
     height: 250px !important;
-    position: relative !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    pointer-events: none !important;
+
+    z-index: 0 !important;
+
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+
+    perspective: 900px !important;
+  }
+
+  .luma-ai-core {
+    position: relative !important;
+
+    width: 250px !important;
+    height: 250px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transform-style: preserve-3d !important;
   }
 
   .luma-ai-glow {
@@ -2108,25 +2128,36 @@ body {
   }
 
   .luma-ai-logo-wrap {
-    width: 92px !important;
-    height: 92px !important;
     position: absolute !important;
+
     left: 50% !important;
     top: 50% !important;
-    transform: translate(-50%, -50%) translateZ(40px) !important;
+
+    width: 92px !important;
+    height: 92px !important;
+
+    transform:
+      translate(-50%, -50%)
+      translateZ(40px) !important;
+
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    overflow: hidden !important;
+
     border-radius: 50% !important;
+
+    z-index: 10 !important;
   }
 
   .luma-ai-center-logo {
     width: 68px !important;
     height: 68px !important;
-    object-fit: cover !important;
-    object-position: center !important;
+
+    object-fit: contain !important;
+
     border-radius: 50% !important;
+
+    display: block !important;
   }
 
   .luma-ai-ring-1 {
@@ -2142,6 +2173,10 @@ body {
   .luma-ai-core::before {
     width: 170px !important;
     height: 170px !important;
+  }
+
+  .luma-ai-particle {
+    pointer-events: none !important;
   }
 }
   #luma-live-caption {
