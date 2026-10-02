@@ -3275,17 +3275,6 @@ source.connect(
   lumaPlaybackContext.destination
 );
 
-lumaActiveAudioSources.push(source);
-
-source.onended = function () {
-  const index =
-    lumaActiveAudioSources.indexOf(source);
-
-  if (index !== -1) {
-    lumaActiveAudioSources.splice(index, 1);
-  }
-};
-
     /*
      * Schedule every incoming audio chunk
      * continuously without adding a large delay.
@@ -3367,13 +3356,7 @@ function stopLumaVoice() {
 
   lumaIsPlaying = false;
 
-lumaActiveAudioSources.forEach(function (source) {
-  try {
-    source.stop(0);
-  } catch (e) {}
-});
 
-lumaActiveAudioSources = [];
   /* Close continuous AI voice playback */
   if (lumaPlaybackContext) {
 
