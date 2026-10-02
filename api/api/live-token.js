@@ -10,70 +10,68 @@ export default async function handler(req, res) {
 
   try {
 
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: "GEMINI_API_KEY is not configured in Vercel."
+      });
+    }
+
     const ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY
     });
 
-    const expireTime = new Date(
-      Date.now() + 30 * 60 * 1000
-    ).toISOString();
+    const expireTime =
+      new Date(
+        Date.now() + 30 * 60 * 1000
+      ).toISOString();
 
-    const newSessionExpireTime = new Date(
-      Date.now() + 60 * 1000
-    ).toISOString();
+    const newSessionExpireTime =
+      new Date(
+        Date.now() + 60 * 1000
+      ).toISOString();
 
-    const token = await ai.authTokens.create({
-      config: {
-        uses: 1,
-        expireTime,
-        newSessionExpireTime,
+    const token =
+      await ai.authTokens.create({
 
-        liveConnectConstraints: {
-          model: "gemini-3.8-live",
+        config: {
 
-          config: {
-            responseModalities: ["AUDIO"],
+          uses: 1,
 
-            systemInstruction: {
-              parts: [
-                {
-                  text: `
-You are LumaDeals AI, the official voice shopping assistant for Luma Deals.
+          expireTime,
 
-Help customers with:
-- Products
-- Prices
-- Categories
-- Shopping questions
-- Product recommendations
-- Basic delivery and checkout guidance
+          newSessionExpireTime,
 
-Be friendly, natural and concise.
+          liveConnectConstraints: {
 
-Never invent:
-- Products
-- Prices
-- Stock
-- Discounts
-- Orders
-- Delivery status
+            model: "gemini-3.8-live",
 
-If you don't have the required product or order information,
-say so clearly.
+            config: {
 
-Never ask for passwords, OTPs, card numbers,
-or other sensitive credentials.
+              sessionResumption: {},
 
-You are a voice assistant, so speak naturally.
-Do not give extremely long answers.
-                  `
-                }
-              ]
+              responseModalities: [
+                "AUDIO"
+              ],
+
+              inputAudioTranscription: {},
+
+              outputAudioTranscription: {}
+
             }
+
           }
+
         }
-      }
-    });
+
+      });
+
+    if (!token || !token.name) {
+
+      throw new Error(
+        "Gemini did not return an ephemeral token."
+      );
+
+    }
 
     return res.status(200).json({
       token: token.name
@@ -81,10 +79,17 @@ Do not give extremely long answers.
 
   } catch (error) {
 
-    console.error("Live token error:", error);
+    console.error(
+      "Luma Live Token Error:",
+      error
+    );
 
     return res.status(500).json({
-      error: error?.message || "Unable to create Live AI session."
+      error:
+        error?.message ||
+        "Unable to create Gemini Live token."
     });
+
   }
+
 }
