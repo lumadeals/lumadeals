@@ -2025,9 +2025,11 @@ if (
 
 
     addLumaAIMessage(
-      "Sorry, AI is temporarily unavailable. Please try again.",
-      "error"
-    );
+  "AI Error: " + (error.message || "Unknown error"),
+  "error"
+);
+
+console.error("FULL LumaDeals AI ERROR:", error);
 
   } finally {
 
