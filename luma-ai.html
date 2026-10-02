@@ -2873,164 +2873,89 @@ async function handleLumaLiveMessage(message) {
 }
 
 
-/* =========================================
-   PLAY GEMINI AUDIO
-   ========================================= */
+let lumaPlaybackContext = null;
+let lumaNextAudioTime = 0;
 
 async function playLumaAudio(base64Audio) {
-
   try {
+    const binary = atob(base64Audio);
+    const bytes = new Uint8Array(binary.length);
 
-    const binary =
-      atob(base64Audio);
-
-
-    const bytes =
-      new Uint8Array(
-        binary.length
-      );
-
-
-    for (
-      let i = 0;
-      i < binary.length;
-      i++
-    ) {
-
-      bytes[i] =
-        binary.charCodeAt(i);
-
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
     }
 
-
-    lumaAudioQueue.push(bytes);
-
-
-    if (!lumaIsPlaying) {
-
-      playNextLumaAudio();
-
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Audio playback error:",
-      error
-    );
-
-  }
-}
-
-
-/* =========================================
-   AUDIO QUEUE
-   ========================================= */
-
-async function playNextLumaAudio() {
-
-  if (
-    lumaAudioQueue.length === 0
-  ) {
-
-    lumaIsPlaying = false;
-
-    return;
-  }
-
-
-  lumaIsPlaying = true;
-
-
-  const audioData =
-    lumaAudioQueue.shift();
-
-
-  try {
-
-    const audioContext =
-      new AudioContext({
+    if (!lumaPlaybackContext) {
+      lumaPlaybackContext = new AudioContext({
         sampleRate: 24000
       });
-
-
-    const int16 =
-      new Int16Array(
-        audioData.buffer
-      );
-
-
-    const float32 =
-      new Float32Array(
-        int16.length
-      );
-
-
-    for (
-      let i = 0;
-      i < int16.length;
-      i++
-    ) {
-
-      float32[i] =
-        int16[i] / 32768;
-
     }
 
+    if (lumaPlaybackContext.state === "suspended") {
+      await lumaPlaybackContext.resume();
+    }
 
-    const buffer =
-      audioContext.createBuffer(
+    const int16 = new Int16Array(
+      bytes.buffer,
+      bytes.byteOffset,
+      Math.floor(bytes.byteLength / 2)
+    );
+
+    const float32 = new Float32Array(int16.length);
+
+    for (let i = 0; i < int16.length; i++) {
+      float32[i] = int16[i] / 32768;
+    }
+
+    const audioBuffer =
+      lumaPlaybackContext.createBuffer(
         1,
         float32.length,
         24000
       );
 
-
-    buffer
+    audioBuffer
       .getChannelData(0)
       .set(float32);
 
-
     const source =
-      audioContext.createBufferSource();
+      lumaPlaybackContext.createBufferSource();
 
-
-    source.buffer = buffer;
-
+    source.buffer = audioBuffer;
 
     source.connect(
-      audioContext.destination
+      lumaPlaybackContext.destination
     );
 
+    const now =
+      lumaPlaybackContext.currentTime;
 
-    source.onended =
-      function () {
+    if (lumaNextAudioTime < now + 0.02) {
+      lumaNextAudioTime = now + 0.02;
+    }
 
-        audioContext.close();
+    source.start(lumaNextAudioTime);
 
-        playNextLumaAudio();
-
-      };
-
-
-    source.start();
+    lumaNextAudioTime += audioBuffer.duration;
 
   } catch (error) {
-
     console.error(
-      "Audio playback failed:",
+      "Luma audio playback error:",
       error
     );
-
-    lumaIsPlaying = false;
   }
 }
+      
+
+
+
+    
+    
 
 
 /* =========================================
    STOP VOICE
    ========================================= */
-
 function stopLumaVoice() {
 
   lumaVoiceActive = false;
@@ -3085,6 +3010,19 @@ function stopLumaVoice() {
   lumaIsPlaying = false;
 
 
+  /* Close continuous AI voice playback */
+  if (lumaPlaybackContext) {
+
+    try {
+      lumaPlaybackContext.close();
+    } catch (e) {}
+
+    lumaPlaybackContext = null;
+  }
+
+  lumaNextAudioTime = 0;
+
+
   const voiceButton =
     document.getElementById(
       "luma-ai-voice"
@@ -3107,6 +3045,7 @@ function stopLumaVoice() {
 
   hideLumaVoiceStatus();
 }
+
 </script>
 
 </body>
