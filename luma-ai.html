@@ -1467,55 +1467,106 @@ body {
   }
 }
      
-
-/* ================================
-   LUMADEALS AI — ANIMATED AI CORE
-   ================================ */
+/* =========================================================
+   LUMADEALS AI — 3D AURORA CORE
+   ========================================================= */
 
 .luma-aurora-center {
   position: fixed;
   left: 50%;
   top: 50%;
+
   width: 330px;
   height: 330px;
+
   transform: translate(-50%, -50%);
+
   pointer-events: none;
   z-index: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  perspective: 900px;
 }
+
+
+/* =========================================================
+   CORE
+   ========================================================= */
 
 .luma-ai-core {
   position: relative;
+
   width: 100%;
   height: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transform-style: preserve-3d;
 }
 
-/* Main blue atmospheric glow */
 
+/* =========================================================
+   ATMOSPHERIC GLOW
+   ========================================================= */
 
 .luma-ai-glow {
-  opacity: 0.12;
-  filter: blur(14px);
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 150px;
+  height: 150px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(59,180,236,.18) 0%,
+      rgba(59,180,236,.08) 32%,
+      rgba(59,180,236,.025) 58%,
+      transparent 75%
+    );
+
+  filter: blur(18px);
+
+  opacity: .45;
+
   box-shadow:
-    0 0 20px rgba(59,180,236,.12),
-    0 0 45px rgba(59,180,236,.07),
-    0 0 75px rgba(59,180,236,.035);
+    0 0 30px rgba(59,180,236,.12),
+    0 0 70px rgba(59,180,236,.07),
+    0 0 120px rgba(59,180,236,.035);
+
+  animation: lumaCoreGlow 5s ease-in-out infinite;
+
+  z-index: 1;
 }
 
 
-/* ================================
-   LOGO
-   ================================ */
+/* =========================================================
+   LOGO CONTAINER
+   ========================================================= */
 
 .luma-ai-logo-wrap {
-  position: relative;
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
   width: 112px;
   height: 112px;
+
+  transform:
+    translate(-50%, -50%)
+    translateZ(40px);
 
   display: flex;
   align-items: center;
@@ -1526,43 +1577,66 @@ body {
   background:
     radial-gradient(
       circle,
-      rgba(20,23,26,.96) 0%,
-      rgba(20,23,26,.88) 62%,
-      rgba(59,180,236,.12) 100%
+      rgba(20,23,26,.98) 0%,
+      rgba(20,23,26,.94) 58%,
+      rgba(20,23,26,.75) 78%,
+      transparent 100%
     );
 
   box-shadow:
-    0 0 18px rgba(59,180,236,.45),
-    0 0 45px rgba(59,180,236,.28),
-    inset 0 0 25px rgba(255,255,255,.06);
+    0 0 15px rgba(59,180,236,.18),
+    0 0 35px rgba(59,180,236,.10),
+    inset 0 0 22px rgba(255,255,255,.035);
 
-  animation: lumaLogoFloat 4s ease-in-out infinite;
+  animation:
+    lumaLogoFloat 4s ease-in-out infinite;
 
-  z-index: 5;
+  transform-style: preserve-3d;
+
+  z-index: 10;
 }
 
 
-/* Actual LumaDeals AI logo */
+/* =========================================================
+   LUMA DEALS AI LOGO
+   ========================================================= */
+
 .luma-ai-center-logo {
   width: 82px;
   height: 82px;
+
   object-fit: contain;
+
   border-radius: 50%;
+
   display: block;
 
-  opacity: 0.10;
+  /*
+     Dark blend removes the bright white background
+     of the JPG against the dark AI core.
+  */
+  mix-blend-mode: multiply;
+
+  opacity: .72;
 
   filter:
-    drop-shadow(0 0 3px rgba(59,180,236,.16))
-    drop-shadow(0 0 7px rgba(59,180,236,.08));
+    contrast(1.18)
+    saturate(1.08)
+    drop-shadow(0 0 5px rgba(59,180,236,.20))
+    drop-shadow(0 0 14px rgba(59,180,236,.10));
 
-  animation: lumaLogoBreath 3.5s ease-in-out infinite;
+  animation:
+    lumaLogoBreath 3.5s ease-in-out infinite;
+
+  transform: translateZ(25px);
+
+  z-index: 12;
 }
 
 
-/* ================================
-   ROTATING ENERGY RINGS
-   ================================ */
+/* =========================================================
+   AURORA ORBIT — BACK
+   ========================================================= */
 
 .luma-ai-ring {
   position: absolute;
@@ -1572,74 +1646,143 @@ body {
 
   border-radius: 50%;
 
-  transform: translate(-50%, -50%);
-
   pointer-events: none;
+
+  transform-style: preserve-3d;
+
+  z-index: 4;
 }
 
 
-/* Outer ring */
+/* =========================================================
+   PRIMARY 3D ORBIT
+   ========================================================= */
 
 .luma-ai-ring-1 {
-  width: 170px;
-  height: 170px;
+  width: 175px;
+  height: 175px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(68deg)
+    rotateZ(0deg);
 
   border:
-    1px solid rgba(59,180,236,.32);
+    1px solid rgba(59,180,236,.22);
 
   box-shadow:
-    0 0 18px rgba(59,180,236,.14),
-    inset 0 0 18px rgba(59,180,236,.08);
+    0 0 12px rgba(59,180,236,.10),
+    0 0 30px rgba(59,180,236,.05),
+    inset 0 0 15px rgba(59,180,236,.04);
 
   animation:
-    lumaRingRotate 8s linear infinite;
+    lumaOrbitOne 7s linear infinite;
 }
 
 
-/* Second ring */
+/* =========================================================
+   SECOND DEEP ORBIT
+   ========================================================= */
 
 .luma-ai-ring-2 {
-  width: 230px;
-  height: 230px;
+  width: 235px;
+  height: 235px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(64deg)
+    rotateY(12deg)
+    rotateZ(360deg);
 
   border:
-    1px solid rgba(59,180,236,.15);
+    1px solid rgba(59,180,236,.09);
 
-  border-top-color: rgba(59,180,236,.65);
-  border-right-color: rgba(255,255,255,.18);
+  border-top-color:
+    rgba(59,180,236,.42);
 
-  filter: blur(.3px);
+  border-right-color:
+    rgba(255,255,255,.08);
+
+  box-shadow:
+    0 0 20px rgba(59,180,236,.06);
+
+  filter: blur(.25px);
 
   animation:
-    lumaRingRotateReverse 11s linear infinite;
+    lumaOrbitTwo 11s linear infinite;
 }
 
 
-/* ================================
-   FLOATING PARTICLES
-   ================================ */
+/* =========================================================
+   THIRD ULTRA-SUBTLE ORBIT
+   ========================================================= */
+
+.luma-ai-core::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 205px;
+  height: 205px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(72deg)
+    rotateY(-18deg);
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(59,180,236,.055);
+
+  box-shadow:
+    0 0 18px rgba(59,180,236,.035);
+
+  animation:
+    lumaOrbitThree 14s linear infinite;
+
+  z-index: 3;
+}
+
+
+/* =========================================================
+   FLOATING AURORA PARTICLES
+   ========================================================= */
 
 .luma-ai-particle {
   position: absolute;
 
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 
   border-radius: 50%;
 
-  background: #3BB4EC;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.95) 0%,
+      rgba(59,180,236,.85) 35%,
+      rgba(59,180,236,.15) 70%,
+      transparent 100%
+    );
 
   box-shadow:
-    0 0 8px rgba(59,180,236,.95),
-    0 0 20px rgba(59,180,236,.65),
-    0 0 38px rgba(59,180,236,.30);
+    0 0 7px rgba(59,180,236,.55),
+    0 0 18px rgba(59,180,236,.25);
 
   animation:
-    lumaParticleFloat 4s ease-in-out infinite;
+    lumaParticleFloat 5s ease-in-out infinite;
+
+  z-index: 7;
 }
 
 
-/* Particle positions */
+/* =========================================================
+   PARTICLE POSITIONS
+   ========================================================= */
 
 .luma-ai-particle.p1 {
   left: 18%;
@@ -1668,96 +1811,168 @@ body {
 .luma-ai-particle.p5 {
   left: 8%;
   top: 52%;
+
   width: 3px;
   height: 3px;
+
   animation-delay: 1.5s;
 }
 
 .luma-ai-particle.p6 {
   right: 8%;
   top: 55%;
+
   width: 3px;
   height: 3px;
+
   animation-delay: 2.5s;
 }
 
 
-/* ================================
+/* =========================================================
    ANIMATIONS
-   ================================ */
+   ========================================================= */
 
 @keyframes lumaCoreGlow {
 
   0%,
   100% {
-    transform: scale(.88);
-    opacity: .25;
+    transform:
+      translate(-50%, -50%)
+      scale(.88);
+
+    opacity: .28;
   }
 
   50% {
-    transform: scale(1.12);
-    opacity: .45;
+    transform:
+      translate(-50%, -50%)
+      scale(1.12);
+
+    opacity: .48;
   }
 }
 
+
+/* =========================================================
+   LOGO FLOAT
+   ========================================================= */
 
 @keyframes lumaLogoFloat {
 
   0%,
   100% {
-    transform: translateY(0) scale(.97);
+    transform:
+      translate(-50%, -50%)
+      translateY(0)
+      translateZ(40px)
+      scale(.97);
   }
 
   50% {
-    transform: translateY(-5px) scale(1.04);
+    transform:
+      translate(-50%, -50%)
+      translateY(-5px)
+      translateZ(48px)
+      scale(1.035);
   }
 }
 
+
+/* =========================================================
+   LOGO BREATH
+   ========================================================= */
 
 @keyframes lumaLogoBreath {
 
   0%,
   100% {
-    transform: scale(.96);
+    transform:
+      translateZ(25px)
+      scale(.96);
   }
 
   50% {
-    transform: scale(1.05);
+    transform:
+      translateZ(32px)
+      scale(1.035);
   }
 }
 
 
-@keyframes lumaRingRotate {
+/* =========================================================
+   3D ORBIT 1
+   ========================================================= */
+
+@keyframes lumaOrbitOne {
 
   from {
     transform:
       translate(-50%, -50%)
-      rotate(0deg);
+      rotateX(68deg)
+      rotateZ(0deg);
   }
 
   to {
     transform:
       translate(-50%, -50%)
-      rotate(360deg);
+      rotateX(68deg)
+      rotateZ(360deg);
   }
 }
 
 
-@keyframes lumaRingRotateReverse {
+/* =========================================================
+   3D ORBIT 2
+   ========================================================= */
+
+@keyframes lumaOrbitTwo {
 
   from {
     transform:
       translate(-50%, -50%)
-      rotate(360deg);
+      rotateX(64deg)
+      rotateY(12deg)
+      rotateZ(0deg);
   }
 
   to {
     transform:
       translate(-50%, -50%)
-      rotate(0deg);
+      rotateX(64deg)
+      rotateY(12deg)
+      rotateZ(-360deg);
   }
 }
 
+
+/* =========================================================
+   3D ORBIT 3
+   ========================================================= */
+
+@keyframes lumaOrbitThree {
+
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotateX(72deg)
+      rotateY(-18deg)
+      rotateZ(0deg);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotateX(72deg)
+      rotateY(-18deg)
+      rotateZ(360deg);
+  }
+}
+
+
+/* =========================================================
+   PARTICLE MOTION
+   ========================================================= */
 
 @keyframes lumaParticleFloat {
 
@@ -1765,24 +1980,24 @@ body {
   100% {
     transform:
       translate3d(0, 0, 0)
-      scale(.65);
+      scale(.55);
 
-    opacity: .30;
+    opacity: .25;
   }
 
   50% {
     transform:
-      translate3d(18px, -24px, 0)
-      scale(1.25);
+      translate3d(18px, -24px, 25px)
+      scale(1.15);
 
-    opacity: 1;
+    opacity: .85;
   }
 }
 
 
-/* ================================
+/* =========================================================
    MOBILE
-   ================================ */
+   ========================================================= */
 
 @media (max-width: 600px) {
 
@@ -1811,14 +2026,21 @@ body {
     height: 190px;
   }
 
-  .luma-ai-glow {
+  .luma-ai-core::before {
     width: 170px;
     height: 170px;
+  }
+
+  .luma-ai-glow {
+    width: 125px;
+    height: 125px;
   }
 }
 
 
-/* Reduced motion accessibility */
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -1826,10 +2048,17 @@ body {
   .luma-ai-logo-wrap,
   .luma-ai-center-logo,
   .luma-ai-ring,
+  .luma-ai-core::before,
   .luma-ai-particle {
     animation: none !important;
   }
 }
+
+
+
+
+
+
 
 
 
