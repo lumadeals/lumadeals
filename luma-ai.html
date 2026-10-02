@@ -1598,6 +1598,61 @@ body {
   }
 
 }
+
+  #luma-live-caption {
+  position: fixed;
+  left: 50%;
+  bottom: 105px;
+  transform: translateX(-50%);
+
+  width: min(700px, calc(100vw - 40px));
+
+  padding: 10px 18px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  color: rgba(255,255,255,.92);
+  font-size: 14px;
+  line-height: 1.5;
+
+  background: rgba(20,23,26,.78);
+  border: 1px solid rgba(59,180,236,.18);
+  border-radius: 14px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.35),
+    0 0 25px rgba(59,180,236,.06);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+
+  z-index: 99998;
+}
+
+#luma-live-caption.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-3px);
+}
+
+@media (max-width:600px) {
+
+  #luma-live-caption {
+    bottom: 82px;
+    width: calc(100vw - 30px);
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+}
 </style>
 </head>
 
@@ -2777,20 +2832,22 @@ async function handleLumaLiveMessage(message) {
        ===================================== */
 
     if (
-      serverContent.inputTranscription &&
-      serverContent.inputTranscription.text
-    ) {
+  serverContent.inputTranscription &&
+  serverContent.inputTranscription.text
+) {
 
-      const text =
-        serverContent
-          .inputTranscription
-          .text;
+  const text =
+    serverContent.inputTranscription.text.trim();
 
+  console.log("You:", text);
 
-      console.log(
-        "You:",
-        text
-      );
+  const caption =
+    document.getElementById("luma-live-caption");
+
+  if (caption && text) {
+    caption.textContent = "You: " + text;
+    caption.classList.add("show");
+  }
 
     }
 
@@ -3047,6 +3104,6 @@ function stopLumaVoice() {
 }
 
 </script>
-
+<div id="luma-live-caption"></div>
 </body>
 </html>
