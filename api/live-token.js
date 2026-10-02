@@ -49,8 +49,7 @@ export default async function handler(req, res) {
 
           config: {
             responseModalities: ["AUDIO"],
-inputAudioTranscription: {},
-outputAudioTranscription: {},
+
             tools: [
               {
                 functionDeclarations: [
