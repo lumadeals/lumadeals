@@ -1865,7 +1865,9 @@ function addLumaAIProducts(products) {
 }
 
 
-function escapeHTML(value) {
+              
+
+  function escapeHTML(value) {
 
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -1969,56 +1971,77 @@ async function sendLumaAIMessage() {
     }
 
 
-    const reply =
-  data.reply ||
-  "Sorry, I couldn't generate a response.";
-
-addLumaAIMessage(
-  reply,
-  "ai"
+    addLumaAIMessage(
+  "AI Error: " + (error.message || "Unknown error"),
+  "error"
 );
 
-lumaAIHistory.push(
-  {
-    role: "user",
-    text: message
-  },
-  {
-    role: "model",
-    text: reply
-  }
-);
+console.error("FULL LumaDeals AI ERROR:", error);
 
-if (lumaAIHistory.length > 20) {
-  lumaAIHistory =
-    lumaAIHistory.slice(-20);
+if (
+  Array.isArray(data.products) &&
+  data.products.length > 0
+) {
+  addLumaAIProducts(
+    data.products
+  );
 }
 
-} catch (error) {
 
-  console.error(
-    "LumaDeals AI error:",
-    error
-  );
+    lumaAIHistory.push(
 
-  if (loadingMessage) {
-    loadingMessage.remove();
+      {
+        role: "user",
+        text: message
+      },
+
+      {
+        role: "model",
+        text: reply
+      }
+
+    );
+
+
+    if (
+      lumaAIHistory.length > 20
+    ) {
+
+      lumaAIHistory =
+        lumaAIHistory.slice(-20);
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "LumaDeals AI error:",
+      error
+    );
+
+
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+
+
+    addLumaAIMessage(
+      "Sorry, AI is temporarily unavailable. Please try again.",
+      "error"
+    );
+
+  } finally {
+
+    sendButton.disabled = false;
+
+    sendButton.textContent = "➤";
+
+    input.focus();
+
   }
 
-  addLumaAIMessage(
-    "Sorry, AI is temporarily unavailable. Please try again.",
-    "error"
-  );
-
-} finally {
-
-  sendButton.disabled = false;
-
-  sendButton.textContent = "➤";
-
-  input.focus();
-
-  }
+}
 /* =========================
    ENTER KEY
 ========================= */
