@@ -6920,7 +6920,267 @@ body.dark-mode .back-settings {
 }
   
   
-  
+  /* =========================================================
+   LUMA DEALS — FINAL 3D PREMIUM LAYER (Navbar, Cart, Login,
+   Contact, Footer, Checkout)
+   ========================================================= */
+
+/* ---------------- NAVBAR ---------------- */
+
+.navbar {
+  background: linear-gradient(180deg, #ffffff, #fbfdff) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 4px 14px rgba(15,23,42,0.06),
+    0 1px 0 rgba(15,23,42,0.04) !important;
+  border-bottom: 1px solid rgba(226,232,240,0.7) !important;
+}
+
+.logo-img {
+  box-shadow: 0 3px 8px rgba(15,23,42,0.12);
+  transition: transform .25s ease;
+}
+.logo:hover .logo-img {
+  transform: scale(1.06) rotate(-2deg);
+}
+
+/* SEARCH BOX */
+.search-box input {
+  border: 1.5px solid #dbeafe !important;
+  background: #fbfeff !important;
+  box-shadow:
+    inset 0 2px 5px rgba(15,23,42,0.04),
+    0 1px 0 rgba(255,255,255,0.8) !important;
+  transition: border-color .2s ease, box-shadow .2s ease !important;
+}
+.search-box input:focus {
+  border-color: #3BB4EC !important;
+  box-shadow:
+    inset 0 2px 5px rgba(15,23,42,0.03),
+    0 0 0 4px rgba(59,180,236,0.15) !important;
+}
+.search-box button {
+  background: linear-gradient(145deg, #4fc3f7, #0284c7) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 5px 14px rgba(2,132,199,0.3) !important;
+  transition: transform .2s ease, box-shadow .2s ease !important;
+}
+.search-box button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 8px 18px rgba(2,132,199,0.4) !important;
+}
+.search-box button:active {
+  transform: scale(.96);
+}
+
+/* NAV ICONS */
+.nav-icons .icon {
+  transition: transform .2s ease, color .2s ease !important;
+}
+.nav-icons .icon:hover {
+  transform: translateY(-2px);
+}
+.cart-icon b {
+  box-shadow: 0 3px 8px rgba(34,197,94,.4) !important;
+}
+
+
+/* ---------------- CART SIDEBAR ---------------- */
+
+.cart-sidebar {
+  background: linear-gradient(180deg, #ffffff, #fbfdff) !important;
+  box-shadow:
+    -8px 0 0 rgba(255,255,255,0.4) inset,
+    -10px 0 40px rgba(15,23,42,0.18) !important;
+}
+
+.cart-item {
+  border-radius: 10px;
+  padding: 12px 8px !important;
+  transition: background .2s ease;
+}
+.cart-item:hover {
+  background: #f8fbfd;
+}
+
+.cart-total {
+  background: #f8fbfd;
+  border-radius: 14px;
+  padding: 16px !important;
+  border: 1px solid #eef2f5;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.checkout-btn {
+  background: linear-gradient(145deg, #4fc3f7, #0284c7) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 8px 18px rgba(2,132,199,0.3) !important;
+  transition: transform .25s ease, box-shadow .25s ease !important;
+}
+.checkout-btn:hover {
+  transform: translateY(-2px) !important;
+  background: linear-gradient(145deg, #5dd0ff, #0369a1) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 14px 26px rgba(2,132,199,0.4) !important;
+}
+.checkout-btn:active {
+  transform: scale(.98) !important;
+}
+
+
+/* ---------------- LOGIN / SIGNUP ---------------- */
+
+.login-box {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px !important;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.6) inset,
+    0 20px 45px rgba(15,23,42,0.10),
+    0 6px 16px rgba(15,23,42,0.06) !important;
+  border: 1px solid rgba(226,232,240,0.7);
+}
+
+.login-box input {
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  background: #fbfdff !important;
+  box-shadow: inset 0 2px 4px rgba(15,23,42,0.03) !important;
+  transition: border-color .2s ease, box-shadow .2s ease !important;
+}
+.login-box input:focus {
+  border-color: #3BB4EC !important;
+  box-shadow: 0 0 0 4px rgba(59,180,236,0.14) !important;
+  outline: none !important;
+}
+
+.login-box button[type="submit"],
+.login-box .btn,
+#loginForm button,
+#signupForm button {
+  background: linear-gradient(145deg, #4fc3f7, #0284c7) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 11px !important;
+  padding: 13px !important;
+  font-weight: 700 !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 8px 18px rgba(2,132,199,0.3) !important;
+  transition: transform .2s ease, box-shadow .2s ease !important;
+}
+.login-box button[type="submit"]:hover,
+#loginForm button:hover,
+#signupForm button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 14px 26px rgba(2,132,199,0.4) !important;
+}
+
+
+/* ---------------- CONTACT FORM ---------------- */
+
+.info-page {
+  border-radius: 20px !important;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.6) inset,
+    0 18px 40px rgba(15,23,42,0.08) !important;
+  border: 1px solid rgba(226,232,240,0.7);
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  background: #fbfdff !important;
+  box-shadow: inset 0 2px 4px rgba(15,23,42,0.03) !important;
+  transition: border-color .2s ease, box-shadow .2s ease !important;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #3BB4EC !important;
+  box-shadow: 0 0 0 4px rgba(59,180,236,0.14) !important;
+}
+.contact-form button {
+  background: linear-gradient(145deg, #4fc3f7, #0284c7) !important;
+  border-radius: 11px !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 8px 18px rgba(2,132,199,0.3) !important;
+  transition: transform .2s ease, box-shadow .2s ease !important;
+}
+.contact-form button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 14px 26px rgba(2,132,199,0.4) !important;
+}
+
+
+/* ---------------- FOOTER BASE ---------------- */
+
+footer {
+  background: linear-gradient(180deg, #0f172a, #0a1322) !important;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.25) inset;
+}
+
+.footer-container h4 {
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.contact-icon {
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  transition: transform .2s ease, background .2s ease;
+}
+.footer-contact-info p:hover .contact-icon {
+  background: rgba(77,184,255,0.22) !important;
+  transform: scale(1.08);
+}
+
+
+/* ---------------- OLD MAIN-NAV / CATEGORIES BAR ---------------- */
+
+.main-nav li {
+  position: relative;
+  transition: color .2s ease;
+}
+.main-nav li::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: #3BB4EC;
+  transform: scaleX(0);
+  transition: transform .25s ease;
+}
+.main-nav li:hover::after {
+  transform: scaleX(1);
+}
+
+.categories li {
+  box-shadow: 0 2px 6px rgba(15,23,42,0.05) !important;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease !important;
+}
+.categories li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,123,255,0.22) !important;
+}
+.categories li.active {
+  background: linear-gradient(145deg, #4fc3f7, #0284c7) !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 8px 18px rgba(2,132,199,0.3) !important;
+}
 
           
   </style> 
