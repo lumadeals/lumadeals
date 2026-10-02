@@ -2778,14 +2778,13 @@ async function handleLumaLiveMessage(message) {
 
 
     /* =====================================
-       USER LIVE CAPTION
-       ===================================== */
+   USER TRANSCRIPTION — SMOOTH CAPTION
+   ===================================== */
 
-  if (
+if (
   serverContent.interimInputTranscription &&
   serverContent.interimInputTranscription.text
 ) {
-
   const text =
     serverContent.interimInputTranscription.text.trim();
 
@@ -2794,47 +2793,40 @@ async function handleLumaLiveMessage(message) {
 
   if (caption && text) {
 
-    caption.textContent =
-      "You: " + text;
+    clearTimeout(window.lumaCaptionTimer);
 
-    caption.classList.add("show");
+    window.lumaCaptionTimer = setTimeout(function () {
 
+      caption.textContent = "You: " + text;
+      caption.classList.add("show");
+
+    }, 250);
   }
+}
 
-  }
 
-    /* =====================================
-   USER LIVE CAPTION
+/* =====================================
+   FINAL USER TRANSCRIPTION
    ===================================== */
 
 if (
-  serverContent.interimInputTranscription &&
-  serverContent.interimInputTranscription.text
+  serverContent.inputTranscription &&
+  serverContent.inputTranscription.text
 ) {
-
   const text =
-    serverContent
-      .interimInputTranscription
-      .text
-      .trim();
+    serverContent.inputTranscription.text.trim();
 
   const caption =
-    document.getElementById(
-      "luma-live-caption"
-    );
+    document.getElementById("luma-live-caption");
 
   if (caption && text) {
 
-    caption.textContent =
-      "You: " + text;
+    clearTimeout(window.lumaCaptionTimer);
 
-    caption.classList.add(
-      "show"
-    );
-
+    caption.textContent = "You: " + text;
+    caption.classList.add("show");
   }
-
-}
+  }
     /* =====================================
        AI LIVE CAPTION
        ===================================== */
