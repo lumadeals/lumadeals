@@ -7505,6 +7505,33 @@
       }
 
     }
+
+    .sidebar-ai-btn {
+  width: 100%;
+  border: none;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3BB4EC, #14171A);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+
+.sidebar-ai-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 24px rgba(59,180,236,0.35);
+}
+
+.sidebar-ai-cat {
+  font-size: 22px;
+}
   </style>
 
 
@@ -8021,20 +8048,29 @@
       <li onclick="showPage('contact'); toggleSidebar();"><i class="fas fa-envelope"></i><span>Contact</span></li>
       <li onclick="showPage('login'); toggleSidebar();"><i class="fas fa-user"></i><span>Login</span></li>
     </ul>
-    <div class="sidebar-footer">
-      <a href="https://wa.me/923376454384" target="_blank" class="sidebar-whatsapp-btn">
-        <i class="fa-brands fa-whatsapp"></i>
-        Chat with us on WhatsApp
-      </a>
-      <div class="sidebar-socials">
-        <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank"
-          class="social-instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" class="social-tiktok"><i
-            class="fa-brands fa-tiktok"></i></a>
-        <a href="https://wa.me/923376454384" target="_blank" class="social-whatsapp"><i
-            class="fa-brands fa-whatsapp"></i></a>
-      </div>
-    </div>
+   <div class="sidebar-footer">
+  <button type="button" class="sidebar-ai-btn" onclick="toggleSidebar(); toggleLumaAI();">
+    <span class="sidebar-ai-cat">🐱</span>
+    <span>Chat with Luma AI</span>
+  </button>
+
+  <div class="sidebar-socials">
+    <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank"
+      class="social-instagram">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank"
+      class="social-tiktok">
+      <i class="fa-brands fa-tiktok"></i>
+    </a>
+
+    <a href="https://wa.me/923376454384" target="_blank"
+      class="social-whatsapp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+</div>
   </div>
 
 
@@ -17828,9 +17864,7 @@ const house =
   </footer>
   <!-- ================= LUMA AI ASSISTANT ================= -->
 
-<div id="luma-ai-button" onclick="toggleLumaAI()">
-  🤖
-</div>
+
 
 <div id="luma-ai-chat">
 
