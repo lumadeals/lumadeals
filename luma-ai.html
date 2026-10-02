@@ -430,39 +430,40 @@ body {
 .luma-ai-container {
   position: relative;
 
-  width: min(950px, calc(100% - 30px));
+  width: min(900px, 94%);
+  height: calc(100vh - 300px);
 
-  height: min(670px, calc(100vh - 235px));
+  min-height: 450px;
+  max-height: 700px;
 
-  min-height: 480px;
-
-  margin: 0 auto 35px;
+  margin: 30px auto;
 
   display: flex;
   flex-direction: column;
 
   overflow: hidden;
 
-  border-radius: 29px;
-
   background:
     linear-gradient(
       145deg,
-      rgba(255,255,255,.085),
-      rgba(255,255,255,.025)
+      rgba(20,23,26,.82),
+      rgba(10,13,15,.72)
     );
 
-  border: 1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(59,180,236,.20);
+
+  border-radius: 28px;
 
   box-shadow:
-    0 40px 100px rgba(0,0,0,.50),
-    0 0 60px rgba(59,180,236,.045),
-    inset 0 1px 0 rgba(255,255,255,.12),
-    inset 0 -1px 0 rgba(0,0,0,.25);
+    0 25px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
 
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(22px);
 }
+
+
+/* TOP LIGHT */
 
 .luma-ai-container::before {
   content: "";
@@ -478,115 +479,42 @@ body {
     linear-gradient(
       90deg,
       transparent,
-      rgba(59,180,236,.5),
+      rgba(59,180,236,.55),
       transparent
     );
 
   pointer-events: none;
-}
 
-
-/* =========================================
-   CHAT HEADER
-   ========================================= */
-
-.ai-chat-header {
-  min-height: 67px;
-
-  padding: 14px 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(59,180,236,.13),
-      rgba(255,255,255,.025)
-    );
-
-  border-bottom:
-    1px solid rgba(255,255,255,.075);
-
-  box-shadow:
-    inset 0 -1px 0 rgba(255,255,255,.025);
-}
-
-.ai-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.ai-status-dot {
-  width: 9px;
-  height: 9px;
-
-  border-radius: 50%;
-
-  background: #3bb4ec;
-
-  box-shadow:
-    0 0 8px #3bb4ec,
-    0 0 18px rgba(59,180,236,.65);
-
-  animation: statusPulse 2s infinite;
-}
-
-@keyframes statusPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(.72);
-    opacity: .55;
-  }
-}
-
-.ai-status strong {
-  display: block;
-
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.ai-status span {
-  display: block;
-
-  margin-top: 3px;
-
-  color: rgba(255,255,255,.42);
-
-  font-size: 10px;
-}
-
-.ai-powered {
-  color: rgba(255,255,255,.30);
-
-  font-size: 9px;
-
-  font-weight: 700;
-
-  letter-spacing: 1.2px;
+  z-index: 2;
 }
 
 
 /* =========================================
    MESSAGES
+   ONLY THIS AREA SCROLLS
    ========================================= */
 
 #luma-ai-messages {
+
   flex: 1;
 
+  min-height: 0;
+
   overflow-y: auto;
+  overflow-x: hidden;
 
   padding: 27px;
 
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+
   scroll-behavior: smooth;
 }
+
+
+/* SCROLLBAR */
 
 #luma-ai-messages::-webkit-scrollbar {
   width: 6px;
@@ -602,7 +530,7 @@ body {
 }
 
 #luma-ai-messages::-webkit-scrollbar-thumb:hover {
-  background: rgba(59,180,236,.25);
+  background: rgba(59,180,236,.30);
 }
 
 
@@ -611,6 +539,7 @@ body {
    ========================================= */
 
 .luma-ai-message {
+
   position: relative;
 
   width: fit-content;
@@ -618,8 +547,6 @@ body {
   max-width: 78%;
 
   padding: 14px 17px;
-
-  margin-bottom: 15px;
 
   border-radius: 18px;
 
@@ -629,10 +556,14 @@ body {
 
   word-wrap: break-word;
 
+  overflow-wrap: anywhere;
+
   animation: messageIn .28s ease;
 }
 
+
 @keyframes messageIn {
+
   from {
     opacity: 0;
     transform: translateY(10px) scale(.98);
@@ -642,12 +573,18 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
 }
 
 
-/* AI */
+/* =========================================
+   AI MESSAGE
+   ========================================= */
 
 .luma-ai-message.ai {
+
+  align-self: flex-start;
+
   background:
     linear-gradient(
       145deg,
@@ -666,6 +603,273 @@ body {
     0 10px 28px rgba(0,0,0,.18),
     inset 0 1px 0 rgba(255,255,255,.07);
 }
+
+
+/* =========================================
+   USER MESSAGE
+   ========================================= */
+
+.luma-ai-message.user {
+
+  align-self: flex-end;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3bb4ec,
+      #269dcc
+    );
+
+  color: #07151c;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  border-bottom-right-radius: 6px;
+
+  box-shadow:
+    0 10px 28px rgba(59,180,236,.20);
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+   ========================================= */
+
+.luma-ai-message.error {
+
+  align-self: flex-start;
+
+  background:
+    rgba(255,70,70,.10);
+
+  border:
+    1px solid rgba(255,70,70,.22);
+
+  color: #ffb5b5;
+}
+
+
+/* =========================================
+   INPUT AREA
+   FIXED AT BOTTOM
+   ========================================= */
+
+.luma-ai-input-area {
+
+  flex-shrink: 0;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px 16px;
+
+  background:
+    rgba(10,13,15,.88);
+
+  border-top:
+    1px solid rgba(255,255,255,.07);
+
+  backdrop-filter: blur(20px);
+}
+
+
+/* =========================================
+   TEXT INPUT
+   ========================================= */
+
+#luma-ai-input {
+
+  flex: 1;
+
+  min-width: 0;
+
+  height: 50px;
+
+  padding: 0 18px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  border-radius: 17px;
+
+  outline: none;
+
+  background:
+    rgba(255,255,255,.055);
+
+  color: white;
+
+  font-size: 15px;
+
+  transition: .25s;
+}
+
+
+#luma-ai-input::placeholder {
+  color: rgba(255,255,255,.38);
+}
+
+
+#luma-ai-input:focus {
+
+  border-color:
+    rgba(59,180,236,.55);
+
+  background:
+    rgba(255,255,255,.075);
+
+  box-shadow:
+    0 0 0 3px rgba(59,180,236,.08);
+}
+
+
+/* =========================================
+   SEND BUTTON
+   ========================================= */
+
+#luma-ai-send {
+
+  flex-shrink: 0;
+
+  width: 50px;
+  height: 50px;
+
+  border: none;
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3bb4ec,
+      #269dcc
+    );
+
+  color: #14171a;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 8px 24px rgba(59,180,236,.25);
+
+  transition:
+    transform .2s,
+    box-shadow .2s,
+    opacity .2s;
+}
+
+
+#luma-ai-send:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 30px rgba(59,180,236,.38);
+}
+
+
+#luma-ai-send:active {
+  transform: scale(.94);
+}
+
+
+#luma-ai-send:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .luma-ai-container {
+
+    width: 94%;
+
+    height: calc(100vh - 260px);
+
+    min-height: 400px;
+
+    margin: 20px auto;
+
+    border-radius: 22px;
+  }
+
+
+  #luma-ai-messages {
+
+    padding: 20px 14px;
+
+    gap: 12px;
+  }
+
+
+  .luma-ai-message {
+
+    max-width: 88%;
+
+    padding: 11px 14px;
+
+    font-size: 14px;
+  }
+
+
+  .luma-ai-input-area {
+
+    padding: 10px;
+
+    gap: 8px;
+  }
+
+
+  #luma-ai-input {
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    font-size: 14px;
+
+    border-radius: 15px;
+  }
+
+
+  #luma-ai-send {
+
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 15px;
+  }
+
+}
+
+
+    
+
+
+      
 
 
 /* USER */
@@ -938,93 +1142,7 @@ body {
     font-size: 12px;
   }
 
-  .luma-ai-container {
-    width: calc(100% - 14px);
-
-    height: calc(100vh - 215px);
-
-    min-height: 440px;
-
-    margin-bottom: 12px;
-
-    border-radius: 22px;
-  }
-
-  .ai-chat-header {
-    min-height: 60px;
-    padding: 12px 14px;
-  }
-
-  .ai-powered {
-    display: none;
-  }
-
-  #luma-ai-messages {
-    padding: 18px 13px;
-  }
-
-  .luma-ai-message {
-    max-width: 88%;
-    font-size: 13px;
-    padding: 12px 14px;
-  }
-
-  .luma-ai-input-area {
-    padding: 10px;
-  }
-
-  #luma-ai-input {
-    height: 48px;
-    border-radius: 14px;
-    font-size: 13px;
-  }
-
-  #luma-ai-send {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-  }
-}
-
-
-/* =========================================
-   EXTRA SMALL
-   ========================================= */
-
-@media (max-width: 380px) {
-
-  .luma-brand-text span {
-    display: none;
-  }
-
-  .ai-hero h1 {
-    font-size: 29px;
-  }
-
-  .luma-ai-message {
-    max-width: 91%;
-  }
-}
-
-
-/* =========================================
-   REDUCED MOTION
-   ========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-   }
-
-
-  
-
+   
 </style>
 </head>
 
@@ -1093,23 +1211,42 @@ body {
     </p>
 
   </section>
-<div class="simple-ai-bar">
-  <input
-    id="luma-ai-input"
-    type="text"
-    placeholder="Ask LumaDeals AI..."
-    maxlength="2000"
-    autocomplete="off"
-  >
+<main class="luma-ai-container">
 
-  <button
-    type="button"
-    id="luma-ai-send"
-    onclick="sendLumaAIMessage()"
-  >
-    ➤
-  </button>
-</div>
+  <!-- CHAT MESSAGES -->
+  <div id="luma-ai-messages">
+
+    <div class="luma-ai-message ai">
+      👋 Hi! I'm <strong>LumaDeals AI</strong>.
+      <br><br>
+      How can I help you today?
+    </div>
+
+  </div>
+
+  <!-- MESSAGE INPUT -->
+  <div class="luma-ai-input-area">
+
+    <input
+      id="luma-ai-input"
+      type="text"
+      placeholder="Message LumaDeals AI..."
+      maxlength="2000"
+      autocomplete="off"
+    >
+
+    <button
+      type="button"
+      id="luma-ai-send"
+      onclick="sendLumaAIMessage()"
+      aria-label="Send message"
+    >
+      ➤
+    </button>
+
+  </div>
+
+</main>
 </div>
 
 
