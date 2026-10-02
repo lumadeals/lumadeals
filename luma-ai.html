@@ -1742,14 +1742,24 @@ body {
 <div class="luma-ai-input-area">
 
   <button
-    type="button"
-    id="luma-ai-voice"
-    onclick="toggleLumaVoice()"
-    aria-label="Start voice conversation"
-    title="Voice conversation"
-  >
-    🎙️
-  </button>
+  type="button"
+  id="luma-ai-voice"
+  onclick="startLumaVoice()"
+  aria-label="Voice"
+  title="Voice"
+  style="background:none; border:none; cursor:pointer; padding:0 10px; display:flex; align-items:center; justify-content:center;"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3z"
+      fill="#3BB4EC"
+    />
+    <path
+      d="M17 12c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V22h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+      fill="#3BB4EC"
+    />
+  </svg>
+</button>
 
   <input
     id="luma-ai-input"
