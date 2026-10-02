@@ -2778,29 +2778,22 @@ async function handleLumaLiveMessage(message) {
 
 
     /* =====================================
-   USER TRANSCRIPTION — SMOOTH CAPTION
+   USER TRANSCRIPTION — FINAL ONLY
    ===================================== */
 
 if (
-  serverContent.interimInputTranscription &&
-  serverContent.interimInputTranscription.text
+  serverContent.inputTranscription &&
+  serverContent.inputTranscription.text
 ) {
   const text =
-    serverContent.interimInputTranscription.text.trim();
+    serverContent.inputTranscription.text.trim();
 
   const caption =
     document.getElementById("luma-live-caption");
 
   if (caption && text) {
-
-    clearTimeout(window.lumaCaptionTimer);
-
-    window.lumaCaptionTimer = setTimeout(function () {
-
-      caption.textContent = "You: " + text;
-      caption.classList.add("show");
-
-    }, 250);
+    caption.textContent = "You: " + text;
+    caption.classList.add("show");
   }
 }
 
