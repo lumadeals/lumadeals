@@ -2804,39 +2804,37 @@ async function handleLumaLiveMessage(message) {
   }
 
     /* =====================================
-       USER FINAL CAPTION
-       ===================================== */
+   USER LIVE CAPTION
+   ===================================== */
 
-    if (
-      serverContent.inputTranscription &&
-      serverContent.inputTranscription.text
-    ) {
+if (
+  serverContent.interimInputTranscription &&
+  serverContent.interimInputTranscription.text
+) {
 
-      const text =
-        serverContent
-          .inputTranscription
-          .text
-          .trim();
+  const text =
+    serverContent
+      .interimInputTranscription
+      .text
+      .trim();
 
-      const caption =
-        document.getElementById(
-          "luma-live-caption"
-        );
+  const caption =
+    document.getElementById(
+      "luma-live-caption"
+    );
 
-      if (caption && text) {
+  if (caption && text) {
 
-        caption.textContent =
-          "You: " + text;
+    caption.textContent =
+      "You: " + text;
 
-        caption.classList.add(
-          "show"
-        );
+    caption.classList.add(
+      "show"
+    );
 
-      }
-
-    }
   }
 
+}
     /* =====================================
        AI LIVE CAPTION
        ===================================== */
