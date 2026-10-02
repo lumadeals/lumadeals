@@ -8652,33 +8652,46 @@
         </div>
 
 
-        <!-- Address -->
-        <div style="margin-bottom:10px;">
+        
+        <!-- PROVINCE -->
+<div style="position:relative; width:100%; margin-bottom:8px;">
 
-          <!-- House / Flat -->
-          <input type="text" id="cust-house" placeholder="House / Flat No." style="
-            width:100%;
-            padding:10px;
-            margin-bottom:8px;
-            border:1px solid #cbd5e1;
-            border-radius:6px;
-            font-size:13px;
-            box-sizing:border-box;
-          ">
+  <select id="cust-province" required style="
+    width:100%;
+    padding:10px 38px 10px 10px;
+    border:1px solid #cbd5e1;
+    border-radius:6px;
+    background:#fff;
+    font-size:13px;
+    box-sizing:border-box;
+    appearance:none;
+    -webkit-appearance:none;
+    cursor:pointer;
+  ">
+    <option value="">Select Province</option>
+    <option value="Punjab">Punjab</option>
+    <option value="Sindh">Sindh</option>
+    <option value="Khyber Pakhtunkhwa">Khyber Pakhtunkhwa</option>
+    <option value="Balochistan">Balochistan</option>
+    <option value="Islamabad Capital Territory">Islamabad Capital Territory</option>
+    <option value="Azad Jammu & Kashmir">Azad Jammu & Kashmir</option>
+    <option value="Gilgit-Baltistan">Gilgit-Baltistan</option>
+  </select>
 
+  <span style="
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    pointer-events:none;
+    color:#64748b;
+    font-size:14px;
+    font-weight:bold;
+  ">
+    ▼
+  </span>
 
-          <!-- Street / Road -->
-          <input type="text" id="cust-street" placeholder="Street / Road No." style="
-            width:100%;
-            padding:10px;
-            margin-bottom:8px;
-            border:1px solid #cbd5e1;
-            border-radius:6px;
-            font-size:13px;
-            box-sizing:border-box;
-          ">
-
-        </div>
+</div>
         <!-- CITY -->
         <div style="position:relative; width:100%; margin-bottom:8px;">
 
@@ -8743,6 +8756,33 @@
     ">
             ▼
           </span>
+
+        </div>
+        <!-- Address -->
+        <div style="margin-bottom:10px;">
+
+          <!-- House / Flat -->
+          <input type="text" id="cust-house" placeholder="House / Flat No." style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
+
+
+          <!-- Street / Road -->
+          <input type="text" id="cust-street" placeholder="Street / Road No." style="
+            width:100%;
+            padding:10px;
+            margin-bottom:8px;
+            border:1px solid #cbd5e1;
+            border-radius:6px;
+            font-size:13px;
+            box-sizing:border-box;
+          ">
 
         </div>
 
@@ -10758,15 +10798,16 @@ outline:none;
         const name =
           document.getElementById("cust-name")?.value.trim() || "";
 
-        const house =
-          document.getElementById("cust-house-street")?.value.trim() || "";
+        const province = document.getElementById("cust-province").value;
+
 
         const area =
           document.getElementById("cust-area")?.value.trim() || "";
 
         const city =
           document.getElementById("cust-city")?.value.trim() || "";
-
+const house =
+          document.getElementById("cust-house-street")?.value.trim() || "";
         const fullAddress =
           document.getElementById("cust-full-address")?.value.trim() || "";
 
@@ -10893,11 +10934,12 @@ outline:none;
 
             // Firebase DELIVERY ADDRESS
             address: {
-              house: house,
-              city: city,
-              area: area,
-              fullAddress: fullAddress
-            },
+  province: province,
+  houseStreet: houseStreet,
+  city: city,
+  area: area,
+  fullAddress: fullAddress
+},
 
             // PRODUCTS
             items: orderItems,
@@ -17051,7 +17093,74 @@ outline:none;
 
     };
 
+document.addEventListener("change", function (e) {
 
+  // PROVINCE → CITY
+  if (e.target.id === "cust-province") {
+
+    const province = e.target.value;
+    const citySelect = document.getElementById("cust-city");
+    const areaSelect = document.getElementById("cust-area");
+
+    if (!citySelect) return;
+
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    if (areaSelect) {
+      areaSelect.innerHTML = '<option value="">Select Area</option>';
+    }
+
+    if (province && locationData[province]) {
+
+      Object.keys(locationData[province]).forEach(function (city) {
+
+        const option = document.createElement("option");
+
+        option.value = city;
+        option.textContent = city;
+
+        citySelect.appendChild(option);
+
+      });
+    }
+  }
+
+
+  // CITY → AREA
+  if (e.target.id === "cust-city") {
+
+    const provinceSelect = document.getElementById("cust-province");
+    const citySelect = e.target;
+    const areaSelect = document.getElementById("cust-area");
+
+    if (!provinceSelect || !areaSelect) return;
+
+    const province = provinceSelect.value;
+    const city = citySelect.value;
+
+    areaSelect.innerHTML = '<option value="">Select Area</option>';
+
+    if (
+      province &&
+      city &&
+      locationData[province] &&
+      locationData[province][city]
+    ) {
+
+      locationData[province][city].forEach(function (area) {
+
+        const option = document.createElement("option");
+
+        option.value = area;
+        option.textContent = area;
+
+        areaSelect.appendChild(option);
+
+      });
+    }
+  }
+
+});
 
   </script>
   <footer>
