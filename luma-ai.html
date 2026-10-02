@@ -1388,164 +1388,315 @@ body {
     font-size: 14px;
   }
 }
-  /* =========================================
-   LUMADEALS AI — 3D AURORA CENTER
-   ========================================= */
+     
+
+/* ================================
+   LUMADEALS AI — ANIMATED AI CORE
+   ================================ */
 
 .luma-aurora-center {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 280px;
-  height: 280px;
+  width: 330px;
+  height: 330px;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.75;
-  filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Main glowing sphere */
-.luma-aurora-center::before {
-  content: "";
+.luma-ai-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main blue atmospheric glow */
+
+.luma-ai-glow {
   position: absolute;
-  inset: 20px;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.24) 0%,
+      rgba(59,180,236,.30) 18%,
+      rgba(59,180,236,.16) 38%,
+      rgba(59,180,236,.07) 58%,
+      transparent 75%
+    );
+
+  filter: blur(8px);
+
+  box-shadow:
+    0 0 35px rgba(59,180,236,.32),
+    0 0 75px rgba(59,180,236,.22),
+    0 0 130px rgba(59,180,236,.12);
+
+  animation:
+    lumaCoreGlow 4s ease-in-out infinite;
+}
+
+
+/* ================================
+   LOGO
+   ================================ */
+
+.luma-ai-logo-wrap {
+  position: relative;
+  width: 112px;
+  height: 112px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
 
   background:
     radial-gradient(
-      circle at 35% 30%,
-      rgba(255,255,255,.75) 0%,
-      rgba(59,180,236,.55) 8%,
-      rgba(59,180,236,.22) 28%,
-      rgba(20,23,26,0) 68%
+      circle,
+      rgba(20,23,26,.96) 0%,
+      rgba(20,23,26,.88) 62%,
+      rgba(59,180,236,.12) 100%
     );
 
   box-shadow:
-    0 0 35px rgba(59,180,236,.35),
-    0 0 80px rgba(59,180,236,.20),
-    inset 0 0 45px rgba(255,255,255,.08);
+    0 0 18px rgba(59,180,236,.45),
+    0 0 45px rgba(59,180,236,.28),
+    inset 0 0 25px rgba(255,255,255,.06);
 
-  animation:
-    lumaAuroraPulse 5s ease-in-out infinite;
+  animation: lumaLogoFloat 4s ease-in-out infinite;
+
+  z-index: 5;
 }
 
-/* Rotating aurora ring */
-.luma-aurora-center::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+
+/* Actual LumaDeals AI logo */
+
+.luma-ai-center-logo {
+  width: 82px;
+  height: 82px;
+
+  object-fit: contain;
 
   border-radius: 50%;
 
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      rgba(59,180,236,.05) 40deg,
-      rgba(59,180,236,.55) 90deg,
-      rgba(255,255,255,.18) 130deg,
-      transparent 180deg,
-      rgba(59,180,236,.35) 250deg,
-      transparent 320deg
-    );
+  display: block;
 
-  -webkit-mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 13px),
-      #000 calc(100% - 12px)
-    );
+  filter:
+    drop-shadow(0 0 8px rgba(59,180,236,.65))
+    drop-shadow(0 0 20px rgba(59,180,236,.35));
 
-  mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 13px),
-      #000 calc(100% - 12px)
-    );
-
-  filter: blur(2px);
-
-  animation:
-    lumaAuroraRotate 8s linear infinite;
+  animation: lumaLogoBreath 3.5s ease-in-out infinite;
 }
 
-/* Floating light particles */
-.luma-aurora-particle {
+
+/* ================================
+   ROTATING ENERGY RINGS
+   ================================ */
+
+.luma-ai-ring {
   position: absolute;
 
-  width: 7px;
-  height: 7px;
+  left: 50%;
+  top: 50%;
 
   border-radius: 50%;
 
-  background: #3bb4ec;
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+}
+
+
+/* Outer ring */
+
+.luma-ai-ring-1 {
+  width: 170px;
+  height: 170px;
+
+  border:
+    1px solid rgba(59,180,236,.32);
 
   box-shadow:
-    0 0 10px rgba(59,180,236,.9),
-    0 0 25px rgba(59,180,236,.65),
-    0 0 50px rgba(59,180,236,.35);
+    0 0 18px rgba(59,180,236,.14),
+    inset 0 0 18px rgba(59,180,236,.08);
+
+  animation:
+    lumaRingRotate 8s linear infinite;
+}
+
+
+/* Second ring */
+
+.luma-ai-ring-2 {
+  width: 230px;
+  height: 230px;
+
+  border:
+    1px solid rgba(59,180,236,.15);
+
+  border-top-color: rgba(59,180,236,.65);
+  border-right-color: rgba(255,255,255,.18);
+
+  filter: blur(.3px);
+
+  animation:
+    lumaRingRotateReverse 11s linear infinite;
+}
+
+
+/* ================================
+   FLOATING PARTICLES
+   ================================ */
+
+.luma-ai-particle {
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #3BB4EC;
+
+  box-shadow:
+    0 0 8px rgba(59,180,236,.95),
+    0 0 20px rgba(59,180,236,.65),
+    0 0 38px rgba(59,180,236,.30);
 
   animation:
     lumaParticleFloat 4s ease-in-out infinite;
 }
 
-.luma-aurora-particle:nth-child(1) {
-  left: 25%;
-  top: 20%;
+
+/* Particle positions */
+
+.luma-ai-particle.p1 {
+  left: 18%;
+  top: 30%;
   animation-delay: 0s;
 }
 
-.luma-aurora-particle:nth-child(2) {
-  right: 20%;
-  top: 35%;
+.luma-ai-particle.p2 {
+  right: 18%;
+  top: 28%;
   animation-delay: 1s;
 }
 
-.luma-aurora-particle:nth-child(3) {
-  left: 35%;
-  bottom: 20%;
+.luma-ai-particle.p3 {
+  left: 25%;
+  bottom: 22%;
   animation-delay: 2s;
 }
 
-.luma-aurora-particle:nth-child(4) {
-  right: 30%;
-  bottom: 30%;
+.luma-ai-particle.p4 {
+  right: 23%;
+  bottom: 25%;
   animation-delay: 3s;
 }
 
+.luma-ai-particle.p5 {
+  left: 8%;
+  top: 52%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.5s;
+}
 
-/* =========================================
-   ANIMATIONS
-   ========================================= */
-
-@keyframes lumaAuroraRotate {
-
-  from {
-    transform: rotate(0deg) scale(1);
-  }
-
-  to {
-    transform: rotate(360deg) scale(1.05);
-  }
-
+.luma-ai-particle.p6 {
+  right: 8%;
+  top: 55%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 2.5s;
 }
 
 
-@keyframes lumaAuroraPulse {
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes lumaCoreGlow {
 
   0%,
   100% {
-    transform: scale(.92);
+    transform: scale(.88);
     opacity: .55;
   }
 
   50% {
-    transform: scale(1.08);
-    opacity: .9;
+    transform: scale(1.12);
+    opacity: .95;
+  }
+}
+
+
+@keyframes lumaLogoFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(.97);
   }
 
+  50% {
+    transform: translateY(-5px) scale(1.04);
+  }
+}
+
+
+@keyframes lumaLogoBreath {
+
+  0%,
+  100% {
+    transform: scale(.96);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+
+@keyframes lumaRingRotate {
+
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
+}
+
+
+@keyframes lumaRingRotateReverse {
+
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
 }
 
 
@@ -1555,49 +1706,73 @@ body {
   100% {
     transform:
       translate3d(0, 0, 0)
-      scale(.7);
+      scale(.65);
 
-    opacity: .35;
+    opacity: .30;
   }
 
   50% {
     transform:
-      translate3d(25px, -30px, 0)
+      translate3d(18px, -24px, 0)
       scale(1.25);
 
     opacity: 1;
   }
-
 }
 
 
-/* =========================================
-   KEEP CHAT ABOVE AURORA
-   ========================================= */
-
-#luma-ai-messages,
-.luma-ai-input-area,
-.luma-ai-messages,
-.luma-ai-header,
-.luma-ai-hero {
-  position: relative;
-  z-index: 2;
-}
-
-
-/* =========================================
+/* ================================
    MOBILE
-   ========================================= */
+   ================================ */
 
 @media (max-width: 600px) {
 
   .luma-aurora-center {
-    width: 210px;
-    height: 210px;
-    opacity: .55;
+    width: 250px;
+    height: 250px;
   }
 
+  .luma-ai-logo-wrap {
+    width: 92px;
+    height: 92px;
+  }
+
+  .luma-ai-center-logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .luma-ai-ring-1 {
+    width: 145px;
+    height: 145px;
+  }
+
+  .luma-ai-ring-2 {
+    width: 190px;
+    height: 190px;
+  }
+
+  .luma-ai-glow {
+    width: 170px;
+    height: 170px;
+  }
 }
+
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .luma-ai-glow,
+  .luma-ai-logo-wrap,
+  .luma-ai-center-logo,
+  .luma-ai-ring,
+  .luma-ai-particle {
+    animation: none !important;
+  }
+}
+
+
 
   #luma-live-caption {
   position: fixed;
@@ -1723,10 +1898,27 @@ body {
   
 <!-- 3D AURORA BACKGROUND -->
 <div class="luma-aurora-center">
-  <span class="luma-aurora-particle"></span>
-  <span class="luma-aurora-particle"></span>
-  <span class="luma-aurora-particle"></span>
-  <span class="luma-aurora-particle"></span>
+  <div class="luma-ai-core">
+    <div class="luma-ai-glow"></div>
+
+    <div class="luma-ai-logo-wrap">
+      <img
+        src="./images/assets/luma-deals-ai-logo.jpg"
+        alt="LumaDeals AI"
+        class="luma-ai-center-logo"
+      />
+    </div>
+
+    <div class="luma-ai-ring luma-ai-ring-1"></div>
+    <div class="luma-ai-ring luma-ai-ring-2"></div>
+
+    <span class="luma-ai-particle p1"></span>
+    <span class="luma-ai-particle p2"></span>
+    <span class="luma-ai-particle p3"></span>
+    <span class="luma-ai-particle p4"></span>
+    <span class="luma-ai-particle p5"></span>
+    <span class="luma-ai-particle p6"></span>
+  </div>
 </div>
   <!-- CHAT MESSAGES -->
   <div id="luma-ai-messages">
