@@ -90,7 +90,6 @@ Rules:
     console.error("Gemini API error:", error);
 
     return res.status(500).json({
-      error: "AI assistant is temporarily unavailable."
+      error: error?.message || "Gemini API request failed."
     });
   }
-}
