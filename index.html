@@ -7506,31 +7506,212 @@
 
     }
 
-    .sidebar-ai-btn {
+    .sidebar-whatsapp-btn {
+
+  position: relative;
+
   width: 100%;
-  border: none;
-  padding: 13px 16px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #3BB4EC, #14171A);
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
+  min-height: 58px;
+
+  padding: 10px 16px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  transition: all 0.25s ease;
+  gap: 11px;
+
+  border: 1px solid rgba(59, 180, 236, .45);
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59, 180, 236, .22),
+      rgba(20, 23, 26, .95)
+    );
+
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: .2px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.30),
+    inset 0 1px 1px rgba(255,255,255,.16),
+    inset 0 -2px 5px rgba(0,0,0,.25);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
 }
 
-.sidebar-ai-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 9px 24px rgba(59,180,236,0.35);
+
+/* LOGO */
+
+.sidebar-whatsapp-btn img {
+
+  width: 34px;
+  height: 34px;
+
+  object-fit: contain;
+
+  padding: 4px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  border:
+    1px solid rgba(255,255,255,.16);
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.28);
+
+  transition:
+    transform .3s ease;
 }
 
-.sidebar-ai-cat {
-  font-size: 22px;
+
+/* SHINE EFFECT */
+
+.sidebar-whatsapp-btn::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.18),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  transition: left .6s ease;
+}
+
+
+/* HOVER */
+
+.sidebar-whatsapp-btn:hover {
+
+  transform:
+    translateY(-3px)
+    scale(1.015);
+
+  border-color:
+    rgba(59,180,236,.85);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.40),
+    0 0 22px rgba(59,180,236,.18),
+    inset 0 1px 1px rgba(255,255,255,.20);
+}
+
+
+.sidebar-whatsapp-btn:hover::before {
+
+  left: 130%;
+}
+
+
+.sidebar-whatsapp-btn:hover img {
+
+  transform:
+    rotate(-5deg)
+    scale(1.08);
+}
+
+
+/* CLICK */
+
+.sidebar-whatsapp-btn:active {
+
+  transform:
+    translateY(1px)
+    scale(.98);
+
+  box-shadow:
+    0 5px 12px rgba(0,0,0,.35);
+}
+
+
+/* AI PULSE */
+
+.sidebar-whatsapp-btn::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: -2px;
+
+  border-radius: 17px;
+
+  border:
+    1px solid rgba(59,180,236,.18);
+
+  opacity: 0;
+
+  animation:
+    aiButtonPulse 2.8s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+
+@keyframes aiButtonPulse {
+
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .sidebar-whatsapp-btn {
+
+    min-height: 56px;
+
+    border-radius: 15px;
+
+    font-size: 13px;
+  }
+
+  .sidebar-whatsapp-btn img {
+
+    width: 32px;
+    height: 32px;
+  }
+
 }
   </style>
 
@@ -8049,10 +8230,10 @@
       <li onclick="showPage('login'); toggleSidebar();"><i class="fas fa-user"></i><span>Login</span></li>
     </ul>
    <div class="sidebar-footer">
-  <button type="button" class="sidebar-ai-btn" onclick="toggleSidebar(); toggleLumaAI();">
-    <span class="sidebar-ai-cat">🐱</span>
-    <span>Chat with Luma AI</span>
-  </button>
+<button onclick="window.location.href='luma-ai.html'" class="sidebar-whatsapp-btn">
+  <img src="./images/assets/favicon.png" alt="Luma Deals">
+  <span>Chat with Luma AI</span>
+</button>
 
   <div class="sidebar-socials">
     <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank"
