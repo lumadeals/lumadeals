@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LumaDeals AI</title>
+
+<link rel="icon" href="./images/assets/favicon.png">
+
+<style>
+
+/* =========================
+   LUMADEALS AI
+========================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(59,180,236,.20),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 85%,
+      rgba(59,180,236,.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #070b0f,
+      #111820 45%,
+      #05080b
+    );
+
+  color: white;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   BACKGROUND EFFECTS
+========================= */
+
+.ai-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ai-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .25;
+}
+
+.ai-orb.one {
+  width: 300px;
+  height: 300px;
+  background: #3BB4EC;
+  top: -100px;
+  left: -80px;
+}
+
+.ai-orb.two {
+  width: 260px;
+  height: 260px;
+  background: #1d6f91;
+  right: -80px;
+  bottom: -80px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.luma-ai-page {
+
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.luma-ai-topbar {
+
+  width: 100%;
+
+  padding: 18px 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    rgba(8,12,16,.72);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+}
+
+
+.luma-brand {
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.luma-logo {
+
+  width: 46px;
+  height: 46px;
+
+  object-fit: contain;
+
+  border-radius: 13px;
+
+  padding: 5px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(59,180,236,.35);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.35);
+}
+
+
+.luma-brand-text strong {
+
+  display: block;
+
+  font-size: 19px;
+
+  letter-spacing: .3px;
+}
+
+
+.luma-brand-text span {
+
+  display: block;
+
+  margin-top: 3px;
+
+  color: #9ba9b5;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+}
+
+
+.back-button {
+
+  border: 1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.06);
+
+  color: white;
+
+  padding: 10px 15px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+
+  transition: .25s ease;
+}
+
+
+.back-button:hover {
+
+  background:
+    rgba(59,180,236,.16);
+
+  border-color:
+    rgba(59,180,236,.5);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.ai-hero {
+
+  text-align: center;
+
+  padding:
+    38px 20px 24px;
+}
+
+
+.ai-avatar {
+
+  width: 82px;
+  height: 82px;
+
+  margin: 0 auto 18px;
+
+  border-radius: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 43px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,180,236,.28),
+      rgba(255,255,255,.05)
+    );
+
+  border:
+    1px solid rgba(59,180,236,.38);
+
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.40),
+    inset 0 1px 0 rgba(255,255,255,.14);
+
+  transform:
+    perspective(500px)
+    rotateX(5deg);
+}
+
+
+.ai-hero h1 {
+
+  font-size:
+    clamp(30px, 6vw, 48px);
+
+  font-weight: 800;
+
+  letter-spacing: -.8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #3BB4EC,
+      #ffffff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+
+.ai-hero p {
+
+  margin-top: 9px;
+
+  color: #aab7c2;
+
+  font-size: 14px;
+}
+
+
+/* =========================
+   CHAT CONTAINER
+========================= */
+
+.luma-ai-container {
+
+  width:
+    min(920px, calc(100% - 30px));
+
+  height:
+    min(650px, calc(100vh - 230px));
+
+  min-height: 470px;
+
+  margin:
+    0 auto 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.095),
+      rgba(255,255,255,.035)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.13);
+
+  border-radius: 28px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.50),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(25px);
+
+  -webkit-backdrop-filter:
+    blur(25px);
+}
+
+
+/* =========================
+   CHAT HEADER
+========================= */
+
+.ai-chat-header {
+
+  padding:
+    17px 21px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,180,236,.20),
+      rgba(20,23,26,.70)
+    );
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+}
+
+
+.ai-status {
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.ai-status-dot {
+
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #3BB4EC;
+
+  box-shadow:
+    0 0 15px #3BB4EC;
+}
+
+
+.ai-status strong {
+
+  font-size: 14px;
+}
+
+
+.ai-status span {
+
+  display: block;
+
+  color: #9eabb5;
+
+  font-size: 11px;
+
+  margin-top: 2px;
+}
+
+
+.ai-powered {
+
+  font-size: 10px;
+
+  color: #8997a1;
+
+  letter-spacing: .7px;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+#luma-ai-messages {
+
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 25px;
+
+  scroll-behavior: smooth;
+}
+
+
+#luma-ai-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#luma-ai-messages::-webkit-scrollbar-thumb {
+
+  background:
+    rgba(255,255,255,.14);
+
+  border-radius: 20px;
+}
+
+
+.luma-ai-message {
+
+  width: fit-content;
+
+  max-width: 78%;
+
+  padding:
+    13px 16px;
+
+  margin-bottom: 14px;
+
+  border-radius: 17px;
+
+  font-size: 14px;
+
+  line-height: 1.55;
+
+  word-wrap: break-word;
+
+  animation:
+    messageIn .25s ease;
+}
+
+
+@keyframes messageIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+.luma-ai-message.ai {
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.055)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.09);
+
+  color: #edf3f6;
+
+  border-bottom-left-radius: 5px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.16);
+}
+
+
+.luma-ai-message.user {
+
+  margin-left: auto;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3BB4EC,
+      #247ea6
+    );
+
+  color: white;
+
+  border-bottom-right-radius: 5px;
+
+  box-shadow:
+    0 8px 25px rgba(59,180,236,.20);
+}
+
+
+.luma-ai-message.error {
+
+  background:
+    rgba(180,35,24,.15);
+
+  border:
+    1px solid rgba(255,80,70,.25);
+
+  color: #ffaaa4;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.luma-ai-input-area {
+
+  display: flex;
+
+  gap: 10px;
+
+  padding: 15px;
+
+  background:
+    rgba(5,8,11,.65);
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+}
+
+
+#luma-ai-input {
+
+  flex: 1;
+
+  min-width: 0;
+
+  height: 52px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  border-radius: 15px;
+
+  padding:
+    0 16px;
+
+  outline: none;
+
+  background:
+    rgba(255,255,255,.065);
+
+  color: white;
+
+  font-size: 14px;
+
+  transition: .25s ease;
+}
+
+
+#luma-ai-input::placeholder {
+
+  color: #7f8b94;
+}
+
+
+#luma-ai-input:focus {
+
+  border-color:
+    rgba(59,180,236,.65);
+
+  box-shadow:
+    0 0 0 3px rgba(59,180,236,.10);
+}
+
+
+#luma-ai-send {
+
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  border: 0;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3BB4EC,
+      #247ea6
+    );
+
+  color: white;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(59,180,236,.22);
+
+  transition: .25s ease;
+}
+
+
+#luma-ai-send:hover {
+
+  transform:
+    translateY(-2px)
+    scale(1.03);
+
+  box-shadow:
+    0 12px 30px rgba(59,180,236,.32);
+}
+
+
+#luma-ai-send:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .luma-ai-topbar {
+
+    padding:
+      14px 15px;
+  }
+
+
+  .luma-logo {
+
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .luma-brand-text strong {
+
+    font-size: 16px;
+  }
+
+
+  .luma-brand-text span {
+
+    font-size: 9px;
+  }
+
+
+  .back-button {
+
+    padding:
+      9px 11px;
+
+    font-size: 11px;
+  }
+
+
+  .ai-hero {
+
+    padding:
+      28px 15px 18px;
+  }
+
+
+  .ai-avatar {
+
+    width: 68px;
+    height: 68px;
+
+    font-size: 35px;
+  }
+
+
+  .ai-hero h1 {
+
+    font-size: 31px;
+  }
+
+
+  .ai-hero p {
+
+    font-size: 12px;
+  }
+
+
+  .luma-ai-container {
+
+    width:
+      calc(100% - 16px);
+
+    height:
+      calc(100vh - 225px);
+
+    min-height: 430px;
+
+    border-radius: 22px;
+
+    margin-bottom: 15px;
+  }
+
+
+  #luma-ai-messages {
+
+    padding: 17px 13px;
+  }
+
+
+  .luma-ai-message {
+
+    max-width: 88%;
+
+    font-size: 13px;
+  }
+
+
+  .ai-powered {
+
+    display: none;
+  }
+
+}
+
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation: none !important;
+
+    transition: none !important;
+
+    scroll-behavior: auto !important;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="ai-background">
+  <div class="ai-orb one"></div>
+  <div class="ai-orb two"></div>
+</div>
+
+
+<div class="luma-ai-page">
+
+
+  <!-- HEADER -->
+
+  <header class="luma-ai-topbar">
+
+    <div class="luma-brand">
+
+      <img
+        src="./images/assets/favicon.png"
+        alt="Luma Deals"
+        class="luma-logo"
+      >
+
+      <div class="luma-brand-text">
+
+        <strong>LumaDeals AI</strong>
+
+        <span>SMART SHOPPING ASSISTANT</span>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="back-button"
+      onclick="window.history.back()"
+    >
+      ← Back
+    </button>
+
+  </header>
+
+
+
+  <!-- HERO -->
+
+  <section class="ai-hero">
+
+    <div class="ai-avatar">
+      🐱
+    </div>
+
+    <h1>LumaDeals AI</h1>
+
+    <p>
+      Your intelligent shopping assistant
+    </p>
+
+  </section>
+
+
+
+  <!-- CHAT -->
+
+  <main class="luma-ai-container">
+
+
+    <div class="ai-chat-header">
+
+      <div class="ai-status">
+
+        <div class="ai-status-dot"></div>
+
+        <div>
+
+          <strong>LumaDeals AI</strong>
+
+          <span>Online • Ready to help</span>
+
+        </div>
+
+      </div>
+
+
+      <div class="ai-powered">
+        AI SHOPPING ASSISTANT
+      </div>
+
+    </div>
+
+
+
+    <div id="luma-ai-messages">
+
+      <div class="luma-ai-message ai">
+
+        👋 Hi! I'm <strong>LumaDeals AI</strong>.
+
+        <br><br>
+
+        I can help you discover products,
+        compare options and find better deals
+        on Luma Deals.
+
+        <br><br>
+
+        What are you looking for today?
+
+      </div>
+
+    </div>
+
+
+
+    <div class="luma-ai-input-area">
+
+      <input
+        id="luma-ai-input"
+        type="text"
+        placeholder="Ask LumaDeals AI anything..."
+        maxlength="2000"
+        autocomplete="off"
+      >
+
+
+      <button
+        type="button"
+        id="luma-ai-send"
+        onclick="sendLumaAIMessage()"
+        aria-label="Send message"
+      >
+        ➤
+      </button>
+
+    </div>
+
+
+  </main>
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   LUMADEALS AI JAVASCRIPT
+========================= */
+
+let lumaAIHistory = [];
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function addLumaAIMessage(
+  text,
+  type = "ai"
+) {
+
+  const container =
+    document.getElementById(
+      "luma-ai-messages"
+    );
+
+  if (!container) return null;
+
+
+  const message =
+    document.createElement("div");
+
+
+  message.className =
+    "luma-ai-message " + type;
+
+
+  message.textContent = text;
+
+
+  container.appendChild(message);
+
+
+  container.scrollTop =
+    container.scrollHeight;
+
+
+  return message;
+
+}
+
+
+/* =========================
+   SEND MESSAGE
+========================= */
+
+async function sendLumaAIMessage() {
+
+  const input =
+    document.getElementById(
+      "luma-ai-input"
+    );
+
+
+  const sendButton =
+    document.getElementById(
+      "luma-ai-send"
+    );
+
+
+  if (!input || !sendButton) return;
+
+
+  const message =
+    input.value.trim();
+
+
+  if (!message) return;
+
+
+  input.value = "";
+
+
+  addLumaAIMessage(
+    message,
+    "user"
+  );
+
+
+  sendButton.disabled = true;
+
+  sendButton.textContent = "…";
+
+
+  const loadingMessage =
+    addLumaAIMessage(
+      "LumaDeals AI is thinking...",
+      "ai"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            message: message,
+
+            history:
+              lumaAIHistory
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "AI request failed"
+      );
+
+    }
+
+
+    const reply =
+      data.reply ||
+      "Sorry, I couldn't generate a response.";
+
+
+    addLumaAIMessage(
+      reply,
+      "ai"
+    );
+
+
+    lumaAIHistory.push(
+
+      {
+        role: "user",
+        text: message
+      },
+
+      {
+        role: "model",
+        text: reply
+      }
+
+    );
+
+
+    if (
+      lumaAIHistory.length > 20
+    ) {
+
+      lumaAIHistory =
+        lumaAIHistory.slice(-20);
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "LumaDeals AI error:",
+      error
+    );
+
+
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+
+
+    addLumaAIMessage(
+      "Sorry, AI is temporarily unavailable. Please try again.",
+      "error"
+    );
+
+  } finally {
+
+    sendButton.disabled = false;
+
+    sendButton.textContent = "➤";
+
+    input.focus();
+
+  }
+
+}
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    const input =
+      document.getElementById(
+        "luma-ai-input"
+      );
+
+
+    if (input) {
+
+      input.addEventListener(
+        "keydown",
+        function (event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            event.preventDefault();
+
+            sendLumaAIMessage();
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
