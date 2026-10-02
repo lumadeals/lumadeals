@@ -2272,33 +2272,17 @@ async function startLumaVoice() {
 
         callbacks: {
 
-          onopen: async function () {
+          onopen: function () {
 
   console.log(
     "LumaDeals Live connected"
   );
 
   showLumaVoiceStatus(
-    "🤖 LumaDeals AI is ready..."
+    "🎙️ Listening..."
   );
 
-  try {
-
-    await lumaLiveSession.sendRealtimeInput({
-      text:
-        "Greet the customer naturally as LumaDeals AI. Say a short friendly greeting and ask how you can help them today. Do not wait for the customer to speak first."
-    });
-
-  } catch (error) {
-
-    console.error(
-      "Initial greeting error:",
-      error
-    );
-
-  }
 },
-
 
           onmessage:
             async function (message) {
