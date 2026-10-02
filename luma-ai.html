@@ -1976,66 +1976,49 @@ async function sendLumaAIMessage() {
 addLumaAIMessage(
   reply,
   "ai"
-
-
-    lumaAIHistory.push(
-
-      {
-        role: "user",
-        text: message
-      },
-
-      {
-        role: "model",
-        text: reply
-      }
-
-    );
-
-
-    if (
-      lumaAIHistory.length > 20
-    ) {
-
-      lumaAIHistory =
-        lumaAIHistory.slice(-20);
-
-    }
-
-
-  } catch (error) {
-
-    console.error(
-      "LumaDeals AI error:",
-      error
-    );
-
-
-    if (loadingMessage) {
-      loadingMessage.remove();
-    }
-
-
-    addLumaAIMessage(
-  "Sorry, AI is temporarily unavailable. Please try again.",
-  "error"
 );
 
+lumaAIHistory.push(
+  {
+    role: "user",
+    text: message
+  },
+  {
+    role: "model",
+    text: reply
   }
+);
 
-  } finally {
-
-    sendButton.disabled = false;
-
-    sendButton.textContent = "➤";
-
-    input.focus();
-
-  }
-
+if (lumaAIHistory.length > 20) {
+  lumaAIHistory =
+    lumaAIHistory.slice(-20);
 }
 
+} catch (error) {
 
+  console.error(
+    "LumaDeals AI error:",
+    error
+  );
+
+  if (loadingMessage) {
+    loadingMessage.remove();
+  }
+
+  addLumaAIMessage(
+    "Sorry, AI is temporarily unavailable. Please try again.",
+    "error"
+  );
+
+} finally {
+
+  sendButton.disabled = false;
+
+  sendButton.textContent = "➤";
+
+  input.focus();
+
+  }
 /* =========================
    ENTER KEY
 ========================= */
