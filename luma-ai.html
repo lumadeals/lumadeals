@@ -1112,7 +1112,158 @@ body {
     font-size: 12px;
   }
 
-   
+   /* =========================================
+   LUMA AI VOICE BUTTON
+   ========================================= */
+
+#luma-ai-voice {
+  flex: 0 0 auto;
+
+  width: 52px;
+  height: 52px;
+
+  border: 1px solid rgba(59,180,236,.35);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,180,236,.16),
+      rgba(255,255,255,.045)
+    );
+
+  color: #3BB4EC;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.10);
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+#luma-ai-voice:hover {
+  transform: translateY(-3px);
+
+  background:
+    rgba(59,180,236,.16);
+
+  box-shadow:
+    0 12px 30px rgba(59,180,236,.18),
+    0 0 20px rgba(59,180,236,.10);
+}
+
+#luma-ai-voice:active {
+  transform: scale(.94);
+}
+
+
+/* ACTIVE VOICE CALL */
+
+#luma-ai-voice.active {
+  background:
+    linear-gradient(
+      145deg,
+      #3bb4ec,
+      #2584aa
+    );
+
+  color: #14171A;
+
+  border-color: #3bb4ec;
+
+  animation:
+    lumaVoicePulse 1.4s infinite;
+}
+
+@keyframes lumaVoicePulse {
+
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(59,180,236,.45);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 12px rgba(59,180,236,0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(59,180,236,0);
+  }
+
+}
+
+
+/* VOICE STATUS */
+
+#luma-ai-voice-status {
+  position: fixed;
+
+  left: 50%;
+  bottom: 92px;
+
+  transform: translateX(-50%);
+
+  z-index: 99998;
+
+  padding: 9px 16px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(20,23,26,.94);
+
+  border:
+    1px solid rgba(59,180,236,.25);
+
+  color: rgba(255,255,255,.85);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+  backdrop-filter: blur(18px);
+
+  display: none;
+}
+
+#luma-ai-voice-status.show {
+  display: block;
+}
+
+
+@media (max-width:600px) {
+
+  #luma-ai-voice {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 14px;
+
+    font-size: 18px;
+  }
+
+  #luma-ai-voice-status {
+    bottom: 78px;
+
+    font-size: 11px;
+  }
+
+}
 </style>
 </head>
 
@@ -1195,26 +1346,36 @@ body {
   </div>
 
   <!-- MESSAGE INPUT -->
-  <div class="luma-ai-input-area">
+<div class="luma-ai-input-area">
 
-    <input
-      id="luma-ai-input"
-      type="text"
-      placeholder="Message LumaDeals AI..."
-      maxlength="2000"
-      autocomplete="off"
-    >
+  <button
+    type="button"
+    id="luma-ai-voice"
+    onclick="toggleLumaVoice()"
+    aria-label="Start voice conversation"
+    title="Voice conversation"
+  >
+    🎙️
+  </button>
 
-    <button
-      type="button"
-      id="luma-ai-send"
-      onclick="sendLumaAIMessage()"
-      aria-label="Send message"
-    >
-      ➤
-    </button>
+  <input
+    id="luma-ai-input"
+    type="text"
+    placeholder="Message LumaDeals AI..."
+    maxlength="2000"
+    autocomplete="off"
+  >
 
-  </div>
+  <button
+    type="button"
+    id="luma-ai-send"
+    onclick="sendLumaAIMessage()"
+    aria-label="Send message"
+  >
+    ➤
+  </button>
+
+</div>
 
 </main>
 </div>
@@ -1469,7 +1630,862 @@ document.addEventListener(
 
   }
 );
+/* =========================================
+   LUMADEALS AI — REAL-TIME VOICE
+   ========================================= */
 
+let lumaLiveSession = null;
+let lumaAudioContext = null;
+let lumaMediaStream = null;
+let lumaAudioProcessor = null;
+let lumaVoiceActive = false;
+let lumaAudioQueue = [];
+let lumaIsPlaying = false;
+
+
+/* =========================================
+   VOICE STATUS
+   ========================================= */
+
+function showLumaVoiceStatus(text) {
+
+  let status =
+    document.getElementById(
+      "luma-ai-voice-status"
+    );
+
+  if (!status) {
+
+    status =
+      document.createElement("div");
+
+    status.id =
+      "luma-ai-voice-status";
+
+    document.body.appendChild(status);
+  }
+
+  status.textContent = text;
+
+  status.classList.add("show");
+}
+
+
+function hideLumaVoiceStatus() {
+
+  const status =
+    document.getElementById(
+      "luma-ai-voice-status"
+    );
+
+  if (status) {
+    status.classList.remove("show");
+  }
+}
+
+
+/* =========================================
+   START / STOP VOICE
+   ========================================= */
+
+async function toggleLumaVoice() {
+
+  if (lumaVoiceActive) {
+
+    stopLumaVoice();
+
+    return;
+  }
+
+  await startLumaVoice();
+}
+
+
+/* =========================================
+   START LIVE SESSION
+   ========================================= */
+
+async function startLumaVoice() {
+
+  const voiceButton =
+    document.getElementById(
+      "luma-ai-voice"
+    );
+
+  if (!voiceButton) return;
+
+  try {
+
+    showLumaVoiceStatus(
+      "Connecting to LumaDeals AI..."
+    );
+
+    voiceButton.disabled = true;
+
+
+    /* GET EPHEMERAL TOKEN */
+
+    const tokenResponse =
+      await fetch(
+        "/api/live-token",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          }
+        }
+      );
+
+
+    const tokenData =
+      await tokenResponse.json();
+
+
+    if (!tokenResponse.ok) {
+
+      throw new Error(
+        tokenData.error ||
+        "Could not create voice session."
+      );
+
+    }
+
+
+    const token =
+      tokenData.token;
+
+
+    if (!token) {
+
+      throw new Error(
+        "No Live API token received."
+      );
+
+    }
+
+
+    /* =================================
+       LOAD GOOGLE GENAI SDK
+       ================================= */
+
+    if (
+      typeof GoogleGenAI ===
+      "undefined"
+    ) {
+
+      await loadLumaGenAISDK();
+
+    }
+
+
+    const ai =
+      new GoogleGenAI({
+        apiKey: token
+      });
+
+
+    /* =================================
+       CONNECT GEMINI LIVE
+       ================================= */
+
+    lumaLiveSession =
+      await ai.live.connect({
+
+        model:
+          "gemini-3.8-live",
+
+        config: {
+
+          responseModalities:
+            ["AUDIO"]
+
+        },
+
+        callbacks: {
+
+          onopen: function () {
+
+            console.log(
+              "LumaDeals Live connected"
+            );
+
+            showLumaVoiceStatus(
+              "🎙️ Listening..."
+            );
+
+          },
+
+
+          onmessage:
+            function (message) {
+
+              handleLumaLiveMessage(
+                message
+              );
+
+            },
+
+
+          onerror:
+            function (error) {
+
+              console.error(
+                "Luma Live error:",
+                error
+              );
+
+              showLumaVoiceStatus(
+                "Voice connection error"
+              );
+
+            },
+
+
+          onclose:
+            function () {
+
+              console.log(
+                "LumaDeals Live closed"
+              );
+
+            }
+
+        }
+
+      });
+
+
+    /* =================================
+       MICROPHONE
+       ================================= */
+
+    lumaMediaStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio: true
+        });
+
+
+    setupLumaMicrophone();
+
+
+    lumaVoiceActive = true;
+
+    voiceButton.disabled = false;
+
+    voiceButton.classList.add(
+      "active"
+    );
+
+    voiceButton.innerHTML =
+      "⏹️";
+
+    showLumaVoiceStatus(
+      "🎙️ Listening..."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Luma voice startup error:",
+      error
+    );
+
+    alert(
+      "Voice AI could not start.\n\n" +
+      error.message
+    );
+
+    stopLumaVoice();
+
+  }
+
+}
+
+
+/* =========================================
+   LOAD GOOGLE GENAI SDK
+   ========================================= */
+
+function loadLumaGenAISDK() {
+
+  return new Promise(
+    function (resolve, reject) {
+
+      const script =
+        document.createElement(
+          "script"
+        );
+
+      script.type =
+        "module";
+
+      script.textContent = `
+        import {
+          GoogleGenAI
+        } from "https://esm.run/@google/genai";
+
+        window.GoogleGenAI =
+          GoogleGenAI;
+
+        window.dispatchEvent(
+          new Event("luma-genai-loaded")
+        );
+      `;
+
+      window.addEventListener(
+        "luma-genai-loaded",
+        function handler() {
+
+          window.removeEventListener(
+            "luma-genai-loaded",
+            handler
+          );
+
+          resolve();
+
+        }
+      );
+
+      script.onerror =
+        function () {
+
+          reject(
+            new Error(
+              "Unable to load Gemini Live SDK."
+            )
+          );
+
+        };
+
+      document.head.appendChild(
+        script
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   MICROPHONE AUDIO
+   ========================================= */
+
+function setupLumaMicrophone() {
+
+  lumaAudioContext =
+    new AudioContext({
+      sampleRate: 16000
+    });
+
+
+  const source =
+    lumaAudioContext
+      .createMediaStreamSource(
+        lumaMediaStream
+      );
+
+
+  lumaAudioProcessor =
+    lumaAudioContext
+      .createScriptProcessor(
+        4096,
+        1,
+        1
+      );
+
+
+  lumaAudioProcessor.onaudioprocess =
+    function (event) {
+
+      if (
+        !lumaVoiceActive ||
+        !lumaLiveSession
+      ) {
+        return;
+      }
+
+
+      const inputData =
+        event.inputBuffer
+          .getChannelData(0);
+
+
+      const pcmData =
+        convertFloat32ToInt16(
+          inputData
+        );
+
+
+      const base64 =
+        arrayBufferToBase64(
+          pcmData.buffer
+        );
+
+
+      try {
+
+        lumaLiveSession.sendRealtimeInput({
+
+          audio: {
+
+            data: base64,
+
+            mimeType:
+              "audio/pcm;rate=16000"
+
+          }
+
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Audio send error:",
+          error
+        );
+
+      }
+
+    };
+
+
+  source.connect(
+    lumaAudioProcessor
+  );
+
+
+  lumaAudioProcessor.connect(
+    lumaAudioContext.destination
+  );
+
+}
+
+
+/* =========================================
+   FLOAT32 → INT16
+   ========================================= */
+
+function convertFloat32ToInt16(
+  float32Array
+) {
+
+  const int16Array =
+    new Int16Array(
+      float32Array.length
+    );
+
+
+  for (
+    let i = 0;
+    i < float32Array.length;
+    i++
+  ) {
+
+    const sample =
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          float32Array[i]
+        )
+      );
+
+
+    int16Array[i] =
+      sample < 0
+        ? sample * 0x8000
+        : sample * 0x7fff;
+
+  }
+
+
+  return int16Array;
+
+}
+
+
+/* =========================================
+   ARRAY BUFFER → BASE64
+   ========================================= */
+
+function arrayBufferToBase64(
+  buffer
+) {
+
+  let binary = "";
+
+  const bytes =
+    new Uint8Array(buffer);
+
+
+  const chunkSize = 0x8000;
+
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        Math.min(
+          i + chunkSize,
+          bytes.length
+        )
+      )
+    );
+
+  }
+
+
+  return btoa(binary);
+
+}
+
+
+/* =========================================
+   HANDLE GEMINI RESPONSE
+   ========================================= */
+
+function handleLumaLiveMessage(
+  message
+) {
+
+  try {
+
+    const serverContent =
+      message.serverContent;
+
+
+    if (!serverContent) return;
+
+
+    /* TEXT TRANSCRIPTION */
+
+    if (
+      serverContent.inputTranscription &&
+      serverContent.inputTranscription.text
+    ) {
+
+      const text =
+        serverContent
+          .inputTranscription
+          .text;
+
+      console.log(
+        "You:",
+        text
+      );
+
+    }
+
+
+    /* AI AUDIO */
+
+    if (
+      serverContent.modelTurn &&
+      serverContent.modelTurn.parts
+    ) {
+
+      for (
+        const part of
+          serverContent.modelTurn.parts
+      ) {
+
+        if (
+          part.inlineData &&
+          part.inlineData.data
+        ) {
+
+          playLumaAudio(
+            part.inlineData.data
+          );
+
+        }
+
+      }
+
+    }
+
+
+    if (
+      serverContent.turnComplete
+    ) {
+
+      showLumaVoiceStatus(
+        "🎙️ Listening..."
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Live response error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   PLAY GEMINI AUDIO
+   ========================================= */
+
+async function playLumaAudio(
+  base64Audio
+) {
+
+  try {
+
+    const binary =
+      atob(base64Audio);
+
+
+    const bytes =
+      new Uint8Array(
+        binary.length
+      );
+
+
+    for (
+      let i = 0;
+      i < binary.length;
+      i++
+    ) {
+
+      bytes[i] =
+        binary.charCodeAt(i);
+
+    }
+
+
+    lumaAudioQueue.push(
+      bytes
+    );
+
+
+    if (!lumaIsPlaying) {
+
+      playNextLumaAudio();
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Audio playback error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   AUDIO QUEUE
+   ========================================= */
+
+async function playNextLumaAudio() {
+
+  if (
+    lumaAudioQueue.length === 0
+  ) {
+
+    lumaIsPlaying = false;
+
+    return;
+
+  }
+
+
+  lumaIsPlaying = true;
+
+
+  const audioData =
+    lumaAudioQueue.shift();
+
+
+  try {
+
+    const audioContext =
+      new AudioContext({
+        sampleRate: 24000
+      });
+
+
+    const int16 =
+      new Int16Array(
+        audioData.buffer
+      );
+
+
+    const float32 =
+      new Float32Array(
+        int16.length
+      );
+
+
+    for (
+      let i = 0;
+      i < int16.length;
+      i++
+    ) {
+
+      float32[i] =
+        int16[i] / 32768;
+
+    }
+
+
+    const buffer =
+      audioContext.createBuffer(
+        1,
+        float32.length,
+        24000
+      );
+
+
+    buffer
+      .getChannelData(0)
+      .set(float32);
+
+
+    const source =
+      audioContext
+        .createBufferSource();
+
+
+    source.buffer =
+      buffer;
+
+
+    source.connect(
+      audioContext.destination
+    );
+
+
+    source.onended =
+      function () {
+
+        audioContext.close();
+
+        playNextLumaAudio();
+
+      };
+
+
+    source.start();
+
+  } catch (error) {
+
+    console.error(
+      "Audio playback failed:",
+      error
+    );
+
+    lumaIsPlaying = false;
+
+  }
+
+}
+
+
+/* =========================================
+   STOP VOICE
+   ========================================= */
+
+function stopLumaVoice() {
+
+  lumaVoiceActive = false;
+
+
+  if (lumaAudioProcessor) {
+
+    try {
+      lumaAudioProcessor.disconnect();
+    } catch (e) {}
+
+    lumaAudioProcessor = null;
+
+  }
+
+
+  if (lumaMediaStream) {
+
+    lumaMediaStream
+      .getTracks()
+      .forEach(
+        function (track) {
+          track.stop();
+        }
+      );
+
+    lumaMediaStream = null;
+
+  }
+
+
+  if (lumaAudioContext) {
+
+    try {
+      lumaAudioContext.close();
+    } catch (e) {}
+
+    lumaAudioContext = null;
+
+  }
+
+
+  if (lumaLiveSession) {
+
+    try {
+      lumaLiveSession.close();
+    } catch (e) {}
+
+    lumaLiveSession = null;
+
+  }
+
+
+  lumaAudioQueue = [];
+
+  lumaIsPlaying = false;
+
+
+  const voiceButton =
+    document.getElementById(
+      "luma-ai-voice"
+    );
+
+
+  if (voiceButton) {
+
+    voiceButton.classList.remove(
+      "active"
+    );
+
+    voiceButton.innerHTML =
+      "🎙️";
+
+    voiceButton.disabled =
+      false;
+
+  }
+
+
+  hideLumaVoiceStatus();
+
+        }
 </script>
 
 </body>
