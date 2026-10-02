@@ -2081,104 +2081,6 @@ body {
 }
 
 
-  /* =========================================
-   DESKTOP — SAME CORE DESIGN AS MOBILE
-   ========================================= */
-
-@media (min-width: 601px) {
-
-  .luma-aurora-center {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: 50% !important;
-
-    width: 250px !important;
-    height: 250px !important;
-
-    transform: translate(-50%, -50%) !important;
-
-    pointer-events: none !important;
-
-    z-index: 0 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    perspective: 900px !important;
-  }
-
-  .luma-ai-core {
-    position: relative !important;
-
-    width: 250px !important;
-    height: 250px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    transform-style: preserve-3d !important;
-  }
-
-  .luma-ai-glow {
-    width: 125px !important;
-    height: 125px !important;
-  }
-
-  .luma-ai-logo-wrap {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: 50% !important;
-
-    width: 92px !important;
-    height: 92px !important;
-
-    transform:
-      translate(-50%, -50%)
-      translateZ(40px) !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    border-radius: 50% !important;
-
-    z-index: 10 !important;
-  }
-
-  .luma-ai-center-logo {
-    width: 68px !important;
-    height: 68px !important;
-
-    object-fit: contain !important;
-
-    border-radius: 50% !important;
-
-    display: block !important;
-  }
-
-  .luma-ai-ring-1 {
-    width: 145px !important;
-    height: 145px !important;
-  }
-
-  .luma-ai-ring-2 {
-    width: 190px !important;
-    height: 190px !important;
-  }
-
-  .luma-ai-core::before {
-    width: 170px !important;
-    height: 170px !important;
-  }
-
-  .luma-ai-particle {
-    pointer-events: none !important;
-  }
-}
   #luma-live-caption {
   position: fixed;
   left: 50%;
@@ -2232,64 +2134,14 @@ body {
   }
 }
 
-
-  /* =========================================================
-   DESKTOP — EXACT SAME VISUAL SIZE AS MOBILE
-   ========================================================= */
-
+/* Desktop: remove the large AI logo */
 @media (min-width: 601px) {
-
-  .luma-aurora-center {
-    position: absolute !important;
-
-    width: 250px !important;
-    height: 250px !important;
-
-    left: 50% !important;
-    top: 50% !important;
-
-    transform: translate(-50%, -50%) !important;
-
-    z-index: 0 !important;
-    pointer-events: none !important;
-  }
-
-  .luma-ai-core {
-    width: 250px !important;
-    height: 250px !important;
-  }
-
-  .luma-ai-glow {
-    width: 125px !important;
-    height: 125px !important;
-  }
-
-  .luma-ai-logo-wrap {
-    width: 92px !important;
-    height: 92px !important;
-  }
-
   .luma-ai-center-logo {
-    width: 68px !important;
-    height: 68px !important;
-    object-fit: contain !important;
-  }
-
-  .luma-ai-ring-1 {
-    width: 145px !important;
-    height: 145px !important;
-  }
-
-  .luma-ai-ring-2 {
-    width: 190px !important;
-    height: 190px !important;
-  }
-
-  .luma-ai-core::before {
-    width: 170px !important;
-    height: 170px !important;
+    display: none !important;
   }
 }
+  
+
 </style>
 </head>
 
