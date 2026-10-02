@@ -2594,7 +2594,6 @@ function arrayBufferToBase64(buffer) {
 /* =========================================
    HANDLE GEMINI RESPONSE
    ========================================= */
-
 async function handleLumaLiveMessage(message) {
 
   try {
@@ -2610,34 +2609,21 @@ async function handleLumaLiveMessage(message) {
         message.toolCall
       );
 
-
       const functionResponses = [];
-
 
       for (
         const fc of
           message.toolCall.functionCalls || []
       ) {
 
-        if (
-          fc.name === "search_products"
-        ) {
+        if (fc.name === "search_products") {
 
           const query =
-            fc.args?.query ||
-            "";
-
+            fc.args?.query || "";
 
           showLumaVoiceStatus(
             "🛍️ Finding products..."
           );
-
-
-          console.log(
-            "Searching products:",
-            query
-          );
-
 
           try {
 
@@ -2647,53 +2633,30 @@ async function handleLumaLiveMessage(message) {
                 encodeURIComponent(query)
               );
 
-
             const data =
               await response.json();
 
-
             if (!response.ok) {
-
               throw new Error(
                 data.error ||
                 "Product search failed"
               );
-
             }
-
 
             const products =
               data.products || [];
-
 
             console.log(
               "Products found:",
               products
             );
 
-
-            /*
-             * Show actual products
-             * in the Luma AI page if
-             * product-card function exists.
-             */
-
             if (
               typeof addLumaAIProducts ===
               "function"
             ) {
-
-              addLumaAIProducts(
-                products
-              );
-
+              addLumaAIProducts(products);
             }
-
-
-            /*
-             * Send REAL product data
-             * back to Gemini.
-             */
 
             functionResponses.push({
 
@@ -2753,7 +2716,6 @@ async function handleLumaLiveMessage(message) {
               error
             );
 
-
             functionResponses.push({
 
               id: fc.id,
@@ -2785,13 +2747,6 @@ async function handleLumaLiveMessage(message) {
 
       }
 
-
-      /*
-       * VERY IMPORTANT:
-       * Send tool response back
-       * to Gemini Live.
-       */
-
       if (
         functionResponses.length &&
         lumaLiveSession
@@ -2804,11 +2759,9 @@ async function handleLumaLiveMessage(message) {
 
       }
 
-
       showLumaVoiceStatus(
         "🎙️ Listening..."
       );
-
 
       return;
     }
@@ -2821,72 +2774,110 @@ async function handleLumaLiveMessage(message) {
     const serverContent =
       message.serverContent;
 
-
     if (!serverContent) return;
 
 
     /* =====================================
-       USER TRANSCRIPTION
+       USER LIVE CAPTION
        ===================================== */
 
     if (
-  serverContent.interimInputTranscription &&
-  serverContent.interimInputTranscription.text
-) {
-  const text =
-    serverContent.interimInputTranscription.text.trim();
+      serverContent.interimInputTranscription &&
+      serverContent.interimInputTranscription.text
+    ) {
 
-  const caption =
-    document.getElementById("luma-live-caption");
+      const text =
+        serverContent
+          .interimInputTranscription
+          .text
+          .trim();
 
-  if (caption && text) {
-    caption.textContent = "You: " + text;
-    caption.classList.add("show");
-  }
-}
+      const caption =
+        document.getElementById(
+          "luma-live-caption"
+        );
 
-if (
-  serverContent.inputTranscription &&
-  serverContent.inputTranscription.text
-) {
-  const text =
-    serverContent.inputTranscription.text.trim();
+      if (caption && text) {
 
-  const caption =
-    document.getElementById("luma-live-caption");
+        caption.textContent =
+          "You: " + text;
 
-  if (caption && text) {
-    caption.textContent = "You: " + text;
-    caption.classList.add("show");
-  }
-}
+        caption.classList.add(
+          "show"
+        );
+
+      }
+
+    }
 
 
-/* =====================================
-   AI TEXT TRANSCRIPTION
-   ===================================== */
+    /* =====================================
+       USER FINAL CAPTION
+       ===================================== */
 
-if (
-  serverContent.outputTranscription &&
-  serverContent.outputTranscription.text
-) {
+    if (
+      serverContent.inputTranscription &&
+      serverContent.inputTranscription.text
+    ) {
 
-  const text =
-    serverContent.outputTranscription.text.trim();
+      const text =
+        serverContent
+          .inputTranscription
+          .text
+          .trim();
 
-  console.log("LumaDeals AI:", text);
+      const caption =
+        document.getElementById(
+          "luma-live-caption"
+        );
 
-  const caption =
-    document.getElementById("luma-live-caption");
+      if (caption && text) {
 
-  if (caption && text) {
-    caption.textContent =
-      "LumaDeals AI: " + text;
+        caption.textContent =
+          "You: " + text;
 
-    caption.classList.add("show");
-  }
+        caption.classList.add(
+          "show"
+        );
 
-  }
+      }
+
+    }
+
+
+    /* =====================================
+       AI LIVE CAPTION
+       ===================================== */
+
+    if (
+      serverContent.outputTranscription &&
+      serverContent.outputTranscription.text
+    ) {
+
+      const text =
+        serverContent
+          .outputTranscription
+          .text
+          .trim();
+
+      const caption =
+        document.getElementById(
+          "luma-live-caption"
+        );
+
+      if (caption && text) {
+
+        caption.textContent =
+          "LumaDeals AI: " + text;
+
+        caption.classList.add(
+          "show"
+        );
+
+      }
+
+    }
+
 
     /* =====================================
        AI AUDIO
@@ -2940,12 +2931,15 @@ if (
     );
 
   }
+
 }
-
-
+  
 let lumaPlaybackContext = null;
 let lumaNextAudioTime = 0;
+                          
 
+        
+          
 async function playLumaAudio(base64Audio) {
   try {
     const binary = atob(base64Audio);
