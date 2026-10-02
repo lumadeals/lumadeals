@@ -2279,8 +2279,45 @@ async function startLumaVoice() {
   );
 
   showLumaVoiceStatus(
-    "🎙️ Listening..."
+    "🤖 LumaDeals AI is ready..."
   );
+
+  setTimeout(function () {
+
+    if (
+      lumaLiveSession &&
+      lumaVoiceActive !== false
+    ) {
+
+      try {
+
+        lumaLiveSession.sendClientContent({
+          turns: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text:
+                    "Greet the customer briefly as LumaDeals AI. Say: Hi! I'm LumaDeals AI. How can I help you today?"
+                }
+              ]
+            }
+          ],
+          turnComplete: true
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Initial greeting error:",
+          error
+        );
+
+      }
+
+    }
+
+  }, 500);
 
 },
 
