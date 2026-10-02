@@ -17826,6 +17826,82 @@ const house =
       <p>&copy; 2026 Luma Deals. All rights reserved. </p>
     </div>
   </footer>
-</body>
+  <!-- ================= LUMA AI ASSISTANT ================= -->
 
+<div id="luma-ai-button" onclick="toggleLumaAI()">
+  🤖
+</div>
+
+<div id="luma-ai-chat">
+  <div class="luma-ai-header">
+    <div>
+      <strong>✨ Luma AI</strong>
+      <small>Shopping Assistant</small>
+    </div>
+    <button onclick="toggleLumaAI()">×</button>
+  </div>
+
+  <div id="luma-ai-messages">
+    <div class="luma-ai-message ai">
+      👋 Hi! I'm Luma AI.<br>
+      How can I help you find something today?
+    </div>
+  </div>
+
+  <div class="luma-ai-input-area">
+    <input
+      id="luma-ai-input"
+      type="text"
+      placeholder="Ask about products..."
+      maxlength="2000"
+      onkeydown="if(event.key === 'Enter') sendLumaAIMessage()"
+    >
+
+    <button onclick="sendLumaAIMessage()" id="luma-ai-send">
+      ➤
+    </button>
+  </div>
+</div>
+
+<style>
+/* ================= LUMA AI ================= */
+
+#luma-ai-button {
+  position: fixed;
+  right: 22px;
+  bottom: 85px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3BB4EC, #14171A);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  cursor: pointer;
+  z-index: 9998;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  transition: .25s ease;
+}
+
+#luma-ai-button:hover {
+  transform: scale(1.08);
+}
+
+#luma-ai-chat {
+  position: fixed;
+  right: 22px;
+  bottom: 155px;
+  width: 360px;
+  max-width: calc(100vw - 30px);
+  height: 520px;
+  max-height: calc(100vh - 190px);
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+ 
+</body>
 </html>
