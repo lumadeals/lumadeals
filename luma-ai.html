@@ -1264,6 +1264,130 @@ body {
   }
 
 }
+  .luma-ai-products {
+  width: 100%;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 8px 0 20px;
+}
+
+.luma-ai-product-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.025)
+    );
+
+  border: 1px solid
+    rgba(59,180,236,.18);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.25);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+.luma-ai-product-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(59,180,236,.45);
+}
+
+.luma-ai-product-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: contain;
+
+  background:
+    rgba(255,255,255,.04);
+
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.luma-ai-product-info {
+  padding: 13px;
+}
+
+.luma-ai-product-name {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.luma-ai-product-price {
+  margin-top: 8px;
+
+  color: #3BB4EC;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.luma-ai-product-price span {
+  margin-left: 6px;
+
+  color: rgba(255,255,255,.4);
+  font-size: 12px;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.luma-ai-product-discount {
+  display: inline-block;
+
+  margin-top: 7px;
+  padding: 4px 8px;
+
+  border-radius: 8px;
+
+  background:
+    rgba(59,180,236,.12);
+
+  color: #3BB4EC;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+
+  .luma-ai-products {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .luma-ai-product-card img {
+    height: 135px;
+  }
+
+  .luma-ai-product-name {
+    font-size: 12px;
+  }
+
+  .luma-ai-product-price {
+    font-size: 14px;
+  }
+}
 </style>
 </head>
 
@@ -1430,7 +1554,110 @@ function addLumaAIMessage(
 
 }
 
+function addLumaAIProducts(products) {
 
+  const container =
+    document.getElementById(
+      "luma-ai-messages"
+    );
+
+  if (!container) return;
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "luma-ai-products";
+
+  products
+    .slice(0, 12)
+    .forEach((product) => {
+
+      const name =
+        product.name ||
+        product.title ||
+        "Luma Deals Product";
+
+      const price =
+        product.price ??
+        product.salePrice ??
+        product.sale_price ??
+        "";
+
+      const oldPrice =
+        product.oldPrice ??
+        product.old_price ??
+        "";
+
+      const image =
+        product.img ||
+        product.image ||
+        product.images?.[0] ||
+        "./images/assets/favicon.png";
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "luma-ai-product-card";
+
+      card.innerHTML = `
+        <img
+          src="${image}"
+          alt="${escapeHTML(name)}"
+          onerror="this.src='./images/assets/favicon.png'"
+        >
+
+        <div class="luma-ai-product-info">
+
+          <div class="luma-ai-product-name">
+            ${escapeHTML(name)}
+          </div>
+
+          <div class="luma-ai-product-price">
+            ${
+              price !== ""
+                ? `Rs ${escapeHTML(String(price))}`
+                : "Price unavailable"
+            }
+
+            ${
+              oldPrice !== ""
+                ? `<span>Rs ${escapeHTML(String(oldPrice))}</span>`
+                : ""
+            }
+          </div>
+
+          ${
+            product.discount
+              ? `<div class="luma-ai-product-discount">
+                   ${escapeHTML(String(product.discount))}% OFF
+                 </div>`
+              : ""
+          }
+
+        </div>
+      `;
+
+      wrapper.appendChild(card);
+    });
+
+  container.appendChild(wrapper);
+
+  container.scrollTop =
+    container.scrollHeight;
+}
+
+
+function escapeHTML(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 /* =========================
    SEND MESSAGE
 ========================= */
@@ -1527,14 +1754,22 @@ async function sendLumaAIMessage() {
 
 
     const reply =
-      data.reply ||
-      "Sorry, I couldn't generate a response.";
+  data.reply ||
+  "Sorry, I couldn't generate a response.";
 
+addLumaAIMessage(
+  reply,
+  "ai"
+);
 
-    addLumaAIMessage(
-      reply,
-      "ai"
-    );
+if (
+  Array.isArray(data.products) &&
+  data.products.length > 0
+) {
+  addLumaAIProducts(
+    data.products
+  );
+}
 
 
     lumaAIHistory.push(
