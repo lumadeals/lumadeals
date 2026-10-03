@@ -8458,18 +8458,19 @@
     transform: translateY(-6px) scale(1.03) !important;
   }
 }
-  /* =========================================================
-   LUMA DEALS — HERO BANNER v2 (FRESH MESH-GRADIENT DESIGN)
+
+/* =========================================================
+   LUMA DEALS — HERO BANNER v2 (FULL-WIDTH MESH-GRADIENT)
    ========================================================= */
 
 .ld-hero-carousel {
   position: relative;
-  width: calc(100% - 24px);
-  max-width: 1400px;
-  margin: 24px auto 38px;
+  width: 100%;
+  max-width: 100%;
+  margin: 24px 0 38px;
   overflow: hidden;
 
-  border-radius: 28px;
+  border-radius: 0;
 
   background: #0a0e14;
 
@@ -8481,10 +8482,6 @@
   isolation: isolate;
 }
 
-.ld-hero-carousel::before { display: none !important; }
-.ld-hero-carousel::after { display: none !important; }
-
-/* floating mesh blobs */
 .ld-hero-carousel .ld-mesh-blob {
   position: absolute;
   border-radius: 50%;
@@ -8545,7 +8542,6 @@
     linear-gradient(160deg, #0a0e14 0%, #10152a 55%, #0a0e14 100%);
 }
 
-/* grid pattern overlay for texture */
 .ld-hero-slide::before {
   content: "";
   position: absolute;
@@ -8575,13 +8571,16 @@
   100% { left: 120%; }
 }
 
-/* ---------------- CONTENT ---------------- */
-
 .ld-hero-content {
   position: relative;
   z-index: 5;
   max-width: 650px;
   animation: ldContentIn .8s ease both;
+}
+
+@keyframes ldContentIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .ld-hero-tag {
@@ -8677,8 +8676,6 @@
   transform: scale(.97);
 }
 
-/* ---------------- DECORATION ---------------- */
-
 .ld-hero-decoration {
   position: absolute;
   right: 6%;
@@ -8695,8 +8692,6 @@
   0%, 100% { transform: translateY(-50%) rotate(-4deg) scale(1); }
   50% { transform: translateY(-58%) rotate(4deg) scale(1.08); }
 }
-
-/* ---------------- DOTS ---------------- */
 
 .ld-hero-dots {
   position: absolute;
@@ -8729,16 +8724,22 @@
   box-shadow: 0 0 12px rgba(59,180,236,.7);
 }
 
-/* ---------------- MOBILE ---------------- */
-
 @media (max-width: 768px) {
-  .ld-hero-carousel { margin: 18px auto 32px; border-radius: 22px; }
+  .ld-hero-carousel { margin: 18px 0 32px; border-radius: 0; }
   .ld-hero-slide { min-height: 350px; padding: 42px 25px 50px; align-items: center; }
   .ld-hero-content { max-width: 84%; }
   .ld-hero-content h1 { font-size: 29px; letter-spacing: -1px; }
   .ld-hero-content p { font-size: 13.5px; margin-bottom: 18px; }
   .ld-hero-content button { min-width: 135px; padding: 12px 18px; font-size: 13px; }
   .ld-hero-decoration { right: -15px; font-size: 110px; opacity: .07; }
+}
+
+@media (max-width: 420px) {
+  .ld-hero-slide { min-height: 330px; padding: 35px 20px 48px; }
+  .ld-hero-content { max-width: 88%; }
+  .ld-hero-content h1 { font-size: 26px; }
+  .ld-hero-content p { font-size: 13px; }
+  .ld-hero-decoration { right: -22px; font-size: 90px; }
 }
   </style>
 
