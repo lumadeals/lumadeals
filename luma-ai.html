@@ -2134,7 +2134,129 @@ body {
   }
 }
 
+/* =========================================================
+   LUMADEALS AI — DESKTOP PRODUCT CARD FIX
+   Image large + details/caption clearly visible below
+   ========================================================= */
 
+@media (min-width: 769px) {
+
+  /* Product result container */
+  .products-container,
+  .product-results,
+  .ai-products,
+  .luma-ai-products {
+    width: 100%;
+    max-width: 1100px;
+    margin: 28px auto;
+    padding: 0 20px;
+  }
+
+  /* Product grid */
+  .products-container,
+  .product-results,
+  .ai-products,
+  .luma-ai-products {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  /* Product card */
+  .product-card,
+  .ai-product-card,
+  .luma-product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+    min-width: 0;
+    height: auto !important;
+    border-radius: 18px;
+  }
+
+  /* LARGE PRODUCT IMAGE */
+  .product-card img,
+  .ai-product-card img,
+  .luma-product-card img {
+    display: block !important;
+    width: 100% !important;
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 12px;
+  }
+
+  /* Product information BELOW image */
+  .product-card .product-info,
+  .product-card .product-details,
+  .ai-product-card .product-info,
+  .ai-product-card .product-details,
+  .luma-product-card .product-info,
+  .luma-product-card .product-details {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 145px;
+    padding: 15px 16px 18px !important;
+    text-align: left !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* PRODUCT CAPTION / NAME */
+  .product-card h3,
+  .product-card h4,
+  .product-card .product-name,
+  .product-card .product-title,
+  .ai-product-card h3,
+  .ai-product-card h4,
+  .ai-product-card .product-name,
+  .ai-product-card .product-title,
+  .luma-product-card h3,
+  .luma-product-card h4,
+  .luma-product-card .product-name,
+  .luma-product-card .product-title {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
+    margin: 0 0 9px !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Description */
+  .product-card p,
+  .ai-product-card p,
+  .luma-product-card p {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    line-height: 1.5;
+  }
+
+  /* Price */
+  .product-card .price,
+  .product-card .product-price,
+  .ai-product-card .price,
+  .ai-product-card .product-price,
+  .luma-product-card .price,
+  .luma-product-card .product-price {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    margin-top: 6px;
+  }
+}
 
 </style>
 </head>
