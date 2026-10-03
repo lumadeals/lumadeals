@@ -8458,161 +8458,288 @@
     transform: translateY(-6px) scale(1.03) !important;
   }
 }
-   /* =========================================================
-   LUMA DEALS — HERO BANNER MIND-BLOWING 3D UPGRADE
+  /* =========================================================
+   LUMA DEALS — HERO BANNER v2 (FRESH MESH-GRADIENT DESIGN)
    ========================================================= */
 
 .ld-hero-carousel {
-  perspective: 1800px !important;
+  position: relative;
+  width: calc(100% - 24px);
+  max-width: 1400px;
+  margin: 24px auto 38px;
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background: #0a0e14;
 
   box-shadow:
-    0 1px 0 rgba(255,255,255,0.08) inset,
-    0 30px 60px rgba(2,132,199,0.18),
-    0 10px 25px rgba(0,0,0,0.25) !important;
-}
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 30px 70px rgba(2,20,40,0.45),
+    0 0 60px rgba(59,180,236,0.12);
 
-/* Subtle 3D tilt on the whole carousel when hovered (desktop) */
-@media (hover: hover) {
-  .ld-hero-carousel:hover {
-    transform: perspective(1800px) rotateX(1.2deg) !important;
-    transition: transform .5s ease;
-  }
-}
-
-/* ---------------- SLIDE DEPTH ---------------- */
-
-.ld-hero-slide {
-  position: relative !important;
-}
-
-/* glass panel floating above the slide background */
-.ld-hero-slide::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(0,0,0,0.12) 100%) !important;
-
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/* ---------------- TAG ---------------- */
-
-.ld-hero-tag {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.25),
-    0 2px 0 rgba(0,0,0,.08) inset,
-    0 8px 20px rgba(0,0,0,.18) !important;
-}
-
-/* ---------------- HEADING DEPTH ---------------- */
-
-.ld-hero-content h1 {
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.12),
-    0 4px 10px rgba(0,0,0,.25),
-    0 14px 30px rgba(0,0,0,.25) !important;
-}
-
-/* ---------------- OFFER BADGE — glass + glow ---------------- */
-
-.ld-hero-offer {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.3),
-    inset 0 -3px 8px rgba(0,0,0,.12),
-    0 10px 26px rgba(0,0,0,.2),
-    0 0 20px rgba(59,180,236,.15) !important;
-}
-
-.ld-hero-offer strong {
-  text-shadow: 0 2px 6px rgba(0,0,0,.25);
-}
-
-/* ---------------- SHOP BUTTON — pressed 3D ---------------- */
-
-.ld-hero-content button {
-  background: linear-gradient(180deg, #ffffff 0%, #eef7fd 100%) !important;
-
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.9) inset,
-    0 -3px 0 rgba(2,132,199,.08) inset,
-    0 4px 0 rgba(2,132,199,.15),
-    0 14px 30px rgba(0,0,0,.28) !important;
-}
-
-.ld-hero-content button:hover {
-  transform: translateY(-5px) scale(1.035) !important;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.95) inset,
-    0 -3px 0 rgba(2,132,199,.1) inset,
-    0 7px 0 rgba(2,132,199,.18),
-    0 22px 40px rgba(0,0,0,.35) !important;
-}
-
-.ld-hero-content button:active {
-  transform: translateY(1px) scale(.97) !important;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.7) inset,
-    0 2px 0 rgba(2,132,199,.15),
-    0 6px 14px rgba(0,0,0,.25) !important;
-}
-
-/* ---------------- DECORATION ICON — floating with depth ---------------- */
-
-.ld-hero-decoration {
-  filter:
-    drop-shadow(0 0 25px rgba(59,180,236,.8))
-    drop-shadow(0 25px 35px rgba(0,0,0,.35)) !important;
-}
-
-/* ---------------- DOTS — glass pill upgrade ---------------- */
-
-.ld-hero-dots {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
-    0 10px 24px rgba(0,0,0,.25) !important;
-}
-
-.ld-hero-dot {
-  box-shadow: 0 1px 2px rgba(0,0,0,.2) !important;
-}
-
-.ld-hero-dot.active {
-  box-shadow:
-    0 0 14px rgba(255,255,255,.75),
-    0 2px 6px rgba(0,0,0,.2) !important;
-}
-
-/* ---------------- AMBIENT GLOW BEHIND CAROUSEL ---------------- */
-
-.ld-hero-carousel {
   isolation: isolate;
 }
 
-.ld-hero-carousel::after {
-  content: "" !important;
-  position: absolute !important;
-  inset: -40px !important;
-  z-index: -1 !important;
+.ld-hero-carousel::before { display: none !important; }
+.ld-hero-carousel::after { display: none !important; }
+
+/* floating mesh blobs */
+.ld-hero-carousel .ld-mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ld-hero-track {
+  display: flex;
+  width: 500%;
+  transition: transform 0.85s cubic-bezier(.77,0,.18,1);
+  position: relative;
+  z-index: 2;
+}
+
+.ld-hero-slide {
+  position: relative;
+  width: 20%;
+  min-height: 360px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 55px 7%;
+  color: #fff;
 
   background:
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(2,132,199,0.25), transparent 70%) !important;
+    radial-gradient(circle at 15% 20%, rgba(124,58,237,0.35), transparent 42%),
+    radial-gradient(circle at 85% 80%, rgba(14,165,233,0.40), transparent 45%),
+    linear-gradient(160deg, #0a0e14 0%, #0f1724 55%, #0a0e14 100%);
+}
 
-  filter: blur(30px) !important;
+.ld-hero-slide:nth-child(2) {
+  background:
+    radial-gradient(circle at 85% 15%, rgba(236,72,153,0.30), transparent 40%),
+    radial-gradient(circle at 10% 85%, rgba(59,130,246,0.35), transparent 45%),
+    linear-gradient(160deg, #0a0e14 0%, #151024 55%, #0a0e14 100%);
+}
 
-  pointer-events: none !important;
+.ld-hero-slide:nth-child(3) {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(16,185,129,0.30), transparent 40%),
+    radial-gradient(circle at 15% 80%, rgba(14,165,233,0.35), transparent 45%),
+    linear-gradient(160deg, #0a0e14 0%, #0d1f1c 55%, #0a0e14 100%);
+}
+
+.ld-hero-slide:nth-child(4) {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(249,115,22,0.28), transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(236,72,153,0.30), transparent 45%),
+    linear-gradient(160deg, #0a0e14 0%, #1f1410 55%, #0a0e14 100%);
+}
+
+.ld-hero-slide:nth-child(5) {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(59,130,246,0.35), transparent 40%),
+    radial-gradient(circle at 15% 80%, rgba(124,58,237,0.30), transparent 45%),
+    linear-gradient(160deg, #0a0e14 0%, #10152a 55%, #0a0e14 100%);
+}
+
+/* grid pattern overlay for texture */
+.ld-hero-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 70% 70% at 60% 40%, #000 20%, transparent 75%);
+}
+
+.ld-hero-slide::after {
+  content: "";
+  position: absolute;
+  top: -80%; left: -30%;
+  width: 35%; height: 260%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: rotate(18deg);
+  animation: ldShine 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes ldShine {
+  0% { left: -40%; }
+  45% { left: 120%; }
+  100% { left: 120%; }
+}
+
+/* ---------------- CONTENT ---------------- */
+
+.ld-hero-content {
+  position: relative;
+  z-index: 5;
+  max-width: 650px;
+  animation: ldContentIn .8s ease both;
+}
+
+.ld-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  color: #a5e8ff;
+  background: rgba(59,180,236,0.10);
+  border: 1px solid rgba(59,180,236,0.35);
+  box-shadow: 0 0 18px rgba(59,180,236,0.15);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.ld-hero-content h1 {
+  margin: 0 0 14px;
+  max-width: 640px;
+  font-size: clamp(32px, 4.3vw, 54px);
+  line-height: 1.04;
+  font-weight: 900;
+  letter-spacing: -1.6px;
+  color: #ffffff;
+  text-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.ld-hero-content p {
+  margin: 0 0 22px;
+  max-width: 480px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+}
+
+.ld-hero-offer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 9px 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  overflow: hidden;
+}
+
+.ld-hero-offer strong {
+  position: relative;
+  z-index: 2;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+
+.ld-hero-content button {
+  position: relative;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #3BB4EC, #0284c7);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.25) inset,
+    0 10px 30px rgba(14,165,233,0.35);
+
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.ld-hero-content button:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 18px 40px rgba(14,165,233,0.45);
+}
+
+.ld-hero-content button:active {
+  transform: scale(.97);
+}
+
+/* ---------------- DECORATION ---------------- */
+
+.ld-hero-decoration {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  font-size: 160px;
+  opacity: .08;
+  filter: drop-shadow(0 0 40px rgba(59,180,236,.6));
+  animation: ldFloat 5s ease-in-out infinite;
+}
+
+@keyframes ldFloat {
+  0%, 100% { transform: translateY(-50%) rotate(-4deg) scale(1); }
+  50% { transform: translateY(-58%) rotate(4deg) scale(1.08); }
+}
+
+/* ---------------- DOTS ---------------- */
+
+.ld-hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.ld-hero-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: width .35s ease, background .35s ease;
+}
+
+.ld-hero-dot.active {
+  width: 26px;
+  background: linear-gradient(90deg, #3BB4EC, #0ea5e9);
+  box-shadow: 0 0 12px rgba(59,180,236,.7);
 }
 
 /* ---------------- MOBILE ---------------- */
 
 @media (max-width: 768px) {
-  .ld-hero-carousel::after {
-    inset: -20px !important;
-    filter: blur(20px) !important;
-  }
-} 
+  .ld-hero-carousel { margin: 18px auto 32px; border-radius: 22px; }
+  .ld-hero-slide { min-height: 350px; padding: 42px 25px 50px; align-items: center; }
+  .ld-hero-content { max-width: 84%; }
+  .ld-hero-content h1 { font-size: 29px; letter-spacing: -1px; }
+  .ld-hero-content p { font-size: 13.5px; margin-bottom: 18px; }
+  .ld-hero-content button { min-width: 135px; padding: 12px 18px; font-size: 13px; }
+  .ld-hero-decoration { right: -15px; font-size: 110px; opacity: .07; }
+}
   </style>
 
 
