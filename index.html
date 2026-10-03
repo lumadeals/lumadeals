@@ -8226,7 +8226,238 @@
 /* =====================================================
    END — HEADER ONLY
    ===================================================== */
+/* =========================================================
+   LUMA DEALS — "SHOP BY CATEGORY" MIND-BLOWING 3D UPGRADE
+   ========================================================= */
 
+.home-feature-section {
+  position: relative;
+  padding: 34px 50px !important;
+}
+
+.home-section-heading h2 {
+  background: linear-gradient(100deg, #14171A 30%, #0284c7 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900 !important;
+}
+
+.category-showcase {
+  perspective: 1400px;
+}
+
+/* ---------------- CARD ---------------- */
+
+.category-card {
+  position: relative !important;
+  overflow: visible !important;
+
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,249,255,0.9)) !important;
+
+  border: 1px solid rgba(186,230,253,0.8) !important;
+  border-radius: 22px !important;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 8px 0 -4px rgba(255,255,255,0.5) inset,
+    0 4px 10px rgba(15,23,42,0.05),
+    0 14px 30px rgba(15,23,42,0.08) !important;
+
+  transform-style: preserve-3d;
+
+  transition:
+    transform .4s cubic-bezier(.2,.8,.2,1),
+    box-shadow .4s ease,
+    border-color .4s ease !important;
+}
+
+/* glass shine sweep */
+.category-card::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 22px !important;
+
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.55) 45%, transparent 60%) !important;
+
+  background-size: 250% 250% !important;
+  background-position: 120% 0% !important;
+
+  opacity: 0 !important;
+  pointer-events: none !important;
+
+  transition: opacity .3s ease, background-position .8s ease !important;
+}
+
+/* floating glow blob */
+.category-card::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 70px !important;
+  height: 70px !important;
+  top: -20px !important;
+  right: -20px !important;
+
+  background: radial-gradient(circle, rgba(59,180,236,0.28), transparent 70%) !important;
+  filter: blur(6px) !important;
+
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+@media (hover: hover) {
+  .category-card:hover {
+    transform:
+      perspective(1400px)
+      rotateX(8deg)
+      rotateY(-6deg)
+      translateY(-10px)
+      scale(1.04) !important;
+
+    border-color: rgba(59,180,236,0.5) !important;
+
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9) inset,
+      0 20px 10px -15px rgba(2,132,199,0.15),
+      0 25px 45px rgba(2,132,199,0.22) !important;
+  }
+
+  .category-card:hover::before {
+    opacity: 1 !important;
+    background-position: -20% 0% !important;
+  }
+}
+
+.category-card:active {
+  transform: scale(.96) !important;
+}
+
+/* ---------------- ICON ---------------- */
+
+.category-icon {
+  position: relative !important;
+  z-index: 2 !important;
+
+  background:
+    linear-gradient(145deg, #ffffff, #e5f6fd) !important;
+
+  border: 1px solid rgba(59,180,236,0.18) !important;
+
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.9) inset,
+    0 -4px 10px rgba(59,180,236,0.08) inset,
+    0 8px 16px rgba(15,23,42,0.08) !important;
+
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease !important;
+}
+
+@media (hover: hover) {
+  .category-card:hover .category-icon {
+    transform: translateZ(30px) scale(1.12) rotate(-4deg) !important;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.9) inset,
+      0 10px 22px rgba(2,132,199,0.25) !important;
+  }
+}
+
+.category-card h3,
+.category-card p {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* ---------------- ACTIVE (SELECTED) ---------------- */
+
+.category-card.active {
+  background:
+    linear-gradient(155deg, #5fd0ff 0%, #0284c7 55%, #025e8f 100%) !important;
+
+  border-color: transparent !important;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.5) inset,
+    0 -10px 20px rgba(0,60,95,0.35) inset,
+    0 10px 24px rgba(2,132,199,0.4),
+    0 24px 45px rgba(2,132,199,0.25) !important;
+
+  transform:
+    perspective(1400px)
+    rotateX(4deg)
+    translateY(-6px)
+    scale(1.045) !important;
+}
+
+.category-card.active::after {
+  background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%) !important;
+}
+
+.category-card.active .category-icon {
+  background: linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,255,255,0.12)) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.4) inset,
+    0 -4px 10px rgba(0,0,0,0.12) inset !important;
+}
+
+.category-card.active h3,
+.category-card.active p {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0,60,95,0.35) !important;
+}
+
+.category-card.active .category-arrow {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+/* ---------------- SUBCATEGORY PILLS ---------------- */
+
+.subcategory-group button {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(180deg, #ffffff, #f4fafd) !important;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.8) inset,
+    0 3px 8px rgba(15,23,42,0.05) !important;
+}
+
+.subcategory-group button::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent) !important;
+  transform: translateX(-120%) !important;
+  transition: transform .5s ease !important;
+}
+
+.subcategory-group button:hover::before {
+  transform: translateX(120%) !important;
+}
+
+.subcategory-group button.active {
+  background:
+    linear-gradient(155deg, #5fd0ff, #0284c7) !important;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.4) inset,
+    0 -5px 10px rgba(0,60,95,0.25) inset,
+    0 8px 18px rgba(2,132,199,0.35) !important;
+
+  transform: translateY(-2px) scale(1.04) !important;
+}
+
+/* ---------------- MOBILE: tilt effect off, keep lift ---------------- */
+
+@media (max-width: 768px) {
+  .category-card:hover,
+  .category-card.active {
+    transform: translateY(-6px) scale(1.03) !important;
+  }
+}
   </style>
 
 
