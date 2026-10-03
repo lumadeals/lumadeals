@@ -8226,7 +8226,95 @@
 /* =====================================================
    END — HEADER ONLY
    ===================================================== */
+/* =========================================
+   NAV LINKS — 3D EFFECT ONLY
+   NO SIZE / POSITION / SPACING CHANGE
+   ========================================= */
 
+.main-nav a {
+    position: relative;
+
+    /* 3D depth only */
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.25),
+        0 2px 2px rgba(0,0,0,0.65);
+
+    filter: drop-shadow(
+        0 2px 2px rgba(0,0,0,0.30)
+    );
+
+    transition:
+        text-shadow 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Subtle 3D lift */
+.main-nav a:hover {
+    transform: translateY(-1px);
+
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.35),
+        0 3px 4px rgba(0,0,0,0.70);
+
+    filter: drop-shadow(
+        0 4px 4px rgba(0,0,0,0.35)
+    );
+}
+
+/* Tiny realistic highlight */
+.main-nav a::before {
+    content: "";
+    position: absolute;
+
+    left: 15%;
+    right: 15%;
+    top: 2px;
+
+    height: 1px;
+
+    background: rgba(255,255,255,0.18);
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    pointer-events: none;
+}
+
+.main-nav a:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================================
+   LUMADEALS AI — 3D EFFECT ONLY
+   ========================================= */
+
+.main-nav a[href*="ai"],
+.main-nav a.luma-ai,
+.main-nav .ai-button {
+
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.45),
+        0 2px 3px rgba(0,0,0,0.65);
+
+    filter:
+        drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+}
+
+.main-nav a[href*="ai"]:hover,
+.main-nav a.luma-ai:hover,
+.main-nav .ai-button:hover {
+
+    transform: translateY(-1px);
+
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.55),
+        0 3px 5px rgba(0,0,0,0.70);
+
+    filter:
+        drop-shadow(0 4px 5px rgba(0,0,0,0.40));
+}
   
   </style>
 
