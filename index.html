@@ -8227,543 +8227,695 @@
    END — HEADER ONLY
    ===================================================== */
 /* =========================================================
-   LUMA DEALS — SHOP BY CATEGORY
-   PREMIUM 3D / FUTURISTIC CATEGORY SYSTEM
+   LUMA DEALS
+   SHOP BY CATEGORY — PREMIUM 3D SHOWCASE
+   HTML/JS STRUCTURE UNCHANGED
    ========================================================= */
 
-.shop-by-category {
-    position: relative;
-    padding: 28px 0 34px;
+/* SECTION */
+.home-feature-section {
+  position: relative;
 }
 
-/* ---------- SECTION TITLE ---------- */
-
-.shop-by-category h2,
-.shop-by-category .section-title {
-    position: relative;
-    display: inline-block;
-
-    font-weight: 800;
-    letter-spacing: -0.5px;
-
-    color: #14171A;
-
-    text-shadow:
-        0 1px 0 #fff,
-        0 3px 6px rgba(20,23,26,.12);
+.home-section-heading {
+  position: relative;
+  z-index: 5;
 }
 
-.shop-by-category h2::after,
-.shop-by-category .section-title::after {
-    content: "";
+.home-section-heading span {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #3BB4EC;
+  margin-bottom: 4px;
+}
 
-    position: absolute;
-    left: 0;
-    bottom: -9px;
+.home-section-heading h2 {
+  font-weight: 850;
+  letter-spacing: -0.7px;
+  color: #14171A;
+  text-shadow:
+    0 1px 0 #fff,
+    0 3px 7px rgba(20,23,26,.12);
+}
 
-    width: 58px;
-    height: 4px;
+/* =========================================================
+   CATEGORY SHOWCASE
+   ========================================================= */
 
-    border-radius: 20px;
+.category-showcase {
+  position: relative;
 
-    background: linear-gradient(
-        90deg,
-        #3BB4EC,
-        #8bdcff,
-        transparent
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+
+  margin-top: 28px;
+
+  perspective: 1400px;
+}
+
+
+/* =========================================================
+   CATEGORY CARD — COMPLETELY NEW LOOK
+   ========================================================= */
+
+.category-showcase .category-card {
+  position: relative;
+
+  min-height: 190px;
+  padding: 24px 20px 20px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  border-radius: 26px;
+
+  /* premium layered surface */
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(59,180,236,.16),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f7fafc 48%,
+      #e5ebef 100%
     );
 
-    box-shadow:
-        0 2px 8px rgba(59,180,236,.35);
+  border: 1px solid rgba(255,255,255,.95);
+
+  box-shadow:
+    0 2px 0 rgba(255,255,255,1),
+    0 6px 0 rgba(20,23,26,.07),
+    0 15px 25px rgba(20,23,26,.10),
+    inset 0 1px 0 rgba(255,255,255,1);
+
+  transform-style: preserve-3d;
+
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+
+/* top glass shine */
+
+.category-showcase .category-card::before {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  width: 160%;
+  height: 80px;
+
+  top: -35px;
+  left: -30%;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 35%,
+      rgba(255,255,255,.75) 48%,
+      transparent 60%
+    );
+
+  transform: rotate(-5deg);
+
+  pointer-events: none;
+}
+
+
+/* ambient cyan light */
+
+.category-showcase .category-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  right: -65px;
+  bottom: -65px;
+
+  border-radius: 50%;
+
+  background: rgba(59,180,236,.18);
+
+  filter: blur(25px);
+
+  transition:
+    transform .4s ease,
+    opacity .4s ease;
+
+  pointer-events: none;
 }
 
 
 /* =========================================================
-   CATEGORY GRID
+   DIFFERENT 3D VISUAL TREATMENT
    ========================================================= */
 
-.shop-by-category .categories,
-.shop-by-category .category-grid,
-.category-grid {
-    perspective: 1200px;
+.category-showcase .category-card:nth-child(1) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(235,92,155,.13), transparent 30%),
+    linear-gradient(145deg,#fff,#f8f1f5 55%,#e9e1e6);
+}
+
+.category-showcase .category-card:nth-child(2) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(59,180,236,.16), transparent 30%),
+    linear-gradient(145deg,#fff,#f4f9fa 55%,#e3ecef);
+}
+
+.category-showcase .category-card:nth-child(3) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(255,190,70,.15), transparent 30%),
+    linear-gradient(145deg,#fff,#faf7ee 55%,#ece8dc);
+}
+
+.category-showcase .category-card:nth-child(4) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(120,190,120,.14), transparent 30%),
+    linear-gradient(145deg,#fff,#f3f8f3 55%,#e3ebe3);
+}
+
+.category-showcase .category-card:nth-child(5) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(180,100,220,.13), transparent 30%),
+    linear-gradient(145deg,#fff,#f7f3fa 55%,#e8e1ec);
+}
+
+.category-showcase .category-card:nth-child(6) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(59,180,236,.20), transparent 30%),
+    linear-gradient(145deg,#fff,#f2f9fc 55%,#e0ebf0);
+}
+
+.category-showcase .category-card:nth-child(7) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(225,175,70,.17), transparent 30%),
+    linear-gradient(145deg,#fff,#faf7ed 55%,#ebe6d8);
+}
+
+.category-showcase .category-card:nth-child(8) {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(120,160,130,.15), transparent 30%),
+    linear-gradient(145deg,#fff,#f3f8f4 55%,#e2ebe4);
 }
 
 
 /* =========================================================
-   3D CATEGORY CARD
+   ICON — LARGE 3D OBJECT
    ========================================================= */
 
-.category-card {
-    position: relative;
-    isolation: isolate;
+.category-showcase .category-icon {
+  position: relative;
+  z-index: 2;
 
-    overflow: hidden;
+  display: flex;
 
+  width: 68px;
+  height: 68px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 20px;
+
+  font-size: 34px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(230,237,241,.92)
+    );
+
+  border: 1px solid rgba(255,255,255,.95);
+
+  box-shadow:
+    0 4px 0 rgba(20,23,26,.07),
+    0 9px 15px rgba(20,23,26,.13),
+    inset 0 1px 0 #fff,
+    inset 0 -4px 8px rgba(20,23,26,.05);
+
+  transform:
+    translateZ(45px);
+
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease;
+}
+
+
+/* little cyan edge */
+
+.category-showcase .category-icon::after {
+  content: "";
+
+  position: absolute;
+
+  right: 7px;
+  top: 7px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #3BB4EC;
+
+  box-shadow:
+    0 0 9px rgba(59,180,236,.65);
+}
+
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.category-showcase .category-card h3 {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 0 6px;
+
+  font-size: 19px;
+  font-weight: 800;
+
+  color: #14171A;
+
+  transform: translateZ(28px);
+
+  text-shadow:
+    0 1px 0 #fff,
+    0 2px 3px rgba(20,23,26,.13);
+}
+
+.category-showcase .category-card p {
+  position: relative;
+  z-index: 3;
+
+  margin: 0;
+
+  color: #69757d;
+
+  font-size: 13px;
+  font-weight: 550;
+
+  transform: translateZ(20px);
+}
+
+
+/* arrow */
+
+.category-showcase .category-arrow {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 27px;
+  height: 27px;
+
+  border-radius: 50%;
+
+  color: #3BB4EC;
+
+  background: rgba(59,180,236,.09);
+
+  border: 1px solid rgba(59,180,236,.18);
+
+  box-shadow:
+    0 2px 5px rgba(20,23,26,.08),
+    inset 0 1px 0 #fff;
+
+  transition:
+    transform .3s ease,
+    background .3s ease;
+}
+
+
+/* =========================================================
+   HOVER — REAL 3D LIFT
+   ========================================================= */
+
+.category-showcase .category-card:hover {
+
+  transform:
+    translateY(-12px)
+    rotateX(2deg)
+    rotateY(-2deg);
+
+  border-color:
+    rgba(59,180,236,.42);
+
+  box-shadow:
+    0 4px 0 rgba(20,23,26,.06),
+    0 12px 0 rgba(20,23,26,.05),
+    0 28px 42px rgba(20,23,26,.17),
+    0 0 25px rgba(59,180,236,.12),
+    inset 0 1px 0 #fff;
+}
+
+.category-showcase .category-card:hover::after {
+  transform: scale(1.7);
+}
+
+.category-showcase .category-card:hover .category-icon {
+  transform:
+    translateZ(65px)
+    translateY(-7px)
+    rotate(-3deg);
+
+  box-shadow:
+    0 6px 0 rgba(20,23,26,.07),
+    0 15px 22px rgba(20,23,26,.17),
+    inset 0 1px 0 #fff;
+}
+
+.category-showcase .category-card:hover .category-arrow {
+  transform:
+    translateY(-2px)
+    rotate(-12deg);
+
+  background: rgba(59,180,236,.16);
+}
+
+
+/* =========================================================
+   ACTIVE CATEGORY
+   ========================================================= */
+
+.category-showcase .category-card.active,
+.category-showcase .category-card.selected {
+
+  border-color:
+    rgba(59,180,236,.55);
+
+  box-shadow:
+    0 5px 0 rgba(20,23,26,.06),
+    0 16px 30px rgba(20,23,26,.15),
+    0 0 25px rgba(59,180,236,.16),
+    inset 0 0 0 1px rgba(59,180,236,.10);
+}
+
+
+/* =========================================================
+   SUBCATEGORY PANEL — NEW PREMIUM DESIGN
+   ========================================================= */
+
+#category-subcategories {
+  position: relative;
+
+  margin-top: 24px;
+
+  padding: 18px;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #20272c,
+      #12171a
+    );
+
+  border:
+    1px solid rgba(255,255,255,.09);
+
+  box-shadow:
+    0 8px 0 rgba(0,0,0,.12),
+    0 18px 35px rgba(20,23,26,.17),
+    inset 0 1px 0 rgba(255,255,255,.12),
+    inset 0 -8px 18px rgba(0,0,0,.25);
+
+  overflow: hidden;
+}
+
+
+/* cyan light inside panel */
+
+#category-subcategories::before {
+  content: "";
+
+  position: absolute;
+
+  top: -80px;
+  right: 8%;
+
+  width: 230px;
+  height: 140px;
+
+  background: rgba(59,180,236,.14);
+
+  filter: blur(40px);
+
+  pointer-events: none;
+}
+
+
+/* groups */
+
+#category-subcategories .subcategory-group {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+
+/* =========================================================
+   SUBCATEGORY BUTTONS
+   ========================================================= */
+
+#category-subcategories .subcategory-group button {
+  position: relative;
+
+  min-height: 42px;
+
+  padding: 8px 15px;
+
+  border-radius: 13px;
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  color: #dce7eb;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.12),
+      rgba(255,255,255,.045)
+    );
+
+  box-shadow:
+    0 3px 0 rgba(0,0,0,.30),
+    0 7px 12px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.13);
+
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform .22s ease,
+    background .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+
+/* button shine */
+
+#category-subcategories .subcategory-group button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 1px;
+  left: 12%;
+  right: 12%;
+
+  height: 1px;
+
+  background:
+    rgba(255,255,255,.25);
+
+  pointer-events: none;
+}
+
+
+/* hover */
+
+#category-subcategories .subcategory-group button:hover {
+  color: #fff;
+
+  transform:
+    translateY(-3px);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,180,236,.32),
+      rgba(59,180,236,.10)
+    );
+
+  border-color:
+    rgba(59,180,236,.42);
+
+  box-shadow:
+    0 5px 0 rgba(0,0,0,.28),
+    0 10px 18px rgba(0,0,0,.24),
+    0 0 13px rgba(59,180,236,.12),
+    inset 0 1px 0 rgba(255,255,255,.20);
+}
+
+
+/* active subcategory */
+
+#category-subcategories .subcategory-group button.active {
+  color: #fff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #4fc5ef,
+      #1888b4
+    );
+
+  border-color:
+    rgba(255,255,255,.30);
+
+  box-shadow:
+    0 4px 0 #0b5d79,
+    0 9px 16px rgba(0,0,0,.28),
+    0 0 18px rgba(59,180,236,.22),
+    inset 0 1px 0 rgba(255,255,255,.35);
+
+  text-shadow:
+    0 1px 2px rgba(0,0,0,.35);
+}
+
+
+/* =========================================================
+   VIEW ALL BUTTON
+   ========================================================= */
+
+.home-section-heading > button {
+  position: relative;
+
+  border: 1px solid rgba(59,180,236,.28);
+
+  border-radius: 12px;
+
+  padding: 9px 15px;
+
+  color: #1687b4;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff,
+      #edf8fc
+    );
+
+  box-shadow:
+    0 3px 0 rgba(20,23,26,.07),
+    0 7px 14px rgba(20,23,26,.08),
+    inset 0 1px 0 #fff;
+
+  font-weight: 750;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.home-section-heading > button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 5px 0 rgba(20,23,26,.06),
+    0 11px 18px rgba(20,23,26,.12),
+    0 0 12px rgba(59,180,236,.10),
+    inset 0 1px 0 #fff;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .category-showcase {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 14px;
+  }
+
+  .category-showcase .category-card {
     min-height: 170px;
-
-    padding: 22px 18px;
-
-    border-radius: 24px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff 0%,
-            #f7fafc 42%,
-            #e8eef2 100%
-        );
-
-    border: 1px solid rgba(255,255,255,.95);
-
-    box-shadow:
-        0 2px 0 rgba(255,255,255,.95),
-        0 5px 0 rgba(20,23,26,.07),
-        0 15px 30px rgba(20,23,26,.12),
-        inset 0 1px 0 rgba(255,255,255,1),
-        inset 0 -8px 18px rgba(20,23,26,.035);
-
-    transform-style: preserve-3d;
-
-    transition:
-        transform .35s cubic-bezier(.2,.8,.2,1),
-        box-shadow .35s ease,
-        border-color .35s ease;
+    padding: 19px;
+  }
 }
 
+@media (max-width: 520px) {
 
-/* top glass reflection */
+  .category-showcase {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 11px;
+  }
 
-.category-card::before {
-    content: "";
+  .category-showcase .category-card {
+    min-height: 155px;
+    padding: 16px;
+    border-radius: 20px;
+  }
 
-    position: absolute;
-
-    top: -45%;
-    left: -30%;
-
-    width: 150%;
-    height: 90%;
-
-    background:
-        linear-gradient(
-            115deg,
-            transparent 30%,
-            rgba(255,255,255,.75) 45%,
-            transparent 60%
-        );
-
-    transform: rotate(-8deg);
-
-    opacity: .55;
-
-    pointer-events: none;
-}
-
-
-/* cyan ambient glow */
-
-.category-card::after {
-    content: "";
-
-    position: absolute;
-
-    width: 110px;
-    height: 110px;
-
-    right: -45px;
-    bottom: -45px;
-
-    border-radius: 50%;
-
-    background: rgba(59,180,236,.13);
-
-    filter: blur(25px);
-
-    z-index: -1;
-
-    transition:
-        transform .35s ease,
-        opacity .35s ease;
-}
-
-
-/* ---------- HOVER ---------- */
-
-.category-card:hover {
-    transform:
-        translateY(-10px)
-        rotateX(2deg)
-        rotateY(-2deg);
-
-    border-color:
-        rgba(59,180,236,.45);
-
-    box-shadow:
-        0 3px 0 rgba(255,255,255,.95),
-        0 8px 0 rgba(20,23,26,.06),
-        0 24px 45px rgba(20,23,26,.18),
-        0 0 25px rgba(59,180,236,.12),
-        inset 0 1px 0 #fff,
-        inset 0 -10px 20px rgba(20,23,26,.035);
-}
-
-.category-card:hover::after {
-    transform: scale(1.7);
-    opacity: .8;
-}
-
-
-/* =========================================================
-   CATEGORY ICON — FLOATING 3D OBJECT
-   ========================================================= */
-
-.category-card i,
-.category-card .category-icon,
-.category-card .icon,
-.category-card img {
-    position: relative;
-
-    transform: translateZ(25px);
-
-    filter:
-        drop-shadow(0 5px 4px rgba(20,23,26,.20))
-        drop-shadow(0 0 8px rgba(59,180,236,.08));
-
-    transition:
-        transform .35s cubic-bezier(.2,.8,.2,1),
-        filter .35s ease;
-}
-
-.category-card:hover i,
-.category-card:hover .category-icon,
-.category-card:hover .icon,
-.category-card:hover img {
-    transform:
-        translateZ(40px)
-        translateY(-7px)
-        scale(1.08);
-
-    filter:
-        drop-shadow(0 9px 7px rgba(20,23,26,.22))
-        drop-shadow(0 0 13px rgba(59,180,236,.20));
-}
-
-
-/* =========================================================
-   CATEGORY NAME
-   ========================================================= */
-
-.category-card h3,
-.category-card h4,
-.category-card .category-name {
-    position: relative;
-    z-index: 2;
-
-    color: #14171A;
-
-    font-weight: 750;
-
-    transform: translateZ(18px);
-
-    text-shadow:
-        0 1px 0 #fff,
-        0 2px 3px rgba(20,23,26,.12);
-
-    transition:
-        color .25s ease,
-        transform .25s ease;
-}
-
-.category-card:hover h3,
-.category-card:hover h4,
-.category-card:hover .category-name {
-    color: #1593c4;
-
-    transform:
-        translateZ(28px)
-        translateY(-2px);
-}
-
-
-/* =========================================================
-   SUBCATEGORY AREA
-   ========================================================= */
-
-.subcategories,
-.subcategory-container,
-.category-subcategories {
-    position: relative;
-
-    margin-top: 15px;
-
-    padding: 10px;
-
+  .category-showcase .category-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 28px;
     border-radius: 16px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(238,243,246,.92),
-            rgba(255,255,255,.98)
-        );
-
-    border:
-        1px solid rgba(20,23,26,.07);
-
-    box-shadow:
-        inset 0 2px 5px rgba(20,23,26,.06),
-        0 3px 10px rgba(20,23,26,.06);
-}
-
-
-/* =========================================================
-   SUBCATEGORY — MINI 3D TILES
-   ========================================================= */
-
-.subcategory-item,
-.subcategories a,
-.category-subcategories a {
-    position: relative;
-
-    display: inline-flex;
-    align-items: center;
-
-    min-height: 34px;
-
-    padding: 7px 13px;
-
-    margin: 3px;
-
-    border-radius: 10px;
-
-    color: #3c474e;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #e8edf0
-        );
-
-    border:
-        1px solid rgba(20,23,26,.08);
-
-    box-shadow:
-        0 2px 0 rgba(20,23,26,.08),
-        0 5px 9px rgba(20,23,26,.07),
-        inset 0 1px 0 #fff;
-
-    text-shadow:
-        0 1px 0 #fff;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        color .2s ease,
-        background .2s ease;
-}
-
-
-/* subcategory hover */
-
-.subcategory-item:hover,
-.subcategories a:hover,
-.category-subcategories a:hover {
-    color: #14171A;
-
-    transform:
-        translateY(-3px);
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f0faff
-        );
-
-    border-color:
-        rgba(59,180,236,.35);
-
-    box-shadow:
-        0 3px 0 rgba(20,23,26,.07),
-        0 9px 15px rgba(20,23,26,.11),
-        0 0 12px rgba(59,180,236,.10),
-        inset 0 1px 0 #fff;
-}
-
-
-/* =========================================================
-   ACTIVE SUBCATEGORY
-   ========================================================= */
-
-.subcategory-item.active,
-.subcategories a.active,
-.category-subcategories a.active {
-    color: #fff;
-
-    background:
-        linear-gradient(
-            145deg,
-            #59c9f2,
-            #279bc7 55%,
-            #157ba3
-        );
-
-    border-color:
-        rgba(255,255,255,.35);
-
-    box-shadow:
-        0 3px 0 #0e6382,
-        0 7px 14px rgba(20,23,26,.20),
-        inset 0 1px 0 rgba(255,255,255,.45),
-        inset 0 -3px 5px rgba(0,0,0,.10);
-
-    text-shadow:
-        0 1px 2px rgba(0,0,0,.35);
-}
-
-
-/* =========================================================
-   PREMIUM SMALL LIGHT DOT
-   ========================================================= */
-
-.category-card .category-icon::after,
-.category-card .icon::after {
-    content: "";
-
-    position: absolute;
-
-    top: -4px;
-    right: -5px;
-
-    width: 6px;
-    height: 6px;
-
-    border-radius: 50%;
-
-    background: #3BB4EC;
-
-    box-shadow:
-        0 0 8px rgba(59,180,236,.65);
-
-    opacity: .75;
-}
-
-
-/* =========================================================
-   PRESS EFFECT
-   ========================================================= */
-
-.category-card:active {
-    transform:
-        translateY(-2px)
-        scale(.985);
-
-    box-shadow:
-        0 2px 0 rgba(20,23,26,.08),
-        0 7px 14px rgba(20,23,26,.12),
-        inset 0 3px 8px rgba(20,23,26,.07);
-}
-
-
-/* =========================================================
-   DARK MODE
-   ========================================================= */
-
-body.dark-mode .category-card,
-.dark-mode .category-card {
-    background:
-        linear-gradient(
-            145deg,
-            #252c31,
-            #171c20 65%,
-            #111518
-        );
-
-    border-color:
-        rgba(255,255,255,.08);
-
-    box-shadow:
-        0 5px 0 rgba(0,0,0,.35),
-        0 18px 35px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.08),
-        inset 0 -8px 18px rgba(0,0,0,.20);
-}
-
-body.dark-mode .category-card h3,
-body.dark-mode .category-card h4,
-body.dark-mode .category-card .category-name,
-.dark-mode .category-card h3,
-.dark-mode .category-card h4,
-.dark-mode .category-card .category-name {
-    color: #f5f8fa;
-
-    text-shadow:
-        0 2px 4px rgba(0,0,0,.45);
-}
-
-body.dark-mode .subcategories,
-.dark-mode .subcategories,
-body.dark-mode .subcategory-container,
-.dark-mode .subcategory-container {
-    background:
-        linear-gradient(
-            145deg,
-            #20272c,
-            #151a1e
-        );
-
-    border-color:
-        rgba(255,255,255,.07);
-}
-
-body.dark-mode .subcategory-item,
-.dark-mode .subcategory-item,
-body.dark-mode .subcategories a,
-.dark-mode .subcategories a {
-    color: #dce5e9;
-
-    background:
-        linear-gradient(
-            145deg,
-            #30383e,
-            #20272c
-        );
-
-    border-color:
-        rgba(255,255,255,.08);
-
-    text-shadow:
-        0 1px 2px rgba(0,0,0,.4);
-}
-
-
-/* =========================================================
-   MOBILE — KEEP PREMIUM BUT CLEAN
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    .category-card {
-        border-radius: 18px;
-        min-height: 145px;
-
-        box-shadow:
-            0 3px 0 rgba(20,23,26,.06),
-            0 10px 22px rgba(20,23,26,.10),
-            inset 0 1px 0 #fff;
-    }
-
-    .category-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .subcategory-item,
-    .subcategories a,
-    .category-subcategories a {
-        min-height: 32px;
-        padding: 6px 10px;
-    }
+    margin-bottom: 13px;
+  }
+
+  .category-showcase .category-card h3 {
+    font-size: 16px;
+  }
+
+  .category-showcase .category-card p {
+    font-size: 11px;
+  }
+
+  #category-subcategories {
+    padding: 13px;
+    border-radius: 19px;
+  }
+
+  #category-subcategories .subcategory-group button {
+    min-height: 38px;
+    padding: 7px 11px;
+    font-size: 11px;
+  }
 }
   </style>
 
