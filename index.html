@@ -8226,243 +8226,298 @@
 /* =====================================================
    END — HEADER ONLY
    ===================================================== */
-/* =========================================
-   NAV LINKS — 3D EFFECT ONLY
-   NO SIZE / POSITION / SPACING CHANGE
-   ========================================= */
-
-.main-nav a {
-    position: relative;
-
-    /* 3D depth only */
-    text-shadow:
-        0 1px 0 rgba(255,255,255,0.25),
-        0 2px 2px rgba(0,0,0,0.65);
-
-    filter: drop-shadow(
-        0 2px 2px rgba(0,0,0,0.30)
-    );
-
-    transition:
-        text-shadow 0.2s ease,
-        filter 0.2s ease,
-        transform 0.2s ease;
-}
-
-/* Subtle 3D lift */
-.main-nav a:hover {
-    transform: translateY(-1px);
-
-    text-shadow:
-        0 1px 0 rgba(255,255,255,0.35),
-        0 3px 4px rgba(0,0,0,0.70);
-
-    filter: drop-shadow(
-        0 4px 4px rgba(0,0,0,0.35)
-    );
-}
-
-/* Tiny realistic highlight */
-.main-nav a::before {
-    content: "";
-    position: absolute;
-
-    left: 15%;
-    right: 15%;
-    top: 2px;
-
-    height: 1px;
-
-    background: rgba(255,255,255,0.18);
-
-    opacity: 0;
-    transition: opacity 0.2s ease;
-
-    pointer-events: none;
-}
-
-.main-nav a:hover::before {
-    opacity: 1;
-}
-
-
-/* =========================================
-   LUMADEALS AI — 3D EFFECT ONLY
-   ========================================= */
-
-.main-nav a[href*="ai"],
-.main-nav a.luma-ai,
-.main-nav .ai-button {
-
-    text-shadow:
-        0 1px 0 rgba(255,255,255,0.45),
-        0 2px 3px rgba(0,0,0,0.65);
-
-    filter:
-        drop-shadow(0 2px 3px rgba(0,0,0,0.35));
-}
-
-.main-nav a[href*="ai"]:hover,
-.main-nav a.luma-ai:hover,
-.main-nav .ai-button:hover {
-
-    transform: translateY(-1px);
-
-    text-shadow:
-        0 1px 0 rgba(255,255,255,0.55),
-        0 3px 5px rgba(0,0,0,0.70);
-
-    filter:
-        drop-shadow(0 4px 5px rgba(0,0,0,0.40));
-}
-  /* =========================================================
+/* =========================================================
    LUMA DEALS — SHOP BY CATEGORY
-   3D • REALISTIC • CLEAN • PREMIUM
+   PREMIUM 3D / FUTURISTIC CATEGORY SYSTEM
    ========================================================= */
 
-/* Category Card */
+.shop-by-category {
+    position: relative;
+    padding: 28px 0 34px;
+}
+
+/* ---------- SECTION TITLE ---------- */
+
+.shop-by-category h2,
+.shop-by-category .section-title {
+    position: relative;
+    display: inline-block;
+
+    font-weight: 800;
+    letter-spacing: -0.5px;
+
+    color: #14171A;
+
+    text-shadow:
+        0 1px 0 #fff,
+        0 3px 6px rgba(20,23,26,.12);
+}
+
+.shop-by-category h2::after,
+.shop-by-category .section-title::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+
+    width: 58px;
+    height: 4px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        90deg,
+        #3BB4EC,
+        #8bdcff,
+        transparent
+    );
+
+    box-shadow:
+        0 2px 8px rgba(59,180,236,.35);
+}
+
+
+/* =========================================================
+   CATEGORY GRID
+   ========================================================= */
+
+.shop-by-category .categories,
+.shop-by-category .category-grid,
+.category-grid {
+    perspective: 1200px;
+}
+
+
+/* =========================================================
+   3D CATEGORY CARD
+   ========================================================= */
+
 .category-card {
     position: relative;
+    isolation: isolate;
+
     overflow: hidden;
+
+    min-height: 170px;
+
+    padding: 22px 18px;
+
+    border-radius: 24px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.98),
-            rgba(245,248,250,0.96)
+            #ffffff 0%,
+            #f7fafc 42%,
+            #e8eef2 100%
         );
 
-    border: 1px solid rgba(20,23,26,0.10);
-    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.95);
 
     box-shadow:
-        0 3px 0 rgba(20,23,26,0.08),
-        0 8px 20px rgba(20,23,26,0.10),
-        inset 0 1px 0 rgba(255,255,255,0.95),
-        inset 0 -1px 0 rgba(20,23,26,0.04);
+        0 2px 0 rgba(255,255,255,.95),
+        0 5px 0 rgba(20,23,26,.07),
+        0 15px 30px rgba(20,23,26,.12),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -8px 18px rgba(20,23,26,.035);
+
+    transform-style: preserve-3d;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease,
+        border-color .35s ease;
 }
 
-/* Realistic upper reflection */
+
+/* top glass reflection */
+
 .category-card::before {
     content: "";
-    position: absolute;
-    top: 0;
-    left: 8%;
-    right: 8%;
-    height: 1px;
 
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.95),
-        transparent
-    );
+    position: absolute;
+
+    top: -45%;
+    left: -30%;
+
+    width: 150%;
+    height: 90%;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 30%,
+            rgba(255,255,255,.75) 45%,
+            transparent 60%
+        );
+
+    transform: rotate(-8deg);
+
+    opacity: .55;
 
     pointer-events: none;
 }
 
-/* Soft depth underneath */
+
+/* cyan ambient glow */
+
 .category-card::after {
     content: "";
-    position: absolute;
-    left: 12%;
-    right: 12%;
-    bottom: -5px;
-    height: 12px;
 
-    background: rgba(20,23,26,0.12);
-    filter: blur(10px);
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    right: -45px;
+    bottom: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(59,180,236,.13);
+
+    filter: blur(25px);
 
     z-index: -1;
+
+    transition:
+        transform .35s ease,
+        opacity .35s ease;
 }
 
-/* Hover */
-.category-card:hover {
-    transform: translateY(-5px);
 
-    border-color: rgba(59,180,236,0.35);
+/* ---------- HOVER ---------- */
+
+.category-card:hover {
+    transform:
+        translateY(-10px)
+        rotateX(2deg)
+        rotateY(-2deg);
+
+    border-color:
+        rgba(59,180,236,.45);
 
     box-shadow:
-        0 7px 0 rgba(20,23,26,0.07),
-        0 16px 28px rgba(20,23,26,0.15),
-        0 0 18px rgba(59,180,236,0.10),
-        inset 0 1px 0 rgba(255,255,255,1),
-        inset 0 -2px 5px rgba(20,23,26,0.05);
+        0 3px 0 rgba(255,255,255,.95),
+        0 8px 0 rgba(20,23,26,.06),
+        0 24px 45px rgba(20,23,26,.18),
+        0 0 25px rgba(59,180,236,.12),
+        inset 0 1px 0 #fff,
+        inset 0 -10px 20px rgba(20,23,26,.035);
+}
+
+.category-card:hover::after {
+    transform: scale(1.7);
+    opacity: .8;
 }
 
 
 /* =========================================================
-   CATEGORY ICON
+   CATEGORY ICON — FLOATING 3D OBJECT
    ========================================================= */
 
 .category-card i,
 .category-card .category-icon,
+.category-card .icon,
 .category-card img {
+    position: relative;
+
+    transform: translateZ(25px);
+
     filter:
-        drop-shadow(0 3px 3px rgba(20,23,26,0.20));
+        drop-shadow(0 5px 4px rgba(20,23,26,.20))
+        drop-shadow(0 0 8px rgba(59,180,236,.08));
 
     transition:
-        transform 0.25s ease,
-        filter 0.25s ease;
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        filter .35s ease;
 }
 
 .category-card:hover i,
 .category-card:hover .category-icon,
+.category-card:hover .icon,
 .category-card:hover img {
-    transform: translateY(-3px);
+    transform:
+        translateZ(40px)
+        translateY(-7px)
+        scale(1.08);
 
     filter:
-        drop-shadow(0 5px 5px rgba(20,23,26,0.25))
-        drop-shadow(0 0 5px rgba(59,180,236,0.18));
+        drop-shadow(0 9px 7px rgba(20,23,26,.22))
+        drop-shadow(0 0 13px rgba(59,180,236,.20));
 }
 
 
 /* =========================================================
-   CATEGORY TITLE
+   CATEGORY NAME
    ========================================================= */
 
 .category-card h3,
 .category-card h4,
 .category-card .category-name {
+    position: relative;
+    z-index: 2;
+
     color: #14171A;
 
+    font-weight: 750;
+
+    transform: translateZ(18px);
+
     text-shadow:
-        0 1px 0 #ffffff,
-        0 2px 2px rgba(20,23,26,0.12);
+        0 1px 0 #fff,
+        0 2px 3px rgba(20,23,26,.12);
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+.category-card:hover h3,
+.category-card:hover h4,
+.category-card:hover .category-name {
+    color: #1593c4;
+
+    transform:
+        translateZ(28px)
+        translateY(-2px);
 }
 
 
 /* =========================================================
-   SUBCATEGORY CONTAINER
+   SUBCATEGORY AREA
    ========================================================= */
 
-.subcategory-container,
 .subcategories,
+.subcategory-container,
 .category-subcategories {
+    position: relative;
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border-radius: 16px;
+
     background:
         linear-gradient(
             145deg,
-            rgba(248,250,252,0.98),
-            rgba(238,243,246,0.96)
+            rgba(238,243,246,.92),
+            rgba(255,255,255,.98)
         );
 
-    border: 1px solid rgba(20,23,26,0.08);
-    border-radius: 14px;
+    border:
+        1px solid rgba(20,23,26,.07);
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.95),
-        inset 0 -2px 5px rgba(20,23,26,0.04),
-        0 5px 14px rgba(20,23,26,0.07);
+        inset 0 2px 5px rgba(20,23,26,.06),
+        0 3px 10px rgba(20,23,26,.06);
 }
 
 
 /* =========================================================
-   SUBCATEGORY ITEMS
+   SUBCATEGORY — MINI 3D TILES
    ========================================================= */
 
 .subcategory-item,
@@ -8470,117 +8525,245 @@
 .category-subcategories a {
     position: relative;
 
-    color: #3d464d;
-    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 34px;
+
+    padding: 7px 13px;
+
+    margin: 3px;
+
+    border-radius: 10px;
+
+    color: #3c474e;
 
     background:
         linear-gradient(
             145deg,
             #ffffff,
-            #f1f4f6
+            #e8edf0
         );
 
-    border: 1px solid rgba(20,23,26,0.08);
-    border-radius: 10px;
+    border:
+        1px solid rgba(20,23,26,.08);
 
     box-shadow:
-        0 2px 0 rgba(20,23,26,0.06),
-        0 4px 9px rgba(20,23,26,0.07),
-        inset 0 1px 0 rgba(255,255,255,0.95);
+        0 2px 0 rgba(20,23,26,.08),
+        0 5px 9px rgba(20,23,26,.07),
+        inset 0 1px 0 #fff;
 
     text-shadow:
-        0 1px 0 #ffffff;
+        0 1px 0 #fff;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+        transform .2s ease,
+        box-shadow .2s ease,
+        color .2s ease,
+        background .2s ease;
 }
 
 
-/* Subcategory hover */
+/* subcategory hover */
+
 .subcategory-item:hover,
 .subcategories a:hover,
 .category-subcategories a:hover {
     color: #14171A;
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-3px);
 
-    border-color: rgba(59,180,236,0.35);
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f0faff
+        );
+
+    border-color:
+        rgba(59,180,236,.35);
 
     box-shadow:
-        0 4px 0 rgba(20,23,26,0.06),
-        0 8px 14px rgba(20,23,26,0.11),
-        0 0 10px rgba(59,180,236,0.08),
-        inset 0 1px 0 rgba(255,255,255,1);
+        0 3px 0 rgba(20,23,26,.07),
+        0 9px 15px rgba(20,23,26,.11),
+        0 0 12px rgba(59,180,236,.10),
+        inset 0 1px 0 #fff;
 }
 
 
 /* =========================================================
-   SUBCATEGORY ACTIVE / SELECTED
+   ACTIVE SUBCATEGORY
    ========================================================= */
 
 .subcategory-item.active,
 .subcategories a.active,
 .category-subcategories a.active {
-    color: #ffffff;
+    color: #fff;
 
     background:
         linear-gradient(
             145deg,
-            #45bce9,
-            #218fb9
+            #59c9f2,
+            #279bc7 55%,
+            #157ba3
         );
 
-    border-color: rgba(255,255,255,0.30);
+    border-color:
+        rgba(255,255,255,.35);
 
     box-shadow:
-        0 3px 0 #14718f,
-        0 7px 14px rgba(20,23,26,0.20),
-        inset 0 1px 0 rgba(255,255,255,0.35);
+        0 3px 0 #0e6382,
+        0 7px 14px rgba(20,23,26,.20),
+        inset 0 1px 0 rgba(255,255,255,.45),
+        inset 0 -3px 5px rgba(0,0,0,.10);
 
     text-shadow:
-        0 1px 2px rgba(0,0,0,0.30);
+        0 1px 2px rgba(0,0,0,.35);
 }
 
 
 /* =========================================================
-   CATEGORY SECTION HEADING
+   PREMIUM SMALL LIGHT DOT
    ========================================================= */
 
-.shop-by-category h2,
-.shop-by-category .section-title {
-    color: #14171A;
+.category-card .category-icon::after,
+.category-card .icon::after {
+    content: "";
 
-    text-shadow:
-        0 1px 0 #ffffff,
-        0 2px 3px rgba(20,23,26,0.14);
+    position: absolute;
+
+    top: -4px;
+    right: -5px;
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #3BB4EC;
+
+    box-shadow:
+        0 0 8px rgba(59,180,236,.65);
+
+    opacity: .75;
 }
 
 
-/* Cyan premium accent under heading */
-.shop-by-category h2::after,
-.shop-by-category .section-title::after {
-    content: "";
+/* =========================================================
+   PRESS EFFECT
+   ========================================================= */
 
-    display: block;
-
-    width: 42px;
-    height: 3px;
-
-    margin-top: 7px;
-
-    border-radius: 10px;
-
-    background: linear-gradient(
-        90deg,
-        #3BB4EC,
-        rgba(59,180,236,0.15)
-    );
+.category-card:active {
+    transform:
+        translateY(-2px)
+        scale(.985);
 
     box-shadow:
-        0 1px 4px rgba(59,180,236,0.30);
+        0 2px 0 rgba(20,23,26,.08),
+        0 7px 14px rgba(20,23,26,.12),
+        inset 0 3px 8px rgba(20,23,26,.07);
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode .category-card,
+.dark-mode .category-card {
+    background:
+        linear-gradient(
+            145deg,
+            #252c31,
+            #171c20 65%,
+            #111518
+        );
+
+    border-color:
+        rgba(255,255,255,.08);
+
+    box-shadow:
+        0 5px 0 rgba(0,0,0,.35),
+        0 18px 35px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 -8px 18px rgba(0,0,0,.20);
+}
+
+body.dark-mode .category-card h3,
+body.dark-mode .category-card h4,
+body.dark-mode .category-card .category-name,
+.dark-mode .category-card h3,
+.dark-mode .category-card h4,
+.dark-mode .category-card .category-name {
+    color: #f5f8fa;
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,.45);
+}
+
+body.dark-mode .subcategories,
+.dark-mode .subcategories,
+body.dark-mode .subcategory-container,
+.dark-mode .subcategory-container {
+    background:
+        linear-gradient(
+            145deg,
+            #20272c,
+            #151a1e
+        );
+
+    border-color:
+        rgba(255,255,255,.07);
+}
+
+body.dark-mode .subcategory-item,
+.dark-mode .subcategory-item,
+body.dark-mode .subcategories a,
+.dark-mode .subcategories a {
+    color: #dce5e9;
+
+    background:
+        linear-gradient(
+            145deg,
+            #30383e,
+            #20272c
+        );
+
+    border-color:
+        rgba(255,255,255,.08);
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,.4);
+}
+
+
+/* =========================================================
+   MOBILE — KEEP PREMIUM BUT CLEAN
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .category-card {
+        border-radius: 18px;
+        min-height: 145px;
+
+        box-shadow:
+            0 3px 0 rgba(20,23,26,.06),
+            0 10px 22px rgba(20,23,26,.10),
+            inset 0 1px 0 #fff;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .subcategory-item,
+    .subcategories a,
+    .category-subcategories a {
+        min-height: 32px;
+        padding: 6px 10px;
+    }
 }
   </style>
 
