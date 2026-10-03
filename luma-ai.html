@@ -2836,7 +2836,54 @@ async function toggleLumaVoice() {
    START LIVE SESSION
    ========================================= */
 
-              
+         async function startLumaVoice() {
+
+  const voiceButton =
+    document.getElementById("luma-ai-voice");
+
+  if (!voiceButton) return;
+
+  try {
+
+    showLumaVoiceStatus(
+      "Connecting to LumaDeals AI..."
+    );
+
+    voiceButton.disabled = true;
+
+
+    /* GET EPHEMERAL TOKEN */
+
+    const tokenResponse =
+      await fetch("/api/live-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+
+    const tokenData =
+      await tokenResponse.json();
+
+
+    if (!tokenResponse.ok) {
+      throw new Error(
+        tokenData.error ||
+        "Could not create voice session."
+      );
+    }
+
+
+    const token = tokenData.token;
+
+
+    if (!token) {
+      throw new Error(
+        "No Live API token received."
+      );
+    }
+    
 
 
 
@@ -2866,8 +2913,16 @@ async function toggleLumaVoice() {
           "gemini-3.8-live",
 
         config: {
-          responseModalities: ["AUDIO"]
-        },
+  responseModalities: ["AUDIO"],
+
+  speechConfig: {
+    voiceConfig: {
+      prebuiltVoiceConfig: {
+        voiceName: "Kore"
+      }
+    }
+  }
+},
 
         callbacks: {
 
