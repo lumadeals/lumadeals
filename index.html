@@ -8068,7 +8068,85 @@
 }
 
     
+/* =========================================================
+   TEACHERS' DAY PROMO BAR — 3D WARM GOLD THEME
+   ========================================================= */
 
+.promo-bar-neon.teachers-day {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(217, 119, 6, 0.35),
+      rgba(40, 25, 5, 0.92),
+      rgba(234, 179, 8, 0.35)
+    ) !important;
+
+  border: 1px solid rgba(251, 191, 36, 0.85) !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+
+  box-shadow:
+    0 0 10px rgba(251, 191, 36, 0.85),
+    0 0 24px rgba(217, 119, 6, 0.5),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -3px 8px rgba(0,0,0,0.25) !important;
+}
+
+.promo-bar-neon.teachers-day::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 237, 190, 0.55),
+    transparent
+  ) !important;
+}
+
+.promo-bar-neon.teachers-day .promo-text {
+  text-shadow:
+    1px 1px 0 #7a4a00,
+    2px 2px 0 #4a2c00,
+    0 0 10px rgba(255,220,150,0.55) !important;
+}
+
+.promo-bar-neon.teachers-day .promo-off {
+  background: linear-gradient(135deg, #facc15, #f59e0b) !important;
+  border-color: #fde68a !important;
+  color: #3a2200 !important;
+
+  text-shadow:
+    1px 1px 0 rgba(255,255,255,0.4) !important;
+
+  box-shadow:
+    0 3px 0 #92400e,
+    0 0 10px #f59e0b,
+    0 0 20px rgba(245, 158, 11, 0.7),
+    inset 0 1px 0 rgba(255,255,255,0.6) !important;
+
+  animation: teachersOffer 2s ease-in-out infinite !important;
+}
+
+@keyframes teachersOffer {
+  0%, 100% {
+    transform: translateY(-1px) scale(1);
+    box-shadow:
+      0 3px 0 #92400e,
+      0 0 10px #f59e0b,
+      0 0 20px rgba(245,158,11,0.7);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow:
+      0 5px 0 #92400e,
+      0 0 16px #f59e0b,
+      0 0 30px rgba(245,158,11,0.9);
+  }
+}
+
+.promo-bar-neon.teachers-day .promo-icon {
+  filter:
+    drop-shadow(0 0 5px #fbbf24)
+    drop-shadow(0 0 10px #f59e0b) !important;
+    }
   </style>
 
 
@@ -8131,20 +8209,21 @@
     ⬇️ Install App
   </button>
 
-  <div class="promo-bar-neon">
+<div class="promo-bar-neon teachers-day">
     <div class="promo-glow"></div>
 
+    <span class="promo-icon">🍎</span>
+
     <span class="promo-text">
-      Order Now and Get Up to
+      Happy Teachers' Day — Celebrate with
     </span>
 
     <span class="promo-off">
       20% OFF
     </span>
 
-    <span class="promo-icon">📢</span>
-  </div>
-
+    <span class="promo-icon">📚</span>
+</div>
   <header class="navbar">
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
     <div class="logo" onclick="showPage('home')">
