@@ -8067,86 +8067,76 @@
   .ld-hero-decoration { right: -22px; font-size: 90px; }
 }
 
-    
-/* =========================================================
-   TEACHERS' DAY PROMO BAR — 3D WARM GOLD THEME
+    /* =========================================================
+   PROMO BAR — FRESH PREMIUM LOOK (v2)
    ========================================================= */
 
-.promo-bar-neon.teachers-day {
+.promo-bar-neon {
   background:
     linear-gradient(
       100deg,
-      rgba(217, 119, 6, 0.35),
-      rgba(40, 25, 5, 0.92),
-      rgba(234, 179, 8, 0.35)
+      rgba(2, 132, 199, 0.35),
+      rgba(10, 14, 20, 0.92),
+      rgba(59, 180, 236, 0.35)
     ) !important;
 
-  border: 1px solid rgba(251, 191, 36, 0.85) !important;
+  border: 1px solid rgba(125, 211, 252, 0.6) !important;
   border-left: 0 !important;
   border-right: 0 !important;
 
   box-shadow:
-    0 0 10px rgba(251, 191, 36, 0.85),
-    0 0 24px rgba(217, 119, 6, 0.5),
-    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 0 10px rgba(59, 180, 236, 0.6),
+    0 0 24px rgba(2, 132, 199, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.10),
     inset 0 -3px 8px rgba(0,0,0,0.25) !important;
 }
 
-.promo-bar-neon.teachers-day::before {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 237, 190, 0.55),
-    transparent
-  ) !important;
-}
-
-.promo-bar-neon.teachers-day .promo-text {
+.promo-bar-neon .promo-text {
   text-shadow:
-    1px 1px 0 #7a4a00,
-    2px 2px 0 #4a2c00,
-    0 0 10px rgba(255,220,150,0.55) !important;
+    1px 1px 0 #0c2d42,
+    2px 2px 0 #06202f,
+    0 0 10px rgba(186, 230, 253, 0.5) !important;
 }
 
-.promo-bar-neon.teachers-day .promo-off {
-  background: linear-gradient(135deg, #facc15, #f59e0b) !important;
+.promo-bar-neon .promo-off {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
   border-color: #fde68a !important;
   color: #3a2200 !important;
 
-  text-shadow:
-    1px 1px 0 rgba(255,255,255,0.4) !important;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.4) !important;
 
   box-shadow:
     0 3px 0 #92400e,
     0 0 10px #f59e0b,
-    0 0 20px rgba(245, 158, 11, 0.7),
-    inset 0 1px 0 rgba(255,255,255,0.6) !important;
+    0 0 20px rgba(245,158,11,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.55) !important;
 
-  animation: teachersOffer 2s ease-in-out infinite !important;
+  animation: promoOfferPulse 2.2s ease-in-out infinite !important;
 }
 
-@keyframes teachersOffer {
+@keyframes promoOfferPulse {
   0%, 100% {
     transform: translateY(-1px) scale(1);
     box-shadow:
       0 3px 0 #92400e,
       0 0 10px #f59e0b,
-      0 0 20px rgba(245,158,11,0.7);
+      0 0 20px rgba(245,158,11,0.65);
   }
   50% {
     transform: translateY(-3px) scale(1.04);
     box-shadow:
       0 5px 0 #92400e,
       0 0 16px #f59e0b,
-      0 0 30px rgba(245,158,11,0.9);
+      0 0 28px rgba(245,158,11,0.85);
   }
 }
 
-.promo-bar-neon.teachers-day .promo-icon {
+.promo-bar-neon .promo-icon {
   filter:
-    drop-shadow(0 0 5px #fbbf24)
-    drop-shadow(0 0 10px #f59e0b) !important;
+    drop-shadow(0 0 5px #7dd3fc)
+    drop-shadow(0 0 10px #3BB4EC) !important;
     }
+
   </style>
 
 
@@ -8208,21 +8198,20 @@
     style="display:none; position: fixed; bottom: 20px; left: 10px; z-index: 10000; background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.25); font-weight: bold; font-size: 11px; cursor: pointer;">
     ⬇️ Install App
   </button>
-
-<div class="promo-bar-neon teachers-day">
+<div class="promo-bar-neon">
     <div class="promo-glow"></div>
 
-    <span class="promo-icon">🍎</span>
+    <span class="promo-icon">✨</span>
 
     <span class="promo-text">
-      Happy Teachers' Day — Celebrate with
+      Order Now and Get Up to
     </span>
 
     <span class="promo-off">
       20% OFF
     </span>
 
-    <span class="promo-icon">📚</span>
+    <span class="promo-icon">📢</span>
 </div>
   <header class="navbar">
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
