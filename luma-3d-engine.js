@@ -142,7 +142,7 @@
       var eyebrow = headDiv.querySelector('span');
       if (eyebrow) eyebrow.textContent = 'LUMA WORLD';
       var h2 = headDiv.querySelector('h2');
-      if (h2) h2.textContent = 'Enter a world of better shopping';
+      if (h2) h2.textContent = 'Step Inside the Future of Shopping';
       if (eyebrow && !headDiv.querySelector('.mall-live')) {
         var live = document.createElement('span');
         live.className = 'mall-live';
@@ -156,7 +156,7 @@
       if (oldSub) oldSub.remove();
       var sub = document.createElement('p');
       sub.className = 'luma-world-sub';
-      sub.textContent = 'Explore our virtual shopping mall and discover products across every category.';
+      sub.textContent = 'Eight flagship stores. Thousands of handpicked deals. One immersive world \u2014 explore the mall and shop every category, anytime.';
       heading.insertAdjacentElement('afterend', sub);
     }
 
