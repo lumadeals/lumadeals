@@ -314,6 +314,13 @@
     var subcats = document.getElementById('category-subcategories');
     if (subcats) section.insertBefore(viewport, subcats);
     else section.appendChild(viewport);
+    /* exclusive building highlight: clear first (capture), toggle re-adds */
+    document.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('.mall-store') : null;
+      if (!btn || !section.contains(btn)) return;
+      var actives = section.querySelectorAll('.mall-store.active');
+      for (var i = 0; i < actives.length; i++) actives[i].classList.remove('active');
+    }, true);
     initMallParallax(viewport);
   }
 

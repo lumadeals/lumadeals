@@ -294,13 +294,13 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
 .mall-viewport {
   position: relative; z-index: 2; margin-top: 8px;
   perspective: 1700px; perspective-origin: 50% 28%;
-  overflow: hidden; padding: 120px 0 0;
+  overflow: hidden; padding: 84px 0 0;
 }
 .mall-scroll { position: relative; width: 100%; }
 .mall-parallax { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); will-change: transform; }
 .mall-world {
   position: relative; width: 1040px; height: 700px; margin: 0 auto -262px;
-  transform: rotateX(54deg); transform-style: preserve-3d;
+  transform: rotateX(54deg) rotateY(-10deg); transform-style: preserve-3d;
 }
 
 /* ---------- ground plaza ---------- */
@@ -349,17 +349,17 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
 .mall-store, .mall-landmark {
   --w: 118px; --h: 150px; --d: 84px;
   position: absolute; left: calc(var(--w) / -2); bottom: 0; width: var(--w); height: var(--h);
-  transform: rotateX(-54deg); transform-origin: 50% 100%; transform-style: preserve-3d;
+  transform: rotateY(10deg) rotateX(-54deg); transform-origin: 50% 100%; transform-style: preserve-3d;
 }
 .mall-store {
   background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit;
   transition: transform .32s cubic-bezier(.22,.8,.3,1.12);
   -webkit-tap-highlight-color: transparent;
 }
-.mall-store:hover { transform: rotateX(-54deg) translateY(-10px); }
+.mall-store:hover { transform: rotateY(10deg) rotateX(-54deg) translateY(-10px); }
 .mall-store:focus { outline: none; }
 .mall-store:focus-visible { outline: 2px solid #3BB4EC; outline-offset: 8px; border-radius: 6px; }
-.mall-store.active { transform: rotateX(-54deg) translateY(-6px); }
+.mall-store.active { transform: rotateY(10deg) rotateX(-54deg) translateY(-6px); }
 
 /* faces */
 .mall-store .b-face, .mall-landmark .b-face { position: absolute; }
@@ -525,8 +525,8 @@ body.luma-3d .luma-world #category-subcategories.show {
 
 /* ---------- tablet: reduce perspective & scale ---------- */
 @media (max-width: 1024px) {
-  .mall-viewport { perspective: 1300px; padding-top: 100px; }
-  .mall-world { transform: rotateX(54deg) scale(.82); margin-bottom: -300px; }
+  .mall-viewport { perspective: 1300px; padding-top: 72px; }
+  .mall-world { transform: rotateX(54deg) rotateY(-10deg) scale(.82); margin-bottom: -300px; }
   body.luma-3d .luma-world { padding: 52px 24px 60px !important; }
 }
 
@@ -539,10 +539,10 @@ body.luma-3d .luma-world #category-subcategories.show {
   body.luma-3d .luma-world .home-section-heading > div > span.mall-live { margin-left: 0; margin-top: 10px; }
   .mall-viewport {
     overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
-    padding: 92px 0 0; perspective: 1100px;
+    padding: 66px 0 0; perspective: 1100px;
     scrollbar-width: thin;
   }
-  .mall-world { transform: rotateX(54deg) scale(.78); margin-bottom: -310px; }
+  .mall-world { transform: rotateX(54deg) rotateY(-10deg) scale(.78); margin-bottom: -310px; }
   .mall-particles, .mall-tree { display: none; }
   .mall-store .b-sign { font-size: 9.5px; letter-spacing: 1.5px; }
 }
