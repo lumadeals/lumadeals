@@ -75,23 +75,24 @@
 
   /* ---------- 6. Luma World: Virtual Shopping Mall (additive; no existing markup touched) ---------- */
   var MALL_STORES = [
-    { key: 'Beauty',      cls: 'st-beauty',      x: '22%', y: '27%' },
-    { key: 'Kitchen',     cls: 'st-kitchen',     x: '41%', y: '15%' },
-    { key: 'Toys',        cls: 'st-toys',        x: '59%', y: '15%' },
-    { key: 'Home',        cls: 'st-home',        x: '78%', y: '27%' },
-    { key: 'Fashion',     cls: 'st-fashion',     x: '80%', y: '63%' },
-    { key: 'Electronics', cls: 'st-electronics', x: '61%', y: '78%' },
-    { key: 'Boutique',    cls: 'st-boutique',    x: '39%', y: '78%' },
-    { key: 'Hand Made',   cls: 'st-handmade',    x: '20%', y: '63%' }
+    { key: 'Beauty',      cls: 'st-beauty',      x: '22%', y: '27%', h: '168px' },
+    { key: 'Kitchen',     cls: 'st-kitchen',     x: '41%', y: '15%', h: '152px' },
+    { key: 'Toys',        cls: 'st-toys',        x: '59%', y: '15%', h: '142px' },
+    { key: 'Home',        cls: 'st-home',        x: '78%', y: '27%', h: '160px' },
+    { key: 'Fashion',     cls: 'st-fashion',     x: '80%', y: '63%', h: '176px' },
+    { key: 'Electronics', cls: 'st-electronics', x: '61%', y: '78%', h: '150px' },
+    { key: 'Boutique',    cls: 'st-boutique',    x: '39%', y: '78%', h: '164px' },
+    { key: 'Hand Made',   cls: 'st-handmade',    x: '20%', y: '63%', h: '146px' }
   ];
   var MALL_TREES = [[8,20],[92,22],[6,55],[94,58],[30,90],[70,90]];
   var MALL_LAMPS = [[46,60],[54,60],[44,80],[56,80],[30,45],[70,45]];
 
   function mallStoreHTML(s) {
-    return '<div class="mall-slot" style="left:' + s.x + ';top:' + s.y + '">' +
+    return '<div class="mall-slot" style="left:' + s.x + ';top:' + s.y + ';--h:' + s.h + '">' +
       '<button type="button" class="mall-store ' + s.cls + '"' +
       ' onclick="toggleCategorySubcategories(\'' + s.key + '\', event)"' +
       ' aria-label="' + s.key + ' store — show ' + s.key + ' subcategories">' +
+      '<span class="b-shadow" aria-hidden="true"></span>' +
       '<span class="b-glow" aria-hidden="true"></span>' +
       '<span class="b-face b-back" aria-hidden="true"></span>' +
       '<span class="b-face b-side b-left" aria-hidden="true"></span>' +
@@ -178,8 +179,9 @@
       html += '<div class="mall-lamp" aria-hidden="true" style="left:' + MALL_LAMPS[l][0] + '%;top:' + MALL_LAMPS[l][1] + '%"></div>';
     }
     for (var i = 0; i < MALL_STORES.length; i++) html += mallStoreHTML(MALL_STORES[i]);
-    html += '<div class="mall-slot mall-landmark-slot" style="left:50%;top:47%">' +
+    html += '<div class="mall-slot mall-landmark-slot" style="left:50%;top:47%;--h:248px;--w:152px;--d:104px">' +
       '<div class="mall-landmark" role="img" aria-label="Luma Deals landmark tower">' +
+      '<span class="b-shadow" aria-hidden="true"></span>' +
       '<span class="b-face b-back" aria-hidden="true"></span>' +
       '<span class="b-face b-side b-left" aria-hidden="true"></span>' +
       '<span class="b-face b-side b-right" aria-hidden="true"></span>' +

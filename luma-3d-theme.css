@@ -257,7 +257,7 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
 .mall-parallax { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); will-change: transform; }
 .mall-world {
   position: relative; width: 1040px; height: 700px; margin: 0 auto -262px;
-  transform: rotateX(54deg) rotateY(-10deg); transform-style: preserve-3d;
+  transform: rotateX(54deg) rotateY(-18deg); transform-style: preserve-3d;
 }
 
 /* ---------- ground plaza ---------- */
@@ -265,7 +265,7 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
   position: absolute; inset: 0; border-radius: 26px; transform: translateZ(-2px);
   background:
     radial-gradient(440px 300px at 50% 46%, rgba(59,180,236,.10), transparent 70%),
-    radial-gradient(520px 360px at 50% 46%, #242d36 0%, #1a2027 52%, #12161c 100%),
+    radial-gradient(520px 360px at 50% 46%, #2b343e 0%, #1c2229 52%, #12161c 100%),
     repeating-linear-gradient(0deg, rgba(255,255,255,.028) 0 1px, transparent 1px 44px),
     repeating-linear-gradient(90deg, rgba(255,255,255,.028) 0 1px, transparent 1px 44px),
     #141920;
@@ -304,19 +304,19 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
 /* ---------- building slots & 3D stores ---------- */
 .mall-slot { position: absolute; left: var(--x); top: var(--y); width: 0; height: 0; transform-style: preserve-3d; }
 .mall-store, .mall-landmark {
-  --w: 118px; --h: 150px; --d: 84px;
+  --w: 126px; --h: 162px; --d: 92px;
   position: absolute; left: calc(var(--w) / -2); bottom: 0; width: var(--w); height: var(--h);
-  transform: rotateY(10deg) rotateX(-54deg); transform-origin: 50% 100%; transform-style: preserve-3d;
+  transform: rotateY(18deg) rotateX(-54deg); transform-origin: 50% 100%; transform-style: preserve-3d;
 }
 .mall-store {
   background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit;
   transition: transform .32s cubic-bezier(.22,.8,.3,1.12);
   -webkit-tap-highlight-color: transparent;
 }
-.mall-store:hover { transform: rotateY(10deg) rotateX(-54deg) translateY(-10px); }
+.mall-store:hover { transform: rotateY(18deg) rotateX(-54deg) translateY(-10px); }
 .mall-store:focus { outline: none; }
 .mall-store:focus-visible { outline: 2px solid #3BB4EC; outline-offset: 8px; border-radius: 6px; }
-.mall-store.active { transform: rotateY(10deg) rotateX(-54deg) translateY(-6px); }
+.mall-store.active { transform: rotateY(18deg) rotateX(-54deg) translateY(-6px); }
 
 /* faces */
 .mall-store .b-face, .mall-landmark .b-face { position: absolute; }
@@ -325,7 +325,7 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
   border-radius: 4px; overflow: hidden;
   background: linear-gradient(180deg, #26303a 0%, #1a2129 55%, #12171d 100%);
   border: 1px solid rgba(255,255,255,.09);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 -22px 34px rgba(0,0,0,.28);
   transition: filter .3s ease, box-shadow .3s ease;
 }
 .mall-store:hover .b-front, .mall-store:focus-visible .b-front { filter: brightness(1.16); }
@@ -342,16 +342,19 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
   background: linear-gradient(180deg, #1d242d 0%, #11161c 100%);
   border: 1px solid rgba(255,255,255,.05);
 }
-.mall-store .b-left, .mall-landmark .b-left { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); }
+.mall-store .b-left, .mall-landmark .b-left { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2));
+  background: linear-gradient(180deg, #12171d 0%, #0a0e13 100%); }
 .mall-store .b-right, .mall-landmark .b-right {
   transform: rotateY(90deg) translateZ(calc(var(--w) / 2));
-  background: linear-gradient(180deg, #161c23 0%, #0d1218 100%);
+  background: linear-gradient(180deg, #252e38 0%, #151b22 100%);
+  border-right: 1px solid rgba(59,180,236,.14);
 }
 .mall-store .b-roof, .mall-landmark .b-roof {
   left: 0; width: 100%; height: var(--d); top: calc((var(--h) - var(--d)) / 2);
   transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
-  background: linear-gradient(180deg, #232c35, #141a21);
-  border: 1px solid rgba(255,255,255,.07);
+  background: linear-gradient(135deg, #333e4a 0%, #1d242e 55%, #131920 100%);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 0 24px rgba(59,180,236,.08);
 }
 /* hover glow pool on the plaza (lies flat, in tilted slot space) */
 .mall-store .b-glow {
@@ -361,6 +364,14 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
   opacity: 0; transition: opacity .35s ease; pointer-events: none;
 }
 .mall-store:hover .b-glow, .mall-store:focus-visible .b-glow, .mall-store.active .b-glow { opacity: .85; }
+
+/* soft contact shadow: grounds every building in 3D space (lies flat on plaza) */
+.mall-store .b-shadow, .mall-landmark .b-shadow {
+  position: absolute; left: 50%; bottom: -12px; width: 155%; height: 38px;
+  transform: translateX(-50%) translateZ(1px);
+  background: radial-gradient(closest-side, rgba(0,0,0,.55), transparent 70%);
+  pointer-events: none;
+}
 
 /* ---------- facade details ---------- */
 .mall-store .b-sign {
@@ -418,7 +429,7 @@ body.luma-3d .luma-world .category-showcase { display: none !important; }
 .st-handmade .b-sign { background: linear-gradient(180deg,#5d4128,#3d2b18); }
 
 /* ---------- central LUMA DEALS landmark ---------- */
-.mall-landmark { --w: 152px; --h: 215px; --d: 104px; }
+.mall-landmark { --w: 152px; --h: 248px; --d: 104px; }
 .mall-landmark .b-front {
   background:
     linear-gradient(90deg, transparent 0 5px, rgba(59,180,236,.5) 5px 8px, transparent 8px calc(100% - 8px), rgba(59,180,236,.5) calc(100% - 8px) calc(100% - 5px), transparent calc(100% - 5px)),
@@ -483,7 +494,7 @@ body.luma-3d .luma-world #category-subcategories.show {
 /* ---------- tablet: reduce perspective & scale ---------- */
 @media (max-width: 1024px) {
   .mall-viewport { perspective: 1300px; padding-top: 72px; }
-  .mall-world { transform: rotateX(54deg) rotateY(-10deg) scale(.82); margin-bottom: -300px; }
+  .mall-world { transform: rotateX(54deg) rotateY(-18deg) scale(.82); margin-bottom: -300px; }
   body.luma-3d .luma-world { padding: 52px 24px 60px !important; }
 }
 
@@ -499,7 +510,7 @@ body.luma-3d .luma-world #category-subcategories.show {
     padding: 66px 0 0; perspective: 1100px;
     scrollbar-width: thin;
   }
-  .mall-world { transform: rotateX(54deg) rotateY(-10deg) scale(.78); margin-bottom: -310px; }
+  .mall-world { transform: rotateX(54deg) rotateY(-18deg) scale(.78); margin-bottom: -310px; }
   .mall-particles, .mall-tree { display: none; }
   .mall-store .b-sign { font-size: 9.5px; letter-spacing: 1.5px; }
 }
