@@ -219,203 +219,361 @@ body.luma-3d ins.adsbygoogle { background: transparent !important; }
 }
 
 /* ============================================================
-   LUMA WORLD — 3D DESIGN
-   Premium realistic 3D category universe. Strictly scoped to
-   .luma-world (the Shop-by-Category home-feature-section,
-   tagged at runtime). Additive only: no existing IDs, classes,
-   onclick handlers or JS logic are modified. The two surgical
-   !important uses below exist solely to override earlier
-   !important theme rules for this section.
+
+/* ============================================================
+   LUMA WORLD — VIRTUAL SHOPPING MALL
+   Isometric CSS diorama: a central LUMA DEALS landmark tower
+   ringed by 8 interactive category storefronts. Strictly scoped
+   to .luma-world (the Shop-by-Category home-feature-section,
+   tagged at runtime). Additive only: existing IDs, classes,
+   onclick handlers and JS logic are untouched. The original
+   flat .category-showcase cards stay in the DOM (every hook
+   lives on) but are visually replaced by the mall.
+   No WebGL / Three.js — pure CSS 3D, GPU-friendly transforms.
    ============================================================ */
 
-/* ---------- section canvas ---------- */
+/* ---------- section: premium night showroom ---------- */
 body.luma-3d .luma-world {
   position: relative; overflow: hidden; isolation: isolate;
-  padding: 56px 50px 60px !important;
+  padding: 64px 40px 70px !important;
   background:
-    radial-gradient(900px 420px at 50% -90px, rgba(59,180,236,.10), transparent 62%),
-    linear-gradient(180deg, #fcfeff 0%, #f3f7fb 100%) !important;
-  border-top: 1px solid #e7edf3; border-bottom: 1px solid #e7edf3; }
-/* elegant hairline separators */
+    radial-gradient(1100px 480px at 50% -120px, rgba(59,180,236,.14), transparent 62%),
+    radial-gradient(800px 500px at 88% 112%, rgba(59,180,236,.06), transparent 60%),
+    linear-gradient(180deg, #171d23 0%, #11151b 100%) !important;
+  border-top: 1px solid rgba(59,180,236,.16);
+  border-bottom: 1px solid rgba(59,180,236,.16);
+}
 body.luma-3d .luma-world::before, body.luma-3d .luma-world::after {
-  content: ""; position: absolute; left: 10%; right: 10%; height: 1px; z-index: 1;
-  background: linear-gradient(90deg, transparent, rgba(59,180,236,.45), transparent); }
+  content: ""; position: absolute; left: 8%; right: 8%; height: 1px; z-index: 3; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(59,180,236,.5), transparent);
+}
 body.luma-3d .luma-world::before { top: 0; }
 body.luma-3d .luma-world::after { bottom: 0; }
 
-/* ---------- heading: dimensional typography ---------- */
-body.luma-3d .luma-world .home-section-heading { align-items: center; margin-bottom: 10px; }
-body.luma-3d .luma-world .home-section-heading > div > span {
-  color: #1d9ad6 !important; font-size: 12px; font-weight: 800;
-  letter-spacing: .32em; text-transform: uppercase; }
+/* ---------- header ---------- */
+body.luma-3d .luma-world .home-section-heading { align-items: flex-start; margin-bottom: 6px; position: relative; z-index: 5; }
+body.luma-3d .luma-world .home-section-heading > div > span:first-child {
+  color: #3BB4EC !important; font-size: 12px; font-weight: 800; letter-spacing: 5px;
+}
 body.luma-3d .luma-world .home-section-heading h2 {
-  font-size: 34px !important; font-weight: 800; color: #14171A !important;
-  letter-spacing: -.01em; margin: 6px 0 0;
-  text-shadow: 0 1px 0 #fff, 0 10px 28px rgba(15,40,70,.14); }
-body.luma-3d .luma-world .home-section-heading h2::after { display: none; }
-body.luma-3d .luma-world-sub {
-  margin: 0 0 8px; max-width: 600px;
-  color: #5b6b7f; font-size: 15px; line-height: 1.65; }
-/* physical 3D CTA */
+  color: #fff !important; font-size: clamp(26px, 3.4vw, 40px); font-weight: 800;
+  letter-spacing: -.5px; margin: 8px 0 0; text-shadow: 0 2px 24px rgba(0,0,0,.45);
+}
+body.luma-3d .luma-world .home-section-heading > div > span.mall-live {
+  display: inline-flex; align-items: center; gap: 8px; margin-left: 14px; vertical-align: 2px;
+  font-size: 10px; font-weight: 800; letter-spacing: 2.5px; color: #bfe9ff; white-space: nowrap;
+  border: 1px solid rgba(59,180,236,.4); border-radius: 999px; padding: 6px 12px;
+  background: rgba(59,180,236,.08);
+}
+body.luma-3d .luma-world .mall-live i {
+  width: 7px; height: 7px; border-radius: 50%; background: #3BB4EC; flex: none;
+  box-shadow: 0 0 10px #3BB4EC; animation: mall-blink 2.2s ease-in-out infinite;
+}
+@keyframes mall-blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+body.luma-3d .luma-world .luma-world-sub {
+  position: relative; z-index: 5; margin: 10px 0 0; max-width: 660px;
+  color: #9fb2c3 !important; font-size: 15px; line-height: 1.6;
+}
 body.luma-3d .luma-world .home-section-heading button {
-  color: #fff !important; font-weight: 700; font-size: 14px;
-  background: linear-gradient(180deg, #62c9f5 0%, #3BB4EC 55%, #1f9ad8 100%);
-  border: none; border-radius: 14px; padding: 13px 24px; cursor: pointer;
-  box-shadow: 0 1px 0 rgba(255,255,255,.55) inset, 0 -3px 0 rgba(0,70,120,.25) inset,
-    0 14px 28px rgba(59,180,236,.35), 0 4px 10px rgba(15,40,70,.12);
-  transition: transform .15s ease, box-shadow .15s ease; white-space: nowrap; }
-body.luma-3d .luma-world .home-section-heading button:hover { transform: translateY(-2px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.55) inset, 0 -3px 0 rgba(0,70,120,.25) inset,
-    0 20px 38px rgba(59,180,236,.42), 0 6px 14px rgba(15,40,70,.14); }
-body.luma-3d .luma-world .home-section-heading button:active { transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 4px 10px rgba(59,180,236,.25); }
+  background: transparent !important; color: #fff !important;
+  border: 1px solid rgba(59,180,236,.55) !important; border-radius: 999px;
+  padding: 11px 22px !important; font-weight: 700; font-size: 13px; letter-spacing: .4px;
+  box-shadow: inset 0 0 18px rgba(59,180,236,.08);
+  transition: background .25s ease, box-shadow .25s ease, transform .15s ease;
+  flex: none; margin-top: 6px;
+}
+body.luma-3d .luma-world .home-section-heading button:hover {
+  background: rgba(59,180,236,.16) !important; box-shadow: 0 0 22px rgba(59,180,236,.35);
+}
+body.luma-3d .luma-world .home-section-heading button:active { transform: scale(.96); }
 
-/* ---------- 3D centerpiece stage ---------- */
-body.luma-3d .luma-world-stage {
-  position: relative; height: 350px; max-width: 880px; margin: 4px auto 0;
-  perspective: 1400px; pointer-events: none; }
-/* soft floor platform + ambient shadow */
-body.luma-3d .luma-world-floor {
-  position: absolute; left: 50%; bottom: 30px; width: 440px; height: 70px;
-  transform: translateX(-50%);
-  background: radial-gradient(closest-side, rgba(15,40,70,.20), rgba(15,40,70,0) 72%);
-  filter: blur(7px); }
-body.luma-3d .luma-world-floor::before {
-  content: ""; position: absolute; inset: 18px 60px;
-  border-radius: 50%; border: 1px solid rgba(59,180,236,.35);
-  background: radial-gradient(closest-side, rgba(255,255,255,.75), rgba(235,244,251,.25)); }
-/* the orb: layered glass sphere */
-body.luma-3d .luma-world-orb {
-  position: absolute; left: 50%; top: 46%; width: 228px; height: 228px;
-  transform: translate(-50%,-50%); transform-style: preserve-3d;
-  animation: luma-orb-float 8s ease-in-out infinite; }
-body.luma-3d .luma-orb-sphere {
-  position: absolute; inset: 0; border-radius: 50%;
+/* original flat cards stay in the DOM — visually replaced by the mall */
+body.luma-3d .luma-world .category-showcase { display: none !important; }
+
+/* ---------- mall viewport & tilted world ---------- */
+.mall-viewport {
+  position: relative; z-index: 2; margin-top: 8px;
+  perspective: 1700px; perspective-origin: 50% 28%;
+  overflow: hidden; padding: 120px 0 0;
+}
+.mall-scroll { position: relative; width: 100%; }
+.mall-parallax { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); will-change: transform; }
+.mall-world {
+  position: relative; width: 1040px; height: 700px; margin: 0 auto -262px;
+  transform: rotateX(54deg); transform-style: preserve-3d;
+}
+
+/* ---------- ground plaza ---------- */
+.mall-ground {
+  position: absolute; inset: 0; border-radius: 26px; transform: translateZ(-2px);
   background:
-    radial-gradient(circle at 32% 25%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 40%),
-    radial-gradient(circle at 50% 58%, #93dcf9 0%, #3BB4EC 44%, #1d7fb8 74%, #0d4266 100%);
-  box-shadow: inset -20px -28px 60px rgba(8,35,60,.5),
-    inset 12px 16px 36px rgba(255,255,255,.35),
-    0 32px 64px rgba(2,132,199,.30), 0 70px 130px rgba(15,40,70,.20); }
-body.luma-3d .luma-orb-sphere::after { /* specular highlight */
-  content: ""; position: absolute; left: 17%; top: 9%; width: 36%; height: 23%;
-  border-radius: 50%; transform: rotate(-18deg);
-  background: radial-gradient(closest-side, rgba(255,255,255,.92), rgba(255,255,255,0));
-  filter: blur(2px); }
-/* saturn ring: subtle cyan edge light */
-body.luma-3d .luma-orb-ring {
-  position: absolute; left: 50%; top: 50%; width: 344px; height: 122px;
-  transform: translate(-50%,-50%) rotateX(74deg); border-radius: 50%;
-  border: 2px solid rgba(59,180,236,.45);
-  box-shadow: 0 0 26px rgba(59,180,236,.28), inset 0 0 20px rgba(59,180,236,.20); }
-/* floating glass destination chips */
-body.luma-3d .luma-orb-chip {
-  position: absolute; width: 56px; height: 56px; border-radius: 17px;
-  display: flex; align-items: center; justify-content: center; font-size: 26px;
-  background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(226,240,250,.72));
-  border: 1px solid rgba(255,255,255,.95);
-  box-shadow: 0 1px 0 #fff inset, 0 16px 30px rgba(15,40,70,.18);
-  animation: luma-chip-float 7s ease-in-out infinite; }
-body.luma-3d .luma-orb-chip.c1 { left: -72px; top: 6%; animation-delay: 0s; }
-body.luma-3d .luma-orb-chip.c2 { right: -78px; top: 34%; animation-delay: 1.6s; }
-body.luma-3d .luma-orb-chip.c3 { left: -38px; bottom: 2%; animation-delay: 3.1s; }
-/* tiny ambient sparks */
-body.luma-3d .luma-world-sparks span {
-  position: absolute; width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(59,180,236,.55); box-shadow: 0 0 10px rgba(59,180,236,.5);
-  animation: luma-spark-float 9s ease-in-out infinite; }
-body.luma-3d .luma-world-sparks span:nth-child(1) { left: 18%; top: 22%; }
-body.luma-3d .luma-world-sparks span:nth-child(2) { left: 30%; top: 68%; animation-delay: 1.4s; }
-body.luma-3d .luma-world-sparks span:nth-child(3) { left: 72%; top: 18%; animation-delay: 2.8s; }
-body.luma-3d .luma-world-sparks span:nth-child(4) { left: 82%; top: 62%; animation-delay: 4.2s; }
-body.luma-3d .luma-world-sparks span:nth-child(5) { left: 55%; top: 8%; animation-delay: 5.6s; }
-body.luma-3d .luma-world-sparks span:nth-child(6) { left: 44%; top: 82%; animation-delay: 7s; }
-@keyframes luma-orb-float { 0%,100% { margin-top: 0; } 50% { margin-top: -14px; } }
-@keyframes luma-chip-float { 0%,100% { margin-top: 0; } 50% { margin-top: -12px; } }
-@keyframes luma-spark-float { 0%,100% { transform: translateY(0); opacity: .9; } 50% { transform: translateY(-16px); opacity: .35; } }
+    radial-gradient(440px 300px at 50% 46%, rgba(59,180,236,.10), transparent 70%),
+    radial-gradient(520px 360px at 50% 46%, #242d36 0%, #1a2027 52%, #12161c 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.028) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.028) 0 1px, transparent 1px 44px),
+    #141920;
+  border: 1px solid rgba(59,180,236,.16);
+  box-shadow: 0 40px 90px rgba(0,0,0,.55), inset 0 0 120px rgba(0,0,0,.35);
+}
+.mall-plaza-ring {
+  position: absolute; left: 50%; top: 47%; width: 350px; height: 250px;
+  transform: translate(-50%,-50%) translateZ(1px);
+  border: 2px solid rgba(59,180,236,.28); border-radius: 50%;
+  box-shadow: 0 0 26px rgba(59,180,236,.18), inset 0 0 26px rgba(59,180,236,.10);
+}
+.mall-path {
+  position: absolute; border-radius: 99px; transform: translateZ(1px);
+  background: linear-gradient(180deg, transparent, rgba(59,180,236,.32) 30%, rgba(59,180,236,.32) 70%, transparent);
+}
+.mall-path.p1 { left: 49.2%; top: 56%; width: 1.6%; height: 38%; }
+.mall-path.p2 { left: 29%; top: 38%; width: 1.2%; height: 30%; transform: translateZ(1px) rotate(32deg); }
+.mall-path.p3 { right: 29%; top: 38%; width: 1.2%; height: 30%; transform: translateZ(1px) rotate(-32deg); }
+.mall-tree { position: absolute; width: 30px; height: 30px; transform: translateZ(2px); }
+.mall-tree::before {
+  content: ""; position: absolute; left: 2px; right: 2px; top: 0; bottom: 8px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3f8f5f, #245c3a 72%);
+  box-shadow: 0 5px 9px rgba(0,0,0,.45);
+}
+.mall-tree::after {
+  content: ""; position: absolute; left: 50%; bottom: 0; width: 3px; height: 10px; margin-left: -1.5px;
+  background: #4a3a28; border-radius: 2px;
+}
+.mall-lamp {
+  position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: #d6f1ff; box-shadow: 0 0 12px 2px rgba(59,180,236,.8);
+  transform: translateZ(3px);
+}
 
-/* ---------- 3D destination cards ---------- */
-body.luma-3d .luma-world .category-showcase {
-  perspective: 1400px; padding: 30px 8px 40px; }
-body.luma-3d .luma-world .category-card {
-  transform-style: preserve-3d; perspective: 520px;
-  background: linear-gradient(160deg, #ffffff 0%, #f4f8fc 100%);
-  border: 1px solid #e2e9f1; border-radius: 22px;
-  /* physical elevation: top highlight + ambient + key shadows */
-  box-shadow: 0 1px 0 #fff inset,
-    0 2px 5px rgba(15,40,70,.05),
-    0 16px 34px rgba(15,40,70,.10),
-    0 34px 70px rgba(15,40,70,.08);
-  transform: rotateX(4deg) rotateY(var(--ry, 0deg)) translateZ(var(--lz, 10px)) translateY(var(--ly, 0px));
-  transition: transform .38s cubic-bezier(.2,.7,.3,1.15), box-shadow .38s ease, border-color .3s ease; }
-/* depth choreography: foreground destinations rise toward the viewer */
-body.luma-3d .luma-world .category-card:nth-child(odd)  { --lz: 38px; --ly: -8px; }
-body.luma-3d .luma-world .category-card:nth-child(even) { --lz: 4px;  --ly: 6px; }
-body.luma-3d .luma-world .category-card:nth-child(1) { --ry: 8deg; }
-body.luma-3d .luma-world .category-card:nth-child(2) { --ry: 5deg; }
-body.luma-3d .luma-world .category-card:nth-child(3) { --ry: 2.5deg; }
-body.luma-3d .luma-world .category-card:nth-child(6) { --ry: -2.5deg; }
-body.luma-3d .luma-world .category-card:nth-child(7) { --ry: -5deg; }
-body.luma-3d .luma-world .category-card:nth-child(8) { --ry: -8deg; }
-/* layered card interiors */
-body.luma-3d .luma-world .category-icon {
-  transform: translateZ(26px); font-size: 36px;
-  filter: drop-shadow(0 8px 12px rgba(15,40,70,.18));
-  transition: transform .38s cubic-bezier(.2,.7,.3,1.25); }
-body.luma-3d .luma-world .category-card h3 { transform: translateZ(16px); color: #14171A; }
-body.luma-3d .luma-world .category-card p  { transform: translateZ(10px); color: #6d7f93; }
-/* hover: card lifts toward the viewer, shadow deepens naturally */
-body.luma-3d .luma-world .category-card:hover {
-  border-color: rgba(59,180,236,.6);
-  transform: translateY(-12px) translateZ(72px) rotateX(0deg) rotateY(0deg);
-  box-shadow: 0 1px 0 #fff inset,
-    0 6px 14px rgba(15,40,70,.07),
-    0 34px 64px rgba(2,132,199,.20),
-    0 70px 120px rgba(15,40,70,.16); }
-body.luma-3d .luma-world .category-card:hover .category-icon { transform: translateZ(44px) scale(1.14); }
-body.luma-3d .luma-world .category-card:active { transform: translateY(-2px) translateZ(30px); }
+/* ---------- building slots & 3D stores ---------- */
+.mall-slot { position: absolute; left: var(--x); top: var(--y); width: 0; height: 0; transform-style: preserve-3d; }
+.mall-store, .mall-landmark {
+  --w: 118px; --h: 150px; --d: 84px;
+  position: absolute; left: calc(var(--w) / -2); bottom: 0; width: var(--w); height: var(--h);
+  transform: rotateX(-54deg); transform-origin: 50% 100%; transform-style: preserve-3d;
+}
+.mall-store {
+  background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit;
+  transition: transform .32s cubic-bezier(.22,.8,.3,1.12);
+  -webkit-tap-highlight-color: transparent;
+}
+.mall-store:hover { transform: rotateX(-54deg) translateY(-10px); }
+.mall-store:focus { outline: none; }
+.mall-store:focus-visible { outline: 2px solid #3BB4EC; outline-offset: 8px; border-radius: 6px; }
+.mall-store.active { transform: rotateX(-54deg) translateY(-6px); }
 
-/* ---------- subcategory panel: quiet glass ---------- */
-body.luma-3d .luma-world .category-subcategories {
-  background: rgba(255,255,255,.72); backdrop-filter: blur(8px);
-  border: 1px solid #e4eaf1; border-radius: 18px;
-  box-shadow: 0 18px 44px rgba(15,40,70,.10); }
+/* faces */
+.mall-store .b-face, .mall-landmark .b-face { position: absolute; }
+.mall-store .b-front, .mall-landmark .b-front {
+  inset: 0; transform: translateZ(calc(var(--d) / 2));
+  border-radius: 4px; overflow: hidden;
+  background: linear-gradient(180deg, #26303a 0%, #1a2129 55%, #12171d 100%);
+  border: 1px solid rgba(255,255,255,.09);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+  transition: filter .3s ease, box-shadow .3s ease;
+}
+.mall-store:hover .b-front, .mall-store:focus-visible .b-front { filter: brightness(1.16); }
+.mall-store.active .b-front {
+  filter: brightness(1.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 0 26px rgba(59,180,236,.45);
+}
+.mall-store .b-back, .mall-landmark .b-back {
+  inset: 0; transform: rotateY(180deg) translateZ(calc(var(--d) / 2));
+  background: #0d1116; border-radius: 4px;
+}
+.mall-store .b-side, .mall-landmark .b-side {
+  top: 0; height: 100%; width: var(--d); left: calc((var(--w) - var(--d)) / 2);
+  background: linear-gradient(180deg, #1d242d 0%, #11161c 100%);
+  border: 1px solid rgba(255,255,255,.05);
+}
+.mall-store .b-left, .mall-landmark .b-left { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); }
+.mall-store .b-right, .mall-landmark .b-right {
+  transform: rotateY(90deg) translateZ(calc(var(--w) / 2));
+  background: linear-gradient(180deg, #161c23 0%, #0d1218 100%);
+}
+.mall-store .b-roof, .mall-landmark .b-roof {
+  left: 0; width: 100%; height: var(--d); top: calc((var(--h) - var(--d)) / 2);
+  transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
+  background: linear-gradient(180deg, #232c35, #141a21);
+  border: 1px solid rgba(255,255,255,.07);
+}
+/* hover glow pool on the plaza (lies flat, in tilted slot space) */
+.mall-store .b-glow {
+  position: absolute; left: 50%; bottom: -18px; width: 175%; height: 46px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, var(--accent-glow, rgba(59,180,236,.5)), transparent 72%);
+  opacity: 0; transition: opacity .35s ease; pointer-events: none;
+}
+.mall-store:hover .b-glow, .mall-store:focus-visible .b-glow, .mall-store.active .b-glow { opacity: .85; }
 
-/* ---------- mobile: simplify depth, never overflow ---------- */
+/* ---------- facade details ---------- */
+.mall-store .b-sign {
+  position: absolute; top: 0; left: 0; right: 0; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 2px; color: #fff;
+  background: rgba(4,8,12,.55); border-bottom: 2px solid var(--accent, #3BB4EC);
+  text-shadow: 0 1px 6px rgba(0,0,0,.6); white-space: nowrap;
+  transition: color .3s ease, text-shadow .3s ease;
+}
+.mall-store:hover .b-sign, .mall-store.active .b-sign { color: #dff3ff; text-shadow: 0 0 12px var(--accent-glow, rgba(59,180,236,.8)); }
+.mall-store .b-glass {
+  position: absolute; top: 38px; left: 10px; right: 10px; bottom: 38px; border-radius: 3px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 2px), rgba(5,9,13,.85) calc(50% - 2px), rgba(5,9,13,.85) calc(50% + 2px), transparent calc(50% + 2px)),
+    linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.04) 45%, rgba(0,0,0,.30)),
+    linear-gradient(180deg, var(--accent-soft, rgba(59,180,236,.30)), var(--accent-deep, rgba(59,180,236,.10)));
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.35);
+  transition: filter .3s ease;
+}
+.mall-store:hover .b-glass, .mall-store.active .b-glass { filter: brightness(1.35); }
+.mall-store .b-door {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 34px; height: 28px; border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, rgba(190,230,250,.35), rgba(90,140,170,.18));
+  border: 1px solid rgba(255,255,255,.18); border-bottom: 0;
+}
+.mall-store .b-base {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(180deg, #3a4550, #20272f);
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+/* per-store identity (accent only — no emoji, no cartoons) */
+.st-beauty     { --accent:#f2b8cf; --accent-soft:rgba(242,184,207,.34); --accent-deep:rgba(242,184,207,.10); --accent-glow:rgba(242,184,207,.55); }
+.st-beauty .b-glass { border-radius: 22px 22px 3px 3px; }
+.st-kitchen    { --accent:#ffb45e; --accent-soft:rgba(255,180,94,.32);  --accent-deep:rgba(255,180,94,.10);  --accent-glow:rgba(255,180,94,.55); }
+.st-kitchen .b-door { width:46px; }
+.st-toys       { --accent:#ffd166; --accent-soft:rgba(255,209,102,.32); --accent-deep:rgba(255,209,102,.10); --accent-glow:rgba(255,209,102,.55); }
+.st-toys .b-sign { background: repeating-linear-gradient(90deg,#e2574c 0 14px,#f6f1e7 14px 28px,#3f7fbf 28px 42px,#f6f1e7 42px 56px); color:#20262d; text-shadow:none; border-bottom:2px solid #20262d; }
+.st-home       { --accent:#f0a35e; --accent-soft:rgba(240,163,94,.36); --accent-deep:rgba(240,163,94,.12);  --accent-glow:rgba(240,163,94,.55); }
+.st-fashion    { --accent:#dfe7ef; --accent-soft:rgba(223,231,239,.34); --accent-deep:rgba(223,231,239,.10); --accent-glow:rgba(223,231,239,.5); }
+.st-electronics{ --accent:#3BB4EC; --accent-soft:rgba(59,180,236,.34); --accent-deep:rgba(59,180,236,.10); --accent-glow:rgba(59,180,236,.6); }
+.st-electronics .b-glass {
+  background:
+    linear-gradient(90deg, transparent calc(50% - 2px), rgba(5,9,13,.85) calc(50% - 2px), rgba(5,9,13,.85) calc(50% + 2px), transparent calc(50% + 2px)),
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(59,180,236,.35) 9px 10px),
+    linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.04) 45%, rgba(0,0,0,.30)),
+    linear-gradient(180deg, var(--accent-soft), var(--accent-deep));
+}
+.st-boutique   { --accent:#d9b36c; --accent-soft:rgba(217,179,108,.34); --accent-deep:rgba(217,179,108,.10); --accent-glow:rgba(217,179,108,.55); }
+.st-boutique .b-sign { font-family: Georgia, 'Times New Roman', serif; letter-spacing: 3px; }
+.st-handmade   { --accent:#cf8a5a; --accent-soft:rgba(207,138,90,.34); --accent-deep:rgba(207,138,90,.10);  --accent-glow:rgba(207,138,90,.55); }
+.st-handmade .b-sign { background: linear-gradient(180deg,#5d4128,#3d2b18); }
+
+/* ---------- central LUMA DEALS landmark ---------- */
+.mall-landmark { --w: 152px; --h: 215px; --d: 104px; }
+.mall-landmark .b-front {
+  background:
+    linear-gradient(90deg, transparent 0 5px, rgba(59,180,236,.5) 5px 8px, transparent 8px calc(100% - 8px), rgba(59,180,236,.5) calc(100% - 8px) calc(100% - 5px), transparent calc(100% - 5px)),
+    linear-gradient(180deg, rgba(140,200,240,.30) 0%, rgba(60,100,135,.22) 42%, #141b23 100%);
+}
+.mall-landmark .b-sign {
+  position: absolute; top: 26px; left: 10px; right: 10px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; letter-spacing: 3px; color: #fff;
+  background: linear-gradient(180deg, rgba(59,180,236,.28), rgba(59,180,236,.08));
+  border: 1px solid rgba(59,180,236,.55); border-radius: 3px;
+  text-shadow: 0 0 14px rgba(59,180,236,.9); white-space: nowrap;
+}
+.mall-landmark .b-glass {
+  position: absolute; top: 78px; left: 12px; right: 12px; bottom: 12px; border-radius: 3px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 16px, rgba(4,8,12,.7) 16px 19px),
+    linear-gradient(180deg, rgba(160,215,245,.20), rgba(160,215,245,.05) 60%, rgba(0,0,0,.25));
+  border: 1px solid rgba(255,255,255,.10);
+}
+.mall-landmark .b-beacon {
+  position: absolute; left: 50%; top: -16px; width: 10px; height: 10px; margin-left: -5px;
+  border-radius: 50%; background: #3BB4EC;
+  box-shadow: 0 0 16px 4px rgba(59,180,236,.7);
+  animation: mall-beacon 2.6s ease-in-out infinite;
+}
+@keyframes mall-beacon { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.8); } }
+
+/* ---------- ambient particles (screen space, GPU-friendly) ---------- */
+.mall-particles { position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
+.mall-particles span {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(140,210,245,.5);
+  animation: mall-float 11s ease-in-out infinite;
+}
+.mall-particles span:nth-child(3n) { background: rgba(255,255,255,.4); width: 3px; height: 3px; }
+.mall-particles span:nth-child(1) { left: 8%;  top: 70%; animation-delay: 0s; }
+.mall-particles span:nth-child(2) { left: 18%; top: 30%; animation-delay: -2s; animation-duration: 13s; }
+.mall-particles span:nth-child(3) { left: 30%; top: 62%; animation-delay: -5s; }
+.mall-particles span:nth-child(4) { left: 44%; top: 22%; animation-delay: -1s; animation-duration: 9s; }
+.mall-particles span:nth-child(5) { left: 56%; top: 68%; animation-delay: -7s; }
+.mall-particles span:nth-child(6) { left: 66%; top: 34%; animation-delay: -3s; animation-duration: 14s; }
+.mall-particles span:nth-child(7) { left: 76%; top: 60%; animation-delay: -6s; }
+.mall-particles span:nth-child(8) { left: 86%; top: 28%; animation-delay: -4s; animation-duration: 10s; }
+.mall-particles span:nth-child(9) { left: 12%; top: 48%; animation-delay: -8s; }
+.mall-particles span:nth-child(10){ left: 92%; top: 52%; animation-delay: -2.5s; }
+.mall-particles span:nth-child(11){ left: 50%; top: 80%; animation-delay: -9s; animation-duration: 12s; }
+.mall-particles span:nth-child(12){ left: 38%; top: 44%; animation-delay: -5.5s; }
+@keyframes mall-float {
+  0%, 100% { transform: translate3d(0,0,0); opacity: .15; }
+  50% { transform: translate3d(6px,-38px,0); opacity: .7; }
+}
+
+/* ---------- subcategory panel on the dark showroom ---------- */
+body.luma-3d .luma-world #category-subcategories { position: relative; z-index: 5; }
+body.luma-3d .luma-world #category-subcategories.show {
+  background: rgba(255,255,255,.97); border-radius: 18px;
+  padding: 14px 16px; margin-top: 20px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+
+/* ---------- tablet: reduce perspective & scale ---------- */
+@media (max-width: 1024px) {
+  .mall-viewport { perspective: 1300px; padding-top: 100px; }
+  .mall-world { transform: rotateX(54deg) scale(.82); margin-bottom: -300px; }
+  body.luma-3d .luma-world { padding: 52px 24px 60px !important; }
+}
+
+/* ---------- mobile: simplified mall, inner scroll only ---------- */
 @media (max-width: 640px) {
-  body.luma-3d .luma-world { padding: 36px 16px 44px !important; }
-  body.luma-3d .luma-world .home-section-heading { flex-wrap: wrap; }
-  body.luma-3d .luma-world .home-section-heading h2 { font-size: 26px !important; }
-  body.luma-3d .luma-world-sub { font-size: 14px; }
-  body.luma-3d .luma-world-stage { height: 240px; max-width: 100%; }
-  body.luma-3d .luma-world-orb { width: 148px; height: 148px; }
-  body.luma-3d .luma-orb-ring { width: 216px; height: 78px; }
-  body.luma-3d .luma-world-floor { width: 280px; bottom: 22px; }
-  body.luma-3d .luma-orb-chip { width: 44px; height: 44px; font-size: 20px; border-radius: 14px; }
-  body.luma-3d .luma-orb-chip.c1 { left: -8px; }
-  body.luma-3d .luma-orb-chip.c2 { right: -8px; }
-  body.luma-3d .luma-orb-chip.c3 { left: 6%; }
-  body.luma-3d .luma-world .category-showcase { perspective: none; padding: 18px 4px 26px; }
-  body.luma-3d .luma-world .category-card,
-  body.luma-3d .luma-world .category-card:nth-child(odd),
-  body.luma-3d .luma-world .category-card:nth-child(even) {
-    transform: none; --lz: 0; --ly: 0; --ry: 0deg; }
-  body.luma-3d .luma-world .category-icon,
-  body.luma-3d .luma-world .category-card h3,
-  body.luma-3d .luma-world .category-card p { transform: none; }
-  body.luma-3d .luma-world .category-card:hover { transform: translateY(-5px); }
-  body.luma-3d .luma-world .category-card:hover .category-icon { transform: scale(1.1); }
+  body.luma-3d .luma-world { padding: 44px 0 52px !important; }
+  body.luma-3d .luma-world .home-section-heading { padding: 0 20px; }
+  body.luma-3d .luma-world .luma-world-sub { padding: 0 20px; }
+  body.luma-3d .luma-world #category-subcategories.show { margin: 16px 12px 0; }
+  body.luma-3d .luma-world .home-section-heading > div > span.mall-live { margin-left: 0; margin-top: 10px; }
+  .mall-viewport {
+    overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+    padding: 92px 0 0; perspective: 1100px;
+    scrollbar-width: thin;
+  }
+  .mall-world { transform: rotateX(54deg) scale(.78); margin-bottom: -310px; }
+  .mall-particles, .mall-tree { display: none; }
+  .mall-store .b-sign { font-size: 9.5px; letter-spacing: 1.5px; }
 }
-@media (max-width: 380px) {
-  body.luma-3d .luma-world { padding: 30px 12px 38px !important; }
-  body.luma-3d .luma-world .home-section-heading h2 { font-size: 23px !important; }
-  body.luma-3d .luma-world-stage { height: 210px; }
-  body.luma-3d .luma-world-orb { width: 128px; height: 128px; }
-  body.luma-3d .luma-orb-ring { width: 188px; height: 68px; }
-  body.luma-3d .luma-world-floor { width: 230px; }
-  body.luma-3d .luma-world .home-section-heading button { padding: 11px 18px; font-size: 13px; }
-}
+
+/* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  body.luma-3d .luma-world-stage, body.luma-3d .luma-world-stage * { animation: none !important; }
-  body.luma-3d .luma-world .category-card { transition-duration: .01s; }
+  .mall-particles, .mall-live i, .mall-landmark .b-beacon { display: none; }
+  .mall-store { transition: none; }
+  .mall-parallax { transform: none !important; }
+  .mall-store .b-front, .mall-store .b-glass, .mall-store .b-glow,
+  .mall-store .b-sign { transition: none; }
+}
+
+/* ---------- fallback: clean 2D grid when 3D CSS is unsupported ---------- */
+@supports not (transform-style: preserve-3d) {
+  .mall-viewport { perspective: none; padding: 20px 0 0; overflow: visible; }
+  .mall-parallax { transform: none; }
+  .mall-world {
+    transform: none; width: 100%; height: auto; margin: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+  .mall-ground, .mall-plaza-ring, .mall-path, .mall-tree, .mall-lamp,
+  .mall-particles, .mall-store .b-glow { display: none; }
+  .mall-slot { position: static; width: auto; height: auto; }
+  .mall-landmark-slot { grid-column: 1 / -1; }
+  .mall-store, .mall-landmark {
+    position: relative; left: auto; bottom: auto; transform: none;
+    width: 100%; height: 190px;
+  }
+  .mall-store .b-face:not(.b-front), .mall-landmark .b-face:not(.b-front) { display: none; }
+  .mall-store .b-front, .mall-landmark .b-front {
+    position: relative; inset: auto; transform: none; height: 190px;
+  }
 }

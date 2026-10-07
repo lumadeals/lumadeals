@@ -189,33 +189,132 @@
     new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
   }
 
-  /* ---------- 6. Luma World 3D section (additive; no existing markup touched) ---------- */
+  /* ---------- 6. Luma World: Virtual Shopping Mall (additive; no existing markup touched) ---------- */
+  var MALL_STORES = [
+    { key: 'Beauty',      cls: 'st-beauty',      x: '22%', y: '27%' },
+    { key: 'Kitchen',     cls: 'st-kitchen',     x: '41%', y: '15%' },
+    { key: 'Toys',        cls: 'st-toys',        x: '59%', y: '15%' },
+    { key: 'Home',        cls: 'st-home',        x: '78%', y: '27%' },
+    { key: 'Fashion',     cls: 'st-fashion',     x: '80%', y: '63%' },
+    { key: 'Electronics', cls: 'st-electronics', x: '61%', y: '78%' },
+    { key: 'Boutique',    cls: 'st-boutique',    x: '39%', y: '78%' },
+    { key: 'Hand Made',   cls: 'st-handmade',    x: '20%', y: '63%' }
+  ];
+  var MALL_TREES = [[8,20],[92,22],[6,55],[94,58],[30,90],[70,90]];
+  var MALL_LAMPS = [[46,60],[54,60],[44,80],[56,80],[30,45],[70,45]];
+
+  function mallStoreHTML(s) {
+    return '<div class="mall-slot" style="left:' + s.x + ';top:' + s.y + '">' +
+      '<button type="button" class="mall-store ' + s.cls + '"' +
+      ' onclick="toggleCategorySubcategories(\'' + s.key + '\', event)"' +
+      ' aria-label="' + s.key + ' store — show ' + s.key + ' subcategories">' +
+      '<span class="b-glow" aria-hidden="true"></span>' +
+      '<span class="b-face b-back" aria-hidden="true"></span>' +
+      '<span class="b-face b-side b-left" aria-hidden="true"></span>' +
+      '<span class="b-face b-side b-right" aria-hidden="true"></span>' +
+      '<span class="b-face b-roof" aria-hidden="true"></span>' +
+      '<span class="b-face b-front" aria-hidden="true">' +
+      '<span class="b-sign">' + s.key + '</span>' +
+      '<span class="b-glass"></span><span class="b-door"></span><span class="b-base"></span>' +
+      '</span></button></div>';
+  }
+
+  function initMallParallax(viewport) {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+      var layer = viewport.querySelector('.mall-parallax');
+      if (!layer) return;
+      var raf = 0, tx = 0, ty = 0;
+      function apply() {
+        raf = 0;
+        layer.style.setProperty('--px', tx.toFixed(1) + 'px');
+        layer.style.setProperty('--py', ty.toFixed(1) + 'px');
+      }
+      viewport.addEventListener('mousemove', function (e) {
+        var r = viewport.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - 0.5) * 16;
+        ty = ((e.clientY - r.top) / r.height - 0.5) * 10;
+        if (!raf) raf = requestAnimationFrame(apply);
+      });
+      viewport.addEventListener('mouseleave', function () {
+        tx = 0; ty = 0;
+        if (!raf) raf = requestAnimationFrame(apply);
+      });
+    } catch (e) {}
+  }
+
   function initLumaWorld() {
     var showcase = document.querySelector('.home-feature-section .category-showcase');
     if (!showcase) return;
     var section = showcase.closest('.home-feature-section');
     if (!section || section.classList.contains('luma-world')) return;
     section.classList.add('luma-world');
-    var eyebrow = section.querySelector('.home-section-heading > div > span');
-    if (eyebrow) eyebrow.textContent = 'LUMA WORLD';
+
+    /* header: LUMA WORLD + subtitle + description + live indicator */
+    var headDiv = section.querySelector('.home-section-heading > div');
+    if (headDiv) {
+      var eyebrow = headDiv.querySelector('span');
+      if (eyebrow) eyebrow.textContent = 'LUMA WORLD';
+      var h2 = headDiv.querySelector('h2');
+      if (h2) h2.textContent = 'Enter a world of better shopping';
+      if (eyebrow && !headDiv.querySelector('.mall-live')) {
+        var live = document.createElement('span');
+        live.className = 'mall-live';
+        live.innerHTML = '<i></i>LIVE SHOPPING WORLD';
+        eyebrow.parentNode.insertBefore(live, eyebrow.nextSibling);
+      }
+    }
     var heading = section.querySelector('.home-section-heading');
-    if (heading && !section.querySelector('.luma-world-sub')) {
+    if (heading) {
+      var oldSub = section.querySelector('.luma-world-sub');
+      if (oldSub) oldSub.remove();
       var sub = document.createElement('p');
       sub.className = 'luma-world-sub';
-      sub.textContent = 'Step into our universe of handpicked deals — eight curated destinations, one premium shopping world.';
+      sub.textContent = 'Explore our virtual shopping mall and discover products across every category.';
       heading.insertAdjacentElement('afterend', sub);
     }
-    if (!section.querySelector('.luma-world-stage')) {
-      var stage = document.createElement('div');
-      stage.className = 'luma-world-stage';
-      stage.setAttribute('aria-hidden', 'true');
-      stage.innerHTML =
-        '<div class="luma-world-floor"></div>' +
-        '<div class="luma-world-orb"><div class="luma-orb-ring"></div><div class="luma-orb-sphere"></div>' +
-        '<div class="luma-orb-chip c1">\uD83D\uDC84</div><div class="luma-orb-chip c2">\uD83D\uDCF1</div><div class="luma-orb-chip c3">\uD83D\uDC5C</div></div>' +
-        '<div class="luma-world-sparks"><span></span><span></span><span></span><span></span><span></span><span></span></div>';
-      showcase.parentNode.insertBefore(stage, showcase);
+
+    /* clear any previous-generation mall markup */
+    var oldStage = section.querySelector('.luma-world-stage');
+    if (oldStage) oldStage.remove();
+    if (section.querySelector('.mall-viewport')) return;
+
+    /* build the diorama */
+    var html = '<div class="mall-viewport"><div class="mall-scroll"><div class="mall-parallax"><div class="mall-world">';
+    html += '<div class="mall-ground" aria-hidden="true"></div>';
+    html += '<div class="mall-plaza-ring" aria-hidden="true"></div>';
+    html += '<div class="mall-path p1" aria-hidden="true"></div>';
+    html += '<div class="mall-path p2" aria-hidden="true"></div>';
+    html += '<div class="mall-path p3" aria-hidden="true"></div>';
+    for (var t = 0; t < MALL_TREES.length; t++) {
+      html += '<div class="mall-tree" aria-hidden="true" style="left:' + MALL_TREES[t][0] + '%;top:' + MALL_TREES[t][1] + '%"></div>';
     }
+    for (var l = 0; l < MALL_LAMPS.length; l++) {
+      html += '<div class="mall-lamp" aria-hidden="true" style="left:' + MALL_LAMPS[l][0] + '%;top:' + MALL_LAMPS[l][1] + '%"></div>';
+    }
+    for (var i = 0; i < MALL_STORES.length; i++) html += mallStoreHTML(MALL_STORES[i]);
+    html += '<div class="mall-slot mall-landmark-slot" style="left:50%;top:47%">' +
+      '<div class="mall-landmark" role="img" aria-label="Luma Deals landmark tower">' +
+      '<span class="b-face b-back" aria-hidden="true"></span>' +
+      '<span class="b-face b-side b-left" aria-hidden="true"></span>' +
+      '<span class="b-face b-side b-right" aria-hidden="true"></span>' +
+      '<span class="b-face b-roof" aria-hidden="true"></span>' +
+      '<span class="b-face b-front" aria-hidden="true">' +
+      '<span class="b-sign">LUMA DEALS</span><span class="b-glass"></span><span class="b-beacon"></span>' +
+      '</span></div></div>';
+    html += '</div></div></div>';
+    html += '<div class="mall-particles" aria-hidden="true">';
+    for (var p = 0; p < 12; p++) html += '<span></span>';
+    html += '</div></div>';
+
+    var holder = document.createElement('div');
+    holder.innerHTML = html;
+    var viewport = holder.firstChild;
+    var subcats = document.getElementById('category-subcategories');
+    if (subcats) section.insertBefore(viewport, subcats);
+    else section.appendChild(viewport);
+    initMallParallax(viewport);
   }
 
   /* ---------- boot ---------- */
