@@ -15,31 +15,6 @@
     } catch (e) { return false; }
   })();
 
-  /* ---------- 1. inject hero ---------- */
-  function injectHero() {
-    var home = document.getElementById('page-home');
-    if (!home || document.querySelector('.luma-hero')) return;
-    var hero = document.createElement('div');
-    hero.className = 'luma-hero';
-    hero.innerHTML =
-      '<canvas id="luma-hero-3d"></canvas>' +
-      '<div class="luma-hero-inner">' +
-        '<span class="luma-eyebrow">Luma Deals &mdash; Premium Shopping</span>' +
-        '<h1>Great deals, <span class="accent">beautifully</span> presented</h1>' +
-        '<p class="luma-sub">Hand-picked products at honest prices, in a store designed to feel as good as it looks.</p>' +
-        '<div class="luma-cta-row">' +
-          '<button class="luma-btn" onclick="showPage(\'shop\')">Shop the Deals</button>' +
-          '<button class="luma-btn ghost" onclick="showPage(\'about\')">Our Story</button>' +
-        '</div>' +
-        '<div class="luma-stats">' +
-          '<div class="luma-stat"><b>10k+</b><span>Curated deals</span></div>' +
-          '<div class="luma-stat"><b>4.9&#9733;</b><span>Shopper rating</span></div>' +
-          '<div class="luma-stat"><b>24h</b><span>Fast dispatch</span></div>' +
-        '</div>' +
-      '</div>';
-    home.insertBefore(hero, home.firstChild);
-  }
-
   /* ---------- 2. subtle ambient dust (light theme) ---------- */
   function initDust() {
     var c = document.createElement('canvas');
@@ -58,97 +33,6 @@
         ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, 7);
         ctx.fillStyle = 'rgba(2,132,199,' + p.o + ')'; ctx.fill(); }
       requestAnimationFrame(tick);
-    })();
-  }
-
-  /* ---------- 3. realistic studio hero scene ---------- */
-  var mouseX = 0, mouseY = 0;
-  addEventListener('mousemove', function (e) {
-    mouseX = (e.clientX / innerWidth - .5); mouseY = (e.clientY / innerHeight - .5);
-  });
-  function initHeroScene() {
-    if (!webglOK || !window.THREE || reducedMotion) return;
-    var canvas = document.getElementById('luma-hero-3d');
-    if (!canvas) return;
-    var renderer;
-    try {
-      renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(42, 1, .1, 100);
-    camera.position.set(0, 1.6, 13);
-
-    // studio lighting: soft key with shadows, cool fill, warm rim
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xdfe9f2, .85));
-    var key = new THREE.DirectionalLight(0xffffff, 1.5);
-    key.position.set(6, 10, 7); key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
-    key.shadow.camera.left = -10; key.shadow.camera.right = 10;
-    key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
-    key.shadow.radius = 6;
-    scene.add(key);
-    var fill = new THREE.DirectionalLight(0xbfe3ff, .5); fill.position.set(-7, 3, 6); scene.add(fill);
-    var rim = new THREE.DirectionalLight(0xffe8c8, .45); rim.position.set(-2, 4, -8); scene.add(rim);
-
-    // invisible ground catching soft shadows
-    var ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(40, 40),
-      new THREE.ShadowMaterial({ opacity: .14 })
-    );
-    ground.rotation.x = -Math.PI / 2; ground.position.y = -3.4; ground.receiveShadow = true;
-    scene.add(ground);
-
-    // realistic materials: glossy ceramic + brushed brand blue
-    var ceramic = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .22, metalness: .05, clearcoat: 1, clearcoatRoughness: .25 });
-    var brandBlue = new THREE.MeshPhysicalMaterial({ color: 0x2aa5e0, roughness: .28, metalness: .15, clearcoat: 1, clearcoatRoughness: .2 });
-    var deepBlue = new THREE.MeshPhysicalMaterial({ color: 0x0e6ea3, roughness: .35, metalness: .2, clearcoat: .8 });
-    var softGray = new THREE.MeshPhysicalMaterial({ color: 0xdde6ee, roughness: .5, metalness: .05, clearcoat: .4 });
-
-    var group = new THREE.Group(); scene.add(group);
-    var shapes = [];
-    function add(mesh, x, y, z, s) {
-      mesh.position.set(x, y, z); mesh.scale.set(s, s, s);
-      mesh.castShadow = true;
-      mesh.userData = { fy: Math.random() * 6.28, fa: Math.random() * .35 + .15,
-        rx: (Math.random() - .5) * .006, ry: (Math.random() - .5) * .008 };
-      group.add(mesh); shapes.push(mesh); return mesh;
-    }
-    // centerpiece: glossy torus knot in brand blue
-    add(new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, .42, 160, 24), brandBlue), 0, .4, 0, 1);
-    // supporting shapes
-    add(new THREE.Mesh(new THREE.SphereGeometry(1, 48, 32), ceramic), -5.2, -.6, -1.5, .9);
-    add(new THREE.Mesh(new THREE.SphereGeometry(1, 48, 32), softGray), 5.4, -1.1, -2, 1.25);
-    add(new THREE.Mesh(new THREE.TorusGeometry(.9, .3, 24, 48), ceramic), 4.6, 1.6, -1, .8);
-    add(new THREE.Mesh(new THREE.TorusGeometry(.7, .24, 24, 48), deepBlue), -4.4, 1.9, -2.5, .7);
-    add(new THREE.Mesh(new THREE.CylinderGeometry(.55, .55, 1.6, 40), ceramic), -2.8, -1.8, 1.5, .7);
-    add(new THREE.Mesh(new THREE.IcosahedronGeometry(.8, 1), brandBlue), 2.9, -1.9, 1.2, .75);
-
-    function resize() {
-      var w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || 480;
-      renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-    }
-    resize(); addEventListener('resize', resize);
-
-    var t = 0, running = true;
-    document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) loop(); });
-    (function loop() {
-      if (!running) return;
-      requestAnimationFrame(loop);
-      t += .01;
-      for (var i = 0; i < shapes.length; i++) { var m = shapes[i], u = m.userData;
-        m.rotation.x += u.rx; m.rotation.y += u.ry;
-        m.position.y += Math.sin(t * 1.6 + u.fy) * .0035 * u.fa; }
-      group.rotation.y += (mouseX * .22 - group.rotation.y) * .045;
-      group.rotation.x += (mouseY * .14 - group.rotation.x) * .045;
-      camera.position.x += (mouseX * 1.1 - camera.position.x) * .03;
-      camera.position.y += ((1.6 - mouseY * .8) - camera.position.y) * .03;
-      camera.lookAt(0, 0, 0);
-      renderer.render(scene, camera);
     })();
   }
 
@@ -326,16 +210,10 @@
 
   /* ---------- boot ---------- */
   function boot() {
-    injectHero();
     try { initDust(); } catch (e) {}
     initLumaWorld();
     initTilt();
     initReveal();
-    var tries = 0;
-    (function wait() {
-      if (window.THREE) { try { initHeroScene(); } catch (e) {} }
-      else if (++tries < 100) setTimeout(wait, 100);
-    })();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();

@@ -23,48 +23,6 @@ body.luma-3d ::-webkit-scrollbar-thumb { background: linear-gradient(180deg,#3BB
 #luma-stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .5; }
 body.luma-3d .navbar, body.luma-3d .page, body.luma-3d footer { position: relative; z-index: 1; }
 
-/* ---------- realistic 3D hero ---------- */
-.luma-hero { position: relative; margin: 0; padding: 0; overflow: hidden;
-  background: linear-gradient(180deg, #eef4fa 0%, #f7fafd 70%, #f4f6f9 100%);
-  border-bottom: 1px solid #e3e9f0; }
-#luma-hero-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.luma-hero-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto;
-  padding: 90px 40px 100px; text-align: center; pointer-events: none; }
-.luma-hero-inner .luma-cta-row, .luma-hero-inner .luma-btn { pointer-events: auto; }
-.luma-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px;
-  color: #0284c7; text-transform: uppercase; padding: 9px 20px; border-radius: 999px;
-  background: #fff; border: 1px solid #dbe7f2;
-  box-shadow: 0 2px 6px rgba(15,40,70,.06), inset 0 1px 0 #fff; margin-bottom: 24px; }
-.luma-hero h1 { font-size: clamp(40px, 5.6vw, 72px); font-weight: 800; line-height: 1.04;
-  margin: 0 0 18px; color: #0d1b2a !important; text-shadow: 0 2px 0 #fff, 0 18px 40px rgba(2,132,199,.12); }
-.luma-hero h1 .accent { color: #0284c7; }
-.luma-hero p.luma-sub { font-size: clamp(15px, 1.8vw, 18px); color: #5b6b7f !important;
-  max-width: 620px; margin: 0 auto 36px; line-height: 1.65; }
-.luma-cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-/* realistic 3D button: light from above, tactile press */
-.luma-btn { position: relative; border: none; cursor: pointer; font-weight: 700; font-size: 15px;
-  padding: 16px 40px; border-radius: 16px; color: #fff !important;
-  background: linear-gradient(180deg, #4fc0f0 0%, #2aa5e0 55%, #1d8fc9 100%);
-  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,60,100,.25) inset,
-    0 12px 24px rgba(2,132,199,.35), 0 3px 8px rgba(2,132,199,.25);
-  transform: translateY(0); transition: transform .15s, box-shadow .15s; }
-.luma-btn:hover { transform: translateY(-2px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,60,100,.25) inset,
-    0 18px 34px rgba(2,132,199,.42), 0 5px 12px rgba(2,132,199,.28); }
-.luma-btn:active { transform: translateY(3px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.3) inset, 0 4px 10px rgba(2,132,199,.25); }
-.luma-btn.ghost { background: linear-gradient(180deg, #ffffff, #eef2f7); color: #0d1b2a !important;
-  border: 1px solid #d5dee8;
-  box-shadow: 0 1px 0 #fff inset, 0 -2px 0 rgba(15,40,70,.06) inset,
-    0 12px 24px rgba(15,40,70,.12), 0 3px 8px rgba(15,40,70,.08); }
-.luma-btn.ghost:hover { box-shadow: 0 1px 0 #fff inset, 0 18px 32px rgba(15,40,70,.16); }
-.luma-stats { display: flex; gap: 14px; justify-content: center; margin-top: 46px; flex-wrap: wrap; }
-.luma-stat { background: rgba(255,255,255,.82); border: 1px solid #e2e9f1; border-radius: 18px;
-  padding: 16px 28px; backdrop-filter: blur(10px);
-  box-shadow: 0 1px 0 #fff inset, 0 14px 30px rgba(15,40,70,.10); }
-.luma-stat b { display: block; font-size: 24px; color: #0d1b2a; }
-.luma-stat span { font-size: 11px; letter-spacing: 1.6px; color: #7c8ea3; text-transform: uppercase; }
-
 /* ---------- navbar ---------- */
 body.luma-3d .navbar { background: rgba(255,255,255,.86) !important; backdrop-filter: blur(16px);
   border-bottom: 1px solid #e3e9f0; box-shadow: 0 6px 24px rgba(15,40,70,.08); }
@@ -214,7 +172,6 @@ body.luma-3d td, body.luma-3d th { border-color: #e4eaf1 !important; }
 body.luma-3d ins.adsbygoogle { background: transparent !important; }
 
 @media (max-width: 640px) {
-  .luma-hero-inner { padding: 64px 22px 72px; }
   body.luma-3d .home-feature-section { padding: 30px 18px !important; }
 }
 
