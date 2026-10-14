@@ -1,0 +1,3113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0284c7">
+<title>Luma Deals — Admin Panel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="manifest" href="admin-manifest.json">
+  <style>
+*{box-sizing:border-box}
+
+:root{
+  --primary:#0284c7;
+  --primary2:#0369a1;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --gold:#f59e0b;
+}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:linear-gradient(180deg,#eff6ff,#f8fafc 40%,#f1f5f9);
+  color:var(--text);
+}
+
+.hidden{display:none!important}
+
+button,input,select,textarea{font:inherit}
+
+/* LOGIN */
+
+#loginPage{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 15% 20%,#7dd3fc 0,transparent 35%),
+    linear-gradient(135deg,#0369a1,#0ea5e9 55%,#38bdf8);
+}
+
+.box{
+  width:min(430px,100%);
+  background:#fff;
+  padding:34px;
+  border-radius:24px;
+  box-shadow:0 30px 80px #0f172a40;
+  border:1px solid #ffffff80;
+}
+
+.logo{
+  width:64px;
+  height:64px;
+  margin:0 auto 14px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  font-size:27px;
+  font-weight:900;
+  box-shadow:0 12px 25px #0284c744;
+}
+
+.center{text-align:center}
+
+.blue{
+  color:var(--primary);
+  margin:0;
+}
+
+.muted{color:var(--muted)}
+
+/* HEADER */
+
+.top{
+  min-height:72px;
+  background:#ffffffee;
+  backdrop-filter:blur(14px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  box-shadow:0 2px 18px #0f172a10;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #e2e8f080;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:900;
+  color:var(--primary);
+  font-size:20px;
+}
+
+.brandmark-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.small{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:500;
+}
+
+/* MAIN */
+
+.container{
+  max-width:1120px;
+  margin:auto;
+  padding:32px 20px 70px;
+}
+
+.title{
+  margin-bottom:25px;
+}
+
+.title h2{
+  margin:0 0 6px;
+  font-size:29px;
+}
+
+.title p{
+  margin:0;
+  color:var(--muted);
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:20px;
+  box-shadow:0 8px 28px #0f172a0c;
+}
+
+.ct{
+  font-size:18px;
+  font-weight:850;
+  margin-bottom:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+label{
+  font-size:13px;
+  font-weight:800;
+  color:#334155;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:15px;
+  background:#fff;
+  color:var(--text);
+  outline:none;
+  transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#38bdf8;
+  box-shadow:0 0 0 4px #0ea5e91a;
+}
+
+textarea{
+  min-height:135px;
+  resize:vertical;
+}
+
+/* PRICE */
+
+.pricebox{
+  margin-top:2px;
+  padding:14px;
+  border-radius:13px;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.pricehint{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.discount{
+  font-weight:900;
+  color:#dc2626;
+}
+
+/* RATING */
+
+.ratingbox{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 14px;
+  border-radius:13px;
+  background:#fffbeb;
+  border:1px solid #fde68a;
+}
+
+.stars{
+  font-size:26px;
+  letter-spacing:2px;
+  color:var(--gold);
+  white-space:nowrap;
+}
+
+.ratingtext{
+  font-size:13px;
+  color:#64748b;
+}
+
+/* IMAGES */
+
+.help{
+  background:linear-gradient(135deg,#f0f9ff,#e0f2fe);
+  border:1px solid #bae6fd;
+  color:#075985;
+  padding:14px;
+  border-radius:13px;
+  margin-bottom:17px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.help code{
+  background:#fff;
+  padding:2px 5px;
+  border-radius:5px;
+}
+
+.images{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.prev{
+  height:175px;
+  margin-top:5px;
+  border:1px dashed #cbd5e1;
+  border-radius:13px;
+  background:#f8fafc;
+  display:grid;
+  place-items:center;
+  color:#94a3b8;
+  overflow:hidden;
+}
+
+.prev img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#fff;
+}
+
+.bad{
+  padding:12px;
+  text-align:center;
+  color:#b91c1c;
+  font-size:12px;
+}
+
+/* VERIFIED */
+
+.verify{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:15px;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.verify input{
+  width:20px;
+  height:20px;
+  accent-color:var(--primary);
+}
+
+/* BUTTONS */
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:15px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  font-size:15px;
+  font-weight:850;
+  cursor:pointer;
+  box-shadow:0 8px 18px #0284c733;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.secondary{
+  margin-top:10px;
+  background:#e2e8f0;
+  color:#334155;
+  box-shadow:none;
+}
+
+.logout{
+  border:0;
+  background:#fee2e2;
+  color:#dc2626;
+  padding:10px 15px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* STATUS */
+
+.status{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:750;
+}
+
+.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.pills{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.pill{
+  padding:7px 10px;
+  background:#f1f5f9;
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:750;
+  color:#475569;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .grid,
+  .images{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .top{
+    padding:0 14px;
+  }
+
+  .container{
+    padding:20px 13px 55px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .title h2{
+    font-size:24px;
+  }
+
+  .brand span{
+    display:none;
+  }
+}
+     
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage">
+
+<div class="box">
+
+<div class="center">
+
+<div class="logo">LD</div>
+
+<h1 class="blue">Luma Deals</h1>
+
+<p class="muted">Secure Administrator Login</p>
+
+</div>
+
+<form id="loginForm">
+
+<div class="field">
+
+<label>Admin Email</label>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="admin@example.com"
+autocomplete="email"
+required>
+
+</div>
+
+<br>
+
+<div class="field">
+<label>Password</label>
+
+<div class="password-wrapper" style="position:relative;">
+  <input
+  id="loginPassword"
+  type="password"
+  autocomplete="current-password"
+  required
+  style="width:100%; padding-right:35px;">
+
+  <i class="fa-solid fa-eye" id="toggleLoginPassword" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;"></i>
+</div>
+</div>
+
+<br>
+
+<button
+class="btn"
+id="loginBtn">
+
+Login to Admin Panel
+
+</button>
+
+<div
+id="loginStatus"
+class="status">
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div id="adminPage" class="hidden">
+
+<header class="top">
+
+<div class="brand">
+
+<img src="https://raw.githubusercontent.com/lumadeals/lumadeals/93a4a129ff1375fd1fb644dabdbc24853183434c/images/assets/favicon.png" alt="Luma Deals" class="brandmark-img">
+<div>
+
+Luma Deals
+
+<span class="small">
+Professional Admin Panel
+</span>
+
+</div>
+
+</div>
+
+<button
+class="logout"
+id="logoutBtn">
+
+Logout
+
+</button>
+
+</header>
+
+
+<main class="container">
+
+<div class="title">
+
+<h2>Add New Product</h2>
+
+<p>
+Create a professional product with pricing,
+discount, reviews and GitHub images.
+</p>
+
+</div>
+
+
+<form id="productForm">
+
+
+<!-- PRODUCT INFORMATION -->
+
+<div class="card">
+
+<div class="ct">
+📦 Product Information
+</div>
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>Product Name *</label>
+
+<input
+id="productName"
+required
+placeholder="Wireless Bluetooth Headphones">
+
+</div>
+
+
+<div class="field">
+
+<label>Sale Price (PKR) *</label>
+
+<input
+id="productPrice"
+type="number"
+min="0"
+step="1"
+required
+placeholder="3500">
+
+</div>
+
+
+<div class="field">
+
+<label>Old Price / MRP (PKR)</label>
+
+<input
+id="oldPrice"
+type="number"
+min="0"
+step="1"
+placeholder="5000">
+
+</div>
+
+
+<div class="field full">
+
+<div class="pricebox">
+
+<span class="pricehint">
+Automatic Discount
+</span>
+
+<span
+id="discountPreview"
+class="discount">
+
+No discount
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="field">
+<div class="field">
+  <label>Category *</label>
+
+  <select id="productCategory" required>
+    <option value="">Select Category</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Home">Home</option>
+    <option value="Beauty">Beauty</option>
+    <option value="Kitchen">Kitchen</option>
+    <option value="Toys">Toys</option>
+    <option value="Boutique">Boutique</option>
+    <option value="Hand Made">Hand Made</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Subcategory *</label>
+
+  <select id="productSubcategory" required disabled>
+    <option value="">First select a category</option>
+  </select>
+</div>
+
+
+<div class="field">
+
+<label>Stock Quantity *</label>
+
+<input
+id="productStock"
+type="text"
+min="0"
+required
+placeholder="25">
+
+</div>
+
+
+<div class="field">
+
+<label>Rating (0–5)</label>
+
+<input
+id="rating"
+type="number"
+min="0"
+max="5"
+step="0.1"
+value="5">
+
+</div>
+
+
+<div class="field">
+
+<label>Reviews Count</label>
+
+<input
+id="reviews"
+type="number"
+min="0"
+step="1"
+value="0">
+
+</div>
+
+
+<div class="field full">
+
+<div class="ratingbox">
+
+<span
+id="ratingStars"
+class="stars">
+
+★★★★★
+
+</span>
+
+<span
+id="ratingText"
+class="ratingtext">
+
+5.0 / 5 • 0 reviews
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="field full">
+
+<label>Description *</label>
+
+<textarea
+id="productDescription"
+required
+placeholder="Write a clear and attractive product description...">
+</textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- IMAGES -->
+
+<div class="card">
+
+<div class="ct">
+🖼️ Product Images — Upload
+</div>
+
+
+<div class="help">
+
+<b>Ab GitHub URL paste karne ki zaroorat nahi.</b>
+
+<br>
+
+Computer ya mobile se seedha image select karein (JPG, PNG, WebP) — upload khud ba khud Cloudinary pe ho jayega aur URL automatically save ho jayegi.
+
+1 se 7 images allowed hain, har image max 10 MB.
+
+Image 1 main image hogi.
+
+</div>
+
+
+<div class="images">
+
+
+<div class="field">
+
+<label>Image 1 (Main Image) *</label>
+
+<input
+id="image1"
+type="file"
+accept="image/jpeg,image/png,image/webp"
+required>
+
+<div
+class="prev"
+id="preview1">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus1" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 2</label>
+
+<input
+id="image2"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview2">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus2" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 3</label>
+
+<input
+id="image3"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview3">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus3" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 4</label>
+
+<input
+id="image4"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview4">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus4" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 5</label>
+
+<input
+id="image5"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview5">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus5" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 6</label>
+
+<input
+id="image6"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview6">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus6" class="small"></small>
+
+</div>
+
+
+<div class="field">
+
+<label>Image 7</label>
+
+<input
+id="image7"
+type="file"
+accept="image/jpeg,image/png,image/webp">
+
+<div
+class="prev"
+id="preview7">
+
+Image preview
+
+</div>
+
+<small id="uploadStatus7" class="small"></small>
+
+</div>
+
+
+</div>
+
+
+<div class="pills">
+
+<span class="pill">
+1–7 Images
+</span>
+
+<span class="pill">
+Image 1 = Main Image
+</span>
+
+<span class="pill">
+GitHub Raw URLs
+</span>
+
+</div>
+
+</div>
+
+
+<!-- VERIFIED -->
+
+<div class="card">
+
+<div class="ct">
+✓ Verification
+</div>
+
+<label class="verify">
+
+<input
+type="checkbox"
+id="verifiedProduct">
+
+<span>
+
+<b>
+✓ Verified by Luma Deals
+</b>
+
+<small class="small">
+Show verification badge on this product.
+</small>
+
+</span>
+
+</label>
+
+</div>
+
+
+<!-- SUBMIT -->
+
+<div class="card">
+
+<button
+type="submit"
+class="btn"
+id="submitBtn">
+
+🚀 Add Product to Luma Deals
+
+</button>
+
+
+<button
+type="button"
+class="btn secondary"
+id="resetBtn">
+
+Clear Form
+
+</button>
+
+
+<div
+id="status"
+class="status">
+</div>
+
+</div>
+
+
+</form>
+<!-- ================================
+     LUMA DEALS — ORDER MANAGEMENT
+     ================================ -->
+
+<div class="card" id="ordersManagementCard">
+
+  <div class="ct">
+    📦 Order Management
+  </div>
+
+  <div class="help">
+    Select the customer order, choose the courier, and save the courier tracking ID.
+  </div>
+
+  <div id="adminOrdersList">
+    <p style="color:#888;">Loading orders...</p>
+  </div>
+
+</div>
+</main>
+
+</div>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  updateDoc,
+  serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+  const firebaseConfig={
+
+apiKey:
+"AIzaSyA6Ly0Ufm4cInCjM9ZUK1zRV6zxRlK0jMI",
+
+authDomain:
+"luma-deals.firebaseapp.com",
+
+projectId:
+"luma-deals",
+
+storageBucket:
+"luma-deals.firebasestorage.app",
+
+messagingSenderId:
+"572054053043",
+
+appId:
+"1:572054053043:web:fdd6e36d53d339bd6b90c6"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getFirestore(app);
+
+
+const $=id=>
+document.getElementById(id);
+const subcategories = {
+
+  Electronics: [
+    "Mobiles & Tablets",
+    "Mobile Accessories",
+    "Audio",
+    "Computers",
+    "Smart Devices"
+  ],
+
+  Fashion: [
+    "Men",
+    "Women",
+    "Shoes",
+    "Bags",
+    "Watches"
+  ],
+
+  Home: [
+    "Furniture",
+    "Home Decor",
+    "Lighting",
+    "Storage & Organization",
+    "Bedding",
+    "Garden & Outdoor",
+    "Cleaning & Household"
+  ],
+
+  Beauty: [
+    "Skincare",
+    "Makeup",
+    "Hair Care",
+    "Fragrance",
+    "Personal Care"
+  ],
+
+  Kitchen: [
+    "Cookware",
+    "Kitchen Appliances",
+    "Dining",
+    "Kitchen Storage",
+    "Tools & Gadgets"
+  ],
+
+  Toys: [
+    "Educational Toys",
+    "Games",
+    "Outdoor Toys",
+    "Kids Toys",
+    "Puzzles"
+  ],
+
+  Boutique: [
+    "Clothing",
+    "Jewelry",
+    "Accessories",
+    "Handbags"
+  ],
+
+  "Hand Made": [
+    "Handmade Decor",
+    "Handmade Jewelry",
+    "Handmade Gifts",
+    "Crafts"
+  ]
+
+};
+
+
+$("productCategory").addEventListener("change", function () {
+
+  const category = this.value;
+
+  const subcategorySelect =
+    $("productSubcategory");
+
+  subcategorySelect.innerHTML =
+    '<option value="">Select Subcategory</option>';
+
+  if (!category || !subcategories[category]) {
+
+    subcategorySelect.disabled = true;
+
+    return;
+  }
+
+  subcategories[category].forEach(subcategory => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = subcategory;
+    option.textContent = subcategory;
+
+    subcategorySelect.appendChild(option);
+
+  });
+
+  subcategorySelect.disabled = false;
+
+});
+
+/* STATUS */
+
+function showStatus(
+message,
+type,
+target="status"
+){
+
+const el=$(target);
+
+el.textContent=message;
+
+el.className=
+"status "+type;
+
+el.style.display="block";
+
+}
+
+
+/* DISCOUNT */
+
+function calculateDiscount(){
+
+const oldPrice=
+Number(
+$("oldPrice").value
+)||0;
+
+const price=
+Number(
+$("productPrice").value
+)||0;
+
+const el=
+$("discountPreview");
+
+
+if(
+oldPrice>price &&
+price>0
+){
+
+const discount=
+Math.round(
+((oldPrice-price)/
+oldPrice)*100
+);
+
+el.textContent=
+discount+"% OFF";
+
+return discount;
+
+}
+
+
+el.textContent=
+"No discount";
+
+return 0;
+
+}
+
+
+/* RATING */
+
+function renderRating(){
+
+let value=
+Number(
+$("rating").value
+)||0;
+
+let reviews=
+parseInt(
+$("reviews").value
+)||0;
+
+
+value=
+Math.max(
+0,
+Math.min(5,value)
+);
+
+reviews=
+Math.max(
+0,reviews
+);
+
+
+const rounded=
+Math.round(value);
+
+
+$("ratingStars").textContent=
+"★".repeat(rounded)+
+"☆".repeat(5-rounded);
+
+
+$("ratingText").textContent=
+value.toFixed(1)+
+" / 5 • "+
+reviews.toLocaleString()+
+" reviews";
+
+}
+
+
+/* INPUT EVENTS */
+
+$("oldPrice")
+.addEventListener(
+"input",
+calculateDiscount
+);
+
+
+$("productPrice")
+.addEventListener(
+"input",
+calculateDiscount
+);
+
+
+$("rating")
+.addEventListener(
+"input",
+renderRating
+);
+
+
+$("reviews")
+.addEventListener(
+"input",
+renderRating
+);
+
+
+/* AUTH */
+
+onAuthStateChanged(
+auth,
+user=>{
+
+if(user){
+
+$("loginPage")
+.classList
+.add("hidden");
+
+$("adminPage")
+.classList
+.remove("hidden");
+
+}
+
+else{
+
+$("loginPage")
+.classList
+.remove("hidden");
+
+$("adminPage")
+.classList
+.add("hidden");
+
+}
+
+}
+);
+
+
+/* LOGIN */
+
+$("loginForm")
+.addEventListener(
+"submit",
+async e=>{
+
+e.preventDefault();
+
+
+$("loginBtn")
+.disabled=true;
+
+
+$("loginBtn")
+.textContent=
+"Logging in...";
+
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+$("loginEmail")
+.value
+.trim(),
+$("loginPassword")
+.value
+);
+
+$("loginStatus")
+.style.display="none";
+
+}
+
+catch(err){
+
+showStatus(
+"Login failed: "+
+(err.code||err.message),
+"error",
+"loginStatus"
+);
+
+}
+
+finally{
+
+$("loginBtn")
+.disabled=false;
+
+$("loginBtn")
+.textContent=
+"Login to Admin Panel";
+
+}
+
+}
+);
+
+
+/* LOGOUT */
+
+$("logoutBtn").onclick=
+()=>signOut(auth);
+
+
+/* CLOUDINARY UPLOAD CONFIG */
+
+const CLOUDINARY_CLOUD_NAME="szx9toyu";
+const CLOUDINARY_UPLOAD_PRESET="luma_deals_products";
+const MAX_IMAGE_BYTES=10*1024*1024;
+
+
+/* IMAGE PREVIEW (local file, before upload) */
+
+function setPreviewFromFile(
+i,
+file
+){
+
+const box=
+$("preview"+i);
+
+
+if(!file){
+
+box.textContent=
+"Image preview";
+
+return;
+
+}
+
+
+box.innerHTML="";
+
+
+const img=
+document.createElement("img");
+
+
+img.alt=
+"Product image "+i;
+
+
+img.src=
+URL.createObjectURL(file);
+
+
+box.appendChild(img);
+
+}
+
+
+/* IMAGE LISTENERS — VALIDATE + PREVIEW ON SELECT */
+
+for(
+let i=1;
+i<=7;
+i++
+){
+
+$("image"+i)
+.addEventListener(
+"change",
+()=>{
+
+const file=
+$("image"+i)
+.files?.[0];
+
+const statusEl=
+$("uploadStatus"+i);
+
+statusEl.textContent="";
+
+
+if(!file){
+
+setPreviewFromFile(i,null);
+
+return;
+
+}
+
+
+if(
+![
+"image/jpeg",
+"image/png",
+"image/webp"
+].includes(file.type)
+){
+
+$("image"+i).value="";
+
+setPreviewFromFile(i,null);
+
+statusEl.textContent=
+"Only JPG, PNG or WebP images are allowed.";
+
+return;
+
+}
+
+
+if(file.size>MAX_IMAGE_BYTES){
+
+$("image"+i).value="";
+
+setPreviewFromFile(i,null);
+
+statusEl.textContent=
+"Maximum file size is 10 MB.";
+
+return;
+
+}
+
+
+setPreviewFromFile(i,file);
+
+statusEl.textContent=
+file.name+" · "+
+(file.size/1024/1024).toFixed(2)+" MB";
+
+}
+);
+
+}
+
+
+/* UPLOAD ONE IMAGE TO CLOUDINARY */
+
+async function uploadToCloudinary(
+file,
+index
+){
+
+$("uploadStatus"+index)
+.textContent=
+"Uploading to Cloudinary…";
+
+const body=
+new FormData();
+
+body.append("file",file);
+body.append("upload_preset",CLOUDINARY_UPLOAD_PRESET);
+body.append("folder","luma-deals/products");
+
+const response=
+await fetch(
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+{
+method:"POST",
+body:body
+}
+);
+
+let result;
+
+try{
+
+result=
+await response.json();
+
+}catch{
+
+throw new Error(
+"Cloudinary returned an unreadable response."
+);
+
+}
+
+if(
+!response.ok ||
+!result.secure_url
+){
+
+throw new Error(
+result?.error?.message ||
+`Image ${index} upload failed (${response.status}).`
+);
+
+}
+
+$("uploadStatus"+index)
+.textContent=
+"✓ Uploaded successfully";
+
+return result.secure_url;
+
+}
+
+
+/* SAVE PRODUCT */
+
+$("productForm")
+.addEventListener(
+"submit",
+async e=>{
+
+e.preventDefault();
+
+
+if(!auth.currentUser){
+
+showStatus(
+"Please login first.",
+"error"
+);
+
+return;
+
+}
+
+
+/* IMAGES — SELECTED FILES */
+
+const selectedImages=[];
+
+for(
+let i=1;
+i<=7;
+i++
+){
+
+const file=
+$("image"+i)
+.files?.[0];
+
+if(file){
+
+selectedImages.push({
+file:file,
+index:i
+});
+
+}
+
+}
+
+
+if(
+!selectedImages.length ||
+!$("image1").files?.[0]
+){
+
+showStatus(
+"Please select Image 1 (main image) first.",
+"error"
+);
+
+return;
+
+}
+
+
+for(
+const item of selectedImages
+){
+
+if(
+![
+"image/jpeg",
+"image/png",
+"image/webp"
+].includes(item.file.type)
+){
+
+showStatus(
+`Image ${item.index}: only JPG, PNG or WebP is allowed.`,
+"error"
+);
+
+return;
+
+}
+
+if(item.file.size>MAX_IMAGE_BYTES){
+
+showStatus(
+`Image ${item.index} is larger than 10 MB.`,
+"error"
+);
+
+return;
+
+}
+
+}
+
+
+/* VALUES */
+
+const price=
+Number(
+$("productPrice").value
+)||0;
+
+
+const oldPrice=
+$("oldPrice").value
+?
+Number(
+$("oldPrice").value
+)
+:null;
+
+
+const rating=
+Math.max(
+0,
+Math.min(
+5,
+Number(
+$("rating").value
+)||0
+)
+);
+
+
+const reviews=
+Math.max(
+0,
+parseInt(
+$("reviews").value
+)||0
+);
+
+
+/* DISCOUNT (site expects a string like "20%") */
+
+const discountNum=
+(
+oldPrice &&
+oldPrice>price &&
+price>0
+)
+?
+Math.round(
+((oldPrice-price)/
+oldPrice)*100
+)
+:
+0;
+
+const discount=
+discountNum+"%";
+
+
+/* RATING (site expects a star-emoji string like "⭐⭐⭐⭐") */
+
+const ratingStarsCount=
+Math.round(rating);
+
+const ratingStr=
+"⭐".repeat(
+Math.max(0,Math.min(5,ratingStarsCount))
+);
+
+
+/* FIRESTORE */
+
+try{
+
+$("submitBtn")
+.disabled=true;
+
+$("resetBtn")
+.disabled=true;
+
+
+/* UPLOAD ALL SELECTED IMAGES TO CLOUDINARY */
+
+const uploadedBySlot={};
+
+for(
+let n=0;
+n<selectedImages.length;
+n++
+){
+
+const item=
+selectedImages[n];
+
+$("submitBtn")
+.textContent=
+`Uploading image ${n+1} of ${selectedImages.length}…`;
+
+uploadedBySlot[item.index]=
+await uploadToCloudinary(
+item.file,
+item.index
+);
+
+}
+
+const images=
+Object.keys(uploadedBySlot)
+.map(Number)
+.sort((a,b)=>a-b)
+.map(i=>uploadedBySlot[i]);
+
+
+$("submitBtn")
+.textContent=
+"Saving Product...";
+
+
+/* AUTO-GENERATE NEXT NUMERIC ID
+   (matches the site's existing products,
+   which are looked up by a plain numeric id) */
+
+const existingSnap=
+await getDocs(
+collection(db,"products")
+);
+
+let maxId=0;
+
+existingSnap.forEach(d=>{
+
+const existing=d.data();
+
+const n=Number(existing.id)||0;
+
+if(n>maxId) maxId=n;
+
+});
+
+const newId=maxId+1;
+
+
+/* PRODUCT — matches the exact field names/shapes
+   the live site's rendering code (productCardHTML,
+   showProductDetail) reads from Firestore */
+
+const data={
+
+id:
+newId,
+
+name:
+$("productName")
+.value
+.trim(),
+
+price:
+price,
+
+oldPrice:
+oldPrice,
+
+discount:
+discount,
+
+rating:
+ratingStr,
+
+reviews:
+reviews,
+
+category:
+$("productCategory")
+.value,
+subcategory:$('productSubcategory').value,
+description:
+$("productDescription")
+.value
+.trim(),
+
+stock:
+Number(
+$("productStock").value
+)||0,
+
+images:
+images,
+
+img:
+images[0],
+
+verified:
+$("verifiedProduct")
+.checked,
+
+createdAt:
+serverTimestamp(),
+
+createdBy:
+auth.currentUser.uid
+
+};
+
+
+await setDoc(
+doc(
+db,
+"products",
+String(newId)
+),
+data
+);
+
+
+showStatus(
+"✅ Product added successfully! Product ID: "+
+newId,
+"success"
+);
+
+
+/* RESET */
+
+$("productForm")
+.reset();
+
+
+$("rating").value=5;
+
+$("reviews").value=0;
+
+
+calculateDiscount();
+
+renderRating();
+
+
+for(
+let i=1;
+i<=7;
+i++
+){
+
+$("preview"+i)
+.textContent=
+"Image preview";
+
+if($("uploadStatus"+i)){
+
+$("uploadStatus"+i)
+.textContent="";
+
+}
+
+}
+
+}
+
+catch(err){
+
+console.error(err);
+
+showStatus(
+"Failed to add product: "+
+(err?.message||"Unknown error")+
+". If some images uploaded before this error, they may remain in Cloudinary.",
+"error"
+);
+
+}
+
+finally{
+
+$("submitBtn")
+.disabled=false;
+
+$("resetBtn")
+.disabled=false;
+
+$("submitBtn")
+.textContent=
+"🚀 Add Product to Luma Deals";
+
+}
+
+}
+);
+
+
+/* RESET BUTTON */
+
+$("resetBtn")
+.onclick=()=>{
+
+$("productForm")
+.reset();
+
+
+$("rating").value=5;
+
+$("reviews").value=0;
+
+
+calculateDiscount();
+
+renderRating();
+
+
+for(
+let i=1;
+i<=7;
+i++
+){
+
+$("preview"+i)
+.textContent=
+"Image preview";
+
+if($("uploadStatus"+i)){
+
+$("uploadStatus"+i)
+.textContent="";
+
+}
+
+}
+
+
+$("status")
+.style.display=
+"none";
+
+};
+
+
+/* INITIAL */
+
+calculateDiscount();
+
+renderRating();
+const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+const loginPasswordInput = document.getElementById('loginPassword');
+
+toggleLoginPassword.addEventListener('click', function () {
+  const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  loginPasswordInput.setAttribute('type', type);
+  this.classList.toggle('fa-eye');
+  this.classList.toggle('fa-eye-slash');
+});
+
+
+  /* =========================================
+   LUMA DEALS — ORDER MANAGEMENT
+   COURIER TRACKING SYSTEM
+   ========================================= */
+
+const courierTrackingURLs = {
+
+  "TCS": function(trackingId) {
+    /*
+      TCS official website.
+      TCS tracking URL structure can change,
+      so we open the official TCS site.
+    */
+    return "https://www.tcs.com.pk/";
+  },
+
+  "Leopards": function(trackingId) {
+
+    /*
+      Leopards public tracking page.
+      Cn = Consignment Number
+    */
+    return "https://pk.leopardscourier.com/shipment_tracking_view?Cn="
+      + encodeURIComponent(trackingId);
+  },
+
+  "M&P": function(trackingId) {
+
+    /*
+      M&P tracking page.
+    */
+    return "https://www.mulphilog.com/tracking/"
+      + encodeURIComponent(trackingId);
+  },
+
+  "Call Courier / PostEx": function(trackingId) {
+
+    /*
+      CallCourier / PostEx tracking page.
+    */
+    return "https://callcourier.com.pk/tracking/?tc="
+      + encodeURIComponent(trackingId);
+  },
+
+
+"DEX": function(trackingId) {
+
+    /*
+      M&P tracking page.
+    */
+    return "https://www.dex.com.pk/tracking?references="
+      + encodeURIComponent(trackingId);
+
+},
+  "Other": function(trackingId) {
+  
+    /*
+      If you use another courier,
+      admin can still save the tracking ID.
+    */
+    return "";
+  }
+
+};
+
+
+/* =========================================
+   LOAD ORDERS
+   ========================================= */
+/* =========================================
+   LOAD ORDERS
+   ========================================= */
+
+async function loadAdminOrders() {
+
+  const container =
+    document.getElementById("adminOrdersList");
+
+  if (!container) return;
+
+  container.innerHTML =
+    '<p style="color:#888;">Loading orders...</p>';
+
+  try {
+
+    const snapshot =
+      await getDocs(collection(db, "orders"));
+
+    if (snapshot.empty) {
+
+      container.innerHTML =
+        '<p style="color:#888;">No orders found.</p>';
+
+      return;
+    }
+
+    let orders = [];
+
+    snapshot.forEach(orderDoc => {
+
+      orders.push({
+        id: orderDoc.id,
+        ...orderDoc.data()
+      });
+
+    });
+
+
+    /* Newest orders first */
+
+    orders.sort((a, b) => {
+
+      const aTime =
+        a.createdAt?.seconds || 0;
+
+      const bTime =
+        b.createdAt?.seconds || 0;
+
+      return bTime - aTime;
+
+    });
+
+
+    container.innerHTML = orders.map(order => {
+
+      const createdDate =
+        order.createdAt?.seconds
+          ? new Date(
+              order.createdAt.seconds * 1000
+            ).toLocaleString("en-GB")
+          : "Date unavailable";
+
+
+      /* =========================================
+         ORDER ITEMS
+         ========================================= */
+
+      const itemsHTML =
+        Array.isArray(order.items) && order.items.length
+          ? order.items.map(item => {
+
+              const itemTotal =
+                Number(item.price || 0) *
+                Number(item.quantity || 1);
+
+              return `
+                <div
+                  style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:10px;
+                    padding:10px 0;
+                    border-bottom:1px solid #e5e7eb;
+                    font-size:13px;
+                  "
+                >
+
+                  <div style="flex:1;">
+
+                    <div style="font-weight:700;">
+                      ${escapeAdminHTML(
+                        item.name || "Product"
+                      )}
+                    </div>
+
+                    <div
+                      style="
+                        color:#64748b;
+                        margin-top:3px;
+                      "
+                    >
+                      Qty: ${Number(item.quantity || 1)}
+                      × Rs ${Number(item.price || 0).toLocaleString()}
+                    </div>
+
+                  </div>
+
+                  <strong>
+                    Rs ${itemTotal.toLocaleString()}
+                  </strong>
+
+                </div>
+              `;
+
+            }).join("")
+          : `
+              <div
+                style="
+                  color:#888;
+                  font-size:13px;
+                "
+              >
+                No product details available.
+              </div>
+            `;
+
+
+      /* =========================================
+         ADDRESS
+         ========================================= */
+
+      const fullAddress =
+        order.address
+          ? [
+              order.address.house,
+              order.address.street,
+              order.address.area,
+              order.address.city
+            ]
+            .filter(Boolean)
+            .join(", ")
+          : "";
+
+
+      return `
+
+        <div
+          class="admin-order-card"
+          style="
+            background:#fff;
+            border:1px solid #e5e7eb;
+            border-radius:14px;
+            padding:18px;
+            margin-top:15px;
+            box-shadow:0 3px 12px rgba(0,0,0,.06);
+          "
+        >
+
+          <!-- ORDER HEADER -->
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              gap:10px;
+              flex-wrap:wrap;
+              margin-bottom:12px;
+            "
+          >
+
+            <div>
+
+              <strong style="font-size:15px;">
+                📦 ${escapeAdminHTML(
+                  order.trackingId || order.id || "N/A"
+                )}
+              </strong>
+
+              <div
+                style="
+                  font-size:12px;
+                  color:#888;
+                  margin-top:4px;
+                "
+              >
+                ${createdDate}
+              </div>
+
+            </div>
+
+
+            <span
+              style="
+                background:#e0f2fe;
+                color:#0369a1;
+                padding:5px 10px;
+                border-radius:20px;
+                font-size:12px;
+                font-weight:700;
+              "
+            >
+              ${escapeAdminHTML(
+                order.status || "Order Placed"
+              )}
+            </span>
+
+          </div>
+
+
+          <!-- CUSTOMER -->
+
+          <div
+            style="
+              background:#f8fafc;
+              border-radius:10px;
+              padding:12px;
+              margin-bottom:12px;
+            "
+          >
+
+            <div style="font-weight:700;">
+              👤 ${escapeAdminHTML(
+                order.customerName || "Customer"
+              )}
+            </div>
+
+            <div
+              style="
+                font-size:13px;
+                margin-top:5px;
+              "
+            >
+              📞 ${escapeAdminHTML(
+                order.phone || ""
+              )}
+            </div>
+
+            <div
+              style="
+                font-size:13px;
+                margin-top:5px;
+              "
+            >
+              📍 ${escapeAdminHTML(
+                fullAddress
+              )}
+            </div>
+
+          </div>
+
+
+          <!-- ORDER ITEMS -->
+
+          <div
+            style="
+              background:#fff;
+              border:1px solid #e5e7eb;
+              border-radius:10px;
+              padding:12px;
+              margin-bottom:12px;
+            "
+          >
+
+            <div
+              style="
+                font-weight:800;
+                margin-bottom:5px;
+              "
+            >
+               Order Items
+            </div>
+
+            ${itemsHTML}
+
+            <div
+              style="
+                margin-top:12px;
+                font-size:13px;
+              "
+            >
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  margin-bottom:5px;
+                "
+              >
+                <span>Subtotal</span>
+                <strong>
+                  Rs ${Number(
+                    order.subtotal || 0
+                  ).toLocaleString()}
+                </strong>
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  margin-bottom:5px;
+                "
+              >
+                <span>Delivery</span>
+                <strong>
+                  Rs ${Number(
+                    order.deliveryCharge || 0
+                  ).toLocaleString()}
+                </strong>
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding-top:8px;
+                  margin-top:5px;
+                  border-top:1px solid #e5e7eb;
+                  font-size:15px;
+                "
+              >
+                <strong>Total</strong>
+
+                <strong style="color:#0284c7;">
+                  Rs ${Number(
+                    order.total || 0
+                  ).toLocaleString()}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAYMENT -->
+
+          <div
+            style="
+              background:#f0fdf4;
+              border:1px solid #bbf7d0;
+              border-radius:10px;
+              padding:10px;
+              margin-bottom:12px;
+              font-size:13px;
+            "
+          >
+            
+            <strong>
+              Payment:
+            </strong>
+
+            ${escapeAdminHTML(
+              order.paymentMethod || "Cash on Delivery"
+            )}
+
+          </div>
+
+
+          <!-- SEND CONFIRMATION -->
+
+          <button
+            type="button"
+            onclick="sendOrderConfirmation('${order.id}')"
+            style="
+              width:100%;
+              background:#25D366;
+              color:#fff;
+              border:none;
+              padding:13px;
+              border-radius:9px;
+              cursor:pointer;
+              font-weight:800;
+              margin-bottom:12px;
+            "
+          >
+             Send Order Confirmation
+          </button>
+
+
+          <!-- COURIER -->
+
+          <label
+            style="
+              display:block;
+              font-size:13px;
+              font-weight:700;
+              margin-bottom:6px;
+            "
+          >
+            🚚 Courier
+          </label>
+
+          <select
+            id="courier-${order.id}"
+            style="
+              width:100%;
+              padding:11px;
+              border:1px solid #d1d5db;
+              border-radius:8px;
+              background:#fff;
+              margin-bottom:12px;
+              font-size:14px;
+            "
+          >
+
+            <option value="">
+              Select Courier
+            </option>
+
+            <option
+              value="TCS"
+              ${order.courier === "TCS" ? "selected" : ""}
+            >
+              TCS
+            </option>
+
+            <option
+              value="Leopards"
+              ${order.courier === "Leopards" ? "selected" : ""}
+            >
+              Leopards Courier
+            </option>
+
+            <option
+              value="M&P"
+              ${order.courier === "M&P" ? "selected" : ""}
+            >
+              M&P
+            </option>
+
+            <option
+              value="Call Courier / PostEx"
+              ${
+                order.courier === "Call Courier / PostEx"
+                  ? "selected"
+                  : ""
+              }
+            >
+              Call Courier / PostEx
+            </option>
+
+            <option
+              value="DEX"
+              ${order.courier === "DEX" ? "selected" : ""}
+            >
+              DEX 
+            </option>
+
+            <option
+              value="Other"
+              ${order.courier === "Other" ? "selected" : ""}
+            >
+              Other
+            </option>
+
+          </select>
+
+
+          <!-- TRACKING ID -->
+
+          <label
+            style="
+              display:block;
+              font-size:13px;
+              font-weight:700;
+              margin-bottom:6px;
+            "
+          >
+            🔢 Courier Tracking ID
+          </label>
+
+          <input
+            type="text"
+            id="tracking-${order.id}"
+            value="${escapeAdminAttribute(
+              order.courierTrackingId || ""
+            )}"
+            placeholder="Enter courier tracking ID"
+            style="
+              width:100%;
+              padding:11px;
+              border:1px solid #d1d5db;
+              border-radius:8px;
+              font-size:14px;
+              margin-bottom:12px;
+            "
+          >
+
+
+          <!-- SAVE -->
+
+          <button
+            type="button"
+            onclick="saveCourierTracking('${order.id}')"
+            style="
+              width:100%;
+              background:#3BB4EC;
+              color:#fff;
+              border:none;
+              padding:12px;
+              border-radius:8px;
+              cursor:pointer;
+              font-weight:700;
+            "
+          >
+            💾 Save Courier Tracking
+          </button>
+
+
+          ${
+            order.courierTrackingId
+              ? `
+                <div
+                  style="
+                    margin-top:12px;
+                    padding:10px;
+                    background:#f0fdf4;
+                    border:1px solid #bbf7d0;
+                    border-radius:8px;
+                    font-size:13px;
+                  "
+                >
+
+                  🚚
+                  <strong>
+                    ${escapeAdminHTML(
+                      order.courier || ""
+                    )}
+                  </strong>
+
+                  <br>
+
+                  Tracking ID:
+                  <strong>
+                    ${escapeAdminHTML(
+                      order.courierTrackingId
+                    )}
+                  </strong>
+
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "Order loading error:",
+      error
+    );
+
+    container.innerHTML = `
+      <p style="color:#ef4444;">
+        Failed to load orders:
+        ${escapeAdminHTML(error.message)}
+      </p>
+    `;
+
+  }
+
+}
+
+   /* =========================================
+   SEND ORDER CONFIRMATION
+   ========================================= */
+
+async function sendOrderConfirmation(orderId) {
+
+  try {
+
+    const orderRef =
+      doc(
+        db,
+        "orders",
+        orderId
+      );
+
+    const orderSnap =
+      await getDocs(
+        collection(db, "orders")
+      );
+
+    let order = null;
+
+    orderSnap.forEach(orderDoc => {
+
+      if (orderDoc.id === orderId) {
+
+        order = {
+          id: orderDoc.id,
+          ...orderDoc.data()
+        };
+
+      }
+
+    });
+
+
+    if (!order) {
+
+      alert("Order not found.");
+
+      return;
+
+    }
+
+
+    if (!order.phone) {
+
+      alert(
+        "This order does not have a customer phone number."
+      );
+
+      return;
+
+    }
+
+
+    /* =========================================
+       FORMAT CUSTOMER PHONE FOR WHATSAPP
+       ========================================= */
+
+    let phone =
+      String(order.phone)
+        .replace(/\D/g, "");
+
+
+    if (phone.startsWith("0")) {
+
+      phone =
+        "92" + phone.substring(1);
+
+    }
+
+    else if (
+      phone.startsWith("92")
+    ) {
+
+      // Already international format
+
+    }
+
+    else if (
+      phone.length === 10
+    ) {
+
+      phone =
+        "92" + phone;
+
+    }
+
+
+    /* =========================================
+       ORDER ITEMS
+       ========================================= */
+
+    let itemsText = "";
+
+    if (
+      Array.isArray(order.items) &&
+      order.items.length
+    ) {
+
+      order.items.forEach(item => {
+
+        const quantity =
+          Number(item.quantity || 1);
+
+        const price =
+          Number(item.price || 0);
+
+        const itemTotal =
+          price * quantity;
+
+        itemsText +=
+          `• ${item.name || "Product"} — Qty: ${quantity} — Rs ${itemTotal.toLocaleString()}\n`;
+
+      });
+
+    }
+
+
+    /* =========================================
+       ADDRESS
+       ========================================= */
+
+    const address =
+      order.address
+        ? [
+            order.address.house,
+            order.address.street,
+            order.address.area,
+            order.address.city
+          ]
+          .filter(Boolean)
+          .join(", ")
+        : "Not provided";
+
+
+    /* =========================================
+       MESSAGE
+       ========================================= */
+
+    const message =
+
+`Hi ${order.customerName || "there"}! 
+
+Thank you for shopping with LUMA DEALS! 
+We’ve received your order and just need a quick confirmation before we process it.
+
+ *Order Details*
+Order ID: ${order.trackingId || order.id}
+
+${itemsText}
+Subtotal: Rs ${Number(order.subtotal || 0).toLocaleString()}
+Delivery: Rs ${Number(order.deliveryCharge || 0).toLocaleString()}
+Total: Rs ${Number(order.total || 0).toLocaleString()}
+
+ Payment: ${order.paymentMethod || "Cash on Delivery"}
+
+ Delivery Address:
+${address}
+
+Would you like us to proceed with your order?
+Please reply *“Yes, Confirm”* to confirm your order. 
+
+Thank you for choosing *LUMA DEALS*! 
+Shop Smart. Find Better Deals.`;
+
+
+    /* =========================================
+       OPEN WHATSAPP
+       ========================================= */
+
+    const whatsappURL =
+      "https://wa.me/" +
+      phone +
+      "?text=" +
+      encodeURIComponent(message);
+
+
+    window.open(
+      whatsappURL,
+      "_blank"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Confirmation message error:",
+      error
+    );
+
+    alert(
+      "❌ Could not prepare confirmation message:\n" +
+      error.message
+    );
+
+  }
+
+}    
+             
+   
+
+/* =========================================
+   SAVE COURIER TRACKING
+   ========================================= */
+
+async function saveCourierTracking(orderId) {
+
+  const courierElement =
+    document.getElementById(
+      "courier-" + orderId
+    );
+
+  const trackingElement =
+    document.getElementById(
+      "tracking-" + orderId
+    );
+
+
+  if (!courierElement || !trackingElement) {
+
+    alert("Order fields not found.");
+
+    return;
+
+  }
+
+
+  const courier =
+    courierElement.value.trim();
+
+  const courierTrackingId =
+    trackingElement.value.trim();
+
+
+  if (!courier) {
+
+    alert("Please select a courier.");
+
+    return;
+
+  }
+
+
+  if (!courierTrackingId) {
+
+    alert("Please enter courier tracking ID.");
+
+    return;
+
+  }
+
+
+  try {
+
+    const orderRef =
+      doc(
+        db,
+        "orders",
+        orderId
+      );
+
+
+    await updateDoc(
+      orderRef,
+      {
+
+        courier:
+          courier,
+
+        courierTrackingId:
+          courierTrackingId,
+
+        courierTrackingUrl:
+          courierTrackingURLs[courier]
+            ? courierTrackingURLs[courier](
+                courierTrackingId
+              )
+            : "",
+
+        courierUpdatedAt:
+          serverTimestamp(),
+
+        courierUpdatedBy:
+          auth.currentUser
+            ? auth.currentUser.uid
+            : ""
+
+      }
+    );
+
+
+    alert(
+      "✅ Courier tracking saved successfully!"
+    );
+
+
+    loadAdminOrders();
+
+
+  } catch (error) {
+
+    console.error(
+      "Tracking save error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to save tracking:\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   HTML SECURITY HELPERS
+   ========================================= */
+
+function escapeAdminHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAdminAttribute(value) {
+
+  return escapeAdminHTML(value);
+
+}
+
+
+/* =========================================
+   MAKE FUNCTIONS AVAILABLE TO HTML
+   ========================================= */
+
+window.loadAdminOrders =
+  loadAdminOrders;
+
+window.saveCourierTracking =
+  saveCourierTracking;
+
+window.sendOrderConfirmation =
+  sendOrderConfirmation;
+
+/* =========================================
+   LOAD ORDERS AFTER ADMIN LOGIN
+   ========================================= */
+
+onAuthStateChanged(
+  auth,
+  function(user) {
+
+    if (user) {
+
+      setTimeout(
+        loadAdminOrders,
+        500
+      );
+
+    }
+
+  }
+);
+  
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw-admin.js', { scope: '/luma-deals-admin-panel-1.html' })
+      .then(function(reg) {
+        console.log('Admin panel service worker registered:', reg);
+      })
+      .catch(function(err) {
+        console.log('Service worker registration failed:', err);
+      });
+  }
+</script>
+</body>
+</html>
