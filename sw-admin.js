@@ -1,6 +1,6 @@
 const CACHE_NAME = 'luma-admin-cache-v1';
 const urlsToCache = [
-  '/luma-deals-admin-panel-1.html',
+  '/luma-deals-admin-panel-cloudinary-2.html',
   '/admin-manifest.json',
   '/luma-deals-logo.png'
 ];
