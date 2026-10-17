@@ -435,7 +435,21 @@ textarea{
     display:none;
   }
 }
-     
+   .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}  
 </style>
 </head>
 
@@ -449,7 +463,9 @@ textarea{
 
 <div class="center">
 
-<div class="logo">LD</div>
+<div class="logo">
+    <img src="./images/assets/favicon.png" alt="Luma Deals Logo">
+</div>
 
 <h1 class="blue">Luma Deals</h1>
 
@@ -558,16 +574,16 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
 
 <div class="card" style="margin-bottom:18px">
   <div class="ct">⚡ Add multiple products</div>
-  <p class="help">Ek hi baar mein 10 tak alag products ki details aur images bhar kar save karein. Existing single-product form bhi available hai.</p>
+  <p class="help">Enter details and upload images for up to 10 different products at once, then save them. The existing single-product form is also available.</p>
   <button type="button" class="btn" id="toggleBulkBtn" style="margin-top:10px">➕ Open Bulk Add (up to 10 products)</button>
 </div>
 
 <section id="bulkProductsSection" style="display:none">
-  <div class="title"><h2>Bulk Add Products</h2><p>Har product ki apni details aur 1–7 images select karein. Sirf added cards save honge.</p></div>
+  <div class="title"><h2>Bulk Add Products</h2><p>Select individual details and 1–7 images for each product. Only the products added as cards will be saved.</p></div>
   <div id="bulkProductCards"></div>
   <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
     <button type="button" class="btn" id="addBulkProductBtn">＋ Add another product</button>
-    <button type="button" class="btn" id="saveBulkProductsBtn">🚀 Save all products</button>
+    <button type="button" class="btn" id="saveBulkProductsBtn"> Save all products</button>
     <button type="button" class="btn" id="closeBulkProductsBtn">Back to single product</button>
   </div>
   <div id="bulkStatus" class="status" style="display:none"></div>
@@ -770,9 +786,7 @@ placeholder="Write a clear and attractive product description...">
 </div>
 
 
-<div class="help">
-<b>Device se images select karein — GitHub URL paste karne ki zaroorat nahi.</b><br>JPG, PNG ya WebP supported hain. 1 se 7 images allowed hain; har image maximum 10 MB. Image 1 main image hogi. Upload Cloudinary par hoga aur existing Luma Deals product fields (<code>images</code> aur <code>img</code>) mein secure URLs save hongi. Purane GitHub image URLs wale products ko koi change nahi hoga.
-</div>
+
 
 
 <div class="images">
@@ -959,7 +973,7 @@ type="submit"
 class="btn"
 id="submitBtn">
 
-🚀 Add Product to Luma Deals
+ Add Product to Luma Deals
 
 </button>
 
@@ -1940,9 +1954,7 @@ const courierTrackingURLs = {
 };
 
 
-/* =========================================
-   LOAD ORDERS
-   ========================================= */
+
 /* =========================================
    LOAD ORDERS
    ========================================= */
