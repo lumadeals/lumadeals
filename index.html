@@ -8140,6 +8140,22 @@
     drop-shadow(0 0 10px #3BB4EC) !important;
     }
 
+/* ============================================================
+   SEARCH SUGGESTIONS LAYERING FIX — 2026-10-18
+   The #search-suggestions dropdown was painting beneath the
+   product grid and the "Search results for" heading (mobile).
+   Lift the dropdown above everything in the header context,
+   and lift the navbar above page content on mobile.
+   ============================================================ */
+#search-suggestions {
+  z-index: 99999 !important;
+}
+@media (max-width: 768px) {
+  .navbar {
+    z-index: 1000;
+  }
+}
+
   </style>
 
 
