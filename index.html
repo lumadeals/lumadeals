@@ -11571,7 +11571,12 @@ outline:none;
         const city =
           document.getElementById("cust-city")?.value.trim() || "";
 const house =
-          document.getElementById("cust-house-street")?.value.trim() || "";
+    document.getElementById("cust-house")?.value.trim() || "";
+
+const street =
+    document.getElementById("cust-street")?.value.trim() || "";
+
+const houseStreet = [house, street].filter(Boolean).join(", ");
         const fullAddress =
           document.getElementById("cust-full-address")?.value.trim() || "";
 
