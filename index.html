@@ -11585,7 +11585,6 @@ const house =
 
         if (
           !name ||
-          !house ||
           !area ||
           !city ||
           !fullAddress ||
@@ -11612,7 +11611,7 @@ const house =
         );
 
         // Rs 200 delivery per cart item
-        const deliveryCharge = cart.length * 200;
+        const deliveryCharge = cart.length * 150;
 
         const total = subtotal + deliveryCharge;
 
