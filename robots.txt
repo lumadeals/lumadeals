@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Private / account views (reachable via ?page= but not for search engines)
+Disallow: /?page=login
+Disallow: /?page=wishlist
+Disallow: /?page=profile
+Disallow: /?page=edit-profile
+Disallow: /?page=security
+Disallow: /?page=language
+Disallow: /?page=appearance
+Disallow: /?page=notifications
+Disallow: /?page=help
+Disallow: /?page=product-detail$
+
+# Transactional / internal files
+Disallow: /api/
+Disallow: /receipt.html
+Disallow: /luma-deals-admin-panel-cloudinary-2.html
+
+Sitemap: https://www.lumadeals.shop/sitemap.xml
+Sitemap: https://www.lumadeals.shop/api/sitemap
