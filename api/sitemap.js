@@ -16,16 +16,25 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    const url =
-      `https://firestore.googleapis.com/v1/projects/` +
-      `${PROJECT_ID}/databases/(default)/documents/products`;
-    const response = await fetch(url);
-    if (!response.ok) {
-      return res.status(500).send("Could not load products.");
-    }
-    const data = await response.json();
-    const docs = data.documents || [];
+    // Paginate: Firestore returns one page at a time (default page holds the
+    // whole catalog only while it fits). Follow nextPageToken until exhausted
+    // so no live product is ever silently dropped from the sitemap.
     let urls = "";
+    let pageToken = null;
+    let pages = 0;
+    do {
+      const params = new URLSearchParams({ pageSize: "100" });
+      if (pageToken) params.set("pageToken", pageToken);
+      const url =
+        `https://firestore.googleapis.com/v1/projects/` +
+        `${PROJECT_ID}/databases/(default)/documents/products?` +
+        params.toString();
+      const response = await fetch(url);
+      if (!response.ok) {
+        return res.status(500).send("Could not load products.");
+      }
+      const data = await response.json();
+      const docs = data.documents || [];
     for (const doc of docs) {
       const fields = doc.fields || {};
       const idField = fields.id;
@@ -45,6 +54,9 @@ export default async function handler(req, res) {
         "    <priority>0.7</priority>\n" +
         "  </url>\n";
     }
+      pageToken = data.nextPageToken || null;
+      pages++;
+    } while (pageToken && pages < 50);
     const xml =
       '<?xml version="1.0" encoding="UTF-8"?>\n' +
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

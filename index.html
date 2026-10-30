@@ -10439,6 +10439,89 @@ LumaDeals AI
 
 
 
+
+    /* ---- SEO: category + product metadata (PR #7 corrections) ----
+       Category meta follows the visible filter; product meta uses ONLY fields
+       present on the product object (name, category, price, oldPrice, discount,
+       description, image). Nothing is invented. */
+    function setSeoMetaHelper(attr, val, content) {
+      var el = document.querySelector('meta[' + attr + '="' + val + '"]');
+      if (el) el.setAttribute('content', content);
+    }
+    function setSeoCanonical(url) {
+      var link = document.querySelector('link[rel="canonical"]');
+      if (link) link.setAttribute('href', url);
+    }
+    function updateCategoryMeta(category) {
+      var cats = {
+        'beauty': { name: 'Beauty', title: 'Beauty - Luma Deals | Online Shopping in Pakistan', desc: 'Shop beauty products online in Pakistan at Luma Deals — skincare, personal care and more with Cash on Delivery across Pakistan.' },
+        'kitchen': { name: 'Kitchen', title: 'Kitchen - Luma Deals | Online Shopping in Pakistan', desc: 'Shop kitchen products online in Pakistan at Luma Deals — kitchen tools, appliances and everyday essentials with Cash on Delivery across Pakistan.' },
+        'toys': { name: 'Toys', title: 'Toys - Luma Deals | Online Shopping in Pakistan', desc: 'Shop toys online in Pakistan at Luma Deals — fun, safe and quality toys for kids with Cash on Delivery across Pakistan.' },
+        'home': { name: 'Home', title: 'Home - Luma Deals | Online Shopping in Pakistan', desc: 'Shop home products online in Pakistan at Luma Deals — home utilities, decor and everyday essentials with Cash on Delivery across Pakistan.' },
+        'fashion': { name: 'Fashion', title: 'Fashion - Luma Deals | Online Shopping in Pakistan', desc: 'Shop fashion online in Pakistan at Luma Deals — clothing, style essentials and more with Cash on Delivery across Pakistan.' },
+        'electronics': { name: 'Electronics', title: 'Electronics - Luma Deals | Online Shopping in Pakistan', desc: 'Shop electronics online in Pakistan at Luma Deals — smart gadgets, accessories and more with Cash on Delivery across Pakistan.' },
+        'boutique': { name: 'Boutique', title: 'Boutique - Luma Deals | Online Shopping in Pakistan', desc: 'Shop the boutique collection online in Pakistan at Luma Deals — unique, premium picks with Cash on Delivery across Pakistan.' },
+        'hand made': { name: 'Hand Made', title: 'Hand Made - Luma Deals | Online Shopping in Pakistan', desc: 'Shop handmade products online in Pakistan at Luma Deals — crafted, unique pieces with Cash on Delivery across Pakistan.' }
+      };
+      var key = String(category || '').trim().toLowerCase();
+      var c = cats[key];
+      if (!c) {
+        /* Unknown/empty category renders an empty grid: keep generic Shop meta. */
+        document.title = 'Shop All Products Online in Pakistan - Luma Deals';
+        var shopDesc = 'Browse all products at Luma Deals — electronics, fashion, home, beauty, kitchen, toys and more, with Cash on Delivery across Pakistan.';
+        setSeoMetaHelper('name', 'description', shopDesc);
+        setSeoMetaHelper('property', 'og:title', document.title);
+        setSeoMetaHelper('property', 'og:description', shopDesc);
+        setSeoMetaHelper('property', 'og:url', 'https://www.lumadeals.shop/?page=shop');
+        setSeoMetaHelper('name', 'twitter:title', document.title);
+        setSeoMetaHelper('name', 'twitter:description', shopDesc);
+        setSeoCanonical('https://www.lumadeals.shop/?page=shop');
+        return;
+      }
+      var canon = 'https://www.lumadeals.shop/?page=shop&category=' + encodeURIComponent(c.name);
+      document.title = c.title;
+      setSeoMetaHelper('name', 'description', c.desc);
+      setSeoMetaHelper('property', 'og:title', c.title);
+      setSeoMetaHelper('property', 'og:description', c.desc);
+      setSeoMetaHelper('property', 'og:url', canon);
+      setSeoMetaHelper('name', 'twitter:title', c.title);
+      setSeoMetaHelper('name', 'twitter:description', c.desc);
+      setSeoCanonical(canon);
+    }
+    function updateProductMeta(p) {
+      if (!p) return;
+      var name = String(p.name || '').trim();
+      if (!name) return;
+      var title = name + ' - Luma Deals';
+      var parts = ['Buy ' + name + ' online in Pakistan at Luma Deals.'];
+      if (p.category) parts.push('Category: ' + String(p.category).trim() + '.');
+      if (p.price !== undefined && p.price !== null && p.price !== '') {
+        var priceLine = 'Price: Rs ' + p.price + '.';
+        if (p.oldPrice && Number(p.oldPrice) > Number(p.price)) priceLine += ' Was Rs ' + p.oldPrice + '.';
+        parts.push(priceLine);
+      }
+      if (p.discount) parts.push(String(p.discount) + ' OFF.');
+      if (p.description) parts.push(String(p.description));
+      parts.push('Cash on Delivery available across Pakistan.');
+      var desc = parts.join(' ');
+      if (desc.length > 300) desc = desc.slice(0, 297) + '...';
+      var canon = 'https://www.lumadeals.shop/?page=product-detail&id=' + encodeURIComponent(String(p.id));
+      document.title = title;
+      setSeoMetaHelper('name', 'description', desc);
+      setSeoMetaHelper('property', 'og:title', title);
+      setSeoMetaHelper('property', 'og:description', desc);
+      setSeoMetaHelper('property', 'og:url', canon);
+      setSeoMetaHelper('name', 'twitter:title', title);
+      setSeoMetaHelper('name', 'twitter:description', desc);
+      setSeoCanonical(canon);
+      var img = (p.images && p.images.length ? p.images[0] : null) || p.img || null;
+      if (img) {
+        img = String(img);
+        var abs = /^https?:\/\//i.test(img) ? img : (img.charAt(0) === '/' ? 'https://www.lumadeals.shop' + img : 'https://www.lumadeals.shop/' + img);
+        setSeoMetaHelper('property', 'og:image', abs);
+        setSeoMetaHelper('name', 'twitter:image', abs);
+      }
+    }
     function showProductDetail(id) {
       const p = products.find(x => x.id == id);
       if (!p) return;
@@ -10471,6 +10554,7 @@ LumaDeals AI
       if (typeof loadReviews === 'function') loadReviews(p.id);
       loadRelatedProducts(p);
       if (typeof showPage === 'function') showPage('product-detail');
+      if (typeof updateProductMeta === 'function') { updateProductMeta(p); }
     }
 
     function loadRelatedProducts(currentProduct) {
@@ -12988,6 +13072,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           block: "start"
         });
       }
+      if (typeof updateCategoryMeta === 'function') { updateCategoryMeta(category); }
     }
 
 
@@ -14535,7 +14620,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     function updatePageTitle(pageId) {
       const titles = {
-        'home': 'Luma Deals - Online Shopping in Pakistan',
+        'home': 'Luma Deals - Online Shopping in Pakistan | Cash on Delivery',
         'shop': 'Shop All Products Online in Pakistan - Luma Deals',
         'contact': 'Contact Us - Luma Deals',
         'about': 'About Us - Luma Deals',
