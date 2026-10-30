@@ -14,7 +14,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6818700482266745"
     crossorigin="anonymous"></script>
   <meta charset="UTF-8">
-  <title>Luma Deals</title>
+  <title>Luma Deals - Online Shopping in Pakistan | Cash on Delivery</title>
   <link rel="canonical" href="https://www.lumadeals.shop/">
   <meta name="description"
     content="Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.">
@@ -27,6 +27,12 @@
     content="Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.">
   <meta property="og:url" content="https://www.lumadeals.shop/">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
+  <meta property="og:image:alt" content="Luma Deals - Online Shopping in Pakistan">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Luma Deals - Online Shopping in Pakistan">
+  <meta name="twitter:description" content="Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.">
+  <meta name="twitter:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
 
   <script type="application/ld+json">
 {
@@ -38,6 +44,42 @@
   "Luma Deals Shop"
   ],
   "url": "https://www.lumadeals.shop/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Luma Deals",
+  "alternateName": ["Luma Deals Pakistan", "Luma Deals Shop"],
+  "url": "https://www.lumadeals.shop/",
+  "logo": "https://www.lumadeals.shop/luma-deals-logo.png",
+  "description": "Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Karachi",
+    "addressCountry": "PK"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+92 337 6454384",
+    "contactType": "customer service",
+    "areaServed": "PK",
+    "availableLanguage": "en"
+  },
+  "sameAs": [
+    "https://www.tiktok.com/@luma.deals0",
+    "https://www.instagram.com/lumadeals1"
+  ]
+}
+</script>
+<script id="ld-breadcrumb" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.lumadeals.shop/"}
+  ]
 }
 </script>
   <script type="module">
@@ -2427,10 +2469,10 @@
   "worksFor": {
     "@type": "Organization",
     "name": "Luma Deals",
-    "url": "https://lumadeals.shop"
+    "url": "https://www.lumadeals.shop"
   },
-  "url": "https://lumadeals.shop",
-  "image": "https://lumadeals.shop/profile.jpg",
+  "url": "https://www.lumadeals.shop",
+  "image": "https://www.lumadeals.shop/profile.png",
   "sameAs": [
     "https://www.wikidata.org/wiki/Q141021022"
   ]
@@ -14494,15 +14536,58 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     function updatePageTitle(pageId) {
       const titles = {
         'home': 'Luma Deals - Online Shopping in Pakistan',
-        'shop': 'Shop All Products - Luma Deals',
+        'shop': 'Shop All Products Online in Pakistan - Luma Deals',
         'contact': 'Contact Us - Luma Deals',
         'about': 'About Us - Luma Deals',
         'login': 'Login - Luma Deals',
         'orders': 'My Orders - Luma Deals',
         'profile': 'My Account - Luma Deals'
       };
-
+      const descriptions = {
+        'home': 'Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.',
+        'shop': 'Browse all products at Luma Deals — electronics, fashion, home, beauty, kitchen, toys and more, with Cash on Delivery across Pakistan.',
+        'about': 'Learn about Luma Deals, your trusted online shopping store in Pakistan offering quality products with Cash on Delivery.',
+        'contact': 'Contact Luma Deals in Pakistan for help with orders, delivery and products — Cash on Delivery available nationwide.'
+      };
+      const canonicals = {
+        'home': 'https://www.lumadeals.shop/',
+        'shop': 'https://www.lumadeals.shop/?page=shop',
+        'about': 'https://www.lumadeals.shop/?page=about',
+        'contact': 'https://www.lumadeals.shop/?page=contact'
+      };
+      const crumbs = {
+        'shop': 'Shop',
+        'about': 'About Us',
+        'contact': 'Contact Us'
+      };
       document.title = titles[pageId] || 'Luma Deals';
+      var desc = descriptions[pageId] || descriptions['home'];
+      var canon = canonicals[pageId] || ('https://www.lumadeals.shop/?page=' + pageId);
+      function setMeta(attr, val, content) {
+        var el = document.querySelector('meta[' + attr + '="' + val + '"]');
+        if (el) el.setAttribute('content', content);
+      }
+      setMeta('name', 'description', desc);
+      setMeta('property', 'og:title', document.title);
+      setMeta('property', 'og:description', desc);
+      setMeta('property', 'og:url', canon);
+      setMeta('name', 'twitter:title', document.title);
+      setMeta('name', 'twitter:description', desc);
+      var link = document.querySelector('link[rel="canonical"]');
+      if (link) link.setAttribute('href', canon);
+      var bc = document.getElementById('ld-breadcrumb');
+      if (bc && crumbs[pageId]) {
+        try {
+          bc.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.lumadeals.shop/"},
+              {"@type": "ListItem", "position": 2, "name": crumbs[pageId], "item": canon}
+            ]
+          });
+        } catch (e) { /* breadcrumb is enhancement-only; never break navigation */ }
+      }
     }
 
   </script>
@@ -18515,9 +18600,48 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Luma Deals. All rights reserved. </p>
+      <p>&copy; 2026 Luma Deals. All rights reserved. <a href="/privacy.html" style="color:#3BB4EC;text-decoration:none;">Privacy Policy</a></p>
     </div>
   </footer>
        
+
+<!-- SEO DEEP LINKS (additive): category and product URLs for indexing.
+     Existing navigation, cart, checkout and search flows are untouched. -->
+<script id="ld-seo-deeplinks">
+(function () {
+  "use strict";
+  var params = new URLSearchParams(window.location.search);
+  var page = params.get('page');
+  var category = params.get('category');
+  var productId = params.get('id');
+  if (!page) return;
+  function waitForProducts(fn) {
+    var tries = 0;
+    (function tick() {
+      if (Array.isArray(window.products) && window.products.length) { fn(); return; }
+      if (++tries > 32) return; /* ~8s: give up silently, page stays as loaded */
+      setTimeout(tick, 250);
+    })();
+  }
+  if (page === 'shop' && category) {
+    waitForProducts(function () {
+      if (typeof filterCategorySubcategory === 'function') {
+        filterCategorySubcategory(category, 'All', null);
+      }
+    });
+  }
+  if (page === 'product-detail' && productId) {
+    waitForProducts(function () {
+      if (typeof showProductDetail === 'function') {
+        showProductDetail(productId);
+        try {
+          /* showPage() drops the id via pushState; restore it without a reload */
+          history.replaceState(null, '', '/?page=product-detail&id=' + encodeURIComponent(productId));
+        } catch (e) { /* URL cosmetics only; never break the detail view */ }
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
