@@ -4,7 +4,6 @@
 <head>
   <link rel="icon" type="image/png" href="/images/assets/favicon.png">
   
-  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
     (function () {
@@ -8203,6 +8202,15 @@
 
 
 
+  <!-- Luma Deals AdSense: responsive placement styling (CLS-safe reserved space) -->
+  <style id="ld-adsense">
+    .ld-ad { display: block; width: 100%; max-width: 100%; margin: 28px auto; min-height: 90px; }
+    .ld-ad-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; text-align: center; margin-bottom: 6px; }
+    .ld-ad ins.adsbygoogle { display: block; min-height: 90px; }
+    @media (max-width: 640px) {
+      .ld-ad, .ld-ad ins.adsbygoogle { min-height: 100px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -8947,6 +8955,11 @@ LumaDeals AI
     <!-- =====================================================
      LUMA DEALS — PROFESSIONAL HERO CAROUSEL
      ===================================================== -->
+  <!-- Luma Deals AdSense placement: homepage, between categories and hero (page-gated, lazy-loaded by #ld-adsense-loader) -->
+  <div class="ld-ad" data-ld-ad="home-mid">
+    <div class="ld-ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6818700482266745" data-ad-slot="4304226953" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
 <div class="ld-hero-carousel" id="ldHeroCarousel">
 
   <div class="ld-hero-track">
@@ -9070,6 +9083,12 @@ LumaDeals AI
       <div class="product-grid" id="home-product-grid"></div>
     </section>
 
+  <!-- Luma Deals AdSense placement: homepage, after product grid (page-gated, lazy-loaded by #ld-adsense-loader) -->
+  <div class="ld-ad" data-ld-ad="home-bottom">
+    <div class="ld-ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6818700482266745" data-ad-slot="4304226953" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
   </section>
 
   <!-- SHOP -->
@@ -9077,6 +9096,11 @@ LumaDeals AI
     <section class="products-section">
       <h2 id="shop-heading">Products</h2>
       <div class="product-grid" id="shop-product-grid"></div>
+  <!-- Luma Deals AdSense placement: shop, below product grid (page-gated, lazy-loaded by #ld-adsense-loader) -->
+  <div class="ld-ad" data-ld-ad="shop-bottom">
+    <div class="ld-ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6818700482266745" data-ad-slot="4304226953" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
     </section>
   </section>
   <!-- WISHLIST -->
@@ -9176,6 +9200,11 @@ LumaDeals AI
       <div class="product-grid" id="related-products-grid"
         style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px;"></div>
     </div>
+  <!-- Luma Deals AdSense placement: product detail, below related products (page-gated, lazy-loaded by #ld-adsense-loader) -->
+  <div class="ld-ad" data-ld-ad="detail-bottom">
+    <div class="ld-ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6818700482266745" data-ad-slot="4304226953" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
   </section>
 
   <!-- ABOUT -->
@@ -9210,6 +9239,12 @@ LumaDeals AI
 
       <p data-translate="aboutThanks" style="margin-top:15px; font-weight:600;">Thank you for choosing Luma Deals —
         where smart deals meet happy customers!</p>
+
+  <!-- Luma Deals AdSense placement: about page, end of content (page-gated, lazy-loaded by #ld-adsense-loader) -->
+  <div class="ld-ad" data-ld-ad="about-bottom">
+    <div class="ld-ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6818700482266745" data-ad-slot="4304226953" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
     </div>
   </section>
 
@@ -9952,14 +9987,6 @@ LumaDeals AI
       </div>
     </div>
   </section>
-  <amp-ad width="100vw" height="320"
-     type="adsense"
-     data-ad-client="ca-pub-6818700482266745"
-     data-ad-slot="4304226953"
-     data-auto-format="mcrspv"
-     data-full-width="">
-  <div overflow=""></div>
-</amp-ad>
   <script>
     window.products = [];
 
@@ -18656,16 +18683,6 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     });
 
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6818700482266745"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-6818700482266745"
-     data-ad-slot="4304226953"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
   <footer>
     <div class="footer-container">
       <h4>Contact Info</h4>
@@ -18692,6 +18709,37 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
 <!-- SEO DEEP LINKS (additive): category and product URLs for indexing.
      Existing navigation, cart, checkout and search flows are untouched. -->
+<!-- Luma Deals AdSense loader: fills each placement once, only when its page
+     section is visible and the slot scrolls near the viewport (lazy-load).
+     Slots AdSense reports as unfilled are collapsed so they leave no gap. -->
+<script id="ld-adsense-loader">
+(function () {
+  "use strict";
+  var slots = document.querySelectorAll(".ld-ad ins.adsbygoogle");
+  if (!slots.length) return;
+  function fill(ins) {
+    if (ins.dataset.ldFilled) return;
+    ins.dataset.ldFilled = "1";
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+    setTimeout(function () {
+      if (ins.getAttribute("data-ad-status") === "unfilled") {
+        var box = ins.closest(".ld-ad");
+        if (box) box.style.display = "none";
+      }
+    }, 4000);
+  }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { fill(entry.target); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: "200px 0px" });
+    slots.forEach(function (ins) { io.observe(ins); });
+  } else {
+    slots.forEach(fill);
+  }
+})();
+</script>
 <script id="ld-seo-deeplinks">
 (function () {
   "use strict";
