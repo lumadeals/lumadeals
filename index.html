@@ -8215,7 +8215,20 @@
 
 <body>
 
+  <div id="splash-screen">
+    <div id="drip-container"></div>
+    <div id="splash-glow"></div>
 
+    <div id="splash-content">
+      <div class="splash-icon-wrap">
+        <img id="logo-img" class="splash-logo-img" src="./images/assets/favicon.png" alt="LumaDeals">
+        <div id="logo-fallback" class="splash-logo-fallback">L</div>
+      </div>
+      <div class="splash-wordmark"><span class="luma">LUMA</span><span class="deals">DEALS</span></div>
+      <div class="splash-tagline">Deals Made Luminous</div>
+      <div class="splash-underline"></div>
+    </div>
+  </div>
 
 
 
@@ -12378,48 +12391,58 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
   </script>
   <script>
     (function () {
-      var splash = document.getElementById('splash-screen');
-      var dripBox = document.getElementById('drip-container');
-      var mainSite = document.getElementById('main-site');
-      var logoImg = document.getElementById('logo-img');
-      var fallback = document.getElementById('logo-fallback');
+  var splash = document.getElementById('splash-screen');
+  var dripBox = document.getElementById('drip-container');
+  var mainSite = document.getElementById('main-site');
+  var logoImg = document.getElementById('logo-img');
+  var fallback = document.getElementById('logo-fallback');
 
-      logoImg.addEventListener('error', function () {
-        logoImg.style.display = 'none';
-        fallback.style.display = 'flex';
-      });
+  logoImg.addEventListener('error', function () {
+    logoImg.style.display = 'none';
+    fallback.style.display = 'flex';
+  });
 
-      var STRIP_COUNT = 16;
-      var fallDistance = Math.round((window.innerHeight || 800) * 1.4);
+  var STRIP_COUNT = 16;
+  var fallDistance = Math.round((window.innerHeight || 800) * 1.4);
 
-      for (var i = 0; i < STRIP_COUNT; i++) {
-        var strip = document.createElement('div');
-        strip.className = 'drip';
+  for (var i = 0; i < STRIP_COUNT; i++) {
+    var strip = document.createElement('div');
+    strip.className = 'drip';
 
-        var duration = 900 + Math.random() * 500;
-        var delay = Math.random() * 350;
-        var distance = fallDistance * (1 + Math.random() * 0.3);
-        var sway = (Math.random() - 0.5) * 70;
-        var rotX = 25 + Math.random() * 45;
-        var rotY = (Math.random() - 0.5) * 35;
+    var duration = 500 + Math.random() * 300;
+    var delay = Math.random() * 150;
+    var distance = fallDistance * (1 + Math.random() * 0.3);
+    var sway = (Math.random() - 0.5) * 70;
+    var rotX = 25 + Math.random() * 45;
+    var rotY = (Math.random() - 0.5) * 35;
 
-        strip.style.transitionDuration = duration + 'ms';
-        strip.style.transitionDelay = delay + 'ms';
-        strip.dataset.fall = 'translate3d(' + sway + 'px, ' + distance + 'px, -260px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+    strip.style.transitionDuration = duration + 'ms';
+    strip.style.transitionDelay = delay + 'ms';
+    strip.dataset.fall = 'translate3d(' + sway + 'px, ' + distance + 'px, -260px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
 
-        dripBox.appendChild(strip);
-      }
+    dripBox.appendChild(strip);
+  }
 
-      setTimeout(function () {
-        splash.classList.add('drip-fall');
-        var strips = document.querySelectorAll('.drip');
-        for (var j = 0; j < strips.length; j++) {
-          strips[j].style.transform = strips[j].dataset.fall;
-        }
-        setTimeout(function () { mainSite.classList.add('show'); }, 500);
-        setTimeout(function () { splash.remove(); }, 1750);
-      }, 4200);
-    })();
+  setTimeout(function () {
+    splash.classList.add('drip-fall');
+
+    var strips = document.querySelectorAll('.drip');
+
+    for (var j = 0; j < strips.length; j++) {
+      strips[j].style.transform = strips[j].dataset.fall;
+    }
+
+    setTimeout(function () {
+      mainSite.classList.add('show');
+    }, 300);
+
+    setTimeout(function () {
+      splash.remove();
+    }, 1500);
+
+  }, 1500);
+
+})();
 
 
     /* =========================================
