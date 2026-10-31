@@ -1,15 +1,1 @@
-{
-  "redirects": [
-    {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/__/auth/:path*",
-      "destination": "https://luma-deals.firebaseapp.com/__/auth/:path*"
-    }
-  ]
-}
+{"headers":[{"headers":[{"key":"Cache-Control","value":"public, max-age=86400, stale-while-revalidate=86400"}],"source":"/images/:path*"},{"headers":[{"key":"Cache-Control","value":"public, max-age=86400, stale-while-revalidate=86400"}],"source":"/luma-deals-logo.png"}],"redirects":[{"destination":"/","permanent":true,"source":"/index.html"}],"rewrites":[{"destination":"https://luma-deals.firebaseapp.com/__/auth/:path*","source":"/__/auth/:path*"}]}
