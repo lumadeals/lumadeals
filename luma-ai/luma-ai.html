@@ -1,0 +1,3797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LumaDeals AI</title>
+<meta name="description" content="Meet LumaDeals AI — your smart shopping assistant for finding the best deals online in Pakistan at Luma Deals.">
+<link rel="canonical" href="https://www.lumadeals.shop/luma-ai.html">
+<meta property="og:title" content="LumaDeals AI - Smart Shopping Assistant">
+<meta property="og:description" content="Meet LumaDeals AI — your smart shopping assistant for finding the best deals online in Pakistan at Luma Deals.">
+<meta property="og:url" content="https://www.lumadeals.shop/luma-ai.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LumaDeals AI - Smart Shopping Assistant">
+<meta name="twitter:description" content="Meet LumaDeals AI — your smart shopping assistant for finding the best deals online in Pakistan at Luma Deals.">
+<meta name="twitter:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
+
+<link rel="icon" href="./images/assets/luma-deals-ai-logo.jpg">
+
+<style>
+
+  /* =========================================
+   LUMADEALS AI — PREMIUM 3D REALISTIC UI
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+body {
+  color: #fff;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(59, 180, 236, .20),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(59, 180, 236, .09),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #050709 0%,
+      #0b1116 48%,
+      #050709 100%
+    );
+}
+
+
+/* =========================================
+   BACKGROUND
+   ========================================= */
+
+.ai-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ai-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .20;
+  animation: orbFloat 10s ease-in-out infinite;
+}
+
+.ai-orb.one {
+  width: 420px;
+  height: 420px;
+  top: -180px;
+  left: -150px;
+  background: #3bb4ec;
+}
+
+.ai-orb.two {
+  width: 360px;
+  height: 360px;
+  right: -170px;
+  bottom: -170px;
+  background: #17617e;
+  animation-delay: -5s;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(20px, 15px, 0) scale(1.08);
+  }
+}
+
+
+/* =========================================
+   MAIN PAGE
+   ========================================= */
+
+.luma-ai-page {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.luma-ai-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  min-height: 76px;
+
+  padding: 14px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 14, 18, .94),
+      rgba(7, 10, 13, .78)
+    );
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.28),
+    inset 0 -1px 0 rgba(255,255,255,.025);
+}
+
+
+/* =========================================
+   BRAND
+   ========================================= */
+
+.luma-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.luma-logo {
+  width: 45px;
+  height: 45px;
+
+  padding: 5px;
+
+  object-fit: contain;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.15),
+      rgba(59,180,236,.07)
+    );
+
+  border: 1px solid rgba(59,180,236,.30);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.35),
+    0 0 22px rgba(59,180,236,.08),
+    inset 0 1px 0 rgba(255,255,255,.16);
+
+  transition: .3s ease;
+}
+
+.luma-brand:hover .luma-logo {
+  transform: rotate(-3deg) scale(1.05);
+  border-color: rgba(59,180,236,.55);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.4),
+    0 0 28px rgba(59,180,236,.16);
+}
+
+.luma-brand-text strong {
+  display: block;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  letter-spacing: -.2px;
+}
+
+.luma-brand-text span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: rgba(255,255,255,.45);
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 1.6px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+
+.back-button {
+  position: relative;
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.09),
+      rgba(255,255,255,.035)
+    );
+
+  color: rgba(255,255,255,.88);
+
+  padding: 11px 16px;
+
+  border-radius: 13px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  box-shadow:
+    0 7px 20px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.10);
+
+  backdrop-filter: blur(15px);
+
+  transition: .25s ease;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+
+  color: #fff;
+
+  border-color: rgba(59,180,236,.40);
+
+  background:
+    rgba(59,180,236,.11);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.30),
+    0 0 20px rgba(59,180,236,.08);
+}
+
+.back-button:active {
+  transform: translateY(1px) scale(.97);
+}
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.ai-hero {
+  text-align: center;
+
+  padding: 48px 20px 28px;
+}
+
+
+/* =========================================
+   AI LOGO / AVATAR
+   ========================================= */
+
+.ai-avatar {
+  position: relative;
+
+  width: 94px;
+  height: 94px;
+
+  margin: 0 auto 21px;
+
+  padding: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 27px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,180,236,.22),
+      rgba(255,255,255,.045)
+    );
+
+  border: 1px solid rgba(59,180,236,.35);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.48),
+    0 0 45px rgba(59,180,236,.10),
+    inset 0 1px 0 rgba(255,255,255,.20),
+    inset 0 -8px 18px rgba(0,0,0,.15);
+
+  animation:
+    logoFloat 4s ease-in-out infinite;
+}
+
+.ai-avatar::before {
+  content: "";
+
+  position: absolute;
+  inset: -1px;
+
+  border-radius: inherit;
+
+  border: 1px solid rgba(59,180,236,.20);
+
+  opacity: .8;
+
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+.ai-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  border-radius: 17px;
+
+  filter:
+    drop-shadow(0 8px 12px rgba(0,0,0,.35));
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform:
+      perspective(700px)
+      rotateX(4deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      perspective(700px)
+      rotateX(4deg)
+      translateY(-7px);
+  }
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(59,180,236,0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 30px rgba(59,180,236,.16);
+  }
+}
+
+
+/* =========================================
+   HERO TITLE
+   ========================================= */
+
+.ai-hero h1 {
+  font-size: clamp(34px, 6vw, 52px);
+
+  font-weight: 850;
+
+  letter-spacing: -1.8px;
+
+  line-height: 1.05;
+
+  background:
+    linear-gradient(
+      100deg,
+      #ffffff 15%,
+      #bfeeff 48%,
+      #3bb4ec 78%,
+      #ffffff 100%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 10px 30px rgba(59,180,236,.08);
+}
+
+.ai-hero p {
+  margin-top: 12px;
+
+  color: rgba(255,255,255,.52);
+
+  font-size: 13px;
+
+  letter-spacing: .2px;
+}
+
+
+/* =========================================
+   CHAT CONTAINER
+   ========================================= */
+
+.luma-ai-container {
+  position: relative;
+
+  height: calc(100vh - 180px);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,23,26,.82),
+      rgba(10,13,15,.72)
+    );
+
+  border:
+    1px solid rgba(59,180,236,.20);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
+
+  backdrop-filter: blur(22px);
+}
+
+
+/* TOP LIGHT */
+
+.luma-ai-container::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 10%;
+
+  width: 80%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(59,180,236,.55),
+      transparent
+    );
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+/* =========================================
+   MESSAGES
+   ONLY THIS AREA SCROLLS
+   ========================================= */
+
+#luma-ai-messages {
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 27px;
+
+  scroll-behavior: smooth;
+}
+
+
+/* SCROLLBAR */
+
+#luma-ai-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#luma-ai-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#luma-ai-messages::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.12);
+  border-radius: 20px;
+}
+
+#luma-ai-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(59,180,236,.30);
+}
+
+
+/* =========================================
+   MESSAGE BUBBLES
+   ========================================= */
+
+.luma-ai-message {
+
+  position: relative;
+
+  width: fit-content;
+
+  max-width: 78%;
+
+  padding: 14px 17px;
+
+  border-radius: 18px;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+
+  word-wrap: break-word;
+
+  overflow-wrap: anywhere;
+
+  animation: messageIn .28s ease;
+}
+
+
+@keyframes messageIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+
+/* =========================================
+   AI MESSAGE
+   ========================================= */
+
+.luma-ai-message.ai {
+
+  align-self: flex-start;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.095),
+      rgba(255,255,255,.035)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.085);
+
+  color: rgba(255,255,255,.90);
+
+  border-bottom-left-radius: 6px;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+
+/* =========================================
+   USER MESSAGE
+   ========================================= */
+
+.luma-ai-message.user {
+
+  align-self: flex-end;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3bb4ec,
+      #269dcc
+    );
+
+  color: #07151c;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  border-bottom-right-radius: 6px;
+
+  box-shadow:
+    0 10px 28px rgba(59,180,236,.20);
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+   ========================================= */
+
+.luma-ai-message.error {
+
+  align-self: flex-start;
+
+  background:
+    rgba(255,70,70,.10);
+
+  border:
+    1px solid rgba(255,70,70,.22);
+
+  color: #ffb5b5;
+}
+
+/* =========================================
+   FIXED CHAT MESSAGE BAR
+   DESKTOP + MOBILE
+   ========================================= */
+
+.luma-ai-input-area {
+  position: fixed !important;
+
+  left: 50%;
+  bottom: 20px;
+
+  transform: translateX(-50%);
+
+  width: min(850px, calc(100vw - 40px));
+
+  min-height: 64px;
+
+  padding: 8px 10px 8px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-sizing: border-box;
+
+  z-index: 99999;
+
+  background:
+    rgba(20, 23, 26, 0.96);
+
+  border:
+    1px solid rgba(59, 180, 236, 0.30);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.55),
+    0 0 30px rgba(59,180,236,.08),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+}
+
+
+/* =========================================
+   TEXT INPUT
+   ========================================= */
+
+#luma-ai-input {
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+
+  height: 46px;
+
+  padding: 0 4px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-family: inherit;
+
+  box-sizing: border-box;
+}
+
+#luma-ai-input::placeholder {
+  color: rgba(255,255,255,.42);
+}
+
+
+/* =========================================
+   SEND BUTTON
+   ========================================= */
+
+#luma-ai-send {
+  flex: 0 0 auto;
+
+  width: 46px;
+  height: 46px;
+
+  border: none;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3bb4ec,
+      #269dcc
+    );
+
+  color: #14171a;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 20px rgba(59,180,236,.25);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    opacity .2s ease;
+}
+
+#luma-ai-send:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 28px rgba(59,180,236,.38);
+}
+
+#luma-ai-send:active {
+  transform: scale(.94);
+}
+
+#luma-ai-send:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   CHAT MESSAGES
+   Leave space for fixed input bar
+   ========================================= */
+
+#luma-ai-messages {
+  padding-bottom: 120px !important;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scroll-behavior: smooth;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .luma-ai-input-area {
+
+    left: 50%;
+
+    bottom: 10px;
+
+    width: calc(100vw - 20px);
+
+    min-height: 58px;
+
+    padding:
+      7px
+      8px
+      7px
+      15px;
+
+    gap: 8px;
+
+    border-radius: 18px;
+  }
+
+
+  #luma-ai-input {
+
+    height: 44px;
+
+    font-size: 14px;
+  }
+
+
+  #luma-ai-send {
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 14px;
+
+    font-size: 18px;
+  }
+
+
+  #luma-ai-messages {
+
+    padding-bottom: 100px !important;
+  }
+}
+
+
+
+
+
+/* USER */
+
+.luma-ai-message.user {
+  margin-left: auto;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3bb4ec,
+      #2584aa
+    );
+
+  border:
+    1px solid rgba(122,215,255,.30);
+
+  color: #fff;
+
+  border-bottom-right-radius: 6px;
+
+  box-shadow:
+    0 12px 30px rgba(59,180,236,.18),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+
+/* ERROR */
+
+.luma-ai-message.error {
+  background:
+    rgba(180,35,24,.12);
+
+  border:
+    1px solid rgba(255,80,70,.25);
+
+  color: #ffaaa4;
+}
+
+
+/* =========================================
+   INPUT AREA
+   ========================================= */
+
+.luma-ai-input-area {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 15px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4,7,10,.45),
+      rgba(4,7,10,.80)
+    );
+
+  border-top:
+    1px solid rgba(255,255,255,.075);
+
+  backdrop-filter: blur(20px);
+}
+
+
+/* =========================================
+   INPUT
+   ========================================= */
+
+#luma-ai-input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 52px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  border-radius: 16px;
+
+  padding: 0 17px;
+
+  outline: none;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.075),
+      rgba(255,255,255,.035)
+    );
+
+  color: #fff;
+
+  font-size: 14px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 7px 20px rgba(0,0,0,.15);
+
+  transition: .25s ease;
+}
+
+#luma-ai-input::placeholder {
+  color: rgba(255,255,255,.32);
+}
+
+#luma-ai-input:focus {
+  border-color:
+    rgba(59,180,236,.55);
+
+  background:
+    rgba(59,180,236,.045);
+
+  box-shadow:
+    0 0 0 3px rgba(59,180,236,.08),
+    0 8px 25px rgba(0,0,0,.20);
+}
+
+
+/* =========================================
+   SEND BUTTON
+   ========================================= */
+
+#luma-ai-send {
+  position: relative;
+
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  border: 0;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #43bdf2,
+      #247ea6
+    );
+
+  color: #fff;
+
+  font-size: 19px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 28px rgba(59,180,236,.22),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -4px 8px rgba(0,0,0,.12);
+
+  transition: .25s ease;
+
+  overflow: hidden;
+}
+
+#luma-ai-send::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 70%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.35),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  animation: sendShine 4s infinite;
+}
+
+@keyframes sendShine {
+  0%, 55% {
+    left: -100%;
+  }
+
+  75%, 100% {
+    left: 140%;
+  }
+}
+
+#luma-ai-send:hover {
+  transform:
+    translateY(-3px)
+    scale(1.04);
+
+  box-shadow:
+    0 15px 35px rgba(59,180,236,.32),
+    0 0 20px rgba(59,180,236,.12),
+    inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+#luma-ai-send:active {
+  transform:
+    translateY(1px)
+    scale(.95);
+}
+
+#luma-ai-send:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .luma-ai-topbar {
+    min-height: 66px;
+    padding: 12px 14px;
+  }
+
+  .luma-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .luma-brand {
+    gap: 10px;
+  }
+
+  .luma-brand-text strong {
+    font-size: 16px;
+  }
+
+  .luma-brand-text span {
+    font-size: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .back-button {
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .ai-hero {
+    padding: 32px 15px 20px;
+  }
+
+  .ai-avatar {
+    width: 72px;
+    height: 72px;
+    padding: 10px;
+    border-radius: 21px;
+  }
+
+  .ai-hero h1 {
+    font-size: 33px;
+    letter-spacing: -1.2px;
+  }
+
+  .ai-hero p {
+    font-size: 12px;
+  }
+
+   /* =========================================
+   LUMA AI VOICE BUTTON
+   ========================================= */
+
+#luma-ai-voice {
+  flex: 0 0 auto;
+
+  width: 52px;
+  height: 52px;
+
+  border: 1px solid rgba(59,180,236,.35);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,180,236,.16),
+      rgba(255,255,255,.045)
+    );
+
+  color: #3BB4EC;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.10);
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+#luma-ai-voice:hover {
+  transform: translateY(-3px);
+
+  background:
+    rgba(59,180,236,.16);
+
+  box-shadow:
+    0 12px 30px rgba(59,180,236,.18),
+    0 0 20px rgba(59,180,236,.10);
+}
+
+#luma-ai-voice:active {
+  transform: scale(.94);
+}
+
+
+/* ACTIVE VOICE CALL */
+
+#luma-ai-voice.active {
+  background:
+    linear-gradient(
+      145deg,
+      #3bb4ec,
+      #2584aa
+    );
+
+  color: #14171A;
+
+  border-color: #3bb4ec;
+
+  animation:
+    lumaVoicePulse 1.4s infinite;
+}
+
+@keyframes lumaVoicePulse {
+
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(59,180,236,.45);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 12px rgba(59,180,236,0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(59,180,236,0);
+  }
+
+}
+
+
+/* VOICE STATUS */
+
+#luma-ai-voice-status {
+  position: fixed;
+  left: 50%;
+  bottom: 92px;
+  transform: translateX(-50%) scale(.92);
+
+  z-index: 99998;
+
+  display: none;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 18px 10px 14px;
+
+  border-radius: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(25,30,36,.95),
+      rgba(15,18,22,.92)
+    );
+
+  border: 1px solid rgba(59,180,236,.35);
+
+  color: rgba(255,255,255,.92);
+
+  font-size: 12.5px;
+  font-weight: 650;
+  letter-spacing: .2px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.45),
+    0 0 25px rgba(59,180,236,.12),
+    inset 0 1px 0 rgba(255,255,255,.08);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  opacity: 0;
+
+  transition:
+    opacity .3s ease,
+    transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+#luma-ai-voice-status.show {
+  display: flex;
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Pulsing dot before text */
+#luma-ai-voice-status::before {
+  content: "";
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #3BB4EC;
+
+  box-shadow:
+    0 0 8px rgba(59,180,236,.9),
+    0 0 16px rgba(59,180,236,.5);
+
+  animation: statusDotPulse 1.2s ease-in-out infinite;
+
+  flex-shrink: 0;
+}
+
+@keyframes statusDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: .5;
+  }
+}
+
+/* Animated waveform bars */
+.luma-voice-wave {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+
+  height: 16px;
+}
+
+.luma-voice-wave span {
+  display: block;
+
+  width: 2.5px;
+
+  border-radius: 3px;
+
+  background:
+    linear-gradient(180deg, #7adcff, #3BB4EC);
+
+  box-shadow: 0 0 6px rgba(59,180,236,.5);
+
+  animation: waveBounce 0.9s ease-in-out infinite;
+}
+
+.luma-voice-wave span:nth-child(1) { height: 40%; animation-delay: 0s; }
+.luma-voice-wave span:nth-child(2) { height: 75%; animation-delay: .1s; }
+.luma-voice-wave span:nth-child(3) { height: 100%; animation-delay: .2s; }
+.luma-voice-wave span:nth-child(4) { height: 60%; animation-delay: .3s; }
+.luma-voice-wave span:nth-child(5) { height: 85%; animation-delay: .4s; }
+
+@keyframes waveBounce {
+  0%, 100% {
+    transform: scaleY(.35);
+    opacity: .6;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  #luma-ai-voice-status {
+    bottom: 78px;
+    font-size: 11.5px;
+    padding: 9px 15px 9px 12px;
+  }
+  .luma-voice-wave {
+    height: 14px;
+  }
+}
+  .luma-ai-products {
+  width: 100%;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 8px 0 20px;
+}
+
+.luma-ai-product-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.025)
+    );
+
+  border: 1px solid
+    rgba(59,180,236,.18);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.25);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+.luma-ai-product-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(59,180,236,.45);
+}
+
+.luma-ai-product-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: contain;
+
+  background:
+    rgba(255,255,255,.04);
+
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.luma-ai-product-info {
+  padding: 13px;
+}
+
+.luma-ai-product-name {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.luma-ai-product-price {
+  margin-top: 8px;
+
+  color: #3BB4EC;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.luma-ai-product-price span {
+  margin-left: 6px;
+
+  color: rgba(255,255,255,.4);
+  font-size: 12px;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.luma-ai-product-discount {
+  display: inline-block;
+
+  margin-top: 7px;
+  padding: 4px 8px;
+
+  border-radius: 8px;
+
+  background:
+    rgba(59,180,236,.12);
+
+  color: #3BB4EC;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+
+  .luma-ai-products {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .luma-ai-product-card img {
+    height: 135px;
+  }
+
+  .luma-ai-product-name {
+    font-size: 12px;
+  }
+
+  .luma-ai-product-price {
+    font-size: 14px;
+  }
+}
+     
+/* =========================================================
+   LUMADEALS AI — 3D AURORA CORE
+   DESKTOP + MOBILE SAME DESIGN
+   ========================================================= */
+
+.luma-aurora-center {
+  position: fixed;
+
+  left: 50%;
+  top: 50%;
+
+  width: 250px;
+  height: 250px;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  /*
+    Keep the AI core behind chat/products.
+  */
+  z-index: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  perspective: 900px;
+}
+
+
+/* =========================================================
+   CORE
+   ========================================================= */
+
+.luma-ai-core {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform-style: preserve-3d;
+}
+
+
+/* =========================================================
+   SOFT ATMOSPHERIC GLOW
+   ========================================================= */
+
+.luma-ai-glow {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 125px;
+  height: 125px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(59,180,236,.16) 0%,
+      rgba(59,180,236,.07) 32%,
+      rgba(59,180,236,.025) 58%,
+      transparent 75%
+    );
+
+  filter: blur(18px);
+
+  opacity: .42;
+
+  box-shadow:
+    0 0 25px rgba(59,180,236,.10),
+    0 0 55px rgba(59,180,236,.055),
+    0 0 90px rgba(59,180,236,.025);
+
+  animation:
+    lumaCoreGlow 5s ease-in-out infinite;
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   CENTER LOGO HOLDER
+   ========================================================= */
+
+.luma-ai-logo-wrap {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 92px;
+  height: 92px;
+
+  transform:
+    translate(-50%, -50%)
+    translateZ(40px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(20,23,26,.98) 0%,
+      rgba(20,23,26,.94) 58%,
+      rgba(20,23,26,.78) 78%,
+      transparent 100%
+    );
+
+  box-shadow:
+    0 0 12px rgba(59,180,236,.16),
+    0 0 30px rgba(59,180,236,.08),
+    inset 0 0 20px rgba(255,255,255,.025);
+
+  animation:
+    lumaLogoFloat 4s ease-in-out infinite;
+
+  transform-style: preserve-3d;
+
+  z-index: 10;
+}
+
+
+/* =========================================================
+   LUMADEALS AI LOGO
+   ========================================================= */
+
+.luma-ai-center-logo {
+  width: 68px;
+  height: 68px;
+
+  object-fit: contain;
+
+  border-radius: 50%;
+
+  display: block;
+
+  /*
+    Softly blend the JPG background into the dark core.
+  */
+  mix-blend-mode: multiply;
+
+  opacity: .72;
+
+  filter:
+    contrast(1.15)
+    saturate(1.05)
+    drop-shadow(0 0 4px rgba(59,180,236,.18))
+    drop-shadow(0 0 10px rgba(59,180,236,.08));
+
+  animation:
+    lumaLogoBreath 3.5s ease-in-out infinite;
+
+  transform: translateZ(25px);
+
+  z-index: 12;
+}
+
+
+/* =========================================================
+   3D AURORA ORBITS
+   ========================================================= */
+
+.luma-ai-ring {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  transform-style: preserve-3d;
+
+  z-index: 4;
+}
+
+
+/* =========================================================
+   INNER AURORA ORBIT
+   ========================================================= */
+
+.luma-ai-ring-1 {
+  width: 145px;
+  height: 145px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(68deg)
+    rotateZ(0deg);
+
+  border:
+    1px solid rgba(59,180,236,.20);
+
+  box-shadow:
+    0 0 12px rgba(59,180,236,.08),
+    0 0 25px rgba(59,180,236,.035),
+    inset 0 0 14px rgba(59,180,236,.035);
+
+  animation:
+    lumaOrbitOne 7s linear infinite;
+}
+
+
+/* =========================================================
+   OUTER AURORA ORBIT
+   ========================================================= */
+
+.luma-ai-ring-2 {
+  width: 190px;
+  height: 190px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(64deg)
+    rotateY(12deg)
+    rotateZ(360deg);
+
+  border:
+    1px solid rgba(59,180,236,.075);
+
+  border-top-color:
+    rgba(59,180,236,.38);
+
+  border-right-color:
+    rgba(255,255,255,.07);
+
+  box-shadow:
+    0 0 16px rgba(59,180,236,.045);
+
+  filter: blur(.25px);
+
+  animation:
+    lumaOrbitTwo 11s linear infinite;
+}
+
+
+/* =========================================================
+   THIRD DEEP 3D ORBIT
+   ========================================================= */
+
+.luma-ai-core::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 170px;
+  height: 170px;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(72deg)
+    rotateY(-18deg);
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(59,180,236,.045);
+
+  box-shadow:
+    0 0 15px rgba(59,180,236,.025);
+
+  animation:
+    lumaOrbitThree 14s linear infinite;
+
+  z-index: 3;
+}
+
+
+/* =========================================================
+   FLOATING PARTICLES
+   ========================================================= */
+
+.luma-ai-particle {
+  position: absolute;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.90) 0%,
+      rgba(59,180,236,.80) 35%,
+      rgba(59,180,236,.12) 70%,
+      transparent 100%
+    );
+
+  box-shadow:
+    0 0 6px rgba(59,180,236,.45),
+    0 0 16px rgba(59,180,236,.20);
+
+  animation:
+    lumaParticleFloat 5s ease-in-out infinite;
+
+  z-index: 7;
+}
+
+
+/* =========================================================
+   PARTICLE POSITIONS
+   ========================================================= */
+
+.luma-ai-particle.p1 {
+  left: 18%;
+  top: 30%;
+
+  animation-delay: 0s;
+}
+
+.luma-ai-particle.p2 {
+  right: 18%;
+  top: 28%;
+
+  animation-delay: 1s;
+}
+
+.luma-ai-particle.p3 {
+  left: 25%;
+  bottom: 22%;
+
+  animation-delay: 2s;
+}
+
+.luma-ai-particle.p4 {
+  right: 23%;
+  bottom: 25%;
+
+  animation-delay: 3s;
+}
+
+.luma-ai-particle.p5 {
+  left: 8%;
+  top: 52%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 1.5s;
+}
+
+.luma-ai-particle.p6 {
+  right: 8%;
+  top: 55%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 2.5s;
+}
+
+
+/* =========================================================
+   CORE GLOW ANIMATION
+   ========================================================= */
+
+@keyframes lumaCoreGlow {
+
+  0%,
+  100% {
+
+    transform:
+      translate(-50%, -50%)
+      scale(.88);
+
+    opacity: .26;
+  }
+
+  50% {
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.10);
+
+    opacity: .44;
+  }
+}
+
+
+/* =========================================================
+   LOGO FLOAT
+   ========================================================= */
+
+@keyframes lumaLogoFloat {
+
+  0%,
+  100% {
+
+    transform:
+      translate(-50%, -50%)
+      translateY(0)
+      translateZ(40px)
+      scale(.97);
+  }
+
+  50% {
+
+    transform:
+      translate(-50%, -50%)
+      translateY(-4px)
+      translateZ(48px)
+      scale(1.03);
+  }
+}
+
+
+/* =========================================================
+   LOGO BREATH
+   ========================================================= */
+
+@keyframes lumaLogoBreath {
+
+  0%,
+  100% {
+
+    transform:
+      translateZ(25px)
+      scale(.96);
+  }
+
+  50% {
+
+    transform:
+      translateZ(32px)
+      scale(1.03);
+  }
+}
+
+
+/* =========================================================
+   ORBIT 1
+   ========================================================= */
+
+@keyframes lumaOrbitOne {
+
+  from {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(68deg)
+      rotateZ(0deg);
+  }
+
+  to {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(68deg)
+      rotateZ(360deg);
+  }
+}
+
+
+/* =========================================================
+   ORBIT 2
+   ========================================================= */
+
+@keyframes lumaOrbitTwo {
+
+  from {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(64deg)
+      rotateY(12deg)
+      rotateZ(0deg);
+  }
+
+  to {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(64deg)
+      rotateY(12deg)
+      rotateZ(-360deg);
+  }
+}
+
+
+/* =========================================================
+   ORBIT 3
+   ========================================================= */
+
+@keyframes lumaOrbitThree {
+
+  from {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(72deg)
+      rotateY(-18deg)
+      rotateZ(0deg);
+  }
+
+  to {
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(72deg)
+      rotateY(-18deg)
+      rotateZ(360deg);
+  }
+}
+
+
+/* =========================================================
+   PARTICLE ANIMATION
+   ========================================================= */
+
+@keyframes lumaParticleFloat {
+
+  0%,
+  100% {
+
+    transform:
+      translate3d(0, 0, 0)
+      scale(.55);
+
+    opacity: .22;
+  }
+
+  50% {
+
+    transform:
+      translate3d(16px, -22px, 20px)
+      scale(1.12);
+
+    opacity: .80;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   SAME SIZE + SAME DESIGN AS DESKTOP
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .luma-aurora-center {
+    width: 250px;
+    height: 250px;
+  }
+
+  .luma-ai-logo-wrap {
+    width: 92px;
+    height: 92px;
+  }
+
+  .luma-ai-center-logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .luma-ai-ring-1 {
+    width: 145px;
+    height: 145px;
+  }
+
+  .luma-ai-ring-2 {
+    width: 190px;
+    height: 190px;
+  }
+
+  .luma-ai-core::before {
+    width: 170px;
+    height: 170px;
+  }
+
+  .luma-ai-glow {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .luma-ai-glow,
+  .luma-ai-logo-wrap,
+  .luma-ai-center-logo,
+  .luma-ai-ring,
+  .luma-ai-core::before,
+  .luma-ai-particle {
+
+    animation: none !important;
+  }
+}
+
+
+  #luma-live-caption {
+  position: fixed;
+  left: 50%;
+  bottom: 145px;
+  transform: translateX(-50%);
+
+  width: min(700px, calc(100vw - 40px));
+
+  padding: 10px 18px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  color: rgba(255,255,255,.92);
+  font-size: 14px;
+  line-height: 1.5;
+
+  background: rgba(20,23,26,.78);
+  border: 1px solid rgba(59,180,236,.18);
+  border-radius: 14px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.35),
+    0 0 25px rgba(59,180,236,.06);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+
+  z-index: 99998;
+}
+
+#luma-live-caption.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-3px);
+}
+
+@media (max-width:600px) {
+  #luma-live-caption {
+    bottom: 120px;
+    width: calc(100vw - 30px);
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   LUMADEALS AI — DESKTOP PRODUCT CARD FIX
+   Image large + details/caption clearly visible below
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  /* Product result container */
+  .products-container,
+  .product-results,
+  .ai-products,
+  .luma-ai-products {
+    width: 100%;
+    max-width: 1100px;
+    margin: 28px auto;
+    padding: 0 20px;
+  }
+
+  /* Product grid */
+  .products-container,
+  .product-results,
+  .ai-products,
+  .luma-ai-products {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  /* Product card */
+  .product-card,
+  .ai-product-card,
+  .luma-product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+    min-width: 0;
+    height: auto !important;
+    border-radius: 18px;
+  }
+
+  /* LARGE PRODUCT IMAGE */
+  .product-card img,
+  .ai-product-card img,
+  .luma-product-card img {
+    display: block !important;
+    width: 100% !important;
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 12px;
+  }
+
+  /* Product information BELOW image */
+  .product-card .product-info,
+  .product-card .product-details,
+  .ai-product-card .product-info,
+  .ai-product-card .product-details,
+  .luma-product-card .product-info,
+  .luma-product-card .product-details {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 145px;
+    padding: 15px 16px 18px !important;
+    text-align: left !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* PRODUCT CAPTION / NAME */
+  .product-card h3,
+  .product-card h4,
+  .product-card .product-name,
+  .product-card .product-title,
+  .ai-product-card h3,
+  .ai-product-card h4,
+  .ai-product-card .product-name,
+  .ai-product-card .product-title,
+  .luma-product-card h3,
+  .luma-product-card h4,
+  .luma-product-card .product-name,
+  .luma-product-card .product-title {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
+    margin: 0 0 9px !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Description */
+  .product-card p,
+  .ai-product-card p,
+  .luma-product-card p {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    line-height: 1.5;
+  }
+
+  /* Price */
+  .product-card .price,
+  .product-card .product-price,
+  .ai-product-card .price,
+  .ai-product-card .product-price,
+  .luma-product-card .price,
+  .luma-product-card .product-price {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    margin-top: 6px;
+  }
+}
+
+  #voiceButton:focus,
+#voiceButton:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="ai-background">
+  <div class="ai-orb one"></div>
+  <div class="ai-orb two"></div>
+</div>
+
+
+<div class="luma-ai-page">
+
+
+  <!-- HEADER -->
+
+  <header class="luma-ai-topbar">
+
+    <div class="luma-brand">
+
+      <img
+        src="./images/assets/luma-deals-ai-logo.jpg"
+        alt="Luma Deals"
+        class="luma-logo"
+      >
+
+      <div class="luma-brand-text">
+
+        <strong>LumaDeals AI</strong>
+
+        <span>SMART SHOPPING ASSISTANT</span>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="back-button"
+      onclick="window.history.back()"
+    >
+      ← Back
+    </button>
+
+  </header>
+
+
+
+  <!-- HERO -->
+
+  <section class="ai-hero">
+
+    <div class="ai-avatar">
+  <img
+    src="./images/assets/luma-deals-ai-logo.jpg"
+    alt="Luma Deals"
+  >
+</div>
+
+    <h1>LumaDeals AI</h1>
+
+    <p>
+      Your intelligent shopping assistant
+    </p>
+
+  </section>
+<main class="luma-ai-container">
+  
+<!-- 3D AURORA BACKGROUND -->
+<div class="luma-aurora-center">
+  <div class="luma-ai-core">
+    <div class="luma-ai-glow"></div>
+
+    
+
+    <div class="luma-ai-ring luma-ai-ring-1"></div>
+    <div class="luma-ai-ring luma-ai-ring-2"></div>
+
+    <span class="luma-ai-particle p1"></span>
+    <span class="luma-ai-particle p2"></span>
+    <span class="luma-ai-particle p3"></span>
+    <span class="luma-ai-particle p4"></span>
+    <span class="luma-ai-particle p5"></span>
+    <span class="luma-ai-particle p6"></span>
+  </div>
+</div>
+  <!-- CHAT MESSAGES -->
+  <div id="luma-ai-messages">
+
+  <div class="luma-ai-message ai">
+  👋 Hi! I'm <strong>LumaDeals AI</strong>.<br>
+  How can I help you today?
+  </div>
+
+  </div>
+
+  <!-- MESSAGE INPUT -->
+<div class="luma-ai-input-area">
+
+  <button
+  type="button"
+  id="luma-ai-voice"
+  onclick="toggleLumaVoice()"
+  aria-label="Voice"
+  title="Voice"
+  style="background:none; border:none; cursor:pointer; padding:0 10px; display:flex; align-items:center; justify-content:center;"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3z"
+      fill="#3BB4EC"
+    />
+    <path
+      d="M17 12c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V22h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+      fill="#3BB4EC"
+    />
+  </svg>
+</button>
+
+  <input
+    id="luma-ai-input"
+    type="text"
+    placeholder="Message LumaDeals AI..."
+    maxlength="2000"
+    autocomplete="off"
+  >
+
+  <button
+    type="button"
+    id="luma-ai-send"
+    onclick="sendLumaAIMessage()"
+    aria-label="Send message"
+  >
+    ➤
+  </button>
+
+</div>
+
+</main>
+</div>
+
+
+
+<script>
+
+/* =========================
+   LUMADEALS AI JAVASCRIPT
+========================= */
+
+let lumaAIHistory = [];
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function addLumaAIMessage(
+  text,
+  type = "ai"
+) {
+
+  const container =
+    document.getElementById(
+      "luma-ai-messages"
+    );
+
+  if (!container) return null;
+
+
+  const message =
+    document.createElement("div");
+
+
+  message.className =
+    "luma-ai-message " + type;
+
+
+  message.textContent = text;
+
+
+  container.appendChild(message);
+
+
+  container.scrollTop =
+    container.scrollHeight;
+
+
+  return message;
+
+}
+
+function addLumaAIProducts(products) {
+
+  const container =
+    document.getElementById(
+      "luma-ai-messages"
+    );
+
+  if (!container) return;
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "luma-ai-products";
+
+  products
+    .slice(0, 12)
+    .forEach((product) => {
+
+      const name =
+        product.name ||
+        product.title ||
+        "Luma Deals Product";
+
+      const price =
+        product.price ??
+        product.salePrice ??
+        product.sale_price ??
+        "";
+
+      const oldPrice =
+        product.oldPrice ??
+        product.old_price ??
+        "";
+
+      const image =
+        product.img ||
+        product.image ||
+        product.images?.[0] ||
+        "./images/assets/favicon.png";
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "luma-ai-product-card";
+
+      card.innerHTML = `
+        <img
+          src="${image}"
+          alt="${escapeHTML(name)}"
+          onerror="this.src='./images/assets/favicon.png'"
+        >
+
+        <div class="luma-ai-product-info">
+
+          <div class="luma-ai-product-name">
+            ${escapeHTML(name)}
+          </div>
+
+          <div class="luma-ai-product-price">
+            ${
+              price !== ""
+                ? `Rs ${escapeHTML(String(price))}`
+                : "Price unavailable"
+            }
+
+            ${
+              oldPrice !== ""
+                ? `<span>Rs ${escapeHTML(String(oldPrice))}</span>`
+                : ""
+            }
+          </div>
+
+          ${
+            product.discount
+              ? `<div class="luma-ai-product-discount">
+                   ${escapeHTML(String(product.discount))}% OFF
+                 </div>`
+              : ""
+          }
+
+        </div>
+      `;
+
+      wrapper.appendChild(card);
+    });
+
+  container.appendChild(wrapper);
+
+  container.scrollTop =
+    container.scrollHeight;
+}
+
+
+              
+
+  function escapeHTML(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+/* =========================
+   SEND MESSAGE
+========================= */
+
+async function sendLumaAIMessage() {
+
+  const input =
+    document.getElementById(
+      "luma-ai-input"
+    );
+
+
+  const sendButton =
+    document.getElementById(
+      "luma-ai-send"
+    );
+
+
+  if (!input || !sendButton) return;
+
+
+  const message =
+    input.value.trim();
+
+
+  if (!message) return;
+
+
+  input.value = "";
+
+
+  addLumaAIMessage(
+    message,
+    "user"
+  );
+
+
+  sendButton.disabled = true;
+
+  sendButton.textContent = "…";
+
+
+  const loadingMessage =
+    addLumaAIMessage(
+      "LumaDeals AI is thinking...",
+      "ai"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            message: message,
+
+            history:
+              lumaAIHistory
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "AI request failed"
+      );
+
+    }
+
+
+    addLumaAIMessage(
+  "AI Error: " + (error.message || "Unknown error"),
+  "error"
+);
+
+console.error("FULL LumaDeals AI ERROR:", error);
+
+if (
+  Array.isArray(data.products) &&
+  data.products.length > 0
+) {
+  addLumaAIProducts(
+    data.products
+  );
+}
+
+
+    lumaAIHistory.push(
+
+      {
+        role: "user",
+        text: message
+      },
+
+      {
+        role: "model",
+        text: reply
+      }
+
+    );
+
+
+    if (
+      lumaAIHistory.length > 20
+    ) {
+
+      lumaAIHistory =
+        lumaAIHistory.slice(-20);
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "LumaDeals AI error:",
+      error
+    );
+
+
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+
+
+    addLumaAIMessage(
+      "Sorry, AI is temporarily unavailable. Please try again.",
+      "error"
+    );
+
+  } finally {
+
+    sendButton.disabled = false;
+
+    sendButton.textContent = "➤";
+
+    input.focus();
+
+  }
+
+}
+/* =========================
+   ENTER KEY
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    const input =
+      document.getElementById(
+        "luma-ai-input"
+      );
+
+
+    if (input) {
+
+      input.addEventListener(
+        "keydown",
+        function (event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            event.preventDefault();
+
+            sendLumaAIMessage();
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+);
+                       
+ /* =========================================
+   LUMADEALS AI — REAL-TIME VOICE + PRODUCTS
+   ========================================= */
+
+let lumaLiveSession = null;
+let lumaAudioContext = null;
+let lumaMediaStream = null;
+let lumaAudioProcessor = null;
+let lumaVoiceActive = false;
+let lumaAudioQueue = [];
+let lumaIsPlaying = false;
+let lumaActiveAudioSources = [];
+
+/* =========================================
+   VOICE STATUS
+   ========================================= */
+
+function showLumaVoiceStatus(text) {
+  let status = document.getElementById("luma-ai-voice-status");
+
+  if (!status) {
+    status = document.createElement("div");
+    status.id = "luma-ai-voice-status";
+    document.body.appendChild(status);
+  }
+
+  const isListening = text.includes("Listening");
+
+  status.innerHTML = `
+    <span>${text}</span>
+    ${isListening ? `
+      <div class="luma-voice-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    ` : ''}
+  `;
+
+  status.classList.add("show");
+}
+
+
+function hideLumaVoiceStatus() {
+  const status =
+    document.getElementById("luma-ai-voice-status");
+
+  if (status) {
+    status.classList.remove("show");
+  }
+}
+
+
+/* =========================================
+   START / STOP VOICE
+   ========================================= */
+
+async function toggleLumaVoice() {
+  if (lumaVoiceActive) {
+    stopLumaVoice();
+    return;
+  }
+
+  await startLumaVoice();
+}
+
+
+/* =========================================
+   START LIVE SESSION
+   ========================================= */
+
+         async function startLumaVoice() {
+
+  const voiceButton =
+    document.getElementById("luma-ai-voice");
+
+  if (!voiceButton) return;
+
+  try {
+
+    showLumaVoiceStatus(
+      "Connecting to LumaDeals AI..."
+    );
+
+    voiceButton.disabled = true;
+
+
+    /* GET EPHEMERAL TOKEN */
+
+    const tokenResponse =
+      await fetch("/api/live-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+
+    const tokenData =
+      await tokenResponse.json();
+
+
+    if (!tokenResponse.ok) {
+      throw new Error(
+        tokenData.error ||
+        "Could not create voice session."
+      );
+    }
+
+
+    const token = tokenData.token;
+
+
+    if (!token) {
+      throw new Error(
+        "No Live API token received."
+      );
+    }
+    
+
+
+
+    /* =================================
+       LOAD GOOGLE GENAI SDK
+       ================================= */
+
+    if (typeof GoogleGenAI === "undefined") {
+      await loadLumaGenAISDK();
+    }
+
+
+    const ai =
+      new GoogleGenAI({
+        apiKey: token
+      });
+
+
+    /* =================================
+       CONNECT GEMINI LIVE
+       ================================= */
+
+    lumaLiveSession =
+      await ai.live.connect({
+
+        model:
+          "gemini-3.8-live",
+
+        config: {
+  responseModalities: ["AUDIO"],
+
+  speechConfig: {
+    voiceConfig: {
+      prebuiltVoiceConfig: {
+        voiceName: "Kore"
+      }
+    }
+  }
+},
+
+        callbacks: {
+
+          onopen: function () {
+
+  console.log(
+    "LumaDeals Live connected"
+  );
+
+  showLumaVoiceStatus(
+    " LumaDeals AI is ready..."
+  );
+
+  setTimeout(function () {
+
+    if (
+      lumaLiveSession &&
+      lumaVoiceActive !== false
+    ) {
+
+      try {
+
+        lumaLiveSession.sendClientContent({
+          turns: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text:
+                    "Greet the customer briefly as LumaDeals AI. Say: Hi! I'm LumaDeals AI. How can I help you today?"
+                }
+              ]
+            }
+          ],
+          turnComplete: true
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Initial greeting error:",
+          error
+        );
+
+      }
+
+    }
+
+  }, 500);
+
+},
+
+          onmessage:
+            async function (message) {
+
+              await handleLumaLiveMessage(
+                message
+              );
+
+            },
+
+
+          onerror:
+            function (error) {
+
+              console.error(
+                "Luma Live error:",
+                error
+              );
+
+              showLumaVoiceStatus(
+                "Voice connection error"
+              );
+            },
+
+
+          onclose:
+            function () {
+
+              console.log(
+                "LumaDeals Live closed"
+              );
+
+            }
+
+        }
+
+      });
+
+
+    /* =================================
+       MICROPHONE
+       ================================= */
+
+    lumaMediaStream =
+      await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+
+    setupLumaMicrophone();
+
+
+    lumaVoiceActive = true;
+
+    voiceButton.disabled = false;
+
+    voiceButton.classList.add("active");
+
+    voiceButton.innerHTML = `
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <rect x="6" y="6" width="12" height="12" rx="2" fill="#ffffff"/>
+  </svg>
+`;
+
+
+    showLumaVoiceStatus(
+      "🎙️ Listening..."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Luma voice startup error:",
+      error
+    );
+
+    alert(
+      "Voice AI could not start.\n\n" +
+      error.message
+    );
+
+    stopLumaVoice();
+  }
+}
+
+
+/* =========================================
+   LOAD GOOGLE GENAI SDK
+   ========================================= */
+
+function loadLumaGenAISDK() {
+
+  return new Promise(
+    function (resolve, reject) {
+
+      const script =
+        document.createElement("script");
+
+      script.type = "module";
+
+      script.textContent = `
+        import {
+          GoogleGenAI
+        } from "https://esm.run/@google/genai";
+
+        window.GoogleGenAI = GoogleGenAI;
+
+        window.dispatchEvent(
+          new Event("luma-genai-loaded")
+        );
+      `;
+
+
+      const handler = function () {
+
+        window.removeEventListener(
+          "luma-genai-loaded",
+          handler
+        );
+
+        resolve();
+      };
+
+
+      window.addEventListener(
+        "luma-genai-loaded",
+        handler
+      );
+
+
+      script.onerror =
+        function () {
+
+          reject(
+            new Error(
+              "Unable to load Gemini Live SDK."
+            )
+          );
+
+        };
+
+
+      document.head.appendChild(script);
+    }
+  );
+}
+
+
+/* =========================================
+   MICROPHONE AUDIO
+   ========================================= */
+
+function setupLumaMicrophone() {
+
+  lumaAudioContext =
+    new AudioContext({
+      sampleRate: 16000
+    });
+
+
+  const source =
+    lumaAudioContext.createMediaStreamSource(
+      lumaMediaStream
+    );
+
+
+  lumaAudioProcessor =
+  lumaAudioContext.createScriptProcessor(
+    512,
+    1,
+    1
+  );
+
+
+  lumaAudioProcessor.onaudioprocess =
+    function (event) {
+
+      if (
+        !lumaVoiceActive ||
+        !lumaLiveSession
+      ) {
+        return;
+      }
+
+
+      const inputData =
+        event.inputBuffer.getChannelData(0);
+
+
+      const pcmData =
+        convertFloat32ToInt16(
+          inputData
+        );
+
+
+      const base64 =
+        arrayBufferToBase64(
+          pcmData.buffer
+        );
+
+
+      try {
+
+        lumaLiveSession.sendRealtimeInput({
+
+          audio: {
+            data: base64,
+            mimeType: "audio/pcm;rate=16000"
+          }
+
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Audio send error:",
+          error
+        );
+
+      }
+
+    };
+
+
+  source.connect(
+    lumaAudioProcessor
+  );
+
+
+  lumaAudioProcessor.connect(
+    lumaAudioContext.destination
+  );
+}
+
+
+/* =========================================
+   FLOAT32 → INT16
+   ========================================= */
+
+function convertFloat32ToInt16(float32Array) {
+
+  const int16Array =
+    new Int16Array(
+      float32Array.length
+    );
+
+
+  for (
+    let i = 0;
+    i < float32Array.length;
+    i++
+  ) {
+
+    const sample =
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          float32Array[i]
+        )
+      );
+
+
+    int16Array[i] =
+      sample < 0
+        ? sample * 0x8000
+        : sample * 0x7fff;
+  }
+
+
+  return int16Array;
+}
+
+
+/* =========================================
+   ARRAY BUFFER → BASE64
+   ========================================= */
+
+function arrayBufferToBase64(buffer) {
+
+  let binary = "";
+
+  const bytes =
+    new Uint8Array(buffer);
+
+  const chunkSize = 0x8000;
+
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        Math.min(
+          i + chunkSize,
+          bytes.length
+        )
+      )
+    );
+
+  }
+
+
+  return btoa(binary);
+}
+
+
+/* =========================================
+   HANDLE GEMINI RESPONSE
+   ========================================= */
+async function handleLumaLiveMessage(message) {
+
+  try {
+
+    /* =====================================
+       TOOL CALL — SEARCH PRODUCTS
+       ===================================== */
+
+    if (message.toolCall) {
+
+      console.log(
+        "LumaDeals tool call:",
+        message.toolCall
+      );
+
+      const functionResponses = [];
+
+      for (
+        const fc of
+          message.toolCall.functionCalls || []
+      ) {
+
+        if (fc.name === "search_products") {
+
+          const query =
+            fc.args?.query || "";
+
+          showLumaVoiceStatus(
+            "🛍️ Finding products..."
+          );
+
+          try {
+
+            const response =
+              await fetch(
+                "/api/products?q=" +
+                encodeURIComponent(query)
+              );
+
+            const data =
+              await response.json();
+
+            if (!response.ok) {
+              throw new Error(
+                data.error ||
+                "Product search failed"
+              );
+            }
+
+            const products =
+              data.products || [];
+
+            console.log(
+              "Products found:",
+              products
+            );
+
+            if (
+              typeof addLumaAIProducts ===
+              "function"
+            ) {
+              addLumaAIProducts(products);
+            }
+
+            functionResponses.push({
+
+              id: fc.id,
+
+              name: fc.name,
+
+              response: {
+
+                result: {
+
+                  success: true,
+
+                  count:
+                    products.length,
+
+                  products:
+                    products.map(
+                      function (product) {
+
+                        return {
+                          id: product.id,
+                          name: product.name,
+                          category:
+                            product.category,
+                          subcategory:
+                            product.subcategory,
+                          price:
+                            product.price,
+                          oldPrice:
+                            product.oldPrice,
+                          discount:
+                            product.discount,
+                          stock:
+                            product.stock,
+                          rating:
+                            product.rating,
+                          verified:
+                            product.verified,
+                          description:
+                            product.description
+                        };
+
+                      }
+                    )
+
+                }
+
+              }
+
+            });
+
+          } catch (error) {
+
+            console.error(
+              "Product search error:",
+              error
+            );
+
+            functionResponses.push({
+
+              id: fc.id,
+
+              name: fc.name,
+
+              response: {
+
+                result: {
+
+                  success: false,
+
+                  count: 0,
+
+                  products: [],
+
+                  error:
+                    "Unable to access Luma Deals inventory."
+
+                }
+
+              }
+
+            });
+
+          }
+
+        }
+
+      }
+
+      if (
+        functionResponses.length &&
+        lumaLiveSession
+      ) {
+
+        lumaLiveSession.sendToolResponse({
+          functionResponses:
+            functionResponses
+        });
+
+      }
+
+      showLumaVoiceStatus(
+        "🎙️ Listening..."
+      );
+
+      return;
+    }
+
+
+    /* =====================================
+       SERVER CONTENT
+       ===================================== */
+
+    const serverContent =
+      message.serverContent;
+
+    if (!serverContent) return;
+
+
+    /* =====================================
+   USER TRANSCRIPTION — FINAL ONLY
+   ===================================== */
+
+if (
+  serverContent.inputTranscription &&
+  serverContent.inputTranscription.text
+) {
+  const text =
+    serverContent.inputTranscription.text.trim();
+
+  const caption =
+    document.getElementById("luma-live-caption");
+
+  if (caption && text) {
+    caption.textContent = "You: " + text;
+    caption.classList.add("show");
+  }
+}
+
+
+/* =====================================
+   FINAL USER TRANSCRIPTION
+   ===================================== */
+
+if (
+  serverContent.inputTranscription &&
+  serverContent.inputTranscription.text
+) {
+  const text =
+    serverContent.inputTranscription.text.trim();
+
+  const caption =
+    document.getElementById("luma-live-caption");
+
+  if (caption && text) {
+
+    clearTimeout(window.lumaCaptionTimer);
+
+    caption.textContent = "You: " + text;
+    caption.classList.add("show");
+  }
+  }
+    /* =====================================
+       AI LIVE CAPTION
+       ===================================== */
+
+    if (
+      serverContent.outputTranscription &&
+      serverContent.outputTranscription.text
+    ) {
+
+      const text =
+        serverContent
+          .outputTranscription
+          .text
+          .trim();
+
+      const caption =
+        document.getElementById(
+          "luma-live-caption"
+        );
+
+      if (caption && text) {
+
+        caption.textContent =
+          "LumaDeals AI: " + text;
+
+        caption.classList.add(
+          "show"
+        );
+
+      }
+
+    }
+
+
+    /* =====================================
+       AI AUDIO
+       ===================================== */
+
+    if (
+      serverContent.modelTurn &&
+      serverContent.modelTurn.parts
+    ) {
+
+      for (
+        const part of
+          serverContent.modelTurn.parts
+      ) {
+
+        if (
+          part.inlineData &&
+          part.inlineData.data
+        ) {
+
+          playLumaAudio(
+            part.inlineData.data
+          );
+
+        }
+
+      }
+
+    }
+
+
+    /* =====================================
+       TURN COMPLETE
+       ===================================== */
+
+    if (
+      serverContent.turnComplete
+    ) {
+
+      showLumaVoiceStatus(
+        "🎙️ Listening..."
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Live response error:",
+      error
+    );
+
+  }
+
+}
+  
+let lumaPlaybackContext = null;
+let lumaNextAudioTime = 0;
+                          
+async function playLumaAudio(base64Audio) {
+  try {
+    const binary = atob(base64Audio);
+    const bytes = new Uint8Array(binary.length);
+
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+
+    if (!lumaPlaybackContext) {
+      lumaPlaybackContext = new AudioContext({
+        sampleRate: 24000
+      });
+    }
+
+    if (lumaPlaybackContext.state === "suspended") {
+      await lumaPlaybackContext.resume();
+    }
+
+    const int16 = new Int16Array(
+      bytes.buffer,
+      bytes.byteOffset,
+      Math.floor(bytes.byteLength / 2)
+    );
+
+    const float32 = new Float32Array(int16.length);
+
+    for (let i = 0; i < int16.length; i++) {
+      float32[i] = int16[i] / 32768;
+    }
+
+    const audioBuffer =
+      lumaPlaybackContext.createBuffer(
+        1,
+        float32.length,
+        24000
+      );
+
+    audioBuffer
+      .getChannelData(0)
+      .set(float32);
+
+    const source =
+  lumaPlaybackContext.createBufferSource();
+
+source.buffer = audioBuffer;
+
+source.connect(
+  lumaPlaybackContext.destination
+);
+
+    /*
+     * Schedule every incoming audio chunk
+     * continuously without adding a large delay.
+     */
+
+    const now =
+      lumaPlaybackContext.currentTime;
+
+    if (lumaNextAudioTime < now) {
+      lumaNextAudioTime = now + 0.01;
+    }
+
+    source.start(lumaNextAudioTime);
+
+    lumaNextAudioTime += audioBuffer.duration;
+
+  } catch (error) {
+    console.error(
+      "Luma audio playback error:",
+      error
+    );
+  }
+}
+
+
+/* =========================================
+   STOP VOICE
+   ========================================= */
+function stopLumaVoice() {
+
+  lumaVoiceActive = false;
+
+
+  if (lumaAudioProcessor) {
+
+    try {
+      lumaAudioProcessor.disconnect();
+    } catch (e) {}
+
+    lumaAudioProcessor = null;
+  }
+
+
+  if (lumaMediaStream) {
+
+    lumaMediaStream
+      .getTracks()
+      .forEach(
+        function (track) {
+          track.stop();
+        }
+      );
+
+    lumaMediaStream = null;
+  }
+
+
+  if (lumaAudioContext) {
+
+    try {
+      lumaAudioContext.close();
+    } catch (e) {}
+
+    lumaAudioContext = null;
+  }
+
+
+  if (lumaLiveSession) {
+
+    try {
+      lumaLiveSession.close();
+    } catch (e) {}
+
+    lumaLiveSession = null;
+  }
+
+
+  lumaAudioQueue = [];
+
+  lumaIsPlaying = false;
+
+
+  /* Close continuous AI voice playback */
+  if (lumaPlaybackContext) {
+
+    try {
+      lumaPlaybackContext.close();
+    } catch (e) {}
+
+    lumaPlaybackContext = null;
+  }
+
+  lumaNextAudioTime = 0;
+
+
+  const voiceButton =
+    document.getElementById(
+      "luma-ai-voice"
+    );
+
+
+  if (voiceButton) {
+
+    voiceButton.classList.remove(
+      "active"
+    );
+
+    voiceButton.innerHTML = `
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3z" fill="#3BB4EC"/>
+    <path d="M17 12c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V22h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" fill="#3BB4EC"/>
+  </svg>
+`;
+
+    voiceButton.disabled =
+      false;
+  }
+
+
+  hideLumaVoiceStatus();
+}
+
+</script>
+<div id="luma-live-caption"></div>
+</body>
+</html>
