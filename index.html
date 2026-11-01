@@ -80,24 +80,60 @@
   ]
 }
 </script>
+  <script>
+    /* LD-CACHE-START — Luma Deals product catalog cache (stale-while-revalidate).
+       Stores ONLY the public product catalog (the same data the page already
+       renders for every visitor). Never stores cart, user, auth, token, or
+       checkout data. The cache is a display accelerator only: checkout
+       re-verifies prices/stock live before any order is placed. */
+    var LD_CACHE_KEY = 'ld_products_cache_v1';
+    var LD_CACHE_TTL_MS = 24 * 60 * 60 * 1000; /* 24h fresh; older still renders, refresh replaces it */
+    function ldCacheRead() {
+      try {
+        if (typeof localStorage === 'undefined') return null;
+        var raw = localStorage.getItem(LD_CACHE_KEY);
+        if (!raw) return null;
+        var data = JSON.parse(raw);
+        if (!data || data.v !== 1 || typeof data.savedAt !== 'number') return null;
+        if (!Array.isArray(data.products) || data.products.length === 0) return null;
+        for (var i = 0; i < data.products.length; i++) {
+          var p = data.products[i];
+          if (!p || typeof p !== 'object' || p.id === undefined || p.id === null) return null;
+        }
+        var ageMs = Date.now() - data.savedAt;
+        if (ageMs < 0) return null;
+        return { products: data.products, ageMs: ageMs, fresh: ageMs <= LD_CACHE_TTL_MS };
+      } catch (e) {
+        return null;
+      }
+    }
+    function ldCacheWrite(products) {
+      try {
+        if (!Array.isArray(products) || products.length === 0) return;
+        localStorage.setItem(LD_CACHE_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), products: products }));
+      } catch (e) { /* private mode / quota: caching is best-effort only */ }
+    }
+    function ldCacheClear() {
+      try { localStorage.removeItem(LD_CACHE_KEY); } catch (e) {}
+    }
+    function ldCacheSignature(products) {
+      try {
+        return products.map(function (p) {
+          return [p.id, p.name || '', p.price, p.oldPrice || '', p.stock, p.img || p.image || '', p.discount || '', p.rating || ''].join('|');
+        }).join(';;');
+      } catch (e) {
+        return '';
+      }
+    }
+    /* Re-render after a background refresh only when the data changed AND the
+       user has not navigated, searched, or filtered since the cached render
+       (otherwise their current view would be clobbered). */
+    function ldShouldRerender(changed, renderGen, cacheRenderGen) {
+      return !!changed && renderGen === cacheRenderGen;
+    }
+    /* LD-CACHE-END */
+  </script>
   <script type="module">
-    import {
-      GoogleAuthProvider,
-      signInWithPopup,
-      RecaptchaVerifier,
-      signInWithPhoneNumber
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      sendPasswordResetEmail,
-      onAuthStateChanged,
-      signOut,
-      updateProfile
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
     const firebaseConfig = {
@@ -110,26 +146,112 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
 
     window.firebaseApp = app;
-    window.auth = auth;
+
+    /* ============================================================
+       LAZY FIREBASE AUTH — the Auth SDK downloads only when auth is
+       actually needed (first auth action, or idle after first paint).
+       It NEVER blocks DOMContentLoaded or the first product paint.
+       Stubs below keep every existing call site working unchanged:
+       each stub loads the real SDK on first use, then delegates.
+       The auth-state listener is queued and registered on real load,
+       so login-state UI still updates by itself after first paint.
+       ============================================================ */
+    var __ldAuthMod = null;
+    var __ldAuthPromise = null;
+    var __ldAuthQueue = [];
+    async function __ldEnsureAuth() {
+      if (__ldAuthMod) return __ldAuthMod;
+      if (!__ldAuthPromise) {
+        __ldAuthPromise = (async function () {
+          var m = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+          var realAuth = m.getAuth(window.firebaseApp);
+          var mod = {
+            auth: realAuth,
+            GoogleAuthProvider: m.GoogleAuthProvider,
+            signInWithPopup: m.signInWithPopup,
+            createUserWithEmailAndPassword: m.createUserWithEmailAndPassword,
+            updateProfile: m.updateProfile,
+            signInWithEmailAndPassword: m.signInWithEmailAndPassword,
+            sendPasswordResetEmail: m.sendPasswordResetEmail,
+            onAuthStateChanged: m.onAuthStateChanged,
+            signOut: m.signOut,
+            RecaptchaVerifier: m.RecaptchaVerifier,
+            signInWithPhoneNumber: m.signInWithPhoneNumber
+          };
+          window.firebaseAuth = realAuth;
+          window.auth = realAuth;
+          window.firebaseGoogleProvider = new m.GoogleAuthProvider();
+          window.firebaseSignInWithPopup = m.signInWithPopup;
+          window.firebaseCreateUser = m.createUserWithEmailAndPassword;
+          window.firebaseUpdateProfile = m.updateProfile;
+          window.firebaseSignIn = m.signInWithEmailAndPassword;
+          window.firebaseResetPassword = m.sendPasswordResetEmail;
+          window.firebaseOnAuthChange = m.onAuthStateChanged;
+          window.firebaseSignOut = m.signOut;
+          __ldAuthMod = mod;
+          var queued = __ldAuthQueue;
+          __ldAuthQueue = [];
+          queued.forEach(function (cb) {
+            try { m.onAuthStateChanged(realAuth, cb); } catch (e) {}
+          });
+          return mod;
+        })();
+        __ldAuthPromise.catch(function () { __ldAuthPromise = null; });
+      }
+      return __ldAuthPromise;
+    }
+    window.__ldEnsureAuth = __ldEnsureAuth;
+    window.firebaseAuth = { currentUser: null };
+    window.auth = window.firebaseAuth;
+    window.firebaseGoogleProvider = null;
+    window.firebaseSignInWithPopup = async function (_a, _p) {
+      var A = await __ldEnsureAuth();
+      return A.signInWithPopup(A.auth, new A.GoogleAuthProvider());
+    };
+    window.firebaseCreateUser = async function (_a, email, pw) {
+      var A = await __ldEnsureAuth();
+      return A.createUserWithEmailAndPassword(A.auth, email, pw);
+    };
+    window.firebaseUpdateProfile = async function (user, prof) {
+      var A = await __ldEnsureAuth();
+      return A.updateProfile(user, prof);
+    };
+    window.firebaseSignIn = async function (_a, email, pw) {
+      var A = await __ldEnsureAuth();
+      return A.signInWithEmailAndPassword(A.auth, email, pw);
+    };
+    window.firebaseResetPassword = async function (_a, email) {
+      var A = await __ldEnsureAuth();
+      return A.sendPasswordResetEmail(A.auth, email);
+    };
+    window.firebaseOnAuthChange = function (_a, cb) {
+      if (typeof cb !== 'function') return;
+      if (__ldAuthMod) {
+        __ldAuthMod.onAuthStateChanged(__ldAuthMod.auth, cb);
+      } else {
+        __ldAuthQueue.push(cb);
+      }
+    };
+    window.firebaseSignOut = async function (_a) {
+      var A = await __ldEnsureAuth();
+      return A.signOut(A.auth);
+    };
+    /* Idle load after first paint: keeps login-state UI working without
+       ever delaying DOMContentLoaded or product rendering. */
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function () { __ldEnsureAuth().catch(function () {}); }, { timeout: 2500 });
+      } else {
+        setTimeout(function () { __ldEnsureAuth().catch(function () {}); }, 1500);
+      }
+    }
 
     /* =========================
        EXISTING AUTH FUNCTIONS
        ========================= */
 
-    window.firebaseGoogleProvider = new GoogleAuthProvider();
-    window.firebaseSignInWithPopup = signInWithPopup;
-
-    window.firebaseCreateUser = createUserWithEmailAndPassword;
-    window.firebaseUpdateProfile = updateProfile;
-    window.firebaseSignIn = signInWithEmailAndPassword;
-    window.firebaseResetPassword = sendPasswordResetEmail;
-    window.firebaseOnAuthChange = onAuthStateChanged;
-    window.firebaseSignOut = signOut;
-
-    window.firebaseAuth = auth;
     window.currentUser = null;
 
 
@@ -141,11 +263,13 @@
     window.phoneConfirmationResult = null;
 
 
-    window.setupPhoneRecaptcha = function () {
+    window.setupPhoneRecaptcha = async function () {
 
       if (window.phoneRecaptchaVerifier) {
         return window.phoneRecaptchaVerifier;
       }
+
+      var __ldA = await __ldEnsureAuth();
 
       const recaptchaContainer =
         document.getElementById("phone-recaptcha");
@@ -155,8 +279,8 @@
         return null;
       }
 
-      window.phoneRecaptchaVerifier = new RecaptchaVerifier(
-        auth,
+      window.phoneRecaptchaVerifier = new __ldA.RecaptchaVerifier(
+        __ldA.auth,
         "phone-recaptcha",
         {
           size: "normal",
@@ -221,8 +345,10 @@
 
       try {
 
+        var __ldA = await __ldEnsureAuth();
+
         const appVerifier =
-          window.setupPhoneRecaptcha();
+          await window.setupPhoneRecaptcha();
 
         if (!appVerifier) {
           showToast("Please refresh the page and try again.");
@@ -231,8 +357,8 @@
 
 
         const confirmationResult =
-          await signInWithPhoneNumber(
-            auth,
+          await __ldA.signInWithPhoneNumber(
+            __ldA.auth,
             phone,
             appVerifier
           );
@@ -419,8 +545,8 @@
        FIREBASE AUTH STATE
        ========================= */
 
-    onAuthStateChanged(
-      auth,
+    window.firebaseOnAuthChange(
+      window.firebaseAuth,
       function (user) {
 
         window.currentUser = user;
@@ -454,11 +580,13 @@
       const skeletonCard = `
       <div class="skeleton-card">
         <div class="skeleton-img"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line short"></div>
-        <div class="skeleton-line" style="width:45%"></div>
-        <div class="skeleton-line" style="width:35%"></div>
-        <div class="skeleton-btn"></div>
+        <div style="padding:3px 3px 3px;">
+          <div class="skeleton-line" style="height:20px"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line" style="width:45%"></div>
+          <div class="skeleton-line" style="width:35%"></div>
+          <div class="skeleton-btn"></div>
+        </div>
       </div>
     `;
 
@@ -478,6 +606,29 @@
         shopGrid.innerHTML =
           loadingHTML;
       }
+
+
+      /* ---- Instant render from the browser cache (stale-while-revalidate).
+         Runs synchronously inside the DOMContentLoaded listener, so on
+         repeat visits real products paint immediately instead of waiting
+         for the Firestore round-trip. The network fetch below still runs
+         and replaces the data if it changed. ---- */
+      var renderedFromCache = false;
+      try {
+        var __ldCached = (typeof ldCacheRead === 'function') ? ldCacheRead() : null;
+        if (__ldCached && __ldCached.products && __ldCached.products.length > 0) {
+          window.products = __ldCached.products;
+          window.__ldProductsSignature = (typeof ldCacheSignature === 'function')
+            ? ldCacheSignature(__ldCached.products)
+            : '';
+          if (typeof filterCat === 'function') {
+            filterCat(window.__ldCurrentCategory || 'All');
+            window.__ldCacheRenderGen = window.__ldRenderGen;
+            window.__ldInitialRendered = true;
+            renderedFromCache = true;
+          }
+        }
+      } catch (e) { /* a corrupt cache must never break the page */ }
 
 
       try {
@@ -536,7 +687,27 @@
           "function"
         ) {
 
-          filterCat("All");
+          /* Live data arrived. Cache it, mark this session live-verified,
+             and re-render ONLY if the data actually changed and the user
+             has not navigated, searched, or filtered since the cached
+             render (otherwise their current view would be clobbered). */
+          var __ldFreshSig = (typeof ldCacheSignature === 'function')
+            ? ldCacheSignature(window.products)
+            : '';
+          var __ldChanged = !renderedFromCache || __ldFreshSig !== window.__ldProductsSignature;
+          window.__ldProductsSignature = __ldFreshSig;
+          window.__ldProductsLive = true;
+          try {
+            if (typeof ldCacheWrite === 'function') ldCacheWrite(window.products);
+          } catch (e) {}
+          if (
+            typeof ldShouldRerender === 'function'
+              ? ldShouldRerender(__ldChanged, window.__ldRenderGen, window.__ldCacheRenderGen)
+              : __ldChanged
+          ) {
+            filterCat(window.__ldCurrentCategory || 'All');
+          }
+          window.__ldInitialRendered = true;
 
         }
 
@@ -547,6 +718,16 @@
           "Products loading error:",
           error
         );
+
+
+        if (renderedFromCache) {
+          /* Firestore failed but saved products are already on screen:
+             keep them and say so, instead of replacing them with an error. */
+          if (typeof showToast === 'function') {
+            showToast('Showing saved products — could not refresh. Prices may be outdated.');
+          }
+          return;
+        }
 
 
         window.products = [];
@@ -679,7 +860,7 @@
     );
 
   </script>
-  <style>body{display:flex;flex-direction:column;min-height:100vh;margin:0;}.page{flex:1 0 auto;}*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Segoe UI',Arial,sans-serif;}body{background:#f4f8fb;color:#14171A;text-align:left;margin:0;padding:0;}.navbar{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:16px 50px;box-shadow:0 2px 10px rgba(0,0,0,0.06);flex-wrap:wrap;gap:15px;position:sticky;top:0;z-index:100;}.logo{display:flex;align-items:center;gap:8px;cursor:pointer;}.logo-img{width:42px;height:42px;object-fit:contain;border-radius:6px;}.logo-text{font-size:22px;font-weight:600;color:#14171A;letter-spacing:.5px;}.logo-text b{color:#3BB4EC;font-weight:800;}.search-box{display:flex;flex:1;max-width:300px;}.search-box input{flex:1;padding:12px 18px;border:2px solid #3BB4EC;border-right:none;border-radius:25px 0 0 25px;outline:none;font-size:14px;}.search-box button{background:#3BB4EC;color:#fff;border:none;padding:0 18px;border-radius:0 23px 23px 0;cursor:pointer;font-size:15px;}.nav-icons{display:flex;gap:24px;align-items:center;}.icon{text-align:center;font-size:18px !important;cursor:pointer;color:#0f172a;}.icon:hover{color:#3BB4EC;}.icon span{display:block;font-size:9px !important;font-weight:600;margin-top:2px;color:#475569;}@media (min-width:768px){h1{font-size:28px !important;}p{font-size:15px !important;}}.navbar{padding:10px 12px !important;gap:10px !important;}.search-box{max-width:100% !important;margin:4px 0;}.nav-icons{gap:9px !important;justify-content:space-around;width:100%;margin-top:5px;padding-top:5px;border-top:1px solid #f1f5f9;}@media (min-width:769px){.navbar{display:flex !important;flex-direction:row !important;align-items:center !important;flex-wrap:nowrap !important;gap:30px !important;padding:10px 35px !important;}.logo{flex:0 0 auto !important;}.search-box{flex:0 1 520px !important;width:520px !important;max-width:520px !important;margin:0 auto !important;}.nav-icons{width:auto !important;flex:0 0 auto !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:28px !important;margin:0 !important;padding:0 !important;border:none !important;}}.product-card,.best-selling,section{margin-bottom:15px;}h1{font-size:18px !important;line-height:1.3;}p{font-size:12px !important;}.main-nav{background:#14171A;}.main-nav ul{display:flex;gap:35px;list-style:none;padding:0 50px;overflow-x:auto;}.main-nav li{padding:13px 0;font-size:14px;color:#e8e8e8;cursor:pointer;white-space:nowrap;transition:.2s;}.main-nav li:hover{color:#3BB4EC;}.categories{display:flex;overflow-x:auto;padding:10px;background:#f8f9fa;white-space:nowrap;}.categories ul{display:flex;list-style:none;gap:10px;margin:0;padding:0;}.categories li{padding:8px 16px;background:#ffffff;border:1px solid #ddd;border-radius:20px;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.3s ease;}.categories li:hover{background:#007bff;color:#fff;border-color:#007bff;}.categories li.active{background:#007bff;color:#fff;border-color:#007bff;box-shadow:0 4px 6px rgba(0,123,255,0.2);}.page{display:none;}.page.active{display:block;animation:fadeIn .35s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}.products-section{padding:40px 50px;}.products-section h2{margin-bottom:24px;color:#14171A;font-size:22px;border-left:5px solid #3BB4EC;padding-left:12px;}.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;}.product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,0.07);transition:.3s;cursor:pointer;border:1px solid #eef2f5;}.product-card:hover{transform:translateY(-6px);box-shadow:0 10px 20px rgba(59,180,236,0.18);}.product-card img{width:100%;height:180px;object-fit:contain;background:#f8f8f8;display:block;}.product-info{padding:14px;}.product-info h4{font-size:14px;color:#14171A;margin-bottom:6px;height:38px;overflow:hidden;font-weight:500;}.price{color:#3BB4EC;font-weight:700;font-size:16px;}.old-price{color:#767676;text-decoration:line-through;font-size:13px;margin-left:6px;}.discount{color:#ff5c5c;font-size:12px;font-weight:600;margin-top:2px;}.rating{color:#f5a623;font-size:12px;margin:5px 0;}.add-cart-btn{width:100%;background:#14171A;color:#fff;border:none;padding:10px;margin-top:10px;border-radius:8px;cursor:pointer;font-size:13px;transition:.2s;}.add-cart-btn:hover{background:#3BB4EC;}.info-page{max-width:720px;margin:50px auto;background:#fff;padding:35px;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,0.07);}.info-page h2{color:#14171A;margin-bottom:16px;border-left:5px solid #3BB4EC;padding-left:12px;}.info-page p{color:#555;line-height:1.8;margin-bottom:12px;font-size:14.5px;}.contact-form{display:flex;flex-direction:column;gap:14px;margin-top:18px;}.contact-form input,.contact-form textarea{padding:13px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;transition:.2s;}.contact-form input:focus,.contact-form textarea:focus{border-color:#3BB4EC;box-shadow:0 0 0 3px rgba(59,180,236,0.15);}.contact-form button{background:#3BB4EC;color:#fff;border:none;padding:13px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;transition:.2s;}.contact-form button:hover{background:#14171A;}.contact-info{margin-top:18px;font-size:13px;color:#777;}.login-box{max-width:420px;text-align:center;}.switch-text{margin-top:16px;font-size:13px;}.switch-text a{color:#3BB4EC;text-decoration:none;font-weight:600;}.cart-sidebar{position:fixed;top:0;right:-100%;width:100%;max-width:395px;height:100%;background:#ffffff;box-shadow:-5px 0 25px rgba(0,0,0,0.15);transition:0.35s ease-in-out;padding:20px;z-index:9999;overflow-y:auto;}.cart-sidebar.active{right:0;}.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}.cart-header h3{color:#14171A;}.cart-header span{cursor:pointer;font-size:20px;color:#595959;}.cart-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;font-size:13px;}.cart-total{margin-top:22px;border-top:2px solid #eee;padding-top:18px;}.cart-total p{font-size:17px;font-weight:700;margin-bottom:12px;color:#14171A;}.checkout-btn{width:100%;background:#3BB4EC;color:#fff;border:none;padding:14px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;transition:.2s;}.checkout-btn:hover{background:#14171A;}footer{text-align:left;padding:30px 15px 0;background:#0f172a;color:#ffffff;font-size:16px;margin-top:40px;flex-shrink:0;}.footer-container h4{color:#4db8ff;margin-bottom:15px;}.footer-container p{color:#ccc;font-size:14px;margin:6px 0;}.footer-socials{margin-top:15px;}.footer-socials a{display:inline-block;margin:0 6px;background:#4db8ff;color:#fff;width:36px;height:36px;text-align:center;line-height:36px;border-radius:50%;font-size:16px;}.footer-bottom{border-top:1px solid #333;margin-top:25px;padding:15px 0;font-size:13px;color:#767676;}.footer-container{max-width:500px;}.footer-container h4{font-size:18px;font-weight:700;letter-spacing:0.5px;position:relative;padding-bottom:10px;}.footer-container h4::after{content:"";position:absolute;left:0;bottom:0;width:40px;height:3px;background:#4db8ff;border-radius:2px;}.footer-contact-info{display:flex;flex-direction:column;gap:12px;margin:18px 0;}.footer-contact-info p{display:flex;align-items:center;gap:12px;transition:transform 0.2s ease,color 0.2s ease;margin:0;}.footer-contact-info p:hover{transform:translateX(4px);}.contact-icon{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(77,184,255,0.1);border:1px solid rgba(77,184,255,0.25);border-radius:50%;font-size:14px;flex-shrink:0;}.footer-contact-info a{color:#cbd5e1;text-decoration:none;font-size:14.5px;transition:color 0.2s ease;}.footer-contact-info a:hover{color:#4db8ff;}.footer-contact-info p:last-child{color:#cbd5e1;font-size:14.5px;}.footer-socials{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);}.footer-contact-info p,.footer-contact-info a{font-size:14.5px !important;}.hamburger{display:none;font-size:26px;cursor:pointer;padding:5px 10px;position:absolute;left:10px;top:22px;z-index:10001;transition:transform 0.3s ease;}.hamburger.open{transform:rotate(90deg);}.mobile-sidebar{position:fixed;top:0;left:-280px;width:260px;height:100%;background:linear-gradient(180deg,#14171A,#1e2226);color:#fff;z-index:10000;transition:left 0.35s ease;padding:15px 12px;overflow-y:auto;box-shadow:2px 0 15px rgba(0,0,0,0.3);}.mobile-sidebar.open{left:0;}.mobile-sidebar .sidebar-header{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1);}.mobile-sidebar .sidebar-header span:last-child{cursor:pointer;font-size:20px;opacity:0.8;}.mobile-sidebar ul{list-style:none;padding:0;margin:0;}.mobile-sidebar li{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;font-size:14px;font-weight:500;color:#e2e8f0;border-radius:6px;transition:background 0.2s ease,padding-left 0.2s ease;}.mobile-sidebar li:hover,.mobile-sidebar li:active{background:rgba(255,255,255,0.08);padding-left:14px;}#sidebar-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;opacity:0;transition:opacity 0.3s ease;}#sidebar-overlay.show{display:block;opacity:1;}.hamburger.open{transform:rotate(90deg);color:#ff4d4d;}@media (max-width:768px){.hamburger{display:block;position:absolute;left:10px;top:12px;z-index:10001;}.main-nav{display:none;}.navbar{flex-direction:column;align-items:center;position:relative;padding-top:45px;}.logo{order:1;}.search-box{order:2;width:100%;}.nav-icons{order:3;width:100%;}}#custom-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#14171A;color:#fff;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:100000;opacity:0;visibility:hidden;transition:0.3s;}#custom-toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}@keyframes heroFloat{0%{transform:perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px);}25%{transform:perspective(800px) rotateX(2.2deg) rotateZ(0.4deg) translateY(-6px);}50%{transform:perspective(800px) rotateX(1deg) rotateZ(-0.3deg) translateY(-2px);}75%{transform:perspective(800px) rotateX(2deg) rotateZ(0.2deg) translateY(-7px);}100%{transform:perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px);}}.product-card{background:#ffffff;border-radius:12px;overflow:hidden;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);border:1px solid #f1f5f9;margin-bottom:15px;}.product-card:hover{transform:translateY(-5px);box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);}.product-card img{transition:transform 0.5s ease;}.product-card:hover img{transform:scale(1.05);}.verified-badge{display:inline-flex !important;width:18px !important;height:18px !important;margin-left:5px !important;vertical-align:-3px !important;flex:0 0 18px !important;}.verified-badge svg{width:18px !important;height:18px !important;display:block !important;}#detail-image-container{width:100%;aspect-ratio:1 / 1;background:#f8f8f8;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;}#detail-img{width:100% !important;height:100% !important;object-fit:contain !important;display:block;}#detail-thumbnails{min-height:80px;align-items:center;}#detail-thumbnails img{width:80px !important;height:80px !important;min-width:80px !important;object-fit:cover !important;border-radius:8px !important;display:block;}.quantity-wrapper{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin:15px 0;}.qty-text{font-size:14px;color:#555;font-weight:500;}.qty-selector{display:flex;align-items:center;border:1px solid #ddd;border-radius:6px;overflow:hidden;background:#fff;}.qty-btn{background-color:#38b6ff;color:white;border:none;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:0.2s ease;}.qty-btn:hover{opacity:0.8;}#qty-input{width:35px;text-align:center;border:none;font-size:15px;font-weight:bold;color:#333;pointer-events:none;}.mobile-sidebar ul{display:flex !important;flex-direction:column !important;flex-wrap:nowrap !important;width:100% !important;}.mobile-sidebar li{display:block !important;width:100% !important;flex:none !important;box-sizing:border-box !important;}.nav-icons .icon{position:relative;transition:transform 0.2s ease;}.nav-icons .icon::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%) scale(0);width:40px;height:40px;background:rgba(59,180,236,0.2);border-radius:50%;z-index:-1;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}.nav-icons .icon:active{transform:scale(0.9);}.nav-icons .icon:active::before{transform:translateX(-50%) scale(1);border-radius:60% 40% 55% 45% / 45% 55% 40% 60%;animation:liquidMorph 0.6s ease-in-out;}@keyframes liquidMorph{0%{border-radius:50%;}40%{border-radius:60% 40% 55% 45% / 45% 55% 40% 60%;}70%{border-radius:40% 60% 45% 55% / 55% 45% 60% 40%;}100%{border-radius:55% 45% 50% 50% / 50% 50% 45% 55%;}}.skeleton-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);}.skeleton-img{width:100%;height:180px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}.skeleton-line{height:14px;margin:12px;border-radius:4px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}.skeleton-line.short{width:60%;}.skeleton-btn{height:40px;margin:12px;border-radius:8px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;padding:0;}.mobile-sidebar{position:fixed !important;top:14px !important;left:-310px !important;width:285px !important;height:calc(100vh - 28px) !important;background:#191823 !important;color:#fff !important;border-radius:20px !important;padding:18px 14px !important;box-shadow:0 25px 60px rgba(0,0,0,.35),0 8px 25px rgba(0,0,0,.25) !important;overflow-y:auto !important;transition:left .4s cubic-bezier(.4,0,.2,1) !important;}.mobile-sidebar.open{left:14px !important;}.mobile-sidebar .sidebar-header{height:48px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;margin-bottom:18px !important;padding:0 6px !important;border:none !important;}.mobile-sidebar .sidebar-header::before{content:"Luma Deals";margin-right:auto;color:#fff;font-size:19px;font-weight:700;letter-spacing:.2px;}.mobile-sidebar .sidebar-header span{width:38px !important;height:38px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:12px !important;background:rgba(255,255,255,.07) !important;color:#fff !important;font-size:16px !important;transition:.25s ease !important;}.mobile-sidebar .sidebar-header span:hover{background:#3BB4EC !important;transform:rotate(90deg);}.mobile-sidebar ul{display:flex !important;flex-direction:column !important;gap:7px !important;width:100% !important;margin:0 !important;padding:0 !important;list-style:none !important;}.mobile-sidebar li{position:relative !important;width:100% !important;min-height:48px !important;display:flex !important;align-items:center !important;padding:0 14px !important;border:none !important;border-radius:13px !important;background:transparent !important;color:#d9d9e2 !important;font-size:14px !important;font-weight:500 !important;transition:background .25s ease,color .25s ease,transform .25s ease !important;}.mobile-sidebar li::before{font-family:"Font Awesome 6 Free";font-weight:900;width:34px;margin-right:9px;font-size:16px;text-align:center;color:#a9a8b5;transition:.25s ease;}.mobile-sidebar ul:first-of-type li:nth-child(1)::before{content:"\f00a";}.mobile-sidebar ul:first-of-type li:nth-child(2)::before{content:"\f1ae";}.mobile-sidebar ul:first-of-type li:nth-child(3)::before{content:"\f553";}.mobile-sidebar ul:first-of-type li:nth-child(4)::before{content:"\f1b2";}.mobile-sidebar ul:first-of-type li:nth-child(5)::before{content:"\f015";}.mobile-sidebar ul:first-of-type li:nth-child(6)::before{content:"\f004";}.mobile-sidebar ul:first-of-type li:nth-child(7)::before{content:"\f1fc";}.mobile-sidebar ul:first-of-type li:nth-child(8)::before{content:"\f2e7";}.mobile-sidebar ul:first-of-type li:nth-child(9)::before{content:"\f1ea";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(1)::before{content:"\f015";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(2)::before{content:"\f07a";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(3)::before{content:"\f05a";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(4)::before{content:"\f0e0";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(5)::before{content:"\f2bd";}.mobile-sidebar li:hover{background:rgba(255,255,255,.08) !important;color:#fff !important;transform:translateX(3px);}.mobile-sidebar li:hover::before{color:#3BB4EC;}.mobile-sidebar li:active{background:#fff !important;color:#191823 !important;transform:scale(.98);}.mobile-sidebar li:active::before{color:#3BB4EC !important;}.mobile-sidebar hr{border:0 !important;border-top:1px solid rgba(255,255,255,.08) !important;margin:16px 4px !important;}#sidebar-overlay{background:rgba(0,0,0,.55) !important;backdrop-filter:blur(3px);}.hamburger{transition:transform .35s ease !important;}.hamburger.open{color:#3BB4EC !important;}.mobile-sidebar::-webkit-scrollbar{width:4px;}.mobile-sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px;}@media (max-width:768px){.mobile-sidebar{width:285px !important;}.mobile-sidebar.open{left:12px !important;}}.product-image-wrap{position:relative;background:#f8fafc;padding:10px;overflow:hidden;}.product-image-wrap img{width:100%;height:190px;object-fit:contain;display:block;background:#ffffff;border-radius:12px;}.product-discount-badge{position:absolute;top:18px;left:18px;z-index:3;background:#ef4444;color:#ffffff;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:800;box-shadow:0 4px 10px rgba(239,68,68,0.25);}.wishlist-btn{position:absolute;top:18px;right:18px;z-index:3;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,0.95);color:#475569;font-size:22px;line-height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.10);transition:.2s ease;}.wishlist-btn:hover{transform:scale(1.08);}.wishlist-btn.active{color:#ef4444;background:#fff1f2;}.product-info{padding:15px !important;}.product-info h4{font-size:14px !important;line-height:1.45;min-height:40px;height:auto !important;margin-bottom:7px !important;font-weight:650 !important;}.rating{color:#f59e0b !important;font-size:12px !important;letter-spacing:1px;margin:5px 0 8px !important;}.price-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;}.price{color:#0284c7 !important;font-size:18px !important;font-weight:800 !important;}.old-price{color:#64748b !important;font-size:12px !important;margin-left:2px !important;}.discount-pill{display:inline-block;margin-top:7px;background:#ecfdf5;color:#16a34a;border:1px solid #bbf7d0;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:800;}.add-cart-btn{width:100% !important;background:#14171A !important;color:#ffffff !important;border:none !important;border-radius:10px !important;padding:11px !important;margin-top:12px !important;font-size:13px !important;font-weight:700 !important;cursor:pointer;transition:all .25s ease;}.add-cart-btn:hover{background:#0284c7 !important;transform:translateY(-1px);}.product-card{border-radius:16px !important;overflow:hidden;background:#ffffff;border:1px solid #e5e7eb !important;box-shadow:0 4px 14px rgba(15,23,42,0.07) !important;}.product-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(2,132,199,0.15) !important;}</style>
+  <style>body{display:flex;flex-direction:column;min-height:100vh;margin:0;}.page{flex:1 0 auto;}*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Segoe UI',Arial,sans-serif;}body{background:#f4f8fb;color:#14171A;text-align:left;margin:0;padding:0;}.navbar{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:16px 50px;box-shadow:0 2px 10px rgba(0,0,0,0.06);flex-wrap:wrap;gap:15px;position:sticky;top:0;z-index:100;}.logo{display:flex;align-items:center;gap:8px;cursor:pointer;}.logo-img{width:42px;height:42px;object-fit:contain;border-radius:6px;}.logo-text{font-size:22px;font-weight:600;color:#14171A;letter-spacing:.5px;}.logo-text b{color:#3BB4EC;font-weight:800;}.search-box{display:flex;flex:1;max-width:300px;}.search-box input{flex:1;padding:12px 18px;border:2px solid #3BB4EC;border-right:none;border-radius:25px 0 0 25px;outline:none;font-size:14px;}.search-box button{background:#3BB4EC;color:#fff;border:none;padding:0 18px;border-radius:0 23px 23px 0;cursor:pointer;font-size:15px;}.nav-icons{display:flex;gap:24px;align-items:center;}.icon{text-align:center;font-size:18px !important;cursor:pointer;color:#0f172a;}.icon:hover{color:#3BB4EC;}.icon span{display:block;font-size:9px !important;font-weight:600;margin-top:2px;color:#475569;}@media (min-width:768px){h1{font-size:28px !important;}p{font-size:15px !important;}}.navbar{padding:10px 12px !important;gap:10px !important;}.search-box{max-width:100% !important;margin:4px 0;}.nav-icons{gap:9px !important;justify-content:space-around;width:100%;margin-top:5px;padding-top:5px;border-top:1px solid #f1f5f9;}@media (min-width:769px){.navbar{display:flex !important;flex-direction:row !important;align-items:center !important;flex-wrap:nowrap !important;gap:30px !important;padding:10px 35px !important;}.logo{flex:0 0 auto !important;}.search-box{flex:0 1 520px !important;width:520px !important;max-width:520px !important;margin:0 auto !important;}.nav-icons{width:auto !important;flex:0 0 auto !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:28px !important;margin:0 !important;padding:0 !important;border:none !important;}}.product-card,.best-selling,section{margin-bottom:15px;}h1{font-size:18px !important;line-height:1.3;}p{font-size:12px !important;}.main-nav{background:#14171A;}.main-nav ul{display:flex;gap:35px;list-style:none;padding:0 50px;overflow-x:auto;}.main-nav li{padding:13px 0;font-size:14px;color:#e8e8e8;cursor:pointer;white-space:nowrap;transition:.2s;}.main-nav li:hover{color:#3BB4EC;}.categories{display:flex;overflow-x:auto;padding:10px;background:#f8f9fa;white-space:nowrap;}.categories ul{display:flex;list-style:none;gap:10px;margin:0;padding:0;}.categories li{padding:8px 16px;background:#ffffff;border:1px solid #ddd;border-radius:20px;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.3s ease;}.categories li:hover{background:#007bff;color:#fff;border-color:#007bff;}.categories li.active{background:#007bff;color:#fff;border-color:#007bff;box-shadow:0 4px 6px rgba(0,123,255,0.2);}.page{display:none;}.page.active{display:block;animation:fadeIn .35s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}.products-section{padding:40px 50px;}.products-section h2{margin-bottom:24px;color:#14171A;font-size:22px;border-left:5px solid #3BB4EC;padding-left:12px;}.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;}.product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,0.07);transition:.3s;cursor:pointer;border:1px solid #eef2f5;}.product-card:hover{transform:translateY(-6px);box-shadow:0 10px 20px rgba(59,180,236,0.18);}.product-card img{width:100%;height:180px;object-fit:contain;background:#f8f8f8;display:block;}.product-info{padding:14px;}.product-info h4{font-size:14px;color:#14171A;margin-bottom:6px;height:38px;overflow:hidden;font-weight:500;}.price{color:#3BB4EC;font-weight:700;font-size:16px;}.old-price{color:#767676;text-decoration:line-through;font-size:13px;margin-left:6px;}.discount{color:#ff5c5c;font-size:12px;font-weight:600;margin-top:2px;}.rating{color:#f5a623;font-size:12px;margin:5px 0;}.add-cart-btn{width:100%;background:#14171A;color:#fff;border:none;padding:10px;margin-top:10px;border-radius:8px;cursor:pointer;font-size:13px;transition:.2s;}.add-cart-btn:hover{background:#3BB4EC;}.info-page{max-width:720px;margin:50px auto;background:#fff;padding:35px;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,0.07);}.info-page h2{color:#14171A;margin-bottom:16px;border-left:5px solid #3BB4EC;padding-left:12px;}.info-page p{color:#555;line-height:1.8;margin-bottom:12px;font-size:14.5px;}.contact-form{display:flex;flex-direction:column;gap:14px;margin-top:18px;}.contact-form input,.contact-form textarea{padding:13px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;transition:.2s;}.contact-form input:focus,.contact-form textarea:focus{border-color:#3BB4EC;box-shadow:0 0 0 3px rgba(59,180,236,0.15);}.contact-form button{background:#3BB4EC;color:#fff;border:none;padding:13px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;transition:.2s;}.contact-form button:hover{background:#14171A;}.contact-info{margin-top:18px;font-size:13px;color:#777;}.login-box{max-width:420px;text-align:center;}.switch-text{margin-top:16px;font-size:13px;}.switch-text a{color:#3BB4EC;text-decoration:none;font-weight:600;}.cart-sidebar{position:fixed;top:0;right:-100%;width:100%;max-width:395px;height:100%;background:#ffffff;box-shadow:-5px 0 25px rgba(0,0,0,0.15);transition:0.35s ease-in-out;padding:20px;z-index:9999;overflow-y:auto;}.cart-sidebar.active{right:0;}.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}.cart-header h3{color:#14171A;}.cart-header span{cursor:pointer;font-size:20px;color:#595959;}.cart-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;font-size:13px;}.cart-total{margin-top:22px;border-top:2px solid #eee;padding-top:18px;}.cart-total p{font-size:17px;font-weight:700;margin-bottom:12px;color:#14171A;}.checkout-btn{width:100%;background:#3BB4EC;color:#fff;border:none;padding:14px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;transition:.2s;}.checkout-btn:hover{background:#14171A;}footer{text-align:left;padding:30px 15px 0;background:#0f172a;color:#ffffff;font-size:16px;margin-top:40px;flex-shrink:0;}.footer-container h4{color:#4db8ff;margin-bottom:15px;}.footer-container p{color:#ccc;font-size:14px;margin:6px 0;}.footer-socials{margin-top:15px;}.footer-socials a{display:inline-block;margin:0 6px;background:#4db8ff;color:#fff;width:36px;height:36px;text-align:center;line-height:36px;border-radius:50%;font-size:16px;}.footer-bottom{border-top:1px solid #333;margin-top:25px;padding:15px 0;font-size:13px;color:#767676;}.footer-container{max-width:500px;}.footer-container h4{font-size:18px;font-weight:700;letter-spacing:0.5px;position:relative;padding-bottom:10px;}.footer-container h4::after{content:"";position:absolute;left:0;bottom:0;width:40px;height:3px;background:#4db8ff;border-radius:2px;}.footer-contact-info{display:flex;flex-direction:column;gap:12px;margin:18px 0;}.footer-contact-info p{display:flex;align-items:center;gap:12px;transition:transform 0.2s ease,color 0.2s ease;margin:0;}.footer-contact-info p:hover{transform:translateX(4px);}.contact-icon{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(77,184,255,0.1);border:1px solid rgba(77,184,255,0.25);border-radius:50%;font-size:14px;flex-shrink:0;}.footer-contact-info a{color:#cbd5e1;text-decoration:none;font-size:14.5px;transition:color 0.2s ease;}.footer-contact-info a:hover{color:#4db8ff;}.footer-contact-info p:last-child{color:#cbd5e1;font-size:14.5px;}.footer-socials{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);}.footer-contact-info p,.footer-contact-info a{font-size:14.5px !important;}.hamburger{display:none;font-size:26px;cursor:pointer;padding:5px 10px;position:absolute;left:10px;top:22px;z-index:10001;transition:transform 0.3s ease;}.hamburger.open{transform:rotate(90deg);}.mobile-sidebar{position:fixed;top:0;left:-280px;width:260px;height:100%;background:linear-gradient(180deg,#14171A,#1e2226);color:#fff;z-index:10000;transition:left 0.35s ease;padding:15px 12px;overflow-y:auto;box-shadow:2px 0 15px rgba(0,0,0,0.3);}.mobile-sidebar.open{left:0;}.mobile-sidebar .sidebar-header{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1);}.mobile-sidebar .sidebar-header span:last-child{cursor:pointer;font-size:20px;opacity:0.8;}.mobile-sidebar ul{list-style:none;padding:0;margin:0;}.mobile-sidebar li{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;font-size:14px;font-weight:500;color:#e2e8f0;border-radius:6px;transition:background 0.2s ease,padding-left 0.2s ease;}.mobile-sidebar li:hover,.mobile-sidebar li:active{background:rgba(255,255,255,0.08);padding-left:14px;}#sidebar-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;opacity:0;transition:opacity 0.3s ease;}#sidebar-overlay.show{display:block;opacity:1;}.hamburger.open{transform:rotate(90deg);color:#ff4d4d;}@media (max-width:768px){.hamburger{display:block;position:absolute;left:10px;top:12px;z-index:10001;}.main-nav{display:none;}.navbar{flex-direction:column;align-items:center;position:relative;padding-top:45px;}.logo{order:1;}.search-box{order:2;width:100%;}.nav-icons{order:3;width:100%;}}#custom-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#14171A;color:#fff;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:100000;opacity:0;visibility:hidden;transition:0.3s;}#custom-toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}@keyframes heroFloat{0%{transform:perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px);}25%{transform:perspective(800px) rotateX(2.2deg) rotateZ(0.4deg) translateY(-6px);}50%{transform:perspective(800px) rotateX(1deg) rotateZ(-0.3deg) translateY(-2px);}75%{transform:perspective(800px) rotateX(2deg) rotateZ(0.2deg) translateY(-7px);}100%{transform:perspective(800px) rotateX(1.5deg) rotateZ(0deg) translateY(0px);}}.product-card{background:#ffffff;border-radius:12px;overflow:hidden;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);border:1px solid #f1f5f9;margin-bottom:15px;}.product-card:hover{transform:translateY(-5px);box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);}.product-card img{transition:transform 0.5s ease;}.product-card:hover img{transform:scale(1.05);}.verified-badge{display:inline-flex !important;width:18px !important;height:18px !important;margin-left:5px !important;vertical-align:-3px !important;flex:0 0 18px !important;}.verified-badge svg{width:18px !important;height:18px !important;display:block !important;}#detail-image-container{width:100%;aspect-ratio:1 / 1;background:#f8f8f8;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;}#detail-img{width:100% !important;height:100% !important;object-fit:contain !important;display:block;}#detail-thumbnails{min-height:80px;align-items:center;}#detail-thumbnails img{width:80px !important;height:80px !important;min-width:80px !important;object-fit:cover !important;border-radius:8px !important;display:block;}.quantity-wrapper{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin:15px 0;}.qty-text{font-size:14px;color:#555;font-weight:500;}.qty-selector{display:flex;align-items:center;border:1px solid #ddd;border-radius:6px;overflow:hidden;background:#fff;}.qty-btn{background-color:#38b6ff;color:white;border:none;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:0.2s ease;}.qty-btn:hover{opacity:0.8;}#qty-input{width:35px;text-align:center;border:none;font-size:15px;font-weight:bold;color:#333;pointer-events:none;}.mobile-sidebar ul{display:flex !important;flex-direction:column !important;flex-wrap:nowrap !important;width:100% !important;}.mobile-sidebar li{display:block !important;width:100% !important;flex:none !important;box-sizing:border-box !important;}.nav-icons .icon{position:relative;transition:transform 0.2s ease;}.nav-icons .icon::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%) scale(0);width:40px;height:40px;background:rgba(59,180,236,0.2);border-radius:50%;z-index:-1;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}.nav-icons .icon:active{transform:scale(0.9);}.nav-icons .icon:active::before{transform:translateX(-50%) scale(1);border-radius:60% 40% 55% 45% / 45% 55% 40% 60%;animation:liquidMorph 0.6s ease-in-out;}@keyframes liquidMorph{0%{border-radius:50%;}40%{border-radius:60% 40% 55% 45% / 45% 55% 40% 60%;}70%{border-radius:40% 60% 45% 55% / 55% 45% 60% 40%;}100%{border-radius:55% 45% 50% 50% / 50% 50% 45% 55%;}}.skeleton-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);}.skeleton-img{width:auto;height:190px;margin:10px;border-radius:12px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}.skeleton-line{height:14px;margin:12px;border-radius:4px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}.skeleton-line.short{width:60%;}.skeleton-btn{height:40px;margin:12px;border-radius:8px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;padding:0;}.mobile-sidebar{position:fixed !important;top:14px !important;left:-310px !important;width:285px !important;height:calc(100vh - 28px) !important;background:#191823 !important;color:#fff !important;border-radius:20px !important;padding:18px 14px !important;box-shadow:0 25px 60px rgba(0,0,0,.35),0 8px 25px rgba(0,0,0,.25) !important;overflow-y:auto !important;transition:left .4s cubic-bezier(.4,0,.2,1) !important;}.mobile-sidebar.open{left:14px !important;}.mobile-sidebar .sidebar-header{height:48px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;margin-bottom:18px !important;padding:0 6px !important;border:none !important;}.mobile-sidebar .sidebar-header::before{content:"Luma Deals";margin-right:auto;color:#fff;font-size:19px;font-weight:700;letter-spacing:.2px;}.mobile-sidebar .sidebar-header span{width:38px !important;height:38px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:12px !important;background:rgba(255,255,255,.07) !important;color:#fff !important;font-size:16px !important;transition:.25s ease !important;}.mobile-sidebar .sidebar-header span:hover{background:#3BB4EC !important;transform:rotate(90deg);}.mobile-sidebar ul{display:flex !important;flex-direction:column !important;gap:7px !important;width:100% !important;margin:0 !important;padding:0 !important;list-style:none !important;}.mobile-sidebar li{position:relative !important;width:100% !important;min-height:48px !important;display:flex !important;align-items:center !important;padding:0 14px !important;border:none !important;border-radius:13px !important;background:transparent !important;color:#d9d9e2 !important;font-size:14px !important;font-weight:500 !important;transition:background .25s ease,color .25s ease,transform .25s ease !important;}.mobile-sidebar li::before{font-family:"Font Awesome 6 Free";font-weight:900;width:34px;margin-right:9px;font-size:16px;text-align:center;color:#a9a8b5;transition:.25s ease;}.mobile-sidebar ul:first-of-type li:nth-child(1)::before{content:"\f00a";}.mobile-sidebar ul:first-of-type li:nth-child(2)::before{content:"\f1ae";}.mobile-sidebar ul:first-of-type li:nth-child(3)::before{content:"\f553";}.mobile-sidebar ul:first-of-type li:nth-child(4)::before{content:"\f1b2";}.mobile-sidebar ul:first-of-type li:nth-child(5)::before{content:"\f015";}.mobile-sidebar ul:first-of-type li:nth-child(6)::before{content:"\f004";}.mobile-sidebar ul:first-of-type li:nth-child(7)::before{content:"\f1fc";}.mobile-sidebar ul:first-of-type li:nth-child(8)::before{content:"\f2e7";}.mobile-sidebar ul:first-of-type li:nth-child(9)::before{content:"\f1ea";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(1)::before{content:"\f015";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(2)::before{content:"\f07a";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(3)::before{content:"\f05a";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(4)::before{content:"\f0e0";}.mobile-sidebar ul:nth-of-type(2) li:nth-child(5)::before{content:"\f2bd";}.mobile-sidebar li:hover{background:rgba(255,255,255,.08) !important;color:#fff !important;transform:translateX(3px);}.mobile-sidebar li:hover::before{color:#3BB4EC;}.mobile-sidebar li:active{background:#fff !important;color:#191823 !important;transform:scale(.98);}.mobile-sidebar li:active::before{color:#3BB4EC !important;}.mobile-sidebar hr{border:0 !important;border-top:1px solid rgba(255,255,255,.08) !important;margin:16px 4px !important;}#sidebar-overlay{background:rgba(0,0,0,.55) !important;backdrop-filter:blur(3px);}.hamburger{transition:transform .35s ease !important;}.hamburger.open{color:#3BB4EC !important;}.mobile-sidebar::-webkit-scrollbar{width:4px;}.mobile-sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px;}@media (max-width:768px){.mobile-sidebar{width:285px !important;}.mobile-sidebar.open{left:12px !important;}}.product-image-wrap{position:relative;background:#f8fafc;padding:10px;overflow:hidden;}.product-image-wrap img{width:100%;height:190px;object-fit:contain;display:block;background:#ffffff;border-radius:12px;}.product-discount-badge{position:absolute;top:18px;left:18px;z-index:3;background:#ef4444;color:#ffffff;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:800;box-shadow:0 4px 10px rgba(239,68,68,0.25);}.wishlist-btn{position:absolute;top:18px;right:18px;z-index:3;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,0.95);color:#475569;font-size:22px;line-height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.10);transition:.2s ease;}.wishlist-btn:hover{transform:scale(1.08);}.wishlist-btn.active{color:#ef4444;background:#fff1f2;}.product-info{padding:15px !important;}.product-info h4{font-size:14px !important;line-height:1.45;min-height:40px;height:auto !important;margin-bottom:7px !important;font-weight:650 !important;}.rating{color:#f59e0b !important;font-size:12px !important;letter-spacing:1px;margin:5px 0 8px !important;}.price-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;}.price{color:#0284c7 !important;font-size:18px !important;font-weight:800 !important;}.old-price{color:#64748b !important;font-size:12px !important;margin-left:2px !important;}.discount-pill{display:inline-block;margin-top:7px;background:#ecfdf5;color:#16a34a;border:1px solid #bbf7d0;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:800;}.add-cart-btn{width:100% !important;background:#14171A !important;color:#ffffff !important;border:none !important;border-radius:10px !important;padding:11px !important;margin-top:12px !important;font-size:13px !important;font-weight:700 !important;cursor:pointer;transition:all .25s ease;}.add-cart-btn:hover{background:#0284c7 !important;transform:translateY(-1px);}.product-card{border-radius:16px !important;overflow:hidden;background:#ffffff;border:1px solid #e5e7eb !important;box-shadow:0 4px 14px rgba(15,23,42,0.07) !important;}.product-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(2,132,199,0.15) !important;}</style>
 
   <!-- Mobile performance: Font Awesome no longer blocks first paint.
        It loads async via the print-media swap; noscript keeps the
@@ -2561,6 +2742,15 @@ LumaDeals AI
       }
       var token = String((parseInt(grid.dataset.ldToken || '0', 10) || 0) + 1);
       grid.dataset.ldToken = token;
+      /* Eager images only for the grid on the currently visible page.
+         A grid inside a hidden .page (e.g. the shop grid while home is
+         shown) gets lazy images, so hidden images never compete at
+         first paint. Grids outside any .page count as visible. */
+      var gridVisible = true;
+      try {
+        var __ldPage = grid.closest ? grid.closest('.page') : null;
+        if (__ldPage) gridVisible = __ldPage.classList.contains('active');
+      } catch (e) {}
       if (!items || items.length === 0) {
         grid.innerHTML = emptyHTML || '';
         if (typeof onDone === 'function') onDone();
@@ -2570,7 +2760,7 @@ LumaDeals AI
       // the rest between frames. Same cards, same order, same HTML;
       // onDone still fires only after the last batch.
       var FIRST = 24, CHUNK = 24, i = FIRST;
-      grid.innerHTML = items.slice(0, FIRST).map(function (it, j) { return cardFn(it, j); }).join('');
+      grid.innerHTML = items.slice(0, FIRST).map(function (it, j) { return cardFn(it, j, gridVisible); }).join('');
       if (items.length <= FIRST) {
         if (typeof onDone === 'function') onDone();
         return;
@@ -2581,7 +2771,7 @@ LumaDeals AI
           if (typeof onDone === 'function') onDone();
           return;
         }
-        grid.insertAdjacentHTML('beforeend', items.slice(i, i + CHUNK).map(function (it, j) { return cardFn(it, i + j); }).join(''));
+        grid.insertAdjacentHTML('beforeend', items.slice(i, i + CHUNK).map(function (it, j) { return cardFn(it, i + j, gridVisible); }).join(''));
         i += CHUNK;
         if (window.requestAnimationFrame) window.requestAnimationFrame(next);
         else setTimeout(next, 0);
@@ -2590,12 +2780,12 @@ LumaDeals AI
       else setTimeout(next, 0);
     }
 
-    function productCardHTML(p, index) {
+    function productCardHTML(p, index, gridVisible) {
       const discount = p.discount || '';
       const rating = p.rating || '★★★★★';
       const image = ldImg(p.img || p.image || p.images?.[0] || '', 600);
       const imageSmall = ldImg(p.img || p.image || p.images?.[0] || '', 400);
-      const isEager = typeof index === 'number' && index < 4;
+      const isEager = typeof index === 'number' && index < 4 && gridVisible !== false;
       const productId = JSON.stringify(p.id);
 
       return `
@@ -3253,6 +3443,9 @@ LumaDeals AI
   `).join('');
     }
     async function submitReview() {
+      if (window.__ldEnsureAuth) {
+        try { await window.__ldEnsureAuth(); } catch (e) {}
+      }
       if (!window.firebaseAuth.currentUser) {
         alert("Please sign in to submit a review.");
         return;
@@ -3457,6 +3650,7 @@ LumaDeals AI
 
 
     function searchProducts() {
+      window.__ldRenderGen = (window.__ldRenderGen || 0) + 1;
       const searchInput = document.getElementById('search-input');
       const searchSuggestions = document.getElementById('search-suggestions');
 
@@ -3571,6 +3765,7 @@ LumaDeals AI
     }
 
     function filterByCategory(category) {
+      window.__ldRenderGen = (window.__ldRenderGen || 0) + 1;
       const searchInput = document.getElementById('search-input');
       if (searchInput) searchInput.value = '';
 
@@ -4277,6 +4472,10 @@ outline:none;
 
       try {
 
+        if (window.__ldEnsureAuth) {
+          try { await window.__ldEnsureAuth(); } catch (e) {}
+        }
+
         // ==============================
         // LOGIN CHECK
         // ==============================
@@ -4338,6 +4537,88 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           return;
         }
 
+
+        // ==============================
+        // LIVE PRICE / STOCK CHECK
+        // Cached catalog data is NEVER the final authority for checkout:
+        // if this session's catalog was not freshly verified, or a cart
+        // price differs from it, re-read the ordered products live and
+        // use those prices/stock. Normally this costs nothing (the
+        // background refresh already verified the catalog); otherwise it
+        // is one parallel batch of single-document reads.
+        // ==============================
+        try {
+          var __ldNeedsVerify = !window.__ldProductsLive;
+          if (!__ldNeedsVerify) {
+            for (var __ldVi = 0; __ldVi < cart.length; __ldVi++) {
+              var __ldCi = cart[__ldVi];
+              var __ldCp = (window.products || []).find(function (x) {
+                return String(x.id) === String(__ldCi.id || __ldCi.productId);
+              });
+              if (__ldCp && Number(__ldCp.price) !== Number(__ldCi.price)) {
+                __ldNeedsVerify = true;
+                break;
+              }
+            }
+          }
+          if (__ldNeedsVerify) {
+            showToast('Verifying current prices and stock...');
+            var __ldFs = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+            var __ldDb = __ldFs.getFirestore(window.firebaseApp);
+            var __ldChecks = await Promise.all(cart.map(async function (item) {
+              var __ldPid = String(item.id || item.productId || '');
+              if (!__ldPid) return { item: item, live: null, missing: false };
+              try {
+                var __ldSnap = await __ldFs.getDoc(__ldFs.doc(__ldDb, 'products', __ldPid));
+                if (!__ldSnap.exists()) return { item: item, live: null, missing: true };
+                return { item: item, live: __ldSnap.data(), missing: false };
+              } catch (e) {
+                return { item: item, live: null, missing: false, error: true };
+              }
+            }));
+            if (__ldChecks.some(function (r) { return r.error; })) {
+              alert('Could not verify current prices and stock. Please check your connection and try again.');
+              return;
+            }
+            var __ldPriceUpdated = false;
+            for (var __ldRi = 0; __ldRi < __ldChecks.length; __ldRi++) {
+              var __ldR = __ldChecks[__ldRi];
+              if (__ldR.missing) {
+                alert('Sorry, "' + (__ldR.item.name || __ldR.item.title || 'a product') + '" is no longer available. Please remove it from your cart.');
+                return;
+              }
+              if (!__ldR.live) continue;
+              var __ldLivePrice = Number(__ldR.live.price);
+              if (!isNaN(__ldLivePrice) && __ldLivePrice !== Number(__ldR.item.price)) {
+                __ldR.item.price = __ldLivePrice;
+                __ldPriceUpdated = true;
+                var __ldMp = (window.products || []).find(function (x) {
+                  return String(x.id) === String(__ldR.item.id || __ldR.item.productId);
+                });
+                if (__ldMp) {
+                  __ldMp.price = __ldLivePrice;
+                  if (__ldR.live.stock !== undefined) __ldMp.stock = __ldR.live.stock;
+                }
+              }
+              var __ldLiveStock = Number(__ldR.live.stock);
+              if (!isNaN(__ldLiveStock) && __ldLiveStock < Number(__ldR.item.quantity || 1)) {
+                alert('Sorry, "' + (__ldR.item.name || __ldR.item.title || 'a product') + '" now has only ' + __ldLiveStock + ' left in stock. Please adjust your cart.');
+                return;
+              }
+            }
+            if (__ldPriceUpdated) {
+              try {
+                if (typeof ldCacheWrite === 'function') ldCacheWrite(window.products);
+              } catch (e) {}
+              showToast('Prices updated to the current store prices.');
+            }
+            window.__ldProductsLive = true;
+          }
+        } catch (__ldVerifyErr) {
+          console.error('Price verification error:', __ldVerifyErr);
+          alert('Could not verify current prices and stock. Please try again.');
+          return;
+        }
 
         // ==============================
         // CALCULATE ORDER TOTAL
@@ -4647,6 +4928,9 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     function filterCat(category, element) {
 
+      window.__ldCurrentCategory = category;
+      window.__ldRenderGen = (window.__ldRenderGen || 0) + 1;
+
       /* ==========================================
          CLOSE HOME SUBCATEGORIES
          WHEN ANOTHER CATEGORY IS SELECTED
@@ -4841,6 +5125,9 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       const inputs = event.target.querySelectorAll('input');
       const email = inputs[0].value;
 
+      if (window.__ldEnsureAuth) {
+        try { await window.__ldEnsureAuth(); } catch (e) {}
+      }
       const { sendPasswordResetEmail } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
 
       try {
@@ -4930,9 +5217,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         });
       }
     });
-    document.addEventListener('DOMContentLoaded', function () {
-      filterCat('All');
-    });
+    /* NOTE: no DOMContentLoaded filterCat('All') here on purpose. The
+       initial render is owned by loadProductsFromFirestore (skeletons,
+       then cached products, then live products). A DCL filterCat call
+       rendered an empty state that the loader then overwrote in the same
+       dispatch — wasted work with no visible purpose. */
     function submitLogin(event) {
       event.preventDefault();
       const email = document.getElementById('login-email').value;
