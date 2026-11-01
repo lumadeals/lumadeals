@@ -452,6 +452,32 @@ textarea{
     overflow: hidden;
 }  
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* LUMA DEALS ADMIN — design-system tokens (additive layer, last in <head>).
+   No admin rules are deleted and no JS is touched: this only recolors
+   the admin's own CSS variables and aligns radii/shadows/type with the
+   shop's system. */
+:root{
+  --primary:#3BB4EC; --primary2:#0E8FC7; --bg:#F4F8FB; --card:#FFFFFF;
+  --text:#14171A; --muted:#64748B; --line:#E5E7EB; --success:#16A34A; --gold:#F59E0B;
+}
+body{font-family:'Poppins',Inter,Arial,sans-serif;background:var(--bg)}
+.title h2{font-size:26px;font-weight:800}
+.card{border-radius:16px;box-shadow:0 4px 14px rgba(15,23,42,.07)}
+.box{border-radius:20px;box-shadow:0 12px 28px rgba(15,23,42,.12)}
+.logo{border-radius:16px}
+.btn{border-radius:12px;min-height:48px;font-weight:700}
+input:focus,select:focus,textarea:focus{border-color:#3BB4EC;box-shadow:0 0 0 3px rgba(59,180,236,.28)}
+.logout{border-radius:12px;background:#FFF1F2;color:#EF4444}
+.discount{color:#EF4444}
+.prev{border-radius:12px;border:1px dashed #E5E7EB}
+.pricebox,.ratingbox,.verify,.help{border-radius:12px}
+.admin-order-card{background:#fff;border:1px solid #E5E7EB;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+
+  </style>
 </head>
 
 <body>
