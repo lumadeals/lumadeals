@@ -12068,7 +12068,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     var strip = document.createElement('div');
     strip.className = 'drip';
 
-    var duration = 500 + Math.random() * 300;
+    var duration = 700 + Math.random() * 300;
     var delay = Math.random() * 150;
     var distance = fallDistance * (1 + Math.random() * 0.3);
     var sway = (Math.random() - 0.5) * 70;
@@ -12082,10 +12082,6 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     dripBox.appendChild(strip);
   }
 
-  // Mobile performance: splash pacing compressed (was 1500ms start /
-  // 1500ms removal). The drip animation itself is untouched; only the
-  // dead waiting time before it starts and before removal shrank,
-  // so content is revealed at ~1.1s instead of ~1.8s.
   setTimeout(function () {
     splash.classList.add('drip-fall');
 
@@ -12101,12 +12097,14 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     setTimeout(function () {
       splash.remove();
-    }, 1000);
+    }, 2500);
 
-  }, 800);
+  }, 1500);
 
 })();
 
+  // Mobile performance: splash pacing compressed (was 1500ms start /
+  
 
     /* =========================================
        LUMA DEALS — WISHLIST SYSTEM
