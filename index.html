@@ -6,9 +6,12 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs/">
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js" crossorigin>
   <link rel="icon" type="image/png" href="/images/assets/favicon.png">
   
 
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6818700482266745"
     crossorigin="anonymous"></script>
   <title>Luma Deals - Online Shopping in Pakistan | Cash on Delivery</title>
@@ -2945,19 +2948,6 @@
       }
     }
 
-    #main-site {
-      opacity: 0;
-      transform: scale(0.98);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      padding: 40px;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    #main-site.show {
-      opacity: 1;
-      transform: scale(1);
-    }
 
 
 
@@ -7796,12 +7786,16 @@
 
   <!-- Luma Deals AdSense: responsive placement styling (CLS-safe reserved space) -->
   <style id="ld-adsense">
-    .ld-ad { display: block; width: 100%; max-width: 100%; margin: 28px auto; min-height: 90px; }
-    .ld-ad-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; text-align: center; margin-bottom: 6px; }
-    .ld-ad ins.adsbygoogle { display: block; min-height: 90px; }
-    @media (max-width: 640px) {
-      .ld-ad, .ld-ad ins.adsbygoogle { min-height: 100px; }
-    }
+    /* Homepage loading: no reserved space for ads. An unfilled slot
+       contributes zero height (no min-height, no margins, no label);
+       only a slot AdSense actually fills gets the label and spacing,
+       via the .ld-filled class set by #ld-adsense-loader. This removes
+       the permanent blank gap and the old 4s-late collapse jump. */
+    .ld-ad { display: block; width: 100%; max-width: 100%; margin: 0 auto; }
+    .ld-ad.ld-filled { margin: 28px auto; }
+    .ld-ad-label { display: none; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; text-align: center; margin-bottom: 6px; }
+    .ld-ad.ld-filled .ld-ad-label { display: block; }
+    .ld-ad ins.adsbygoogle { display: block; }
   </style>
 </head>
 
@@ -7876,7 +7870,7 @@
   <header class="navbar">
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
     <div class="logo" onclick="showPage('home')">
-      <img id="logo-img" class="logo-img" src="./images/assets/favicon.png" alt="LumaDeals">
+      <img id="navbar-logo-img" class="logo-img" src="./images/assets/favicon.png" alt="LumaDeals" width="42" height="42" fetchpriority="high">
 
       <span class="logo-text">LUMA<b>DEALS</b></span>
     </div>
@@ -8316,7 +8310,7 @@
     </ul>
    <div class="sidebar-footer">
 <button onclick="window.location.href='luma-ai.html'" class="sidebar-whatsapp-btn">
-  <img src="./images/assets/luma-deals-ai-logo.jpg" alt="Luma Deals">
+  <img src="./images/assets/luma-deals-ai-logo.jpg" alt="Luma Deals" loading="lazy">
   <span>Chat with LumaDeals AI</span>
 </button>
 
@@ -12052,7 +12046,6 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     (function () {
   var splash = document.getElementById('splash-screen');
   var dripBox = document.getElementById('drip-container');
-  var mainSite = document.getElementById('main-site');
   var logoImg = document.getElementById('logo-img');
   var fallback = document.getElementById('logo-fallback');
 
@@ -12092,18 +12085,22 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     setTimeout(function () {
-      mainSite.classList.add('show');
-    }, 300);
-
-    setTimeout(function () {
       splash.remove();
-    }, 3500);
+    }, 1200);
 
-  }, 1500);
+  }, 300);
 
 })();
 
-  // Mobile performance: splash pacing compressed (was 1500ms start /
+  // Homepage loading: splash dead-wait cut (was 1500ms start /
+  // 3500ms removal = 5.0s of opaque overlay). The drip animation
+  // itself is untouched; only idle time shrank: start 300ms,
+  // removal 1200ms (drips run 700-1000ms + up to 150ms delay, so
+  // they finish by ~1150ms — 1200ms lets the animation complete).
+  // Overlay now lifts at ~1.5s instead of ~5.0s. The dead
+  // #main-site reveal step was removed: that element does not
+  // exist in the markup, so the old code threw a TypeError on
+  // every load instead of revealing anything.
   
 
     /* =========================================
@@ -18388,16 +18385,39 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
   "use strict";
   var slots = document.querySelectorAll(".ld-ad ins.adsbygoogle");
   if (!slots.length) return;
+  function boxOf(ins) { return ins.closest(".ld-ad"); }
+  function hideBox(ins) {
+    var box = boxOf(ins);
+    if (box) box.style.display = "none";
+  }
   function fill(ins) {
     if (ins.dataset.ldFilled) return;
     ins.dataset.ldFilled = "1";
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+    // Unfilled slots collapse promptly: either AdSense reports
+    // "unfilled" (caught instantly by the observer below), or nothing
+    // ever renders (blocked script / ad blocker) — caught here after
+    // 2s by the empty check. No permanent blank reserve, no 4s-late jump.
     setTimeout(function () {
-      if (ins.getAttribute("data-ad-status") === "unfilled") {
-        var box = ins.closest(".ld-ad");
-        if (box) box.style.display = "none";
+      var status = ins.getAttribute("data-ad-status");
+      if (status === "unfilled") { hideBox(ins); return; }
+      if (!status && !ins.querySelector("iframe")) { hideBox(ins); }
+    }, 2000);
+  }
+  function watch(ins) {
+    if (!("MutationObserver" in window)) return;
+    var mo = new MutationObserver(function () {
+      var status = ins.getAttribute("data-ad-status");
+      if (status === "filled") {
+        var box = boxOf(ins);
+        if (box) box.classList.add("ld-filled");
+        mo.disconnect();
+      } else if (status === "unfilled") {
+        hideBox(ins);
+        mo.disconnect();
       }
-    }, 4000);
+    });
+    mo.observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   }
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -18405,9 +18425,9 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         if (entry.isIntersecting) { fill(entry.target); io.unobserve(entry.target); }
       });
     }, { rootMargin: "200px 0px" });
-    slots.forEach(function (ins) { io.observe(ins); });
+    slots.forEach(function (ins) { watch(ins); io.observe(ins); });
   } else {
-    slots.forEach(fill);
+    slots.forEach(function (ins) { watch(ins); fill(ins); });
   }
 })();
 </script>
