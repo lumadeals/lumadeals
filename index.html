@@ -12047,6 +12047,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     (function () {
   var splash = document.getElementById('splash-screen');
   var dripBox = document.getElementById('drip-container');
+  var mainSite = document.getElementById('main-site');
   var logoImg = document.getElementById('logo-img');
   var fallback = document.getElementById('logo-fallback');
 
@@ -12086,10 +12087,14 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     setTimeout(function () {
-      splash.remove();
-    }, 1200);
+      mainSite.classList.add('show');
+    }, 300);
 
-  }, 300);
+    setTimeout(function () {
+      splash.remove();
+    }, 2500);
+
+  }, 1500);
 
 })();
 
