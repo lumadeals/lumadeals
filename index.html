@@ -2,17 +2,15 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs/">
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
   <link rel="icon" type="image/png" href="/images/assets/favicon.png">
   
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function () {
-      emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
-    })();
-  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6818700482266745"
     crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
   <title>Luma Deals - Online Shopping in Pakistan | Cash on Delivery</title>
   <link rel="canonical" href="https://www.lumadeals.shop/">
   <meta name="description"
@@ -9585,10 +9583,80 @@ LumaDeals AI
     window.products = [];
 
     let cart = [];
+    /* =====================================================================
+       LUMA PERFORMANCE HELPERS (perf-optimization)
+       ldImg: Cloudinary delivery optimization.
+         - Cloudinary URLs get f_auto (WebP/AVIF where the browser
+           supports it), q_auto (smart quality) and a width cap that
+           matches the display size, so a 60px thumbnail no longer
+           downloads the full-size original.
+         - Non-Cloudinary URLs, URLs that already carry a
+           transformation, and signed URLs pass through untouched.
+       ldRenderGrid: chunked grid rendering.
+         - Up to 300 cards render exactly as before (one innerHTML).
+         - Above 300, the first 60 cards paint immediately and the
+           rest stream in via requestAnimationFrame, so a 6,000-item
+           grid never blocks the main thread in one long task.
+         - A render token cancels stale chunks if a newer render
+           starts before the previous one finished.
+       ===================================================================== */
+    function ldImg(url, width) {
+      try {
+        if (!url || typeof url !== 'string') return url;
+        if (url.indexOf('res.cloudinary.com') === -1) return url;
+        if (url.indexOf('/s--') !== -1) return url; // signed URL: never rewrite
+        var marker = '/image/upload/';
+        var i = url.indexOf(marker);
+        if (i === -1) return url;
+        var rest = url.slice(i + marker.length);
+        var slash = rest.indexOf('/');
+        var first = slash === -1 ? rest : rest.slice(0, slash);
+        if (slash !== -1 && !/^v\d+$/.test(first)) return url; // already transformed
+        var w = parseInt(width, 10) || 600;
+        return url.slice(0, i + marker.length) + 'f_auto,q_auto,w_' + w + '/' + rest;
+      } catch (e) {
+        return url;
+      }
+    }
+
+    function ldRenderGrid(grid, items, cardFn, emptyHTML, onDone) {
+      if (!grid) {
+        if (typeof onDone === 'function') onDone();
+        return;
+      }
+      var token = String((parseInt(grid.dataset.ldToken || '0', 10) || 0) + 1);
+      grid.dataset.ldToken = token;
+      if (!items || items.length === 0) {
+        grid.innerHTML = emptyHTML || '';
+        if (typeof onDone === 'function') onDone();
+        return;
+      }
+      if (items.length <= 300) {
+        grid.innerHTML = items.map(cardFn).join('');
+        if (typeof onDone === 'function') onDone();
+        return;
+      }
+      var CHUNK = 120, i = 60;
+      grid.innerHTML = items.slice(0, 60).map(cardFn).join('');
+      function next() {
+        if (grid.dataset.ldToken !== token) return;
+        if (i >= items.length) {
+          if (typeof onDone === 'function') onDone();
+          return;
+        }
+        grid.insertAdjacentHTML('beforeend', items.slice(i, i + CHUNK).map(cardFn).join(''));
+        i += CHUNK;
+        if (window.requestAnimationFrame) window.requestAnimationFrame(next);
+        else setTimeout(next, 0);
+      }
+      if (window.requestAnimationFrame) window.requestAnimationFrame(next);
+      else setTimeout(next, 0);
+    }
+
     function productCardHTML(p) {
       const discount = p.discount || '';
       const rating = p.rating || '★★★★★';
-      const image = p.img || p.image || p.images?.[0] || '';
+      const image = ldImg(p.img || p.image || p.images?.[0] || '', 600);
       const productId = JSON.stringify(p.id);
 
       return `
@@ -9617,6 +9685,7 @@ LumaDeals AI
           src="${image}"
           alt="${p.name || 'Product'}"
           loading="lazy"
+          decoding="async"
         >
 
       </div>
@@ -9945,10 +10014,13 @@ LumaDeals AI
 
 
         const image =
-          item.img ||
-          item.image ||
-          item.images?.[0] ||
-          "";
+          ldImg(
+            item.img ||
+            item.image ||
+            item.images?.[0] ||
+            "",
+            200
+          );
         return `
       <div class="cart-item" style="
         padding:12px 0;
@@ -10149,10 +10221,10 @@ LumaDeals AI
 
       const images = (p.images && p.images.length) ? p.images : [p.img];
 
-      document.getElementById('detail-img').src = images[0];
+      document.getElementById('detail-img').src = ldImg(images[0], 1200);
 
       document.getElementById('detail-thumbnails').innerHTML = images.map((img, i) => `
-  <img src="${img}" data-index="${i}" onclick="selectDetailImage(this, '${img}')" style="width:60px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${i === 0 ? '#3BB4EC' : '#eee'};">
+  <img src="${ldImg(img, 200)}" decoding="async" data-index="${i}" onclick="selectDetailImage(this, '${img}')" style="width:60px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid ${i === 0 ? '#3BB4EC' : '#eee'};">
 `).join('');
 
       const videoWrap = document.getElementById('detail-video-wrap');
@@ -10477,14 +10549,14 @@ LumaDeals AI
         )
         : source;
 
-      const html = filtered.length
-        ? filtered.map(productCardHTML).join('')
-        : "<p style='padding:20px; color:#888;'>Product Not Found.</p>";
-
       const shopGrid = document.getElementById('shop-product-grid');
 
       if (shopGrid) {
-        shopGrid.innerHTML = html;
+        ldRenderGrid(shopGrid, filtered, productCardHTML, "<p style='padding:20px; color:#888;'>Product Not Found.</p>", function () {
+          if (typeof restoreWishlistButtons === 'function') {
+            restoreWishlistButtons();
+          }
+        });
       }
 
       const shopHeading = document.getElementById('shop-heading');
@@ -10512,10 +10584,6 @@ LumaDeals AI
         homeHero.style.display = 'none';
       }
 
-      if (typeof restoreWishlistButtons === 'function') {
-        restoreWishlistButtons();
-      }
-
       if (searchSuggestions) {
         searchSuggestions.style.display = 'none';
       }
@@ -10541,14 +10609,15 @@ LumaDeals AI
         ? source.filter(p => p.name.toLowerCase().includes(query))
         : source;
 
-      const html = filtered.length
-        ? filtered.map(productCardHTML).join('')
-        : "<p style='padding:20px; color:#888;'>Product Not Found.</p>";
-
-      if (homeGrid) homeGrid.innerHTML = html;
-      if (shopGrid) shopGrid.innerHTML = html;
-
-      if (typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
+      var ldPending = 0;
+      function ldDone() {
+        if (--ldPending === 0 && typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
+      }
+      if (homeGrid) ldPending++;
+      if (shopGrid) ldPending++;
+      if (homeGrid) ldRenderGrid(homeGrid, filtered, productCardHTML, "<p style='padding:20px; color:#888;'>Product Not Found.</p>", ldDone);
+      if (shopGrid) ldRenderGrid(shopGrid, filtered, productCardHTML, "<p style='padding:20px; color:#888;'>Product Not Found.</p>", ldDone);
+      if (ldPending === 0 && typeof restoreWishlistButtons === 'function') restoreWishlistButtons();
     }
 
     function showSuggestions() {
@@ -10591,11 +10660,7 @@ LumaDeals AI
 
       const grid = document.getElementById('shop-product-grid');
       if (grid) {
-        if (filtered.length === 0) {
-          grid.innerHTML = "<p style='padding:20px; color:#666;'>No products found</p>";
-        } else {
-          grid.innerHTML = filtered.map(productCardHTML).join('');
-        }
+        ldRenderGrid(grid, filtered, productCardHTML, "<p style='padding:20px; color:#666;'>No products found</p>");
       }
       showPage('shop');
     }
@@ -10637,10 +10702,13 @@ LumaDeals AI
         totalAmount += price * quantity;
 
         const imgSrc =
-          item.image ||
-          item.img ||
-          item.photo ||
-          '';
+          ldImg(
+            item.image ||
+            item.img ||
+            item.photo ||
+            '',
+            200
+          );
 
         itemsHTML += `  
   <div style="  
@@ -11694,22 +11762,19 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         document.getElementById('shop-product-grid');
 
 
-      const html = filtered.length
-        ? filtered.map(productCardHTML).join('')
-        : '<p style="padding:20px;color:#888;">No products in this category yet.</p>';
-
-
+      var ldPending = 0;
+      function ldDone() {
+        if (--ldPending === 0) restoreWishlistButtons();
+      }
+      if (homeGrid) ldPending++;
+      if (shopGrid) ldPending++;
       if (homeGrid) {
-        homeGrid.innerHTML = html;
+        ldRenderGrid(homeGrid, filtered, productCardHTML, '<p style="padding:20px;color:#888;">No products in this category yet.</p>', ldDone);
       }
-
-
       if (shopGrid) {
-        shopGrid.innerHTML = html;
+        ldRenderGrid(shopGrid, filtered, productCardHTML, '<p style="padding:20px;color:#888;">No products in this category yet.</p>', ldDone);
       }
-
-
-      restoreWishlistButtons();
+      if (ldPending === 0) restoreWishlistButtons();
 
 
       /* SHOP HEADING */
@@ -11889,7 +11954,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       alert(`Done! Success: ${successCount}, Failed: ${failCount}`);
     }
     function selectDetailImage(el, img) {
-      document.getElementById('detail-img').src = img;
+      document.getElementById('detail-img').src = ldImg(img, 1200);
 
       const thumbs = document.getElementById('detail-thumbnails').querySelectorAll('img');
       thumbs.forEach(t => t.style.border = '2px solid #eee');
@@ -13188,7 +13253,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
           const itemsHTML = order.items.map(item => `
       <div class="order-item-row-detailed">
-        <img src="${item.img || ''}" alt="${item.name}">
+        <img src="${ldImg(item.img || '', 200)}" alt="${item.name}">
         <div class="order-item-info">
           <span class="oi-name">${item.name}</span>
           <span class="oi-qty">Qty: ${item.quantity}</span>
@@ -18384,5 +18449,13 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
   }
 })();
 </script>
+  <!-- Performance (perf-optimization): EmailJS moved from <head> to end of body.
+       It is only used on signup/contact submit, so it must not block first paint. -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
+    })();
+  </script>
 </body>
 </html>
