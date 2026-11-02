@@ -5447,6 +5447,23 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     var __ldWishlistAuthSeq = 0;    /* guards stale async auth transitions */
     var __ldWishlistWriteChain = Promise.resolve(); /* serializes writes */
 
+    /* Timestamped diagnostics (2026-11-02). Enable in the browser
+       console with localStorage.setItem('ldWishlistDebug', '1') then
+       refresh. Logs the auth uid, the state before/after every
+       change, every write result with its Firebase error code, every
+       snapshot with its server ids + fromCache flag, and the reason
+       for every rollback. Write/load failures are ALSO always logged
+       via the existing console.error calls. No behavior change. */
+    function __ldWishlistDebugOn() {
+      try { return localStorage.getItem("ldWishlistDebug") === "1"; } catch (error) { return false; }
+    }
+    function __ldWishlistLog(event, detail) {
+      if (!__ldWishlistDebugOn()) return;
+      try {
+        console.log("[wishlist] " + new Date().toISOString() + " " + event + " owner=" + (__ldWishlistOwner || "guest") + " " + (detail || ""));
+      } catch (error) {}
+    }
+
     function __ldNormWishlistIds(list) {
       if (!Array.isArray(list)) return [];
       var out = [];
@@ -5487,9 +5504,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     /* Sets the active list. Only ever called with a list that belongs
        to `owner` (a uid, or null for the guest list). */
     function __ldSetActiveWishlist(list, owner) {
+      var __ldPrevIds = __ldWishlistIds.slice();
       __ldWishlistIds = __ldNormWishlistIds(list);
       __ldWishlistOwner = owner || null;
       __ldWishlistReady = true;
+      __ldWishlistLog("state", "before=" + JSON.stringify(__ldPrevIds) + " after=" + JSON.stringify(__ldWishlistIds));
     }
 
     function __ldIsWishlistPageOpen() {
@@ -5541,6 +5560,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       var user = window.currentUser;
       if (!user || user.uid !== uid) return;
       var data = snap.exists() ? (snap.data() || {}) : {};
+      __ldWishlistLog("snapshot", "serverIds=" + JSON.stringify(Array.isArray(data.productIds) ? data.productIds : []) + " fromCache=" + (snap.metadata ? snap.metadata.fromCache : "n/a"));
       __ldSetActiveWishlist(
         Array.isArray(data.productIds) ? data.productIds : [],
         uid
@@ -5560,6 +5580,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           var snap = await fs.getDoc(ref);
           if (seq !== __ldWishlistAuthSeq) return;
 
+          __ldWishlistLog("load", snap.exists() ? "doc exists, serverIds=" + JSON.stringify(Array.isArray((snap.data() || {}).productIds) ? (snap.data() || {}).productIds : []) : "no doc, migrating guest list");
           if (!snap.exists()) {
             var guest = __ldReadGuestWishlist();
             await fs.setDoc(ref, {
@@ -5622,6 +5643,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           return; /* duplicate signed-out callback */
         }
         ++__ldWishlistAuthSeq;
+        __ldWishlistLog("auth", "logout");
         __ldDetachWishlistListener();
         /* Logout: Firestore list is NOT deleted. The guest list
            (never touched while logged in) becomes active again. */
@@ -5637,6 +5659,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       }
 
       var seq = ++__ldWishlistAuthSeq;
+      __ldWishlistLog("auth", "login uid=" + uid);
 
       __ldDetachWishlistListener();
       __ldWishlistOwner = uid;
@@ -5749,8 +5772,10 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
               throw error;
             }
           }
+          __ldWishlistLog("write-ok", (adding ? "add " : "remove ") + id + " uid=" + uid);
           return true;
         } catch (error) {
+          __ldWishlistLog("write-failed", (adding ? "add " : "remove ") + id + " uid=" + uid + " code=" + (error && error.code));
           console.error("Wishlist save error:", error);
           return false;
         }
@@ -5799,6 +5824,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
          nothing, and Login Now resolves auth. The popup script
          (end of body) defines showGuestWishlistPopup. */
       if (!window.currentUser && !__ldWishlistOwner) {
+        __ldWishlistLog("gate", "guest tap, popup shown, nothing saved");
         if (typeof showGuestWishlistPopup === "function") {
           showGuestWishlistPopup();
         }
@@ -5852,6 +5878,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
            while the write was in flight (the auth handler owns the
            state after a switch). */
         if (__ldWishlistOwner === ownerUid) {
+          __ldWishlistLog("rollback", "write failed for " + id + ", restoring " + JSON.stringify(previous));
           __ldSetActiveWishlist(previous, ownerUid);
         }
         if (typeof showToast === "function") {
@@ -11995,5 +12022,9 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       });
     })();
   </script>
+  <!-- Toast host (2026-11-02): showToast() looks up #custom-toast,
+       but this element never existed in the page, so every wishlist
+       error toast silently did nothing. CSS already exists. -->
+  <div id="custom-toast" role="status" aria-live="polite"></div>
 </body>
 </html>
