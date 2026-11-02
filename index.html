@@ -770,6 +770,8 @@
           shopGrid.innerHTML =
             errorHTML;
         }
+
+        window.__ldProductsLoadFailed = true;
       }
     }
 
@@ -2803,6 +2805,7 @@ LumaDeals AI
           class="wishlist-btn"
           type="button"
           aria-label="Add to wishlist"
+          data-product-id="${String(p.id ?? p.productId ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"
           onclick="event.stopPropagation(); toggleWishlist(${productId}, this);"
         >
           <svg viewBox="0 0 24 24" class="heart-icon">
@@ -5326,257 +5329,493 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     /* =========================================
        LUMA DEALS — WISHLIST SYSTEM
+       Account-aware wishlist (fixed 2026-11-02).
+
+       DESIGN (fixes the old localStorage-only system):
+       - The ACTIVE list lives in memory (__ldWishlistIds). Every UI
+         read (hearts, wishlist page) goes through getWishlist(),
+         which returns that active list once loaded.
+       - Logged-in users: Firestore is the source of truth at
+         users/{uid}/wishlist/items { productIds, updatedAt }.
+         A live onSnapshot listener keeps this device in sync with
+         changes made on any other device.
+       - Guests: the list lives only in localStorage key
+         "lumaWishlist". Login NEVER deletes it, and logout
+         restores it as the active list.
+       - Guest -> account migration happens ONLY when the account
+         has no wishlist document yet. An existing account list is
+         never overwritten by the guest list.
+       - Product ids are normalized to String everywhere, and heart
+         buttons carry data-product-id (no fragile onclick parsing).
        ========================================= */
 
+    /* ---------- Active state: single source of truth for the UI ---------- */
+    var __ldWishlistIds = [];
+    var __ldWishlistOwner = null;   /* Firebase uid, or null = guest */
+    var __ldWishlistReady = false;  /* true once the active list is loaded */
+    var __ldWishlistUnsub = null;   /* Firestore onSnapshot unsubscribe */
+    var __ldWishlistAuthSeq = 0;    /* guards stale async auth transitions */
+    var __ldWishlistWriteChain = Promise.resolve(); /* serializes writes */
 
+    function __ldNormWishlistIds(list) {
+      if (!Array.isArray(list)) return [];
+      var out = [];
+      list.forEach(function (id) {
+        var s = String(id);
+        if (
+          s !== "undefined" &&
+          s !== "null" &&
+          s !== "" &&
+          out.indexOf(s) === -1
+        ) {
+          out.push(s);
+        }
+      });
+      return out;
+    }
 
-
-    function getWishlist() {
+    function __ldReadGuestWishlist() {
       try {
-        const saved = localStorage.getItem("lumaWishlist");
-
+        var saved = localStorage.getItem("lumaWishlist");
         if (!saved) return [];
-
-        const parsed = JSON.parse(saved);
-
-        return Array.isArray(parsed)
-          ? parsed.map(String)
-          : [];
-
+        return __ldNormWishlistIds(JSON.parse(saved));
       } catch (error) {
         console.error("Wishlist load error:", error);
         return [];
       }
     }
-    /* =========================================
-       SAVE WISHLIST
-       ========================================= */
 
+    function __ldWriteGuestWishlist(list) {
+      try {
+        localStorage.setItem(
+          "lumaWishlist",
+          JSON.stringify(__ldNormWishlistIds(list))
+        );
+      } catch (error) {}
+    }
+
+    /* Sets the active list. Only ever called with a list that belongs
+       to `owner` (a uid, or null for the guest list). */
+    function __ldSetActiveWishlist(list, owner) {
+      __ldWishlistIds = __ldNormWishlistIds(list);
+      __ldWishlistOwner = owner || null;
+      __ldWishlistReady = true;
+    }
+
+    function __ldIsWishlistPageOpen() {
+      var page = document.getElementById("page-wishlist");
+      return !!(page && page.classList.contains("active"));
+    }
+
+    function __ldRefreshWishlistPage() {
+      if (
+        __ldIsWishlistPageOpen() &&
+        typeof showWishlist === "function"
+      ) {
+        showWishlist();
+      }
+    }
+
+    function __ldDetachWishlistListener() {
+      if (typeof __ldWishlistUnsub === "function") {
+        try { __ldWishlistUnsub(); } catch (error) {}
+      }
+      __ldWishlistUnsub = null;
+    }
+
+    async function __ldFirestore() {
+      var m = await import(
+        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+      );
+      return {
+        db: m.getFirestore(window.firebaseApp),
+        doc: m.doc,
+        getDoc: m.getDoc,
+        setDoc: m.setDoc,
+        updateDoc: m.updateDoc,
+        onSnapshot: m.onSnapshot,
+        arrayUnion: m.arrayUnion,
+        arrayRemove: m.arrayRemove
+      };
+    }
+
+    function __ldWishlistRef(fs, uid) {
+      return fs.doc(fs.db, "users", uid, "wishlist", "items");
+    }
+
+    /* Remote change (another device, or our own write echoing back).
+       Applies only if it still belongs to the currently active owner. */
+    function __ldOnRemoteWishlist(uid, seq, snap) {
+      if (seq !== __ldWishlistAuthSeq) return;
+      if (__ldWishlistOwner !== uid) return;
+      var user = window.currentUser;
+      if (!user || user.uid !== uid) return;
+      var data = snap.exists() ? (snap.data() || {}) : {};
+      __ldSetActiveWishlist(
+        Array.isArray(data.productIds) ? data.productIds : [],
+        uid
+      );
+      updateWishlistButtons();
+      __ldRefreshWishlistPage();
+    }
+
+    /* One-time load for a signed-in user, then a live listener.
+       Migration: the guest list is copied to Firestore ONLY when the
+       account has no wishlist document yet. */
+    function __ldLoadAccountWishlist(uid, seq) {
+      return (async function () {
+        try {
+          var fs = await __ldFirestore();
+          var ref = __ldWishlistRef(fs, uid);
+          var snap = await fs.getDoc(ref);
+          if (seq !== __ldWishlistAuthSeq) return;
+
+          if (!snap.exists()) {
+            var guest = __ldReadGuestWishlist();
+            await fs.setDoc(ref, {
+              productIds: guest,
+              updatedAt: new Date()
+            });
+            if (seq !== __ldWishlistAuthSeq) return;
+            __ldSetActiveWishlist(guest, uid);
+            console.log("Guest wishlist migrated to Firebase.");
+          } else {
+            var data = snap.data() || {};
+            __ldSetActiveWishlist(
+              Array.isArray(data.productIds) ? data.productIds : [],
+              uid
+            );
+            console.log("Wishlist loaded from Firebase.");
+          }
+
+          updateWishlistButtons();
+          __ldRefreshWishlistPage();
+
+          try {
+            __ldDetachWishlistListener();
+            __ldWishlistUnsub = fs.onSnapshot(
+              ref,
+              function (s) { __ldOnRemoteWishlist(uid, seq, s); },
+              function (err) {
+                console.error("Wishlist live sync error:", err);
+              }
+            );
+          } catch (error) {
+            console.error("Wishlist listener error:", error);
+          }
+        } catch (error) {
+          console.error("Wishlist load error:", error);
+          if (seq !== __ldWishlistAuthSeq) return;
+          /* Fail closed: never show a list that is not this
+             account's. The user can refresh to retry. */
+          __ldSetActiveWishlist([], uid);
+          if (typeof showToast === "function") {
+            showToast("Could not load your wishlist. Please check your connection and refresh.");
+          }
+          updateWishlistButtons();
+          __ldRefreshWishlistPage();
+        }
+      })();
+    }
+
+    /* THE auth transition handler: login, logout, and account
+       switching all flow through here. It is registered once (see
+       the DOMContentLoaded registration below) and fires on every
+       Firebase auth-state change. */
+    async function __ldOnWishlistAuthChange(user, force) {
+      /* NOTE: the sequence token is bumped ONLY on a real transition
+         below. A duplicate callback must never bump it, or the live
+         listener attached with the previous token would go stale and
+         silently stop receiving remote updates. */
+      if (!user) {
+        if (!force && __ldWishlistOwner === null && __ldWishlistReady) {
+          return; /* duplicate signed-out callback */
+        }
+        ++__ldWishlistAuthSeq;
+        __ldDetachWishlistListener();
+        /* Logout: Firestore list is NOT deleted. The guest list
+           (never touched while logged in) becomes active again. */
+        __ldSetActiveWishlist(__ldReadGuestWishlist(), null);
+        updateWishlistButtons();
+        __ldRefreshWishlistPage();
+        return;
+      }
+
+      var uid = user.uid;
+      if (!force && uid === __ldWishlistOwner && __ldWishlistReady) {
+        return; /* duplicate callback for the same account */
+      }
+
+      var seq = ++__ldWishlistAuthSeq;
+
+      __ldDetachWishlistListener();
+      __ldWishlistOwner = uid;
+      __ldWishlistReady = false;
+      __ldWishlistIds = [];
+      updateWishlistButtons(); /* clear stale hearts immediately */
+      __ldRefreshWishlistPage(); /* shows the loading state */
+      await __ldLoadAccountWishlist(uid, seq);
+    }
+
+    /* Registration must wait until the Firebase Auth stub exists.
+       The stub lives in the module script, which runs after parsing
+       but before DOMContentLoaded — so registering here is safe. */
+    function __ldRegisterWishlistAuthListener() {
+      if (typeof window.firebaseOnAuthChange === "function") {
+        window.firebaseOnAuthChange(
+          window.firebaseAuth,
+          function (user) { __ldOnWishlistAuthChange(user, false); }
+        );
+      }
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener(
+        "DOMContentLoaded",
+        __ldRegisterWishlistAuthListener
+      );
+    } else {
+      __ldRegisterWishlistAuthListener();
+    }
+
+
+    /* =========================================
+       GET WISHLIST — the active list, never a
+       shared localStorage list for logged-in users
+       ========================================= */
+    function getWishlist() {
+      if (__ldWishlistReady) {
+        return __ldWishlistIds.slice();
+      }
+      /* Auth not resolved yet (SDK still loading): fall back to the
+         guest list, exactly like the old code, until the auth
+         listener corrects the state moments later. */
+      return __ldReadGuestWishlist();
+    }
+
+
+    /* =========================================
+       SAVE WISHLIST — full-list write (migration
+       path and backwards-compatible callers)
+       ========================================= */
     async function saveWishlist(wishlist) {
       try {
+        var cleanWishlist = __ldNormWishlistIds(wishlist);
+        var user = window.currentUser;
 
-        const cleanWishlist = [
-          ...new Set(
-            wishlist
-              .map(String)
-              .filter(
-                id =>
-                  id !== "undefined" &&
-                  id !== "null" &&
-                  id !== ""
-              )
-          )
-        ];
-
-        // Local backup — existing system safe rahega
-        if (!window.currentUser) {
-          localStorage.setItem(
-            "lumaWishlist",
-            JSON.stringify(cleanWishlist)
-          );
+        if (!user) {
+          __ldSetActiveWishlist(cleanWishlist, null);
+          __ldWriteGuestWishlist(cleanWishlist);
+          return true;
         }
 
-        // Firebase sync only when user is logged in
-        const user = window.currentUser;
+        __ldSetActiveWishlist(cleanWishlist, user.uid);
 
-        if (user) {
-
-          const {
-            getFirestore,
-            doc,
-            setDoc
-          } = await import(
-            "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-          );
-
-          const db = getFirestore(window.firebaseApp);
-
-          await setDoc(
-            doc(
-              db,
-              "users",
-              user.uid,
-              "wishlist",
-              "items"
-            ),
-            {
-              productIds: cleanWishlist,
-              updatedAt: new Date()
-            }
-          );
-
-          console.log("Wishlist saved to Firebase.");
-        }
-
-        return true;
-
-      } catch (error) {
-
-        console.error(
-          "Wishlist save error:",
-          error
+        var fs = await __ldFirestore();
+        await fs.setDoc(
+          __ldWishlistRef(fs, user.uid),
+          { productIds: cleanWishlist, updatedAt: new Date() }
         );
 
+        console.log("Wishlist saved to Firebase.");
+        return true;
+      } catch (error) {
+        console.error("Wishlist save error:", error);
         return false;
       }
+    }
+
+
+    /* Serialized single-item write for logged-in users. arrayUnion /
+       arrayRemove are atomic, so concurrent edits from two devices
+       cannot silently drop each other; the promise chain keeps
+       rapid toggles on this device landing in click order. */
+    function __ldWriteAccountWishlistChange(uid, id, adding) {
+      var task = __ldWishlistWriteChain.then(async function () {
+        try {
+          var fs = await __ldFirestore();
+          var ref = __ldWishlistRef(fs, uid);
+          try {
+            await fs.updateDoc(ref, {
+              productIds: adding
+                ? fs.arrayUnion(id)
+                : fs.arrayRemove(id),
+              updatedAt: new Date()
+            });
+          } catch (error) {
+            if (
+              error &&
+              (error.code === "not-found" ||
+                /not-found/i.test(String(error.message || "")))
+            ) {
+              await fs.setDoc(
+                ref,
+                {
+                  productIds: adding ? [id] : [],
+                  updatedAt: new Date()
+                },
+                { merge: true }
+              );
+            } else {
+              throw error;
+            }
+          }
+          return true;
+        } catch (error) {
+          console.error("Wishlist save error:", error);
+          return false;
+        }
+      });
+      /* The chain itself never rejects, so one failed write cannot
+         block later writes. Each task still reports its own result. */
+      __ldWishlistWriteChain = task.catch(function () {});
+      return task;
     }
 
 
     /* =========================================
        ADD / REMOVE WISHLIST
        ========================================= */
-
     window.toggleWishlist = async function (productId, button) {
-      productId = String(productId);
+      var id = String(productId);
 
-      if (
-        productId === "undefined" ||
-        productId === "null" ||
-        productId === ""
-      ) {
-        console.error("Invalid wishlist product ID:", productId);
+      if (id === "undefined" || id === "null" || id === "") {
+        console.error("Invalid wishlist product ID:", id);
         return;
       }
 
-      let wishlist = getWishlist();
-
-      const index = wishlist.indexOf(productId);
-
-
-      /* REMOVE */
-
-      if (index !== -1) {
-
-        wishlist.splice(index, 1);
-
-        if (button) {
-          button.classList.remove("active");
-          button.classList.remove("ld-fire");
+      /* Never toggle against a half-loaded account list. If auth is
+         still resolving, start the Auth SDK now (a wishlist tap is
+         an auth-relevant action) and wait briefly for the listener
+         to settle; after the cap, proceed with the guest fallback. */
+      if (!__ldWishlistReady) {
+        try {
+          if (typeof window.__ldEnsureAuth === "function") {
+            window.__ldEnsureAuth().catch(function () {});
+          }
+        } catch (error) {}
+        var waited = 0;
+        while (!__ldWishlistReady && waited < 3000) {
+          await new Promise(function (r) { setTimeout(r, 50); });
+          waited += 50;
         }
-
       }
 
+      var user = window.currentUser;
+      var ownerUid = user ? user.uid : null;
+      var previous = getWishlist();
+      var wishlist = previous.slice();
+      var index = wishlist.indexOf(id);
+      var adding = index === -1;
 
-      /* ADD */
+      if (adding) {
+        wishlist.push(id);
+      } else {
+        wishlist.splice(index, 1);
+      }
 
-      else {
+      /* Memory first: rapid toggles read the correct base list. */
+      __ldSetActiveWishlist(wishlist, ownerUid);
 
-        wishlist.push(productId);
-
-        if (button) {
-
+      if (button) {
+        if (adding) {
           button.classList.add("active");
-
           button.classList.remove("ld-fire");
-
           void button.offsetWidth;
-
           button.classList.add("ld-fire");
-
           setTimeout(function () {
             button.classList.remove("ld-fire");
           }, 700);
-
+        } else {
+          button.classList.remove("active");
+          button.classList.remove("ld-fire");
         }
-
-        if (navigator.vibrate) {
-          navigator.vibrate(50);
-        }
-
       }
 
+      if (adding && navigator.vibrate) {
+        navigator.vibrate(50);
+      }
 
-      /* SAVE */
+      var ok = true;
+      if (!user) {
+        __ldWriteGuestWishlist(wishlist);
+      } else {
+        ok = await __ldWriteAccountWishlistChange(ownerUid, id, adding);
+      }
 
-      await saveWishlist(wishlist);
-
+      if (!ok) {
+        /* Roll back, but only if the user has not switched accounts
+           while the write was in flight (the auth handler owns the
+           state after a switch). */
+        if (__ldWishlistOwner === ownerUid) {
+          __ldSetActiveWishlist(previous, ownerUid);
+        }
+        if (typeof showToast === "function") {
+          showToast("Could not save your wishlist. Please check your connection and try again.");
+        }
+      }
 
       /* UPDATE ALL HEARTS */
-
       updateWishlistButtons();
 
-
       /* IF WISHLIST PAGE IS OPEN */
-
-      const wishlistPage =
-        document.getElementById("page-wishlist");
-
-      if (
-        wishlistPage &&
-        wishlistPage.classList.contains("active")
-      ) {
+      if (__ldIsWishlistPageOpen()) {
         showWishlist();
       }
-
     };
 
 
     /* =========================================
        CHECK WISHLIST
        ========================================= */
-
     window.isInWishlist = function (productId) {
-
-      return getWishlist().includes(
-        String(productId)
-      );
-
+      return getWishlist().indexOf(String(productId)) !== -1;
     };
 
 
     /* =========================================
-       UPDATE ALL HEARTS
+       UPDATE ALL HEARTS — reads data-product-id
+       (falls back to the old onclick parse for any button
+       rendered without the attribute)
        ========================================= */
-
     function updateWishlistButtons() {
-
       document
         .querySelectorAll(".wishlist-btn")
         .forEach(function (button) {
+          var raw = button.getAttribute("data-product-id");
 
-          const onclick =
-            button.getAttribute("onclick");
-
-          if (!onclick) return;
-
-          const match =
-            onclick.match(
-              /toggleWishlist\(([^,]+)/
-            );
-
-          if (!match) return;
-
-          const productId =
-            String(match[1].trim());
-
-          if (isInWishlist(productId)) {
-
-            button.classList.add("active");
-
-            button.classList.remove("ld-fire");
-
-          } else {
-
-            button.classList.remove("active");
-
-            button.classList.remove("ld-fire");
-
+          if (raw === null || raw === undefined || raw === "") {
+            var onclick = button.getAttribute("onclick");
+            if (!onclick) return;
+            var match = onclick.match(/toggleWishlist\(([^,]+)/);
+            if (!match) return;
+            raw = match[1].trim().replace(/^['"]|['"]$/g, "");
           }
 
-        });
+          var productId = String(raw);
 
+          if (
+            productId === "" ||
+            productId === "undefined" ||
+            productId === "null"
+          ) {
+            return;
+          }
+
+          if (isInWishlist(productId)) {
+            button.classList.add("active");
+          } else {
+            button.classList.remove("active");
+          }
+          button.classList.remove("ld-fire");
+        });
     }
 
 
     /* =========================================
        COMPATIBILITY FUNCTION
-       =========================================
-       Tumhare baaki code mein
-       restoreWishlistButtons() call ho raha hai.
-       Isliye usko updateWishlistButtons se connect
-       kar rahe hain.
+       restoreWishlistButtons() is called by the rest of the code,
+       so it stays connected to updateWishlistButtons.
        ========================================= */
-
     function restoreWishlistButtons() {
       updateWishlistButtons();
     }
@@ -5585,30 +5824,36 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     /* =========================================
        SHOW WISHLIST PRODUCTS
        ========================================= */
-
     window.showWishlist = function () {
-
-      const container =
-        document.getElementById(
-          "wishlist-products"
-        );
+      var container = document.getElementById("wishlist-products");
 
       if (!container) {
-        console.error(
-          "wishlist-products container not found."
-        );
+        console.error("wishlist-products container not found.");
         return;
       }
 
+      /* Account list still loading (login / switch in progress):
+         show a loading state, never a false "empty". */
+      if (!__ldWishlistReady && (__ldWishlistOwner || window.currentUser)) {
+        container.innerHTML = `
+      <div style="
+        text-align:center;
+        padding:50px 20px;
+      ">
+        <h3>Loading your wishlist…</h3>
 
-      const wishlist =
-        getWishlist();
+        <p>
+          Please wait a moment.
+        </p>
+      </div>
+    `;
+        return;
+      }
 
+      var wishlist = getWishlist();
 
       /* EMPTY */
-
       if (!wishlist.length) {
-
         container.innerHTML = `
       <div style="
         text-align:center;
@@ -5624,38 +5869,44 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         </p>
       </div>
     `;
-
         return;
       }
 
+      /* Products have not rendered yet: loading, not "not found". */
+      if (!window.__ldInitialRendered && !window.__ldProductsLoadFailed) {
+        container.innerHTML = `
+      <div style="
+        text-align:center;
+        padding:50px 20px;
+      ">
+        <h3>Loading your wishlist…</h3>
+
+        <p>
+          Your saved products are loading.
+        </p>
+      </div>
+    `;
+        return;
+      }
 
       /* PRODUCTS */
-
-      const products =
+      var products =
         Array.isArray(window.products)
           ? window.products
           : [];
 
-
-      const wishlistProducts =
+      var wishlistProducts =
         products.filter(function (product) {
-
-          const productId =
-            String(
-              product.id ??
-              product.productId ??
-              ""
-            );
-
+          var productId = String(
+            product.id ??
+            product.productId ??
+            ""
+          );
           return wishlist.includes(productId);
-
         });
 
-
       /* PRODUCTS NOT FOUND */
-
       if (!wishlistProducts.length) {
-
         container.innerHTML = `
       <div style="
         text-align:center;
@@ -5670,33 +5921,22 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         </p>
       </div>
     `;
-
         return;
       }
 
-
       /* RENDER */
-
       container.innerHTML =
         wishlistProducts
           .map(function (product) {
-
-            if (
-              typeof productCardHTML === "function"
-            ) {
+            if (typeof productCardHTML === "function") {
               return productCardHTML(product);
             }
-
             return "";
-
           })
           .join("");
 
-
       /* RESTORE HEARTS */
-
       updateWishlistButtons();
-
     };
 
 
@@ -6861,6 +7101,13 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
         window.currentUser = null;
 
+        /* Wishlist: drop the previous account's active list at once
+           (the auth listener will also fire with null; this call is
+           synchronous, so stale hearts never survive a logout). */
+        if (typeof __ldOnWishlistAuthChange === "function") {
+          __ldOnWishlistAuthChange(null, false);
+        }
+
         closeProfileMenu();
 
         updateHeaderProfile();
@@ -7291,153 +7538,31 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     });
 
     /* =========================================
-     LUMA DEALS — FIREBASE WISHLIST SYNC
+     LUMA DEALS — FIREBASE WISHLIST SYNC (compat)
+     The account-aware system now lives in the WISHLIST SYSTEM
+     block: one onAuthStateChanged listener loads the signed-in
+     user's wishlist from Firestore and keeps it live with
+     onSnapshot, so login, logout, and account switching work
+     without polling. syncWishlistWithFirebase() is kept so any
+     older call site still works: it reloads the current user.
      ========================================= */
 
     async function syncWishlistWithFirebase() {
-      const user = window.currentUser;
+      var user = window.currentUser;
 
-      if (!user) return;
-
-      try {
-        const {
-          getFirestore,
-          doc,
-          getDoc,
-          setDoc
-        } = await import(
-          "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-        );
-
-        const db = getFirestore(window.firebaseApp);
-
-        const wishlistRef = doc(
-          db,
-          "users",
-          user.uid,
-          "wishlist",
-          "items"
-        );
-
-        const firebaseSnap = await getDoc(wishlistRef);
-
-        /*
-          FIRST LOGIN:
-          Agar Firebase mein wishlist nahi hai,
-          existing local wishlist ko Firebase mein migrate karo.
-        */
-
-        if (!firebaseSnap.exists()) {
-
-          const localSaved =
-            localStorage.getItem("lumaWishlist");
-
-          let localWishlist = [];
-
-          if (localSaved) {
-            try {
-              const parsed = JSON.parse(localSaved);
-
-              if (Array.isArray(parsed)) {
-                localWishlist = [
-                  ...new Set(
-                    parsed.map(String)
-                  )
-                ];
-              }
-
-            } catch (e) {
-              localWishlist = [];
-            }
-          }
-
-          await setDoc(wishlistRef, {
-            productIds: localWishlist,
-            updatedAt: new Date()
-          });
-
-          console.log(
-            "Existing wishlist migrated to Firebase."
-          );
-
-          return;
-        }
-
-        /*
-          Firebase wishlist already exists:
-          Firebase ko source of truth rakho.
-        */
-
-        const data = firebaseSnap.data();
-
-        const firebaseWishlist =
-          Array.isArray(data.productIds)
-            ? data.productIds.map(String)
-            : [];
-
-        localStorage.removeItem("lumaWishlist");
-
+      if (!user) {
+        __ldSetActiveWishlist(__ldReadGuestWishlist(), null);
         if (typeof updateWishlistButtons === "function") {
           updateWishlistButtons();
         }
+        __ldRefreshWishlistPage();
+        return;
+      }
 
-        if (
-          typeof showWishlist === "function"
-        ) {
-          const wishlistPage =
-            document.getElementById("page-wishlist");
-
-          if (
-            wishlistPage &&
-            wishlistPage.classList.contains("active")
-          ) {
-            showWishlist();
-          }
-        }
-
-        console.log(
-          "Wishlist loaded from Firebase."
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Firebase wishlist sync error:",
-          error
-        );
-
+      if (typeof __ldOnWishlistAuthChange === "function") {
+        await __ldOnWishlistAuthChange(user, true);
       }
     }
-    (function startWishlistFirebaseSync() {
-
-      let synced = false;
-
-      const checkUser = setInterval(async function () {
-
-        if (synced) {
-          clearInterval(checkUser);
-          return;
-        }
-
-        const user = window.currentUser;
-
-        if (user) {
-
-          synced = true;
-
-          clearInterval(checkUser);
-
-          await syncWishlistWithFirebase();
-
-          if (typeof updateWishlistButtons === "function") {
-            updateWishlistButtons();
-          }
-
-        }
-
-      }, 500);
-
-    })();
 
     function startSearchPlaceholderRotation() {
       const input = document.getElementById('search-input');
