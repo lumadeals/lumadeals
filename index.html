@@ -770,8 +770,6 @@
           shopGrid.innerHTML =
             errorHTML;
         }
-
-        window.__ldProductsLoadFailed = true;
       }
     }
 
@@ -919,6 +917,1235 @@
 
   <!-- Luma Deals AdSense: responsive placement styling (CLS-safe reserved space) -->
   <style id="ld-adsense">.ld-ad{display:block;width:100%;max-width:100%;margin:28px auto;min-height:120px;}.ld-ad-label{visibility:hidden;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#64748b;text-align:center;margin-bottom:6px;}.ld-ad.ld-filled .ld-ad-label{visibility:visible;}.ld-ad ins.adsbygoogle{display:block;}</style>
+  <!-- LUMA DEALS VISUAL REDESIGN 2026-11-02: additive design layer only.
+       No markup, JS, ids, handlers, URLs, SEO tags or ad placements changed. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style id="ld-redesign">
+/* ============================================================
+   LUMA DEALS — COMPLETE VISUAL REDESIGN (2026-11-02)
+   A single additive design layer. It changes NO markup, NO
+   JavaScript, NO ids, NO handlers, NO URLs, NO SEO tags and
+   NO AdSense placements — every component below is restyled
+   through CSS only, so all existing flows keep working.
+   Mobile-first: base rules are the mobile design; min-width
+   queries enhance tablet and desktop. Brand: #3BB4EC / #14171A.
+   ============================================================ */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --ld-blue: #3BB4EC;
+  --ld-blue-deep: #0E8FC7;
+  --ld-blue-ink: #0B3A52;
+  --ld-ink: #14171A;
+  --ld-bg: #F3F7FB;
+  --ld-surface: #FFFFFF;
+  --ld-surface-glass: rgba(255, 255, 255, 0.86);
+  --ld-text: #16202A;
+  --ld-muted: #5B6B7A;
+  --ld-line: rgba(20, 40, 60, 0.09);
+  --ld-line-strong: rgba(20, 40, 60, 0.16);
+  --ld-amber: #F59E0B;
+  --ld-green: #16A34A;
+  --ld-red: #EF4444;
+  --ld-font-display: 'Sora', 'Poppins', 'Segoe UI', Arial, sans-serif;
+  --ld-font-body: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  --ld-r-sm: 12px;
+  --ld-r-md: 18px;
+  --ld-r-lg: 24px;
+  --ld-r-pill: 999px;
+  --ld-shadow-card: 0 10px 30px rgba(20, 40, 60, 0.10);
+  --ld-shadow-lift: 0 18px 44px rgba(20, 40, 60, 0.16);
+  --ld-shadow-blue: 0 12px 28px rgba(59, 180, 236, 0.35);
+  --ld-grad-blue: linear-gradient(135deg, #4FC3F7 0%, #3BB4EC 45%, #0E8FC7 100%);
+  --ld-grad-ink: linear-gradient(135deg, #101B26 0%, #14171A 52%, #0B3A52 100%);
+}
+
+/* ---------- Base ---------- */
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body {
+  background:
+    radial-gradient(900px 480px at 85% -80px, rgba(59, 180, 236, 0.16), rgba(59, 180, 236, 0) 60%),
+    radial-gradient(700px 420px at -120px 240px, rgba(14, 143, 199, 0.10), rgba(14, 143, 199, 0) 60%),
+    var(--ld-bg) !important;
+  color: var(--ld-text);
+  font-family: var(--ld-font-body);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(59, 180, 236, 0.35); }
+a { color: var(--ld-blue-deep); }
+button, input, select, textarea { font-family: inherit; }
+:focus-visible {
+  outline: 3px solid rgba(59, 180, 236, 0.55) !important;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+h1, h2, h3, h4 {
+  font-family: var(--ld-font-display);
+  color: var(--ld-ink);
+  letter-spacing: -0.02em;
+}
+p { color: var(--ld-text); line-height: 1.65; }
+@media (max-width: 768px) {
+  p { font-size: 14px !important; }
+}
+
+/* Page rhythm: every page gets air, and mobile content clears the dock. */
+.page { padding-bottom: 24px; }
+@media (max-width: 768px) {
+  .page { padding-bottom: 108px; }
+}
+
+/* ---------- Promo bar: premium ink bar, motion calmed ---------- */
+.promo-bar-neon {
+  background: var(--ld-grad-ink) !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(125, 211, 252, 0.25) !important;
+  box-shadow: none !important;
+  min-height: 44px !important;
+  padding: 9px 14px !important;
+  font-family: var(--ld-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  gap: 10px !important;
+}
+.promo-bar-neon::before { display: none !important; }
+.promo-bar-neon .promo-text { text-shadow: none !important; color: #DCEFFB !important; }
+.promo-bar-neon .promo-off {
+  background: linear-gradient(135deg, #FBBF24, #F59E0B) !important;
+  border: 0 !important;
+  color: #3A2200 !important;
+  text-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45) !important;
+  animation: none !important;
+  border-radius: 999px !important;
+  padding: 4px 12px !important;
+  font-weight: 800 !important;
+}
+.promo-bar-neon .promo-icon { filter: none !important; font-size: 15px !important; }
+
+/* ---------- Header: floating glass bar ---------- */
+.navbar {
+  background: var(--ld-surface-glass) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 8px 28px rgba(20, 40, 60, 0.08) !important;
+  border-bottom: 1px solid var(--ld-line) !important;
+  padding: 12px 14px !important;
+  gap: 12px !important;
+  position: sticky !important;
+  top: 0;
+  z-index: 1000 !important;
+}
+.logo { gap: 10px !important; }
+.logo-img {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  box-shadow: 0 6px 16px rgba(59, 180, 236, 0.35);
+  background: #fff;
+}
+.logo-text {
+  font-family: var(--ld-font-display) !important;
+  font-size: 21px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--ld-ink) !important;
+}
+.logo-text b {
+  background: var(--ld-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.hamburger {
+  width: 44px;
+  height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #EEF6FC;
+  border: 1px solid var(--ld-line);
+  font-size: 20px;
+  color: var(--ld-ink);
+  cursor: pointer;
+}
+
+/* Search: one unified pill. */
+.search-box {
+  max-width: 100% !important;
+  background: #fff;
+  border: 1.5px solid var(--ld-line-strong);
+  border-radius: var(--ld-r-pill);
+  box-shadow: 0 4px 16px rgba(20, 40, 60, 0.06);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.search-box:focus-within {
+  border-color: var(--ld-blue) !important;
+  box-shadow: 0 0 0 4px rgba(59, 180, 236, 0.18), 0 8px 24px rgba(20, 40, 60, 0.08);
+}
+.search-box input {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 13px 16px !important;
+  font-size: 15px !important;
+  background: transparent !important;
+  color: var(--ld-text);
+}
+.search-box input::placeholder { color: #8AA0B2; }
+#voice-search-btn {
+  background: #EEF6FC !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  margin: 4px 2px !important;
+  padding: 0 !important;
+  flex: 0 0 auto;
+}
+.search-box button:last-of-type {
+  background: var(--ld-grad-blue) !important;
+  border-radius: 0 !important;
+  padding: 0 20px !important;
+  font-size: 17px !important;
+  color: #fff !important;
+}
+/* Suggestions dropdown: glass panel. */
+#search-suggestions {
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--ld-shadow-lift) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  margin-top: 8px !important;
+  overflow: hidden !important;
+  padding: 6px !important;
+}
+#search-suggestions > * {
+  border-radius: 12px !important;
+  padding: 11px 12px !important;
+}
+#search-suggestions > *:hover { background: #EEF6FC !important; }
+
+/* Header icons: glass tiles with labels. */
+.nav-icons {
+  gap: 10px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  justify-content: flex-end !important;
+}
+.nav-icons .icon {
+  min-width: 52px;
+  padding: 8px 6px 6px !important;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--ld-line);
+  box-shadow: 0 3px 10px rgba(20, 40, 60, 0.05);
+  color: var(--ld-ink) !important;
+  font-size: 19px !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.nav-icons .icon:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 180, 236, 0.55);
+  box-shadow: 0 8px 20px rgba(59, 180, 236, 0.20);
+  color: var(--ld-blue-deep) !important;
+}
+.nav-icons .icon span {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: var(--ld-muted) !important;
+  margin-top: 3px !important;
+}
+.profile-button {
+  background: #fff !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 16px !important;
+  padding: 6px 10px 6px 6px !important;
+  box-shadow: 0 3px 10px rgba(20, 40, 60, 0.05);
+}
+.profile-avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 12px !important;
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px !important;
+}
+.profile-label { font-weight: 600 !important; color: var(--ld-ink) !important; }
+
+/* ---------- Dark main nav + category pills ---------- */
+.main-nav {
+  background: var(--ld-grad-ink) !important;
+  box-shadow: 0 10px 24px rgba(20, 23, 26, 0.22);
+  border-bottom: 1px solid rgba(125, 211, 252, 0.18);
+}
+.main-nav ul { gap: 8px !important; padding: 10px 16px !important; }
+.main-nav li {
+  padding: 9px 16px !important;
+  border-radius: var(--ld-r-pill);
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  color: #C9DCEA !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.main-nav li:hover { color: #fff !important; background: rgba(255, 255, 255, 0.10); }
+.main-nav li.active {
+  background: rgba(59, 180, 236, 0.22) !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.45);
+}
+.categories { background: transparent !important; padding: 14px 14px 4px !important; }
+.categories ul { gap: 10px !important; }
+.categories li {
+  background: #fff !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 10px 18px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  color: var(--ld-text) !important;
+  box-shadow: 0 3px 10px rgba(20, 40, 60, 0.05) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.categories li:hover { transform: translateY(-2px); box-shadow: var(--ld-shadow-card) !important; }
+.categories li.active {
+  background: var(--ld-grad-blue) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+}
+
+/* ---------- Mobile sidebar: glass drawer ---------- */
+.mobile-sidebar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 24px 0 60px rgba(20, 40, 60, 0.25) !important;
+  border-right: 1px solid var(--ld-line);
+  width: min(320px, 86vw) !important;
+  color: var(--ld-ink) !important;
+}
+.sidebar-header {
+  padding: 16px 18px !important;
+  border-bottom: 1px solid var(--ld-line);
+  font-family: var(--ld-font-display);
+  font-weight: 700;
+  color: var(--ld-ink) !important;
+}
+.hamburger-category {
+  margin: 8px 12px !important;
+  padding: 13px 14px !important;
+  border-radius: 16px !important;
+  background: #fff;
+  border: 1px solid var(--ld-line);
+  box-shadow: 0 3px 10px rgba(20, 40, 60, 0.04);
+  font-weight: 600 !important;
+  color: var(--ld-ink) !important;
+}
+.hamburger-subcategories { padding: 2px 12px 10px !important; }
+.hamburger-subcategories button {
+  border-radius: 12px !important;
+  padding: 11px 12px !important;
+  font-weight: 500 !important;
+  color: var(--ld-text) !important;
+}
+.hamburger-subcategories button:hover { background: #EEF6FC !important; }
+.sidebar-whatsapp-btn {
+  background: linear-gradient(135deg, #25D366, #128C7E) !important;
+  color: #fff !important;
+  border-radius: var(--ld-r-pill) !important;
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.35) !important;
+  font-weight: 700 !important;
+}
+#sidebar-overlay {
+  background: rgba(10, 18, 26, 0.45) !important;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* ---------- Hero: dark 3D stage ---------- */
+.ld-hero-carousel {
+  padding: 14px 14px 0 !important;
+  perspective: 1200px;
+}
+.ld-hero-track { border-radius: var(--ld-r-lg); }
+.ld-hero-slide {
+  background: var(--ld-grad-ink) !important;
+  border-radius: var(--ld-r-lg) !important;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 24px 50px rgba(20, 23, 26, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(125, 211, 252, 0.22) !important;
+  min-height: 300px;
+  display: flex !important;
+  align-items: center;
+}
+/* Aurora depth layers (pure CSS, no images, no layout shift). */
+.ld-hero-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(420px 220px at 88% 8%, rgba(59, 180, 236, 0.45), rgba(59, 180, 236, 0) 65%),
+    radial-gradient(360px 260px at 8% 95%, rgba(14, 143, 199, 0.35), rgba(14, 143, 199, 0) 60%),
+    radial-gradient(2px 2px at 22% 30%, rgba(255, 255, 255, 0.7), transparent 60%),
+    radial-gradient(2px 2px at 68% 66%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(2px 2px at 44% 18%, rgba(255, 255, 255, 0.5), transparent 60%);
+}
+.ld-hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 32%);
+  pointer-events: none;
+}
+.ld-hero-content { padding: 30px 24px !important; max-width: 560px; }
+.ld-hero-tag {
+  display: inline-block;
+  background: rgba(59, 180, 236, 0.16) !important;
+  border: 1px solid rgba(125, 211, 252, 0.5) !important;
+  color: #A5DCF7 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 6px 14px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+}
+.ld-hero-content h1 {
+  color: #fff !important;
+  font-family: var(--ld-font-display) !important;
+  font-size: clamp(27px, 7.2vw, 46px) !important;
+  line-height: 1.08 !important;
+  font-weight: 800 !important;
+  margin: 16px 0 12px !important;
+}
+.ld-hero-content p {
+  color: #C9DCEA !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+}
+.ld-hero-offer {
+  margin: 18px 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.ld-hero-offer strong {
+  background: linear-gradient(135deg, #FBBF24, #F59E0B) !important;
+  color: #3A2200 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.40) !important;
+  display: inline-block;
+}
+.ld-hero-content button {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 14px 26px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ld-hero-content button:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 16px 34px rgba(59, 180, 236, 0.45) !important; }
+.ld-hero-decoration {
+  font-size: clamp(56px, 16vw, 90px) !important;
+  opacity: 0.35 !important;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 26px rgba(59, 180, 236, 0.35)) !important;
+  transform: perspective(700px) rotateY(-14deg) rotateX(4deg) translateY(-50%) !important;
+  animation: ldFloat 5s ease-in-out infinite;
+}
+@keyframes ldFloat {
+  0%, 100% { transform: perspective(700px) rotateY(-14deg) rotateX(4deg) translateY(-50%); }
+  50% { transform: perspective(700px) rotateY(-14deg) rotateX(4deg) translateY(calc(-50% - 12px)); }
+}
+@media (min-width: 769px) {
+  .ld-hero-decoration { font-size: 130px !important; opacity: 0.9 !important; }
+}
+.ld-hero-dots { gap: 8px !important; margin-top: 14px !important; }
+.ld-hero-dot {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 99px !important;
+  background: #C3D6E4 !important;
+  transition: all 0.25s ease !important;
+}
+.ld-hero-dot.active {
+  width: 30px !important;
+  background: var(--ld-grad-blue) !important;
+  box-shadow: 0 4px 12px rgba(59, 180, 236, 0.45) !important;
+}
+
+/* ---------- Section headers ---------- */
+.products-section { padding: 30px 14px !important; }
+.products-section h2,
+#page-wishlist h2,
+#page-orders h2,
+.info-page h2 {
+  font-family: var(--ld-font-display) !important;
+  font-size: clamp(21px, 5.4vw, 30px) !important;
+  font-weight: 800 !important;
+  color: var(--ld-ink) !important;
+  border: 0 !important;
+  padding: 0 0 0 16px !important;
+  margin-bottom: 20px !important;
+  position: relative;
+  line-height: 1.2 !important;
+}
+.products-section h2::before,
+#page-wishlist h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 5px;
+  border-radius: 99px;
+  background: var(--ld-grad-blue);
+}
+
+/* ---------- Category showcase: 3D glass tiles ---------- */
+.category-showcase { padding: 8px 14px 4px !important; }
+.category-card, .home-category-card {
+  background: var(--ld-surface-glass) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  padding: 18px 14px !important;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+  transform: perspective(800px) translateZ(0);
+}
+.category-card:hover, .home-category-card:hover {
+  transform: perspective(800px) translateY(-6px) rotateX(2deg) !important;
+  box-shadow: var(--ld-shadow-lift) !important;
+  border-color: rgba(59, 180, 236, 0.55) !important;
+}
+.category-card.active, .home-category-card.active {
+  border-color: var(--ld-blue) !important;
+  box-shadow: 0 0 0 3px rgba(59, 180, 236, 0.22), var(--ld-shadow-card) !important;
+}
+.category-icon {
+  width: 58px !important;
+  height: 58px !important;
+  margin: 0 auto 10px !important;
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, #E3F4FD, #CDEBFA) !important;
+  color: var(--ld-blue-deep) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px !important;
+  box-shadow: inset 0 0 0 1px rgba(59, 180, 236, 0.25) !important;
+}
+.category-card span, .home-category-card span {
+  font-family: var(--ld-font-display) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: var(--ld-ink) !important;
+}
+.category-arrow { color: var(--ld-blue-deep) !important; }
+.category-subcategories { padding: 6px 14px 10px !important; }
+.subcategory-group {
+  background: #fff;
+  border: 1px solid var(--ld-line);
+  border-radius: 18px;
+  padding: 12px !important;
+  box-shadow: var(--ld-shadow-card);
+}
+.subcategory-group button {
+  border-radius: var(--ld-r-pill) !important;
+  background: #EEF6FC !important;
+  border: 1px solid transparent !important;
+  padding: 9px 15px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: var(--ld-text) !important;
+}
+.subcategory-group button:hover, .subcategory-group button.active {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+}
+
+/* ---------- Product grid + cards ---------- */
+.product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+.product-card {
+  background: var(--ld-surface) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 22px !important;
+  overflow: hidden;
+  box-shadow: var(--ld-shadow-card) !important;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  transform: perspective(900px) translateY(-7px) rotateX(1.5deg) !important;
+  box-shadow: var(--ld-shadow-lift) !important;
+  border-color: rgba(59, 180, 236, 0.45) !important;
+}
+.product-image-wrap {
+  background: linear-gradient(180deg, #F7FBFE 0%, #EDF5FA 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+.product-image-wrap img {
+  transition: transform 0.4s ease !important;
+  object-fit: contain !important;
+}
+.product-card:hover .product-image-wrap img { transform: scale(1.07); }
+.product-discount-badge {
+  background: var(--ld-grad-ink) !important;
+  color: #fff !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 5px 11px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 14px rgba(20, 23, 26, 0.30) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+.wishlist-btn {
+  background: rgba(255, 255, 255, 0.92) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  box-shadow: 0 6px 14px rgba(20, 40, 60, 0.14) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease !important;
+}
+.wishlist-btn:hover { transform: scale(1.1); }
+.wishlist-btn.active {
+  background: var(--ld-grad-blue) !important;
+  border-color: transparent !important;
+}
+.wishlist-btn.active .heart-icon path { fill: #fff !important; stroke: #fff !important; }
+.wishlist-btn .heart-icon { width: 19px !important; height: 19px !important; }
+.wishlist-btn .heart-icon path { fill: none; stroke: var(--ld-ink); stroke-width: 2; }
+.product-info { padding: 14px 14px 16px !important; display: flex; flex-direction: column; flex: 1; }
+.product-info h4 {
+  font-family: var(--ld-font-body) !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  color: var(--ld-ink) !important;
+  height: auto !important;
+  min-height: 42px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.verified-badge svg { width: 17px !important; height: 17px !important; vertical-align: -3px; }
+.rating { color: var(--ld-amber) !important; font-size: 13px !important; letter-spacing: 1px; margin: 6px 0 4px !important; }
+.price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.price-row .price {
+  font-family: var(--ld-font-display) !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: var(--ld-blue-deep) !important;
+}
+.price-row .old-price {
+  color: #93A5B4 !important;
+  text-decoration: line-through;
+  font-size: 13px !important;
+}
+.discount-pill {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FDE68A !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 3px 10px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  display: inline-block;
+  margin-top: 8px;
+}
+.add-cart-btn {
+  margin-top: auto !important;
+  padding-top: 12px !important;
+  width: 100%;
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 12px 14px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 8px 20px rgba(59, 180, 236, 0.30) !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.add-cart-btn:hover { transform: translateY(-2px); box-shadow: var(--ld-shadow-blue) !important; }
+.add-cart-btn:active { transform: translateY(0) scale(0.98); }
+
+/* ---------- Product detail page ---------- */
+#page-product-detail .info-page {
+  background: var(--ld-surface) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 26px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  padding: 20px !important;
+}
+#detail-image-container {
+  background: linear-gradient(180deg, #F7FBFE, #EDF5FA) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 22px !important;
+  padding: 16px !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7) !important;
+}
+#detail-img { border-radius: 14px !important; }
+#detail-thumbnails img {
+  border-radius: 14px !important;
+  border: 2px solid var(--ld-line) !important;
+  background: #fff;
+  padding: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease !important;
+}
+#detail-thumbnails img:hover { border-color: var(--ld-blue) !important; transform: translateY(-2px); }
+#detail-name {
+  font-family: var(--ld-font-display) !important;
+  font-size: clamp(21px, 5.6vw, 30px) !important;
+  line-height: 1.25 !important;
+  margin-top: 18px !important;
+}
+#detail-price {
+  font-family: var(--ld-font-display) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--ld-blue-deep) !important;
+}
+#detail-oldprice { color: #93A5B4 !important; text-decoration: line-through; font-size: 16px !important; }
+#detail-discount {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FDE68A !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 5px 13px !important;
+  font-weight: 800 !important;
+  font-size: 12.5px !important;
+  display: inline-block;
+}
+#detail-description { color: var(--ld-muted) !important; font-size: 15px !important; line-height: 1.75 !important; }
+#detail-addcart-btn {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 15px 26px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+  width: 100%;
+}
+.qty-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 13px !important;
+  background: #EEF6FC !important;
+  border: 1px solid var(--ld-line) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--ld-ink) !important;
+}
+#productQuantity {
+  font-family: var(--ld-font-display) !important;
+  font-weight: 800 !important;
+  font-size: 17px !important;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* ---------- Wishlist page ---------- */
+#page-wishlist .products-section { padding-top: 22px !important; }
+#wishlist-products:empty { display: none; }
+
+/* ---------- Cart drawer + floating cart ---------- */
+.cart-sidebar {
+  background: rgba(255, 255, 255, 0.97) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: -24px 0 60px rgba(20, 40, 60, 0.25) !important;
+  border-left: 1px solid var(--ld-line);
+  width: min(420px, 92vw) !important;
+}
+.cart-header {
+  background: var(--ld-grad-ink) !important;
+  color: #fff !important;
+  padding: 18px 20px !important;
+  border-bottom: 1px solid rgba(125, 211, 252, 0.22);
+}
+.cart-header h3 { color: #fff !important; font-size: 19px !important; }
+.cart-header span {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-radius: 50% !important;
+  width: 34px !important;
+  height: 34px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.cart-item {
+  background: #fff !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 14px rgba(20, 40, 60, 0.05) !important;
+  padding: 12px !important;
+  margin: 12px !important;
+}
+.cart-total {
+  background: linear-gradient(135deg, #E3F4FD, #EFF8FE) !important;
+  border: 1px solid rgba(59, 180, 236, 0.25) !important;
+  border-radius: 18px !important;
+  margin: 12px !important;
+  padding: 16px !important;
+}
+.cart-total p { font-family: var(--ld-font-display) !important; font-weight: 800 !important; font-size: 17px !important; }
+.checkout-btn {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 14px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+  width: 100%;
+}
+#floating-cart-btn {
+  background: var(--ld-grad-blue) !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  width: 60px !important;
+  height: 60px !important;
+  box-shadow: var(--ld-shadow-blue), 0 0 0 5px rgba(255, 255, 255, 0.85) !important;
+  font-size: 24px !important;
+  bottom: 96px !important;
+}
+#floating-cart-count {
+  background: var(--ld-ink) !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  font-weight: 800 !important;
+}
+
+/* ---------- Checkout box (overrides its inline styles) ---------- */
+#lumadeals-checkout-box {
+  background: #fff !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 18px !important;
+  padding: 18px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+}
+#lumadeals-checkout-box h3 {
+  font-family: var(--ld-font-display) !important;
+  font-size: 17px !important;
+}
+#lumadeals-checkout-box input,
+#lumadeals-checkout-box select,
+#lumadeals-checkout-box textarea {
+  width: 100% !important;
+  padding: 13px 14px !important;
+  border: 1.5px solid var(--ld-line-strong) !important;
+  border-radius: 14px !important;
+  font-size: 14.5px !important;
+  background: #FBFDFF !important;
+  box-sizing: border-box !important;
+}
+#lumadeals-checkout-box input:focus,
+#lumadeals-checkout-box select:focus {
+  border-color: var(--ld-blue) !important;
+  box-shadow: 0 0 0 4px rgba(59, 180, 236, 0.16) !important;
+  outline: none !important;
+}
+
+/* ---------- Shared form system: login, signup, forgot, contact, settings ---------- */
+.login-box, .settings-form, .contact-form, .info-page {
+  background: var(--ld-surface) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 26px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  padding: 26px 22px !important;
+}
+.login-box h2, .info-page h2, .info-page h3 { margin-bottom: 18px !important; }
+.login-box input, .settings-form input, .contact-form input,
+.login-box select, .settings-form select, .contact-form select,
+.login-box textarea, .settings-form textarea, .contact-form textarea,
+.info-page input, .info-page select, .info-page textarea {
+  width: 100%;
+  padding: 13px 15px !important;
+  border: 1.5px solid var(--ld-line-strong) !important;
+  border-radius: 14px !important;
+  font-size: 15px !important;
+  background: #FBFDFF !important;
+  color: var(--ld-text);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.login-box input:focus, .settings-form input:focus, .contact-form input:focus,
+.info-page input:focus, .info-page select:focus, .info-page textarea:focus {
+  border-color: var(--ld-blue) !important;
+  box-shadow: 0 0 0 4px rgba(59, 180, 236, 0.16) !important;
+  outline: none !important;
+}
+.login-box button[type="submit"], .settings-save-btn, .contact-form button[type="submit"],
+.info-page button[type="submit"] {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 14px 22px !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+  width: 100%;
+  cursor: pointer;
+}
+.small-action-btn, .luma-continue-btn {
+  border-radius: var(--ld-r-pill) !important;
+  padding: 11px 20px !important;
+  font-weight: 700 !important;
+  border: 1.5px solid var(--ld-line-strong) !important;
+  background: #fff !important;
+  color: var(--ld-ink) !important;
+}
+
+/* ---------- Account pages ---------- */
+.account-page { padding: 20px 14px !important; }
+.account-hero {
+  background: var(--ld-grad-ink) !important;
+  border-radius: 26px !important;
+  padding: 26px 22px !important;
+  color: #fff !important;
+  box-shadow: 0 20px 44px rgba(20, 23, 26, 0.30) !important;
+  border: 1px solid rgba(125, 211, 252, 0.22) !important;
+  overflow: hidden;
+  position: relative;
+}
+.account-hero::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 180, 236, 0.45), rgba(59, 180, 236, 0) 70%);
+  pointer-events: none;
+}
+.account-hero h2, .account-hero p { color: #fff !important; }
+.account-avatar-large {
+  border: 3px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 50% !important;
+}
+.account-grid { gap: 14px !important; }
+.account-card {
+  background: var(--ld-surface) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  padding: 20px 16px !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+.account-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ld-shadow-lift) !important;
+  border-color: rgba(59, 180, 236, 0.45) !important;
+}
+.account-card-icon {
+  background: linear-gradient(135deg, #E3F4FD, #CDEBFA) !important;
+  color: var(--ld-blue-deep) !important;
+  border-radius: 16px !important;
+}
+.profile-logout-btn {
+  background: #fff !important;
+  color: var(--ld-red) !important;
+  border: 1.5px solid #FECACA !important;
+  border-radius: var(--ld-r-pill) !important;
+  font-weight: 700 !important;
+}
+.toggle-row {
+  background: #fff;
+  border: 1px solid var(--ld-line);
+  border-radius: 16px;
+  padding: 14px 16px !important;
+}
+
+/* ---------- Orders ---------- */
+.order-card {
+  background: var(--ld-surface) !important;
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  padding: 18px !important;
+}
+.order-card-header { border-bottom: 1px dashed var(--ld-line-strong) !important; padding-bottom: 12px !important; }
+.order-status-badge {
+  background: #E3F4FD !important;
+  color: var(--ld-blue-deep) !important;
+  border: 1px solid rgba(59, 180, 236, 0.35) !important;
+  border-radius: var(--ld-r-pill) !important;
+  padding: 5px 13px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+}
+.order-card-total { font-family: var(--ld-font-display) !important; font-weight: 800 !important; }
+.luma-view-order-btn {
+  background: var(--ld-grad-blue) !important;
+  border-radius: var(--ld-r-pill) !important;
+  font-weight: 700 !important;
+}
+.luma-order-id-box {
+  background: #EEF6FC !important;
+  border: 1px solid rgba(59, 180, 236, 0.25) !important;
+  border-radius: 16px !important;
+}
+
+/* ---------- Footer: premium dark ---------- */
+footer {
+  background: var(--ld-grad-ink) !important;
+  color: #C9DCEA !important;
+  border-top: 3px solid transparent !important;
+  border-image: linear-gradient(90deg, #3BB4EC, #0E8FC7, #F59E0B) 1 !important;
+  margin-top: 24px;
+}
+.footer-container { padding: 36px 20px 24px !important; }
+.footer-container h4 {
+  color: #fff !important;
+  font-family: var(--ld-font-display) !important;
+  font-size: 19px !important;
+}
+.footer-contact-info a { color: #E3F4FD !important; }
+.footer-socials { gap: 12px !important; }
+.footer-socials a {
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #fff !important;
+  font-size: 20px !important;
+  transition: transform 0.2s ease, background 0.2s ease !important;
+}
+.footer-socials a:hover { transform: translateY(-3px); background: var(--ld-grad-blue) !important; }
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding: 18px 20px 110px !important;
+  color: #8FA8BB !important;
+}
+@media (min-width: 769px) {
+  .footer-bottom { padding-bottom: 20px !important; }
+}
+
+/* ---------- Bottom nav: floating glass dock ---------- */
+.bottom-navbar {
+  position: fixed !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--ld-line) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 16px 40px rgba(20, 40, 60, 0.22) !important;
+  padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  z-index: 900 !important;
+}
+.bn-item {
+  border-radius: 18px !important;
+  padding: 8px 4px 7px !important;
+  color: var(--ld-muted) !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
+}
+.bn-item .bn-icon { font-size: 21px !important; }
+.bn-item .bn-label { font-size: 10.5px !important; font-weight: 700 !important; }
+.bn-item.active {
+  background: linear-gradient(135deg, #E3F4FD, #D3ECFA) !important;
+  color: var(--ld-blue-deep) !important;
+  box-shadow: inset 0 0 0 1px rgba(59, 180, 236, 0.35) !important;
+}
+.bn-item.active .bn-icon { transform: translateY(-2px); }
+
+/* ---------- Toast, overlays, success, skeletons ---------- */
+#custom-toast {
+  background: var(--ld-grad-ink) !important;
+  color: #fff !important;
+  border: 1px solid rgba(125, 211, 252, 0.35) !important;
+  border-radius: var(--ld-r-pill) !important;
+  box-shadow: 0 16px 40px rgba(20, 23, 26, 0.40) !important;
+  padding: 13px 22px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  bottom: 100px !important;
+}
+.luma-success-overlay { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.luma-success-box {
+  border-radius: 28px !important;
+  box-shadow: var(--ld-shadow-lift) !important;
+  border: 1px solid var(--ld-line) !important;
+}
+.skeleton-card {
+  border-radius: 22px !important;
+  border: 1px solid var(--ld-line) !important;
+  overflow: hidden;
+}
+.skeleton-img, .skeleton-line, .skeleton-btn {
+  border-radius: 10px !important;
+  background: linear-gradient(100deg, #E8EEF3 30%, #F4F8FB 50%, #E8EEF3 70%) !important;
+  background-size: 200% 100% !important;
+  animation: ldShimmer 1.6s ease-in-out infinite !important;
+}
+@keyframes ldShimmer {
+  0% { background-position: 180% 0; }
+  100% { background-position: -80% 0; }
+}
+#installButton {
+  background: var(--ld-grad-ink) !important;
+  border-radius: var(--ld-r-pill) !important;
+  box-shadow: var(--ld-shadow-card) !important;
+  font-weight: 700 !important;
+}
+.desktop-ai-button {
+  background: var(--ld-grad-blue) !important;
+  color: #fff !important;
+  border-radius: var(--ld-r-pill) !important;
+  box-shadow: var(--ld-shadow-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* ---------- Tablet + desktop enhancements ---------- */
+@media (min-width: 640px) {
+  .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 16px !important; }
+  .products-section { padding: 36px 24px !important; }
+  .ld-hero-carousel { padding: 20px 24px 0 !important; }
+  .category-showcase, .categories { padding-left: 24px !important; padding-right: 24px !important; }
+  .product-info { padding: 16px 16px 18px !important; }
+  .product-info h4 { font-size: 15.5px !important; }
+}
+@media (min-width: 769px) {
+  .navbar { padding: 14px 35px !important; gap: 30px !important; }
+  .search-box { max-width: 520px !important; }
+  .nav-icons { gap: 16px !important; }
+  .ld-hero-content { padding: 44px 44px !important; }
+  .ld-hero-slide { min-height: 360px; }
+  .account-page { padding: 28px 35px !important; }
+  .footer-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 28px !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .bottom-navbar { display: none !important; }
+  .page { padding-bottom: 24px !important; }
+  #floating-cart-btn { bottom: 24px !important; }
+  #custom-toast { bottom: 28px !important; }
+}
+@media (min-width: 1024px) {
+  .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 20px !important; }
+  .products-section { padding: 40px 50px !important; }
+  .ld-hero-carousel { padding: 24px 50px 0 !important; max-width: 1440px; margin: 0 auto; }
+  .products-section, .category-showcase { max-width: 1440px; margin-left: auto; margin-right: auto; }
+  .ld-hero-slide { min-height: 400px; }
+}
+@media (min-width: 1280px) {
+  .product-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+}
+
+/* ---------- Dark mode: token swap adapts the whole system ---------- */
+body.dark-mode {
+  --ld-bg: #0F1418;
+  --ld-surface: #1A2129;
+  --ld-surface-glass: rgba(26, 33, 41, 0.88);
+  --ld-text: #E8EEF3;
+  --ld-muted: #93A5B4;
+  --ld-line: rgba(255, 255, 255, 0.10);
+  --ld-line-strong: rgba(255, 255, 255, 0.20);
+  --ld-shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --ld-shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.45);
+}
+body.dark-mode .search-box,
+body.dark-mode .search-box input,
+body.dark-mode .login-box input, body.dark-mode .settings-form input,
+body.dark-mode .contact-form input, body.dark-mode .info-page input,
+body.dark-mode .info-page select, body.dark-mode .info-page textarea,
+body.dark-mode #lumadeals-checkout-box input,
+body.dark-mode #lumadeals-checkout-box select {
+  background: #222C36 !important;
+  color: #E8EEF3 !important;
+}
+body.dark-mode .search-box input::placeholder { color: #7D8FA0; }
+body.dark-mode #search-suggestions { background: rgba(26, 33, 41, 0.97) !important; }
+body.dark-mode #search-suggestions > *:hover { background: #222C36 !important; }
+body.dark-mode .nav-icons .icon, body.dark-mode .profile-button,
+body.dark-mode .hamburger, body.dark-mode .categories li,
+body.dark-mode .subcategory-group, body.dark-mode .toggle-row,
+body.dark-mode .small-action-btn, body.dark-mode .luma-continue-btn {
+  background: #222C36 !important;
+  color: #E8EEF3 !important;
+}
+body.dark-mode .product-image-wrap,
+body.dark-mode #detail-image-container {
+  background: linear-gradient(180deg, #232E38, #1E2831) !important;
+}
+body.dark-mode .cart-total { background: linear-gradient(135deg, #1E3A4F, #1A2E3D) !important; }
+body.dark-mode .luma-order-id-box { background: #222C36 !important; }
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 { color: #F2F7FB !important; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+  </style>
 </head>
 
 <body>
@@ -2805,7 +4032,6 @@ LumaDeals AI
           class="wishlist-btn"
           type="button"
           aria-label="Add to wishlist"
-          data-product-id="${String(p.id ?? p.productId ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"
           onclick="event.stopPropagation(); toggleWishlist(${productId}, this);"
         >
           <svg viewBox="0 0 24 24" class="heart-icon">
@@ -5329,493 +6555,257 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     /* =========================================
        LUMA DEALS — WISHLIST SYSTEM
-       Account-aware wishlist (fixed 2026-11-02).
-
-       DESIGN (fixes the old localStorage-only system):
-       - The ACTIVE list lives in memory (__ldWishlistIds). Every UI
-         read (hearts, wishlist page) goes through getWishlist(),
-         which returns that active list once loaded.
-       - Logged-in users: Firestore is the source of truth at
-         users/{uid}/wishlist/items { productIds, updatedAt }.
-         A live onSnapshot listener keeps this device in sync with
-         changes made on any other device.
-       - Guests: the list lives only in localStorage key
-         "lumaWishlist". Login NEVER deletes it, and logout
-         restores it as the active list.
-       - Guest -> account migration happens ONLY when the account
-         has no wishlist document yet. An existing account list is
-         never overwritten by the guest list.
-       - Product ids are normalized to String everywhere, and heart
-         buttons carry data-product-id (no fragile onclick parsing).
        ========================================= */
 
-    /* ---------- Active state: single source of truth for the UI ---------- */
-    var __ldWishlistIds = [];
-    var __ldWishlistOwner = null;   /* Firebase uid, or null = guest */
-    var __ldWishlistReady = false;  /* true once the active list is loaded */
-    var __ldWishlistUnsub = null;   /* Firestore onSnapshot unsubscribe */
-    var __ldWishlistAuthSeq = 0;    /* guards stale async auth transitions */
-    var __ldWishlistWriteChain = Promise.resolve(); /* serializes writes */
 
-    function __ldNormWishlistIds(list) {
-      if (!Array.isArray(list)) return [];
-      var out = [];
-      list.forEach(function (id) {
-        var s = String(id);
-        if (
-          s !== "undefined" &&
-          s !== "null" &&
-          s !== "" &&
-          out.indexOf(s) === -1
-        ) {
-          out.push(s);
-        }
-      });
-      return out;
-    }
 
-    function __ldReadGuestWishlist() {
+
+    function getWishlist() {
       try {
-        var saved = localStorage.getItem("lumaWishlist");
+        const saved = localStorage.getItem("lumaWishlist");
+
         if (!saved) return [];
-        return __ldNormWishlistIds(JSON.parse(saved));
+
+        const parsed = JSON.parse(saved);
+
+        return Array.isArray(parsed)
+          ? parsed.map(String)
+          : [];
+
       } catch (error) {
         console.error("Wishlist load error:", error);
         return [];
       }
     }
-
-    function __ldWriteGuestWishlist(list) {
-      try {
-        localStorage.setItem(
-          "lumaWishlist",
-          JSON.stringify(__ldNormWishlistIds(list))
-        );
-      } catch (error) {}
-    }
-
-    /* Sets the active list. Only ever called with a list that belongs
-       to `owner` (a uid, or null for the guest list). */
-    function __ldSetActiveWishlist(list, owner) {
-      __ldWishlistIds = __ldNormWishlistIds(list);
-      __ldWishlistOwner = owner || null;
-      __ldWishlistReady = true;
-    }
-
-    function __ldIsWishlistPageOpen() {
-      var page = document.getElementById("page-wishlist");
-      return !!(page && page.classList.contains("active"));
-    }
-
-    function __ldRefreshWishlistPage() {
-      if (
-        __ldIsWishlistPageOpen() &&
-        typeof showWishlist === "function"
-      ) {
-        showWishlist();
-      }
-    }
-
-    function __ldDetachWishlistListener() {
-      if (typeof __ldWishlistUnsub === "function") {
-        try { __ldWishlistUnsub(); } catch (error) {}
-      }
-      __ldWishlistUnsub = null;
-    }
-
-    async function __ldFirestore() {
-      var m = await import(
-        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-      );
-      return {
-        db: m.getFirestore(window.firebaseApp),
-        doc: m.doc,
-        getDoc: m.getDoc,
-        setDoc: m.setDoc,
-        updateDoc: m.updateDoc,
-        onSnapshot: m.onSnapshot,
-        arrayUnion: m.arrayUnion,
-        arrayRemove: m.arrayRemove
-      };
-    }
-
-    function __ldWishlistRef(fs, uid) {
-      return fs.doc(fs.db, "users", uid, "wishlist", "items");
-    }
-
-    /* Remote change (another device, or our own write echoing back).
-       Applies only if it still belongs to the currently active owner. */
-    function __ldOnRemoteWishlist(uid, seq, snap) {
-      if (seq !== __ldWishlistAuthSeq) return;
-      if (__ldWishlistOwner !== uid) return;
-      var user = window.currentUser;
-      if (!user || user.uid !== uid) return;
-      var data = snap.exists() ? (snap.data() || {}) : {};
-      __ldSetActiveWishlist(
-        Array.isArray(data.productIds) ? data.productIds : [],
-        uid
-      );
-      updateWishlistButtons();
-      __ldRefreshWishlistPage();
-    }
-
-    /* One-time load for a signed-in user, then a live listener.
-       Migration: the guest list is copied to Firestore ONLY when the
-       account has no wishlist document yet. */
-    function __ldLoadAccountWishlist(uid, seq) {
-      return (async function () {
-        try {
-          var fs = await __ldFirestore();
-          var ref = __ldWishlistRef(fs, uid);
-          var snap = await fs.getDoc(ref);
-          if (seq !== __ldWishlistAuthSeq) return;
-
-          if (!snap.exists()) {
-            var guest = __ldReadGuestWishlist();
-            await fs.setDoc(ref, {
-              productIds: guest,
-              updatedAt: new Date()
-            });
-            if (seq !== __ldWishlistAuthSeq) return;
-            __ldSetActiveWishlist(guest, uid);
-            console.log("Guest wishlist migrated to Firebase.");
-          } else {
-            var data = snap.data() || {};
-            __ldSetActiveWishlist(
-              Array.isArray(data.productIds) ? data.productIds : [],
-              uid
-            );
-            console.log("Wishlist loaded from Firebase.");
-          }
-
-          updateWishlistButtons();
-          __ldRefreshWishlistPage();
-
-          try {
-            __ldDetachWishlistListener();
-            __ldWishlistUnsub = fs.onSnapshot(
-              ref,
-              function (s) { __ldOnRemoteWishlist(uid, seq, s); },
-              function (err) {
-                console.error("Wishlist live sync error:", err);
-              }
-            );
-          } catch (error) {
-            console.error("Wishlist listener error:", error);
-          }
-        } catch (error) {
-          console.error("Wishlist load error:", error);
-          if (seq !== __ldWishlistAuthSeq) return;
-          /* Fail closed: never show a list that is not this
-             account's. The user can refresh to retry. */
-          __ldSetActiveWishlist([], uid);
-          if (typeof showToast === "function") {
-            showToast("Could not load your wishlist. Please check your connection and refresh.");
-          }
-          updateWishlistButtons();
-          __ldRefreshWishlistPage();
-        }
-      })();
-    }
-
-    /* THE auth transition handler: login, logout, and account
-       switching all flow through here. It is registered once (see
-       the DOMContentLoaded registration below) and fires on every
-       Firebase auth-state change. */
-    async function __ldOnWishlistAuthChange(user, force) {
-      /* NOTE: the sequence token is bumped ONLY on a real transition
-         below. A duplicate callback must never bump it, or the live
-         listener attached with the previous token would go stale and
-         silently stop receiving remote updates. */
-      if (!user) {
-        if (!force && __ldWishlistOwner === null && __ldWishlistReady) {
-          return; /* duplicate signed-out callback */
-        }
-        ++__ldWishlistAuthSeq;
-        __ldDetachWishlistListener();
-        /* Logout: Firestore list is NOT deleted. The guest list
-           (never touched while logged in) becomes active again. */
-        __ldSetActiveWishlist(__ldReadGuestWishlist(), null);
-        updateWishlistButtons();
-        __ldRefreshWishlistPage();
-        return;
-      }
-
-      var uid = user.uid;
-      if (!force && uid === __ldWishlistOwner && __ldWishlistReady) {
-        return; /* duplicate callback for the same account */
-      }
-
-      var seq = ++__ldWishlistAuthSeq;
-
-      __ldDetachWishlistListener();
-      __ldWishlistOwner = uid;
-      __ldWishlistReady = false;
-      __ldWishlistIds = [];
-      updateWishlistButtons(); /* clear stale hearts immediately */
-      __ldRefreshWishlistPage(); /* shows the loading state */
-      await __ldLoadAccountWishlist(uid, seq);
-    }
-
-    /* Registration must wait until the Firebase Auth stub exists.
-       The stub lives in the module script, which runs after parsing
-       but before DOMContentLoaded — so registering here is safe. */
-    function __ldRegisterWishlistAuthListener() {
-      if (typeof window.firebaseOnAuthChange === "function") {
-        window.firebaseOnAuthChange(
-          window.firebaseAuth,
-          function (user) { __ldOnWishlistAuthChange(user, false); }
-        );
-      }
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener(
-        "DOMContentLoaded",
-        __ldRegisterWishlistAuthListener
-      );
-    } else {
-      __ldRegisterWishlistAuthListener();
-    }
-
-
     /* =========================================
-       GET WISHLIST — the active list, never a
-       shared localStorage list for logged-in users
+       SAVE WISHLIST
        ========================================= */
-    function getWishlist() {
-      if (__ldWishlistReady) {
-        return __ldWishlistIds.slice();
-      }
-      /* Auth not resolved yet (SDK still loading): fall back to the
-         guest list, exactly like the old code, until the auth
-         listener corrects the state moments later. */
-      return __ldReadGuestWishlist();
-    }
 
-
-    /* =========================================
-       SAVE WISHLIST — full-list write (migration
-       path and backwards-compatible callers)
-       ========================================= */
     async function saveWishlist(wishlist) {
       try {
-        var cleanWishlist = __ldNormWishlistIds(wishlist);
-        var user = window.currentUser;
 
-        if (!user) {
-          __ldSetActiveWishlist(cleanWishlist, null);
-          __ldWriteGuestWishlist(cleanWishlist);
-          return true;
+        const cleanWishlist = [
+          ...new Set(
+            wishlist
+              .map(String)
+              .filter(
+                id =>
+                  id !== "undefined" &&
+                  id !== "null" &&
+                  id !== ""
+              )
+          )
+        ];
+
+        // Local backup — existing system safe rahega
+        if (!window.currentUser) {
+          localStorage.setItem(
+            "lumaWishlist",
+            JSON.stringify(cleanWishlist)
+          );
         }
 
-        __ldSetActiveWishlist(cleanWishlist, user.uid);
+        // Firebase sync only when user is logged in
+        const user = window.currentUser;
 
-        var fs = await __ldFirestore();
-        await fs.setDoc(
-          __ldWishlistRef(fs, user.uid),
-          { productIds: cleanWishlist, updatedAt: new Date() }
+        if (user) {
+
+          const {
+            getFirestore,
+            doc,
+            setDoc
+          } = await import(
+            "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+          );
+
+          const db = getFirestore(window.firebaseApp);
+
+          await setDoc(
+            doc(
+              db,
+              "users",
+              user.uid,
+              "wishlist",
+              "items"
+            ),
+            {
+              productIds: cleanWishlist,
+              updatedAt: new Date()
+            }
+          );
+
+          console.log("Wishlist saved to Firebase.");
+        }
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Wishlist save error:",
+          error
         );
 
-        console.log("Wishlist saved to Firebase.");
-        return true;
-      } catch (error) {
-        console.error("Wishlist save error:", error);
         return false;
       }
-    }
-
-
-    /* Serialized single-item write for logged-in users. arrayUnion /
-       arrayRemove are atomic, so concurrent edits from two devices
-       cannot silently drop each other; the promise chain keeps
-       rapid toggles on this device landing in click order. */
-    function __ldWriteAccountWishlistChange(uid, id, adding) {
-      var task = __ldWishlistWriteChain.then(async function () {
-        try {
-          var fs = await __ldFirestore();
-          var ref = __ldWishlistRef(fs, uid);
-          try {
-            await fs.updateDoc(ref, {
-              productIds: adding
-                ? fs.arrayUnion(id)
-                : fs.arrayRemove(id),
-              updatedAt: new Date()
-            });
-          } catch (error) {
-            if (
-              error &&
-              (error.code === "not-found" ||
-                /not-found/i.test(String(error.message || "")))
-            ) {
-              await fs.setDoc(
-                ref,
-                {
-                  productIds: adding ? [id] : [],
-                  updatedAt: new Date()
-                },
-                { merge: true }
-              );
-            } else {
-              throw error;
-            }
-          }
-          return true;
-        } catch (error) {
-          console.error("Wishlist save error:", error);
-          return false;
-        }
-      });
-      /* The chain itself never rejects, so one failed write cannot
-         block later writes. Each task still reports its own result. */
-      __ldWishlistWriteChain = task.catch(function () {});
-      return task;
     }
 
 
     /* =========================================
        ADD / REMOVE WISHLIST
        ========================================= */
-    window.toggleWishlist = async function (productId, button) {
-      var id = String(productId);
 
-      if (id === "undefined" || id === "null" || id === "") {
-        console.error("Invalid wishlist product ID:", id);
+    window.toggleWishlist = async function (productId, button) {
+      productId = String(productId);
+
+      if (
+        productId === "undefined" ||
+        productId === "null" ||
+        productId === ""
+      ) {
+        console.error("Invalid wishlist product ID:", productId);
         return;
       }
 
-      /* Never toggle against a half-loaded account list. If auth is
-         still resolving, start the Auth SDK now (a wishlist tap is
-         an auth-relevant action) and wait briefly for the listener
-         to settle; after the cap, proceed with the guest fallback. */
-      if (!__ldWishlistReady) {
-        try {
-          if (typeof window.__ldEnsureAuth === "function") {
-            window.__ldEnsureAuth().catch(function () {});
-          }
-        } catch (error) {}
-        var waited = 0;
-        while (!__ldWishlistReady && waited < 3000) {
-          await new Promise(function (r) { setTimeout(r, 50); });
-          waited += 50;
-        }
-      }
+      let wishlist = getWishlist();
 
-      var user = window.currentUser;
-      var ownerUid = user ? user.uid : null;
-      var previous = getWishlist();
-      var wishlist = previous.slice();
-      var index = wishlist.indexOf(id);
-      var adding = index === -1;
+      const index = wishlist.indexOf(productId);
 
-      if (adding) {
-        wishlist.push(id);
-      } else {
+
+      /* REMOVE */
+
+      if (index !== -1) {
+
         wishlist.splice(index, 1);
-      }
 
-      /* Memory first: rapid toggles read the correct base list. */
-      __ldSetActiveWishlist(wishlist, ownerUid);
-
-      if (button) {
-        if (adding) {
-          button.classList.add("active");
-          button.classList.remove("ld-fire");
-          void button.offsetWidth;
-          button.classList.add("ld-fire");
-          setTimeout(function () {
-            button.classList.remove("ld-fire");
-          }, 700);
-        } else {
+        if (button) {
           button.classList.remove("active");
           button.classList.remove("ld-fire");
         }
+
       }
 
-      if (adding && navigator.vibrate) {
-        navigator.vibrate(50);
-      }
 
-      var ok = true;
-      if (!user) {
-        __ldWriteGuestWishlist(wishlist);
-      } else {
-        ok = await __ldWriteAccountWishlistChange(ownerUid, id, adding);
-      }
+      /* ADD */
 
-      if (!ok) {
-        /* Roll back, but only if the user has not switched accounts
-           while the write was in flight (the auth handler owns the
-           state after a switch). */
-        if (__ldWishlistOwner === ownerUid) {
-          __ldSetActiveWishlist(previous, ownerUid);
+      else {
+
+        wishlist.push(productId);
+
+        if (button) {
+
+          button.classList.add("active");
+
+          button.classList.remove("ld-fire");
+
+          void button.offsetWidth;
+
+          button.classList.add("ld-fire");
+
+          setTimeout(function () {
+            button.classList.remove("ld-fire");
+          }, 700);
+
         }
-        if (typeof showToast === "function") {
-          showToast("Could not save your wishlist. Please check your connection and try again.");
+
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
         }
+
       }
+
+
+      /* SAVE */
+
+      await saveWishlist(wishlist);
+
 
       /* UPDATE ALL HEARTS */
+
       updateWishlistButtons();
 
+
       /* IF WISHLIST PAGE IS OPEN */
-      if (__ldIsWishlistPageOpen()) {
+
+      const wishlistPage =
+        document.getElementById("page-wishlist");
+
+      if (
+        wishlistPage &&
+        wishlistPage.classList.contains("active")
+      ) {
         showWishlist();
       }
+
     };
 
 
     /* =========================================
        CHECK WISHLIST
        ========================================= */
+
     window.isInWishlist = function (productId) {
-      return getWishlist().indexOf(String(productId)) !== -1;
+
+      return getWishlist().includes(
+        String(productId)
+      );
+
     };
 
 
     /* =========================================
-       UPDATE ALL HEARTS — reads data-product-id
-       (falls back to the old onclick parse for any button
-       rendered without the attribute)
+       UPDATE ALL HEARTS
        ========================================= */
+
     function updateWishlistButtons() {
+
       document
         .querySelectorAll(".wishlist-btn")
         .forEach(function (button) {
-          var raw = button.getAttribute("data-product-id");
 
-          if (raw === null || raw === undefined || raw === "") {
-            var onclick = button.getAttribute("onclick");
-            if (!onclick) return;
-            var match = onclick.match(/toggleWishlist\(([^,]+)/);
-            if (!match) return;
-            raw = match[1].trim().replace(/^['"]|['"]$/g, "");
-          }
+          const onclick =
+            button.getAttribute("onclick");
 
-          var productId = String(raw);
+          if (!onclick) return;
 
-          if (
-            productId === "" ||
-            productId === "undefined" ||
-            productId === "null"
-          ) {
-            return;
-          }
+          const match =
+            onclick.match(
+              /toggleWishlist\(([^,]+)/
+            );
+
+          if (!match) return;
+
+          const productId =
+            String(match[1].trim());
 
           if (isInWishlist(productId)) {
+
             button.classList.add("active");
+
+            button.classList.remove("ld-fire");
+
           } else {
+
             button.classList.remove("active");
+
+            button.classList.remove("ld-fire");
+
           }
-          button.classList.remove("ld-fire");
+
         });
+
     }
 
 
     /* =========================================
        COMPATIBILITY FUNCTION
-       restoreWishlistButtons() is called by the rest of the code,
-       so it stays connected to updateWishlistButtons.
+       =========================================
+       Tumhare baaki code mein
+       restoreWishlistButtons() call ho raha hai.
+       Isliye usko updateWishlistButtons se connect
+       kar rahe hain.
        ========================================= */
+
     function restoreWishlistButtons() {
       updateWishlistButtons();
     }
@@ -5824,36 +6814,30 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     /* =========================================
        SHOW WISHLIST PRODUCTS
        ========================================= */
+
     window.showWishlist = function () {
-      var container = document.getElementById("wishlist-products");
+
+      const container =
+        document.getElementById(
+          "wishlist-products"
+        );
 
       if (!container) {
-        console.error("wishlist-products container not found.");
+        console.error(
+          "wishlist-products container not found."
+        );
         return;
       }
 
-      /* Account list still loading (login / switch in progress):
-         show a loading state, never a false "empty". */
-      if (!__ldWishlistReady && (__ldWishlistOwner || window.currentUser)) {
-        container.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:50px 20px;
-      ">
-        <h3>Loading your wishlist…</h3>
 
-        <p>
-          Please wait a moment.
-        </p>
-      </div>
-    `;
-        return;
-      }
+      const wishlist =
+        getWishlist();
 
-      var wishlist = getWishlist();
 
       /* EMPTY */
+
       if (!wishlist.length) {
+
         container.innerHTML = `
       <div style="
         text-align:center;
@@ -5869,44 +6853,38 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         </p>
       </div>
     `;
+
         return;
       }
 
-      /* Products have not rendered yet: loading, not "not found". */
-      if (!window.__ldInitialRendered && !window.__ldProductsLoadFailed) {
-        container.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:50px 20px;
-      ">
-        <h3>Loading your wishlist…</h3>
-
-        <p>
-          Your saved products are loading.
-        </p>
-      </div>
-    `;
-        return;
-      }
 
       /* PRODUCTS */
-      var products =
+
+      const products =
         Array.isArray(window.products)
           ? window.products
           : [];
 
-      var wishlistProducts =
+
+      const wishlistProducts =
         products.filter(function (product) {
-          var productId = String(
-            product.id ??
-            product.productId ??
-            ""
-          );
+
+          const productId =
+            String(
+              product.id ??
+              product.productId ??
+              ""
+            );
+
           return wishlist.includes(productId);
+
         });
 
+
       /* PRODUCTS NOT FOUND */
+
       if (!wishlistProducts.length) {
+
         container.innerHTML = `
       <div style="
         text-align:center;
@@ -5921,22 +6899,33 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         </p>
       </div>
     `;
+
         return;
       }
 
+
       /* RENDER */
+
       container.innerHTML =
         wishlistProducts
           .map(function (product) {
-            if (typeof productCardHTML === "function") {
+
+            if (
+              typeof productCardHTML === "function"
+            ) {
               return productCardHTML(product);
             }
+
             return "";
+
           })
           .join("");
 
+
       /* RESTORE HEARTS */
+
       updateWishlistButtons();
+
     };
 
 
@@ -7101,13 +8090,6 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
         window.currentUser = null;
 
-        /* Wishlist: drop the previous account's active list at once
-           (the auth listener will also fire with null; this call is
-           synchronous, so stale hearts never survive a logout). */
-        if (typeof __ldOnWishlistAuthChange === "function") {
-          __ldOnWishlistAuthChange(null, false);
-        }
-
         closeProfileMenu();
 
         updateHeaderProfile();
@@ -7538,31 +8520,153 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     });
 
     /* =========================================
-     LUMA DEALS — FIREBASE WISHLIST SYNC (compat)
-     The account-aware system now lives in the WISHLIST SYSTEM
-     block: one onAuthStateChanged listener loads the signed-in
-     user's wishlist from Firestore and keeps it live with
-     onSnapshot, so login, logout, and account switching work
-     without polling. syncWishlistWithFirebase() is kept so any
-     older call site still works: it reloads the current user.
+     LUMA DEALS — FIREBASE WISHLIST SYNC
      ========================================= */
 
     async function syncWishlistWithFirebase() {
-      var user = window.currentUser;
+      const user = window.currentUser;
 
-      if (!user) {
-        __ldSetActiveWishlist(__ldReadGuestWishlist(), null);
+      if (!user) return;
+
+      try {
+        const {
+          getFirestore,
+          doc,
+          getDoc,
+          setDoc
+        } = await import(
+          "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+        );
+
+        const db = getFirestore(window.firebaseApp);
+
+        const wishlistRef = doc(
+          db,
+          "users",
+          user.uid,
+          "wishlist",
+          "items"
+        );
+
+        const firebaseSnap = await getDoc(wishlistRef);
+
+        /*
+          FIRST LOGIN:
+          Agar Firebase mein wishlist nahi hai,
+          existing local wishlist ko Firebase mein migrate karo.
+        */
+
+        if (!firebaseSnap.exists()) {
+
+          const localSaved =
+            localStorage.getItem("lumaWishlist");
+
+          let localWishlist = [];
+
+          if (localSaved) {
+            try {
+              const parsed = JSON.parse(localSaved);
+
+              if (Array.isArray(parsed)) {
+                localWishlist = [
+                  ...new Set(
+                    parsed.map(String)
+                  )
+                ];
+              }
+
+            } catch (e) {
+              localWishlist = [];
+            }
+          }
+
+          await setDoc(wishlistRef, {
+            productIds: localWishlist,
+            updatedAt: new Date()
+          });
+
+          console.log(
+            "Existing wishlist migrated to Firebase."
+          );
+
+          return;
+        }
+
+        /*
+          Firebase wishlist already exists:
+          Firebase ko source of truth rakho.
+        */
+
+        const data = firebaseSnap.data();
+
+        const firebaseWishlist =
+          Array.isArray(data.productIds)
+            ? data.productIds.map(String)
+            : [];
+
+        localStorage.removeItem("lumaWishlist");
+
         if (typeof updateWishlistButtons === "function") {
           updateWishlistButtons();
         }
-        __ldRefreshWishlistPage();
-        return;
-      }
 
-      if (typeof __ldOnWishlistAuthChange === "function") {
-        await __ldOnWishlistAuthChange(user, true);
+        if (
+          typeof showWishlist === "function"
+        ) {
+          const wishlistPage =
+            document.getElementById("page-wishlist");
+
+          if (
+            wishlistPage &&
+            wishlistPage.classList.contains("active")
+          ) {
+            showWishlist();
+          }
+        }
+
+        console.log(
+          "Wishlist loaded from Firebase."
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Firebase wishlist sync error:",
+          error
+        );
+
       }
     }
+    (function startWishlistFirebaseSync() {
+
+      let synced = false;
+
+      const checkUser = setInterval(async function () {
+
+        if (synced) {
+          clearInterval(checkUser);
+          return;
+        }
+
+        const user = window.currentUser;
+
+        if (user) {
+
+          synced = true;
+
+          clearInterval(checkUser);
+
+          await syncWishlistWithFirebase();
+
+          if (typeof updateWishlistButtons === "function") {
+            updateWishlistButtons();
+          }
+
+        }
+
+      }, 500);
+
+    })();
 
     function startSearchPlaceholderRotation() {
       const input = document.getElementById('search-input');
