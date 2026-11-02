@@ -919,6 +919,96 @@
 
   <!-- Luma Deals AdSense: responsive placement styling (CLS-safe reserved space) -->
   <style id="ld-adsense">.ld-ad{display:block;width:100%;max-width:100%;margin:28px auto;min-height:120px;}.ld-ad-label{visibility:hidden;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#64748b;text-align:center;margin-bottom:6px;}.ld-ad.ld-filled .ld-ad-label{visibility:visible;}.ld-ad ins.adsbygoogle{display:block;}</style>
+  <style id="ld-guest-popup-css">
+    /* Guest wishlist login gate (2026-11-02): premium glassmorphism
+       modal. Unique ld-guest-popup-* names: no existing rules touched. */
+    .ld-guest-popup {
+      position: fixed; inset: 0; z-index: 110000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      background: rgba(8, 26, 42, 0.48);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s;
+    }
+    .ld-guest-popup.open { opacity: 1; visibility: visible; }
+    .ld-guest-popup-card {
+      position: relative; width: 100%; max-width: 380px;
+      max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px);
+      overflow-y: auto; text-align: center;
+      padding: 34px 28px 30px; border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(226, 244, 253, 0.92) 55%, rgba(210, 238, 252, 0.94) 100%);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+      box-shadow: 0 24px 60px rgba(10, 50, 85, 0.28), 0 4px 16px rgba(10, 50, 85, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transform: translateY(18px) scale(0.96);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .ld-guest-popup.open .ld-guest-popup-card { transform: translateY(0) scale(1); }
+    .ld-guest-popup-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 40px; height: 40px; border: 0; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85); color: #14171A;
+      font-size: 22px; line-height: 1; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(10, 50, 85, 0.15);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .ld-guest-popup-close:hover { transform: rotate(90deg); background: #fff; }
+    .ld-guest-popup-heart {
+      width: 88px; height: 88px; margin: 0 auto 18px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(79, 195, 247, 0.22), rgba(59, 180, 236, 0.12));
+      border: 1px solid rgba(125, 211, 252, 0.6);
+      box-shadow: 0 10px 26px rgba(59, 180, 236, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    .ld-guest-popup-heart svg {
+      width: 46px; height: 46px;
+      filter: drop-shadow(0 6px 12px rgba(14, 143, 199, 0.45));
+      animation: ldGuestHeartBeat 1.8s ease-in-out infinite;
+    }
+    @keyframes ldGuestHeartBeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.18); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.12); }
+      56% { transform: scale(1); }
+    }
+    .ld-guest-popup-card h2 {
+      font-size: 23px; line-height: 1.25; color: #14171A;
+      margin: 0 0 10px; letter-spacing: -0.01em;
+    }
+    .ld-guest-popup-text {
+      font-size: 15px !important; line-height: 1.65; color: #3D4B5A;
+      margin: 0 0 22px;
+    }
+    .ld-guest-popup-btn {
+      display: block; width: 100%; padding: 14px 20px;
+      border-radius: 999px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .ld-guest-popup-login {
+      border: 0; color: #fff; margin-bottom: 10px;
+      background: linear-gradient(135deg, #4FC3F7 0%, #3BB4EC 55%, #0E8FC7 100%);
+      box-shadow: 0 10px 24px rgba(14, 143, 199, 0.35);
+    }
+    .ld-guest-popup-login:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(14, 143, 199, 0.42); }
+    .ld-guest-popup-login:active { transform: translateY(0); }
+    .ld-guest-popup-signup {
+      border: 1.5px solid #3BB4EC; color: #0E7FB8;
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .ld-guest-popup-signup:hover { background: #fff; transform: translateY(-1px); }
+    @media (max-width: 480px) {
+      .ld-guest-popup { padding: 16px; }
+      .ld-guest-popup-card { padding: 30px 22px 26px; border-radius: 24px; }
+      .ld-guest-popup-card h2 { font-size: 21px; }
+      .ld-guest-popup-text { font-size: 14px !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ld-guest-popup, .ld-guest-popup-card, .ld-guest-popup-heart svg { animation: none; transition: none; }
+    }
+  </style>
 </head>
 
 <body>
@@ -5698,6 +5788,21 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           await new Promise(function (r) { setTimeout(r, 50); });
           waited += 50;
         }
+      }
+
+      /* GUEST GATE (2026-11-02): only signed-in users have a
+         wishlist. A guest tap shows the login-required popup and
+         saves nothing, activates no heart. Authenticated = a
+         Firebase user known via window.currentUser or the wishlist
+         owner (both set by the auth listeners). If auth is still
+         unresolved, the popup is the safe fallback: it saves
+         nothing, and Login Now resolves auth. The popup script
+         (end of body) defines showGuestWishlistPopup. */
+      if (!window.currentUser && !__ldWishlistOwner) {
+        if (typeof showGuestWishlistPopup === "function") {
+          showGuestWishlistPopup();
+        }
+        return;
       }
 
       var user = window.currentUser;
@@ -11817,6 +11922,77 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
   <script type="text/javascript">
     (function () {
       emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
+    })();
+  </script>
+  <!-- Guest wishlist login gate (2026-11-02): shown instead of saving
+       when a signed-out visitor taps a heart. No alert()/confirm().
+       Styling lives in <style id="ld-guest-popup-css"> in <head>. -->
+  <div id="ld-guest-popup" class="ld-guest-popup" role="dialog" aria-modal="true" aria-labelledby="ld-guest-popup-title" aria-hidden="true">
+    <div class="ld-guest-popup-card">
+      <button type="button" class="ld-guest-popup-close" aria-label="Close">×</button>
+      <div class="ld-guest-popup-heart" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ldGuestHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4FC3F7" />
+              <stop offset="55%" stop-color="#3BB4EC" />
+              <stop offset="100%" stop-color="#0E8FC7" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#ldGuestHeartGrad)" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+      </div>
+      <h2 id="ld-guest-popup-title">Your Wishlist Awaits! ❤️</h2>
+      <p class="ld-guest-popup-text">Login to Luma Deals to save your favourite products and access your wishlist anytime, anywhere.</p>
+      <button type="button" class="ld-guest-popup-btn ld-guest-popup-login">Login Now</button>
+      <button type="button" class="ld-guest-popup-btn ld-guest-popup-signup">Create Account</button>
+    </div>
+  </div>
+  <script>
+    /* Guest wishlist login gate: open/close + navigation. Reuses the
+       existing pages via showPage('login') / showPage('signup') — no
+       duplicate login system. toggleWishlist calls
+       showGuestWishlistPopup() for guests (see the wishlist block). */
+    (function () {
+      var popup = document.getElementById("ld-guest-popup");
+      if (!popup) return;
+      function find(cls) {
+        return popup.querySelector("." + cls);
+      }
+      function openGuestPopup() {
+        popup.classList.add("open");
+        popup.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        var loginBtn = find("ld-guest-popup-login");
+        try { if (loginBtn) loginBtn.focus(); } catch (error) {}
+      }
+      function closeGuestPopup() {
+        popup.classList.remove("open");
+        popup.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+      window.showGuestWishlistPopup = openGuestPopup;
+      window.hideGuestWishlistPopup = closeGuestPopup;
+      var closeBtn = find("ld-guest-popup-close");
+      if (closeBtn) closeBtn.addEventListener("click", closeGuestPopup);
+      popup.addEventListener("click", function (event) {
+        if (event.target === popup) closeGuestPopup();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && popup.classList.contains("open")) {
+          closeGuestPopup();
+        }
+      });
+      var loginBtn = find("ld-guest-popup-login");
+      if (loginBtn) loginBtn.addEventListener("click", function () {
+        closeGuestPopup();
+        if (typeof showPage === "function") showPage("login");
+      });
+      var signupBtn = find("ld-guest-popup-signup");
+      if (signupBtn) signupBtn.addEventListener("click", function () {
+        closeGuestPopup();
+        if (typeof showPage === "function") showPage("signup");
+      });
     })();
   </script>
 </body>
