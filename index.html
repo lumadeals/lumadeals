@@ -5329,7 +5329,23 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
     /* =========================================
        LUMA DEALS — WISHLIST SYSTEM
-       Account-aware wishlist (fixed 2026-11-02).
+       Account-aware wishlist (fixed 2026-11-02; sync fix 2026-11-02).
+
+       SYNC FIX (2026-11-02, the "~2s then disappears" bug): the old
+       code let any server list blindly overwrite local state, so
+       (1) a tap made before auth resolved fell back to the guest
+       list at a 3s cap and vanished when the account list arrived,
+       (2) a tap made during a slow account load was overwritten by
+       the load's pre-write server read, and (3) a first-login
+       migration setDoc wiped a just-created [item] doc back to the
+       guest list. The fix: pending local changes are recorded
+       synchronously and re-applied on top of every server list
+       (__ldApplyServerWishlist); the toggle waits up to 8-10s for
+       auth/load instead of 3s, never downgrades a known account to
+       guest, and migration skips when a local write owns doc
+       creation. Firebase sync stays ON (onSnapshot); localStorage
+       remains guest-only. Diagnostics: localStorage
+       'ldWishlistDebug' = '1', then reload; errors always logged.
 
        DESIGN (fixes the old localStorage-only system):
        - The ACTIVE list lives in memory (__ldWishlistIds). Every UI
@@ -5356,6 +5372,38 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     var __ldWishlistUnsub = null;   /* Firestore onSnapshot unsubscribe */
     var __ldWishlistAuthSeq = 0;    /* guards stale async auth transitions */
     var __ldWishlistWriteChain = Promise.resolve(); /* serializes writes */
+    /* Pending local changes not yet confirmed by a server snapshot:
+       id -> true (adding) / false (removing). ONLY for the current
+       owner (__ldWishlistPendingOwner). A server list is NEVER allowed
+       to clobber these: every snapshot/load applies them on top (see
+       __ldApplyServerWishlist). This is the fix for items vanishing
+       ~2s after a tap while a write or an account load is in flight. */
+    var __ldWishlistPending = {};
+    var __ldWishlistPendingOwner = null;
+
+    /* Diagnostic logger. Enable in the browser console with:
+       localStorage.setItem('ldWishlistDebug', '1')  (then reload).
+       Errors are ALWAYS logged; verbose events only when enabled. */
+    function __ldWishlistDebugOn() {
+      try {
+        return (
+          window.__ldWishlistDebug === true ||
+          (typeof localStorage !== "undefined" &&
+            localStorage.getItem("ldWishlistDebug") === "1")
+        );
+      } catch (error) {
+        return false;
+      }
+    }
+    function __ldWishlistLog(event, detail) {
+      if (!__ldWishlistDebugOn()) return;
+      try {
+        console.debug(
+          "[Wishlist][" + new Date().toISOString() + "] " + event,
+          detail || ""
+        );
+      } catch (error) {}
+    }
 
     function __ldNormWishlistIds(list) {
       if (!Array.isArray(list)) return [];
@@ -5395,11 +5443,64 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     /* Sets the active list. Only ever called with a list that belongs
-       to `owner` (a uid, or null for the guest list). */
-    function __ldSetActiveWishlist(list, owner) {
+       to `owner` (a uid, or null for the guest list). Every replacement
+       is logged with its reason when diagnostics are enabled. */
+    function __ldSetActiveWishlist(list, owner, reason) {
+      var before = __ldWishlistIds.slice();
       __ldWishlistIds = __ldNormWishlistIds(list);
       __ldWishlistOwner = owner || null;
       __ldWishlistReady = true;
+      __ldWishlistLog("state-replaced", {
+        reason: reason || "unspecified",
+        owner: __ldWishlistOwner,
+        before: before,
+        after: __ldWishlistIds.slice()
+      });
+    }
+
+    /* Clears pending changes (they belong to the previous owner). */
+    function __ldClearWishlistPending(reason) {
+      __ldWishlistPending = {};
+      __ldWishlistPendingOwner = null;
+      __ldWishlistLog("pending-cleared", { reason: reason || "unspecified" });
+    }
+
+    /* SINGLE choke point for every server list (initial load, live
+       snapshot, load error fallback). The server list is the base,
+       but unconfirmed local changes for THIS owner are re-applied on
+       top, and pending entries the server already reflects are
+       confirmed and cleared. A snapshot can therefore never undo a
+       tap whose write has not been confirmed yet, and can never
+       resurrect an item whose removal has not been confirmed yet. */
+    function __ldApplyServerWishlist(uid, serverList, reason) {
+      var raw = __ldNormWishlistIds(serverList);
+      var merged = raw.slice();
+      if (__ldWishlistPendingOwner === uid) {
+        Object.keys(__ldWishlistPending).forEach(function (id) {
+          var inRaw = raw.indexOf(id) !== -1;
+          if (__ldWishlistPending[id] === true) {
+            if (inRaw) {
+              delete __ldWishlistPending[id]; /* server confirmed add */
+            } else if (merged.indexOf(id) === -1) {
+              merged.push(id); /* still unconfirmed: keep it */
+            }
+          } else {
+            if (!inRaw) {
+              delete __ldWishlistPending[id]; /* confirmed remove */
+            } else {
+              merged.splice(merged.indexOf(id), 1); /* keep removed */
+            }
+          }
+        });
+      }
+      __ldWishlistLog("server-list-applied", {
+        reason: reason || "unspecified",
+        uid: uid,
+        serverIds: raw,
+        pending: Object.assign({}, __ldWishlistPending),
+        mergedIds: merged.slice()
+      });
+      __ldSetActiveWishlist(merged, uid, reason);
     }
 
     function __ldIsWishlistPageOpen() {
@@ -5444,47 +5545,78 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     /* Remote change (another device, or our own write echoing back).
-       Applies only if it still belongs to the currently active owner. */
+       Applies only if it still belongs to the currently active owner.
+       Goes through the pending overlay: a stale/delayed snapshot can
+       never undo an unconfirmed local tap. */
     function __ldOnRemoteWishlist(uid, seq, snap) {
       if (seq !== __ldWishlistAuthSeq) return;
       if (__ldWishlistOwner !== uid) return;
       var user = window.currentUser;
       if (!user || user.uid !== uid) return;
       var data = snap.exists() ? (snap.data() || {}) : {};
-      __ldSetActiveWishlist(
-        Array.isArray(data.productIds) ? data.productIds : [],
-        uid
-      );
+      var serverIds = Array.isArray(data.productIds) ? data.productIds : [];
+      var fromCache = false;
+      try {
+        fromCache = !!(snap.metadata && snap.metadata.fromCache);
+      } catch (error) {}
+      __ldWishlistLog("snapshot-received", {
+        uid: uid,
+        seq: seq,
+        serverIds: serverIds.slice(),
+        fromCache: fromCache,
+        at: new Date().toISOString()
+      });
+      __ldApplyServerWishlist(uid, serverIds, "snapshot");
       updateWishlistButtons();
       __ldRefreshWishlistPage();
     }
 
     /* One-time load for a signed-in user, then a live listener.
        Migration: the guest list is copied to Firestore ONLY when the
-       account has no wishlist document yet. */
+       account has no wishlist document yet AND no local write for
+       this account is in flight. A late load must never overwrite a
+       fresh write (the 2026-11-02 sync bug: migration setDoc wiped a
+       just-created [item] doc back to the guest list). */
     function __ldLoadAccountWishlist(uid, seq) {
       return (async function () {
         try {
           var fs = await __ldFirestore();
           var ref = __ldWishlistRef(fs, uid);
+          __ldWishlistLog("load-started", { uid: uid, seq: seq });
           var snap = await fs.getDoc(ref);
           if (seq !== __ldWishlistAuthSeq) return;
 
           if (!snap.exists()) {
-            var guest = __ldReadGuestWishlist();
-            await fs.setDoc(ref, {
-              productIds: guest,
-              updatedAt: new Date()
-            });
-            if (seq !== __ldWishlistAuthSeq) return;
-            __ldSetActiveWishlist(guest, uid);
+            if (
+              __ldWishlistPendingOwner === uid &&
+              Object.keys(__ldWishlistPending).length > 0
+            ) {
+              /* A local write already owns doc creation; do not let
+                 migration overwrite it. The pending overlay below
+                 keeps the tapped item visible. */
+              __ldWishlistLog("migration-skipped-pending-write", {
+                uid: uid,
+                pending: Object.assign({}, __ldWishlistPending)
+              });
+              __ldApplyServerWishlist(uid, [], "load-missing-doc-pending");
+            } else {
+              var guest = __ldReadGuestWishlist();
+              await fs.setDoc(ref, {
+                productIds: guest,
+                updatedAt: new Date()
+              });
+              if (seq !== __ldWishlistAuthSeq) return;
+              __ldWishlistLog("guest-migrated", { uid: uid, ids: guest.slice() });
+              __ldApplyServerWishlist(uid, guest, "load-migrated");
+            }
             console.log("Guest wishlist migrated to Firebase.");
           } else {
             var data = snap.data() || {};
-            __ldSetActiveWishlist(
-              Array.isArray(data.productIds) ? data.productIds : [],
-              uid
-            );
+            var serverIds = Array.isArray(data.productIds)
+              ? data.productIds
+              : [];
+            __ldWishlistLog("load-completed", { uid: uid, serverIds: serverIds.slice() });
+            __ldApplyServerWishlist(uid, serverIds, "load-completed");
             console.log("Wishlist loaded from Firebase.");
           }
 
@@ -5507,8 +5639,10 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           console.error("Wishlist load error:", error);
           if (seq !== __ldWishlistAuthSeq) return;
           /* Fail closed: never show a list that is not this
-             account's. The user can refresh to retry. */
-          __ldSetActiveWishlist([], uid);
+             account's — but keep unconfirmed local taps overlaid so
+             a failed load cannot wipe a tap whose write may still
+             land. The user can refresh to retry. */
+          __ldApplyServerWishlist(uid, [], "load-error");
           if (typeof showToast === "function") {
             showToast("Could not load your wishlist. Please check your connection and refresh.");
           }
@@ -5532,10 +5666,12 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           return; /* duplicate signed-out callback */
         }
         ++__ldWishlistAuthSeq;
+        __ldClearWishlistPending("logout");
         __ldDetachWishlistListener();
         /* Logout: Firestore list is NOT deleted. The guest list
            (never touched while logged in) becomes active again. */
-        __ldSetActiveWishlist(__ldReadGuestWishlist(), null);
+        __ldWishlistLog("auth-change", { to: null, force: !!force });
+        __ldSetActiveWishlist(__ldReadGuestWishlist(), null, "logout");
         updateWishlistButtons();
         __ldRefreshWishlistPage();
         return;
@@ -5548,10 +5684,12 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
       var seq = ++__ldWishlistAuthSeq;
 
+      __ldClearWishlistPending("login-switch");
       __ldDetachWishlistListener();
       __ldWishlistOwner = uid;
       __ldWishlistReady = false;
       __ldWishlistIds = [];
+      __ldWishlistLog("auth-change", { to: uid, force: !!force, seq: seq });
       updateWishlistButtons(); /* clear stale hearts immediately */
       __ldRefreshWishlistPage(); /* shows the loading state */
       await __ldLoadAccountWishlist(uid, seq);
@@ -5586,9 +5724,16 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       if (__ldWishlistReady) {
         return __ldWishlistIds.slice();
       }
-      /* Auth not resolved yet (SDK still loading): fall back to the
-         guest list, exactly like the old code, until the auth
-         listener corrects the state moments later. */
+      /* Account known but list still loading: return the in-memory
+         list (empty during load), NEVER the guest list — using the
+         guest list as a toggle base for a logged-in user is how a
+         pre-login tap used to leak into guest storage and then
+         vanish when the account list arrived. */
+      if (__ldWishlistOwner) {
+        return __ldWishlistIds.slice();
+      }
+      /* Auth not resolved yet and no account known: fall back to the
+         guest list until the auth listener corrects the state. */
       return __ldReadGuestWishlist();
     }
 
@@ -5628,12 +5773,20 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     /* Serialized single-item write for logged-in users. arrayUnion /
        arrayRemove are atomic, so concurrent edits from two devices
        cannot silently drop each other; the promise chain keeps
-       rapid toggles on this device landing in click order. */
+       rapid toggles on this device landing in click order.
+       Resolves true on success, or { ok: false, code, message } on
+       failure (the chain itself never rejects). */
     function __ldWriteAccountWishlistChange(uid, id, adding) {
       var task = __ldWishlistWriteChain.then(async function () {
         try {
           var fs = await __ldFirestore();
           var ref = __ldWishlistRef(fs, uid);
+          __ldWishlistLog("write-started", {
+            uid: uid,
+            id: id,
+            adding: adding,
+            at: new Date().toISOString()
+          });
           try {
             await fs.updateDoc(ref, {
               productIds: adding
@@ -5659,10 +5812,19 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
               throw error;
             }
           }
+          __ldWishlistLog("write-succeeded", { uid: uid, id: id, adding: adding });
           return true;
         } catch (error) {
+          var code = (error && error.code) || "unknown-error";
           console.error("Wishlist save error:", error);
-          return false;
+          __ldWishlistLog("write-failed", {
+            uid: uid,
+            id: id,
+            adding: adding,
+            code: code,
+            message: String((error && error.message) || error)
+          });
+          return { ok: false, code: code, message: String((error && error.message) || error) };
         }
       });
       /* The chain itself never rejects, so one failed write cannot
@@ -5685,8 +5847,13 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
       /* Never toggle against a half-loaded account list. If auth is
          still resolving, start the Auth SDK now (a wishlist tap is
-         an auth-relevant action) and wait briefly for the listener
-         to settle; after the cap, proceed with the guest fallback. */
+         an auth-relevant action) and wait for the listener to
+         settle. Caps are generous on purpose: Auth loads lazily
+         (idle, up to 2.5s) and a cold Firestore read can take
+         ~3.4s, so a 3s cap used to expire mid-load and the tap
+         fell back to the guest list — the 2026-11-02 sync bug.
+         The pending overlay still protects the tap if the cap
+         ever expires first. */
       if (!__ldWishlistReady) {
         try {
           if (typeof window.__ldEnsureAuth === "function") {
@@ -5694,14 +5861,26 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           }
         } catch (error) {}
         var waited = 0;
-        while (!__ldWishlistReady && waited < 3000) {
+        var cap = __ldWishlistOwner ? 10000 : 8000;
+        while (!__ldWishlistReady && waited < cap) {
           await new Promise(function (r) { setTimeout(r, 50); });
           waited += 50;
+        }
+        if (!__ldWishlistReady) {
+          __ldWishlistLog("toggle-wait-cap-expired", {
+            waitedMs: waited,
+            owner: __ldWishlistOwner,
+            currentUser: window.currentUser ? window.currentUser.uid : null
+          });
         }
       }
 
       var user = window.currentUser;
-      var ownerUid = user ? user.uid : null;
+      /* Never downgrade a known account to guest: if an account load
+         is in flight, currentUser may transiently lag the wishlist
+         owner — keep the account owner so the tap lands on the
+         account, not in guest storage. */
+      var ownerUid = user ? user.uid : __ldWishlistOwner;
       var previous = getWishlist();
       var wishlist = previous.slice();
       var index = wishlist.indexOf(id);
@@ -5714,7 +5893,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       }
 
       /* Memory first: rapid toggles read the correct base list. */
-      __ldSetActiveWishlist(wishlist, ownerUid);
+      __ldSetActiveWishlist(wishlist, ownerUid, "toggle-optimistic");
 
       if (button) {
         if (adding) {
@@ -5735,22 +5914,34 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         navigator.vibrate(50);
       }
 
-      var ok = true;
-      if (!user) {
+      var result = true;
+      if (!ownerUid) {
         __ldWriteGuestWishlist(wishlist);
       } else {
-        ok = await __ldWriteAccountWishlistChange(ownerUid, id, adding);
+        /* Record the pending change SYNCHRONOUSLY, before the first
+           await: any snapshot or load completing while this write
+           is in flight must overlay it, not overwrite it. */
+        __ldWishlistPending[id] = adding;
+        __ldWishlistPendingOwner = ownerUid;
+        __ldWishlistLog("pending-recorded", { uid: ownerUid, id: id, adding: adding });
+        result = await __ldWriteAccountWishlistChange(ownerUid, id, adding);
       }
 
-      if (!ok) {
-        /* Roll back, but only if the user has not switched accounts
+      if (result !== true) {
+        /* Clear the pending entry FIRST, or the overlay would
+           resurrect a change Firestore just rejected. Then roll
+           back, but only if the user has not switched accounts
            while the write was in flight (the auth handler owns the
            state after a switch). */
+        if (__ldWishlistPendingOwner === ownerUid) {
+          delete __ldWishlistPending[id];
+        }
         if (__ldWishlistOwner === ownerUid) {
-          __ldSetActiveWishlist(previous, ownerUid);
+          __ldSetActiveWishlist(previous, ownerUid, "write-rollback");
         }
         if (typeof showToast === "function") {
-          showToast("Could not save your wishlist. Please check your connection and try again.");
+          var code = (result && result.code) || "unknown-error";
+          showToast("Could not save your wishlist (" + code + "). Please try again.");
         }
       }
 
@@ -11819,5 +12010,10 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       emailjs.init({ publicKey: "5qQEIfdcca1Rjzt7O" });
     })();
   </script>
+  <!-- Toast host for showToast(): the function looks this element up
+       by id. It was missing from the page, so every error toast
+       (wishlist load/save failures included) silently did nothing.
+       CSS for #custom-toast already exists in <head>. -->
+  <div id="custom-toast" role="status" aria-live="polite"></div>
 </body>
 </html>
