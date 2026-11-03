@@ -12297,5 +12297,60 @@ padding: 22px;
 }
 </style>
   
+
+<!-- LD-PREMIUM-EXPERIENCE-V1: additive visual layer; existing app logic untouched -->
+<style id="ld-premium-experience-v1">
+:root{--ld-ink:#14171a;--ld-blue:#3bb4ec;--ld-blue-deep:#087db8;--ld-glass:rgba(255,255,255,.78);--ld-shadow:0 18px 48px rgba(7,44,68,.12);--ld-radius:22px}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:radial-gradient(ellipse at 12% 0%,rgba(59,180,236,.09),transparent 38%),radial-gradient(ellipse at 90% 18%,rgba(59,180,236,.06),transparent 34%),#f7fbfe;color:var(--ld-ink)}
+::selection{background:rgba(59,180,236,.25);color:#10212c}
+/* Header and navigation: polished glass without changing layout or selectors */
+header,.navbar,.nav-container,.top-nav{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+header,.navbar{border-bottom:1px solid rgba(59,180,236,.16);box-shadow:0 8px 28px rgba(13,53,76,.06)}
+button,a,.product-card,.category-card,.luma-rail-card{ -webkit-tap-highlight-color:transparent }
+button:not(:disabled),.btn:not(:disabled){transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}
+button:not(:disabled):active,.btn:not(:disabled):active{transform:translateY(1px) scale(.985)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(59,180,236,.65);outline-offset:3px}
+/* Product cards: dimensional lighting + restrained motion */
+.product-card{border:1px solid rgba(59,180,236,.22);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(239,249,255,.92));box-shadow:0 7px 20px rgba(12,45,66,.07),inset 0 1px 0 #fff;transform:perspective(1000px) translateZ(0);transform-style:preserve-3d;will-change:transform,box-shadow}
+.product-card:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(120deg,rgba(255,255,255,.72),transparent 34%,transparent 70%,rgba(59,180,236,.08));opacity:.7;z-index:0}
+.product-card>*{position:relative;z-index:1}
+.product-card:hover{transform:perspective(1000px) translateY(-7px) rotateX(1.2deg);box-shadow:0 22px 42px rgba(10,61,91,.13),0 0 0 1px rgba(59,180,236,.16),0 0 28px rgba(59,180,236,.12)}
+.product-card img{filter:drop-shadow(0 7px 9px rgba(18,55,77,.08));transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .35s ease}
+.product-card:hover img{transform:scale(1.055) translateZ(16px);filter:drop-shadow(0 13px 12px rgba(18,55,77,.14))}
+.product-card button,.luma-rail-card button{background:linear-gradient(120deg,#3bb4ec,#168ac4 55%,#087db8);box-shadow:0 7px 18px rgba(25,151,211,.23);position:relative;overflow:hidden}
+.product-card button:after,.luma-rail-card button:after{content:"";position:absolute;inset:0;transform:translateX(-130%);background:linear-gradient(110deg,transparent,rgba(255,255,255,.28),transparent);transition:transform .55s ease}
+.product-card button:hover:after,.luma-rail-card button:hover:after{transform:translateX(130%)}
+.you-may-also-like{background:linear-gradient(135deg,rgba(232,247,255,.9),rgba(255,255,255,.96));border:1px solid rgba(59,180,236,.2);box-shadow:var(--ld-shadow);backdrop-filter:blur(12px)}
+.luma-rail-card{border:1px solid rgba(59,180,236,.17);background:linear-gradient(145deg,#fff,#f4fbff);box-shadow:0 8px 20px rgba(12,45,66,.07)}
+.luma-rail-card:hover{transform:translateY(-5px) perspective(700px) rotateX(1deg);box-shadow:0 18px 32px rgba(59,180,236,.17)}
+/* Existing category/section blocks get depth without requiring new markup */
+.category-card,.category-item,.shop-category-card{transition:transform .28s ease,box-shadow .28s ease;transform-style:preserve-3d}
+.category-card:hover,.category-item:hover,.shop-category-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(20,23,26,.10),0 0 0 1px rgba(59,180,236,.12)}
+section h2,.section-title{letter-spacing:-.025em;text-wrap:balance}
+/* New non-invasive scroll progress + back-to-top controls */
+#ld-scroll-progress{position:fixed;top:0;left:0;width:100%;height:3px;z-index:10000;pointer-events:none;background:transparent}
+#ld-scroll-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#168ac4,#65d5ff);box-shadow:0 0 12px rgba(59,180,236,.55);transition:width .08s linear}
+#ld-back-top{position:fixed;right:18px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:9998;width:46px;height:46px;border:1px solid rgba(255,255,255,.7);border-radius:16px;background:linear-gradient(145deg,#3bb4ec,#087db8);color:#fff;box-shadow:0 10px 24px rgba(3,107,163,.3);display:grid;place-items:center;font-size:21px;font-weight:800;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .25s,visibility .25s,transform .25s}
+#ld-back-top.ld-visible{opacity:1;visibility:visible;transform:translateY(0)}
+#ld-back-top:focus-visible{outline:3px solid #14171a;outline-offset:3px}
+@media(max-width:600px){.product-card:hover{transform:translateY(-3px)}#ld-back-top{right:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:42px;height:42px;border-radius:14px}}
+@media(hover:none){.product-card:hover,.luma-rail-card:hover,.category-card:hover,.category-item:hover,.shop-category-card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+<script id="ld-premium-experience-script">
+(function(){'use strict';if(window.__ldPremiumExperienceV1)return;window.__ldPremiumExperienceV1=true;
+function init(){if(!document.body)return;
+if(!document.getElementById('ld-scroll-progress')){var bar=document.createElement('div');bar.id='ld-scroll-progress';bar.setAttribute('aria-hidden','true');bar.innerHTML='<span></span>';document.body.appendChild(bar)}
+if(!document.getElementById('ld-back-top')){var btn=document.createElement('button');btn.id='ld-back-top';btn.type='button';btn.setAttribute('aria-label','Back to top');btn.title='Back to top';btn.textContent='↑';btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});document.body.appendChild(btn)}
+var progress=document.querySelector('#ld-scroll-progress span'),topBtn=document.getElementById('ld-back-top'),raf=false;
+function update(){raf=false;var doc=document.documentElement,max=doc.scrollHeight-window.innerHeight,pct=max>0?(window.scrollY/max)*100:0;if(progress)progress.style.width=Math.max(0,Math.min(100,pct))+'%';if(topBtn)topBtn.classList.toggle('ld-visible',window.scrollY>420)}
+window.addEventListener('scroll',function(){if(!raf){raf=true;requestAnimationFrame(update)}},{passive:true});window.addEventListener('resize',update,{passive:true});update();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<!-- /LD-PREMIUM-EXPERIENCE-V1 -->
+
 </body>
 </html>
