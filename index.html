@@ -2789,11 +2789,12 @@ LumaDeals AI
 
   <!-- ORDERS -->
   <section id="page-orders" class="page">
-    <div class="products-section">
-      <h2>My Orders</h2>
-      <div id="orders-list" style="margin-top:20px;">
-        <p style="color:#595959; text-align:center;">Loading orders...</p>
+    <div class="products-section ld-orders-shell">
+      <div class="ld-orders-heading">
+        <div><span class="ld-orders-eyebrow">LUMA DEALS · YOUR ACCOUNT</span><h2>My Orders</h2><p>Track your purchases, check delivery progress and view order details.</p></div>
+        <div class="ld-orders-heading-icon" aria-hidden="true">📦</div>
       </div>
+      <div id="orders-list" class="ld-orders-list"><p class="ld-orders-message">Loading your orders...</p></div>
     </div>
   </section>
   <script>
@@ -12658,6 +12659,44 @@ body.ld-checkout-open{overflow:hidden!important}
  .product-card .discount-pill{font-size:10px!important;padding:4px 8px!important;margin-top:6px!important}
  .product-card .product-discount-badge{font-size:9px!important;padding:5px 8px!important}
 }
+</style>
+<style id="ld-orders-premium-v1">
+#page-orders{min-height:70vh;padding:clamp(20px,4vw,46px) 0 64px!important;background:radial-gradient(ellipse at 12% 0%,rgba(59,180,236,.13),transparent 34%),linear-gradient(145deg,#f4f9fc 0%,#fff 58%,#eff7fb 100%)!important}
+#page-orders .ld-orders-shell{width:min(1160px,calc(100% - 32px))!important;margin:0 auto!important;padding:0!important}
+#page-orders .ld-orders-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 26px;padding:clamp(22px,3vw,34px);border:1px solid rgba(59,180,236,.22);border-radius:24px;background:linear-gradient(115deg,#fff 0%,#f0faff 100%);box-shadow:0 14px 34px rgba(24,66,91,.08),inset 0 1px 0 #fff}
+#page-orders .ld-orders-eyebrow{display:inline-block;margin-bottom:9px;color:#1686b5;font-size:10px;font-weight:850;letter-spacing:1.6px}
+#page-orders .ld-orders-heading h2{margin:0!important;color:#14232d;font-size:clamp(24px,3vw,34px)!important;font-weight:850;letter-spacing:-.8px}
+#page-orders .ld-orders-heading p{margin:8px 0 0;color:#6b7e89;font-size:13px;line-height:1.6}
+#page-orders .ld-orders-heading-icon{display:grid;place-items:center;flex:0 0 62px;width:62px;height:62px;border:1px solid rgba(59,180,236,.22);border-radius:19px;background:linear-gradient(145deg,#fff,#e4f6ff);box-shadow:0 8px 18px rgba(31,143,190,.13);font-size:28px}
+#page-orders .ld-orders-list{display:grid;grid-template-columns:1fr;gap:20px;margin-top:0!important}
+#page-orders .order-card{position:relative;overflow:hidden;margin:0!important;padding:0!important;border:1px solid #dceaf1!important;border-radius:21px!important;background:#fff!important;box-shadow:0 12px 30px rgba(20,55,75,.075),inset 0 1px 0 #fff!important;transition:transform .2s ease,box-shadow .2s ease!important}
+#page-orders .order-card:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(20,55,75,.12)!important}
+#page-orders .order-card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:17px 22px;background:linear-gradient(105deg,#f0faff,#fff 75%);border-bottom:1px solid #e7f0f5}
+#page-orders .order-date{color:#526975;font-size:12px;font-weight:750}
+#page-orders .order-status-badge{display:inline-flex;align-items:center;justify-content:center;min-height:29px;padding:6px 12px;border:1px solid rgba(59,180,236,.25);border-radius:999px;background:#eaf8ff;color:#087eae;font-size:11px;font-weight:850}
+#page-orders .order-card>div[style*="Order ID"]{margin:16px 22px 10px!important;color:#1686b5!important;font-size:12px!important;letter-spacing:.2px}
+#page-orders .order-item-row-detailed{display:flex;align-items:center;gap:14px;margin:0 22px!important;padding:14px 0!important;border-bottom:1px solid #edf2f5}
+#page-orders .order-item-row-detailed img{flex:0 0 76px;width:76px!important;height:76px!important;object-fit:contain!important;padding:6px;border:1px solid #e5eef3;border-radius:13px;background:#f8fbfd}
+#page-orders .order-item-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px}
+#page-orders .oi-name{color:#243743;font-size:13px;font-weight:800;line-height:1.45}
+#page-orders .oi-qty{color:#82929b;font-size:11px}
+#page-orders .order-item-price{color:#1a3544;font-size:13px;font-weight:850;white-space:nowrap}
+#page-orders .order-breakdown{margin:12px 22px 0!important;padding-top:8px;border-top:1px dashed #e2ebf0}
+#page-orders .order-breakdown-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:#73838d;font-size:12px}
+#page-orders .order-card-total{display:flex;justify-content:space-between;gap:12px;margin:0 22px!important;padding:13px 0 16px;color:#183342;font-size:15px;font-weight:900;border-bottom:1px solid #edf2f5}
+#page-orders .mini-tracker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:18px 22px 20px!important;padding:17px 14px;border:1px solid #e4eef3;border-radius:16px;background:linear-gradient(180deg,#fbfdfe,#f5fafc)}
+#page-orders .mt-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;text-align:center}
+#page-orders .mt-dot{display:grid;place-items:center;width:34px;height:34px;border:2px solid #d8e5eb;border-radius:50%;background:#fff;color:#8b9ba4;font-size:14px;box-shadow:0 3px 8px rgba(20,55,75,.06)}
+#page-orders .mt-step.completed .mt-dot{border-color:#20ad68;background:linear-gradient(145deg,#39d88a,#16a05b);color:#fff;box-shadow:0 5px 12px rgba(22,160,91,.2)}
+#page-orders .mt-step.current .mt-dot{border-color:#38afe0;background:linear-gradient(145deg,#64d2ff,#168fc4);color:#fff;box-shadow:0 0 0 5px rgba(59,180,236,.13),0 5px 12px rgba(22,143,196,.2)}
+#page-orders .mt-label{color:#405661;font-size:10px;font-weight:850;line-height:1.35}
+#page-orders .mt-step.current .mt-label{color:#087eae}
+#page-orders .mt-desc{max-width:145px;color:#8a9aa3;font-size:9px;line-height:1.45}
+#page-orders .order-card>button{margin:0 22px 20px!important;width:calc(100% - 44px)!important;min-height:43px;border-radius:12px!important;font-weight:800!important;box-shadow:0 4px 0 #d7e1e7,0 7px 14px rgba(20,55,75,.07);transition:transform .14s ease,box-shadow .14s ease}
+#page-orders .order-card>button:active{transform:translateY(3px);box-shadow:0 1px 0 #d7e1e7,0 2px 5px rgba(20,55,75,.06)}
+#page-orders .ld-orders-message{margin:0;padding:34px 20px;border:1px solid #e0edf3;border-radius:18px;background:#fff;color:#73838d;text-align:center;box-shadow:0 10px 24px rgba(20,55,75,.05)}
+@media(max-width:640px){#page-orders{padding:16px 0 46px!important}#page-orders .ld-orders-shell{width:calc(100% - 22px)!important}#page-orders .ld-orders-heading{margin-bottom:16px;padding:19px 17px;border-radius:19px}#page-orders .ld-orders-heading-icon{flex-basis:48px;width:48px;height:48px;border-radius:15px;font-size:22px}#page-orders .ld-orders-heading p{max-width:260px;font-size:11px}#page-orders .order-card{border-radius:17px!important}#page-orders .order-card-header{padding:14px 15px}#page-orders .order-card>div[style*="Order ID"]{margin:13px 15px 8px!important}#page-orders .order-item-row-detailed{gap:10px;margin:0 15px!important;padding:12px 0!important}#page-orders .order-item-row-detailed img{flex-basis:62px;width:62px!important;height:62px!important}#page-orders .oi-name{font-size:12px}#page-orders .order-item-price{font-size:12px}#page-orders .order-breakdown{margin:10px 15px 0!important}#page-orders .order-card-total{margin:0 15px!important}#page-orders .mini-tracker{gap:4px;margin:14px 12px 16px!important;padding:12px 5px}#page-orders .mt-dot{width:27px;height:27px;font-size:11px}#page-orders .mt-label{font-size:8px;overflow-wrap:anywhere}#page-orders .mt-desc{display:none}#page-orders .order-card>button{margin:0 15px 16px!important;width:calc(100% - 30px)!important}}
+@media(prefers-reduced-motion:reduce){#page-orders .order-card,#page-orders .order-card>button{transition:none!important}}
 </style>
 </body>
 </html>
