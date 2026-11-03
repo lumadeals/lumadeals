@@ -2883,7 +2883,11 @@ LumaDeals AI
     }
 
     function productCardHTML(p, index, gridVisible) {
-      const discount = p.discount || '';
+      const rawDiscount = String(p.discount ?? '').trim();
+      const discountValue = rawDiscount.replace(/\\s*off\\s*$/i, '').trim();
+      const discount = discountValue
+        ? (/%/.test(discountValue) ? discountValue : (Number.isFinite(Number(discountValue)) ? discountValue + '%' : discountValue))
+        : '';
       const rating = p.rating || '★★★★★';
       const image = ldImg(p.img || p.image || p.images?.[0] || '', 600);
       const imageSmall = ldImg(p.img || p.image || p.images?.[0] || '', 400);
@@ -12630,6 +12634,29 @@ body.ld-checkout-open{overflow:hidden!important}
 }
 @media(prefers-reduced-motion:reduce){
   .add-cart-btn,#ld-checkout-page .ld-checkout-confirm{transition:none!important}
+}
+</style>
+<style id="ld-product-discount-polish-v1">
+/* One consistent, readable discount treatment on product cards */
+.product-card .discount-pill{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  align-self:flex-start!important;width:max-content!important;max-width:100%;
+  margin:8px 0 2px!important;padding:5px 10px!important;
+  border:1px solid rgba(22,163,74,.22)!important;border-radius:999px!important;
+  background:linear-gradient(180deg,#effdf5,#dcfce9)!important;
+  color:#128044!important;font-size:11px!important;font-weight:850!important;
+  line-height:1.2!important;letter-spacing:.25px!important;white-space:nowrap;
+  box-shadow:0 2px 6px rgba(22,163,74,.08)!important;
+}
+.product-card .product-discount-badge{
+  display:inline-flex!important;align-items:center;gap:4px;
+  padding:6px 10px!important;border-radius:999px!important;
+  font-size:11px!important;font-weight:850!important;line-height:1.1!important;
+  white-space:nowrap!important;letter-spacing:.15px;
+}
+@media(max-width:480px){
+ .product-card .discount-pill{font-size:10px!important;padding:4px 8px!important;margin-top:6px!important}
+ .product-card .product-discount-badge{font-size:9px!important;padding:5px 8px!important}
 }
 </style>
 </body>
