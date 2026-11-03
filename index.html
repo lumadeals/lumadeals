@@ -11878,24 +11878,46 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     });
 
   </script>
-  <footer>
-    <div class="footer-container">
-      <h4>Contact Info</h4>
-      <div class="footer-contact-info">
-        <p><span class="contact-icon">📞</span> <a href="tel:+923376454384">+92 337 6454384</a></p>
-        <p><span class="contact-icon">✉</span> <a href="mailto:info.lumadeals@gmail.com">info.lumadeals@gmail.com</a>
-        </p>
-        <p><span class="contact-icon">📍</span> Karachi, Pakistan</p>
+  <footer class="ld-site-footer">
+    <div class="ld-footer-inner">
+      <div class="ld-footer-main">
+        <section class="ld-footer-brand">
+          <a class="ld-footer-logo" href="#" onclick="showPage('home');return false;" aria-label="Luma Deals home">
+            <span class="ld-footer-logo-mark">L</span><span>LUMA<span>DEALS</span></span>
+          </a>
+          <p class="ld-footer-about">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
+          <div class="footer-socials ld-footer-socials">
+            <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on TikTok"><i aria-hidden="true" class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on Instagram"><i aria-hidden="true" class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/923376454384" target="_blank" rel="noopener noreferrer" aria-label="Chat with Luma Deals on WhatsApp"><i aria-hidden="true" class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </section>
+        <nav class="ld-footer-column" aria-label="Explore Luma Deals">
+          <h4>Explore</h4>
+          <a href="#" onclick="showPage('home');return false;">Home</a>
+          <a href="#" onclick="showPage('shop');return false;">Shop All Products</a>
+          <a href="#" onclick="showPage('about');return false;">About Us</a>
+          <a href="#" onclick="showPage('contact');return false;">Contact Us</a>
+        </nav>
+        <nav class="ld-footer-column" aria-label="Customer account">
+          <h4>My Account</h4>
+          <a href="#" onclick="showPage('login');return false;">Sign In / Register</a>
+          <a href="#" onclick="showPage('orders');return false;">My Orders</a>
+          <a href="#" onclick="showPage('wishlist');return false;">My Wishlist</a>
+          <a href="#" onclick="showPage('profile');return false;">My Profile</a>
+        </nav>
+        <section class="ld-footer-column ld-footer-contact">
+          <h4>Get in Touch</h4>
+          <a href="tel:+923376454384"><span class="ld-footer-contact-icon">☎</span> +92 337 6454384</a>
+          <a href="mailto:info.lumadeals@gmail.com"><span class="ld-footer-contact-icon">✉</span> info.lumadeals@gmail.com</a>
+          <p><span class="ld-footer-contact-icon">⌖</span> Karachi, Pakistan</p>
+          <p class="ld-footer-note">Have a question about a product or order? Reach out to our team.</p>
+        </section>
       </div>
-      <div class="footer-socials">
-        <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" aria-label="Luma Deals on TikTok"><i aria-hidden="true" class="fa-brands fa-tiktok"></i></a>
-        <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank" aria-label="Luma Deals on Instagram"><i aria-hidden="true" class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/923376454384" target="_blank" aria-label="Chat with Luma Deals on WhatsApp"><i aria-hidden="true" class="fa-brands fa-whatsapp"></i></a>
+      <div class="ld-footer-bottom">
+        <p>© 2026 Luma Deals. All rights reserved.</p>
+        <a href="/privacy.html">Privacy Policy</a>
       </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>&copy; 2026 Luma Deals. All rights reserved. <a href="/privacy.html" style="color:#3BB4EC;text-decoration:none;">Privacy Policy</a></p>
     </div>
   </footer>
        
@@ -12553,6 +12575,38 @@ padding: 22px;
 .ld-related-grid .product-card:focus-within{outline:2px solid rgba(59,180,236,.5);outline-offset:3px}
 .ld-related-grid .product-image-wrap:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)}
 .ld-related-grid .wishlist-btn:focus-visible,.ld-related-grid .add-cart-btn:focus-visible{outline:3px solid rgba(59,180,236,.55);outline-offset:3px}
+</style>
+
+
+<style id="ld-expanded-footer-v1">
+.ld-site-footer{margin-top:54px!important;padding:0 24px!important;background:radial-gradient(ellipse at 12% 0%,rgba(59,180,236,.13),transparent 32%),linear-gradient(145deg,#101820 0%,#141d26 55%,#0c141b 100%)!important;color:#e8f0f5!important;text-align:left!important;font-size:14px!important;border-top:1px solid rgba(59,180,236,.25);position:relative;overflow:hidden}
+.ld-footer-inner{max-width:1240px;margin:0 auto}
+.ld-footer-main{display:grid;grid-template-columns:1.55fr .8fr .9fr 1.25fr;gap:clamp(24px,4vw,58px);padding:54px 0 42px}
+.ld-footer-brand{max-width:360px}
+.ld-footer-logo{display:inline-flex;align-items:center;gap:11px;color:#fff!important;text-decoration:none!important;font-size:20px;font-weight:850;letter-spacing:.3px}
+.ld-footer-logo>span:last-child>span{color:#3BB4EC}
+.ld-footer-logo-mark{display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(59,180,236,.55);border-radius:12px;background:linear-gradient(145deg,#3BB4EC,#087eae);box-shadow:0 7px 18px rgba(59,180,236,.2);color:#fff;font-size:22px}
+.ld-footer-about{margin:18px 0 0!important;color:#aebdca!important;font-size:13px!important;line-height:1.85!important;max-width:340px}
+.ld-footer-column{display:flex;flex-direction:column;align-items:flex-start;gap:13px;min-width:0}
+.ld-footer-column h4{position:relative;margin:3px 0 8px!important;padding:0 0 12px!important;color:#fff!important;font-size:15px!important;font-weight:800!important;letter-spacing:.35px}
+.ld-footer-column h4:after{content:"";position:absolute;bottom:0;left:0;width:30px;height:2px;border-radius:4px;background:#3BB4EC}
+.ld-footer-column>a{color:#afbdc8!important;text-decoration:none!important;font-size:13px!important;line-height:1.5;transition:color .2s ease,transform .2s ease}
+.ld-footer-column>a:hover{color:#54c4f4!important;transform:translateX(3px)}
+.ld-footer-contact>a,.ld-footer-contact>p{display:flex;align-items:center;gap:10px;margin:0!important;color:#afbdc8!important;font-size:12.5px!important;line-height:1.6}
+.ld-footer-contact>a{text-decoration:none!important;overflow-wrap:anywhere}
+.ld-footer-contact>a:hover{color:#54c4f4!important}
+.ld-footer-contact-icon{display:inline-grid;place-items:center;flex:0 0 29px;width:29px;height:29px;border:1px solid rgba(59,180,236,.25);border-radius:9px;background:rgba(59,180,236,.09);color:#54c4f4;font-size:14px}
+.ld-footer-note{margin:5px 0 0!important;color:#8193a1!important;font-size:11.5px!important;line-height:1.7!important}
+.ld-footer-socials{display:flex;gap:9px;margin-top:21px!important;padding-top:17px;border-top:1px solid rgba(255,255,255,.09)}
+.ld-footer-socials a{display:grid!important;place-items:center;width:36px!important;height:36px!important;margin:0!important;border:1px solid rgba(59,180,236,.24);border-radius:11px!important;background:rgba(59,180,236,.10)!important;color:#74d0f6!important;line-height:1!important;transition:transform .2s ease,background .2s ease}
+.ld-footer-socials a:hover{transform:translateY(-3px);background:#168fbe!important;color:#fff!important}
+.ld-footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:19px 0 22px;border-top:1px solid rgba(255,255,255,.10)}
+.ld-footer-bottom p{margin:0!important;color:#8797a4!important;font-size:11.5px!important}
+.ld-footer-bottom>a{color:#65c9f3!important;text-decoration:none!important;font-size:12px!important}
+.ld-footer-bottom>a:hover{text-decoration:underline!important}
+@media(max-width:900px){.ld-footer-main{grid-template-columns:1.2fr 1fr;gap:34px 42px;padding:42px 0 34px}.ld-footer-brand{max-width:440px}}
+@media(max-width:560px){.ld-site-footer{padding:0 19px!important;margin-top:38px!important}.ld-footer-main{grid-template-columns:1fr 1fr;gap:30px 18px;padding:36px 0 28px}.ld-footer-brand{grid-column:1/-1;max-width:none}.ld-footer-about{max-width:420px}.ld-footer-column h4{font-size:14px!important}.ld-footer-column>a{font-size:12px!important}.ld-footer-contact{grid-column:1/-1}.ld-footer-contact>a,.ld-footer-contact>p{font-size:12px!important}.ld-footer-bottom{align-items:flex-start;flex-direction:column;gap:8px;padding:16px 0 20px}}
+@media(max-width:350px){.ld-footer-main{grid-template-columns:1fr;gap:25px}.ld-footer-brand,.ld-footer-contact{grid-column:auto}}
 </style>
 
 </body>
