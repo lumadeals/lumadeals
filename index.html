@@ -3622,6 +3622,8 @@ LumaDeals AI
     }
     function closeCheckoutForm() {
       const cartContent = document.querySelector('.cart-sidebar');
+      cartContent.classList.remove('checkout-mode');
+      cartContent.classList.add('checkout-mode');
       cartContent.innerHTML = `
     <div class="cart-header">
       <h3> Your Cart</h3>
@@ -12629,6 +12631,23 @@ padding: 22px;
 @media(min-width:900px){#lumadeals-checkout-box{padding:27px 24px 23px!important;border-radius:24px!important}#lumadeals-checkout-box input,#lumadeals-checkout-box select{min-height:49px!important}}
 @media(max-width:480px){#lumadeals-checkout-box{padding:20px 14px 16px!important;border-radius:18px!important}#lumadeals-checkout-box h3{font-size:17px!important;margin-bottom:16px!important}#lumadeals-checkout-box input,#lumadeals-checkout-box select{min-height:45px!important;font-size:13px!important}}
 @media(prefers-reduced-motion:reduce){#lumadeals-checkout-box *,#lumadeals-checkout-box *:before{transition:none!important}}
+</style>
+
+
+<style id="ld-checkout-modal-layout-v2">
+.cart-sidebar.checkout-mode{top:50%!important;right:auto!important;left:50%!important;transform:translate(-50%,-50%)!important;width:min(760px,calc(100vw - 36px))!important;max-width:760px!important;height:auto!important;max-height:min(90dvh,900px)!important;padding:0!important;border:1px solid rgba(59,180,236,.25)!important;border-radius:24px!important;background:linear-gradient(145deg,#fff 0%,#f8fcff 100%)!important;box-shadow:0 28px 90px rgba(4,20,32,.28),0 4px 18px rgba(59,180,236,.12)!important;overflow:hidden!important;z-index:10001!important}
+.cart-sidebar.checkout-mode:before{content:"";position:fixed;inset:-100vh -100vw;z-index:-1;background:rgba(8,19,28,.58);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.cart-sidebar.checkout-mode>div{max-height:min(90dvh,900px)!important;overflow-y:auto!important;padding:26px 30px 28px!important;box-sizing:border-box!important}
+.cart-sidebar.checkout-mode>div>div:first-child{position:sticky;top:-26px;z-index:5;margin:-26px -30px 20px!important;padding:20px 30px 15px!important;background:rgba(255,255,255,.96)!important;border-bottom:1px solid #e5eef4!important;backdrop-filter:blur(12px)}
+.cart-sidebar.checkout-mode h2{font-size:22px!important;font-weight:850!important;color:#172b38!important;letter-spacing:-.4px}
+.cart-sidebar.checkout-mode h2:after{content:"";display:block;width:44px;height:3px;margin-top:9px;border-radius:4px;background:linear-gradient(90deg,#3BB4EC,#087eae)}
+.cart-sidebar.checkout-mode input,.cart-sidebar.checkout-mode select,.cart-sidebar.checkout-mode textarea{width:100%!important;min-height:48px!important;padding:12px 14px!important;border:1px solid #d8e5ed!important;border-radius:12px!important;background:#fff!important;color:#172b38!important;font:500 14px inherit!important;box-sizing:border-box!important;box-shadow:0 3px 10px rgba(20,48,65,.04),inset 0 1px 0 #fff!important;outline:none!important;transition:border-color .2s,box-shadow .2s!important}
+.cart-sidebar.checkout-mode input:focus,.cart-sidebar.checkout-mode select:focus,.cart-sidebar.checkout-mode textarea:focus{border-color:#3BB4EC!important;box-shadow:0 0 0 4px rgba(59,180,236,.13)!important}
+.cart-sidebar.checkout-mode label{display:block!important;margin:0 0 7px!important;color:#405563!important;font-size:12px!important;font-weight:750!important}
+.cart-sidebar.checkout-mode button{min-height:52px!important;border:0!important;border-radius:14px!important;background:linear-gradient(110deg,#3BB4EC,#087eae)!important;color:#fff!important;font-size:15px!important;font-weight:850!important;box-shadow:0 10px 22px rgba(20,145,190,.22)!important}
+.cart-sidebar.checkout-mode button:hover{transform:translateY(-1px)}
+@media(max-width:600px){.cart-sidebar.checkout-mode{width:calc(100vw - 20px)!important;max-height:calc(100dvh - 24px)!important;border-radius:19px!important}.cart-sidebar.checkout-mode>div{max-height:calc(100dvh - 24px)!important;padding:18px 16px 20px!important}.cart-sidebar.checkout-mode>div>div:first-child{top:-18px;margin:-18px -16px 16px!important;padding:16px 16px 13px!important}.cart-sidebar.checkout-mode h2{font-size:19px!important}.cart-sidebar.checkout-mode input,.cart-sidebar.checkout-mode select,.cart-sidebar.checkout-mode textarea{min-height:46px!important;font-size:13px!important}}
+@media(max-height:650px){.cart-sidebar.checkout-mode{max-height:calc(100dvh - 16px)!important}.cart-sidebar.checkout-mode>div{max-height:calc(100dvh - 16px)!important}}
 </style>
 
 </body>
