@@ -7464,25 +7464,39 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     function setAppearance(mode) {
-      localStorage.setItem('lumaAppearance', mode);
+      const validModes = ["light", "dark", "system"];
+      if (!validModes.includes(mode)) mode = "light";
+      localStorage.setItem("lumaAppearance", mode);
 
-      if (mode === 'dark') {
-        document.body.classList.add('dark-mode');
-      }
-      else if (mode === 'light') {
-        document.body.classList.remove('dark-mode');
-      }
-      else if (mode === 'system') {
-        const prefersDark = window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const useDark = mode === "dark" || (mode === "system" && prefersDark);
 
-        if (prefersDark) {
-          document.body.classList.add('dark-mode');
-        } else {
-          document.body.classList.remove('dark-mode');
-        }
-      }
+      document.body.classList.toggle("dark-mode", !!useDark);
+      document.documentElement.setAttribute("data-luma-appearance", mode);
+
+      document.querySelectorAll("#page-appearance .appearance-option").forEach(function (option) {
+        const selected = option.getAttribute("onclick") === "setAppearance('" + mode + "')";
+        option.classList.toggle("is-selected", selected);
+        option.setAttribute("aria-pressed", selected ? "true" : "false");
+      });
     }
+
+    /* Restore the saved theme on every visit; System follows device changes. */
+    (function initLumaAppearance() {
+      const savedMode = localStorage.getItem("lumaAppearance") || "light";
+      setAppearance(savedMode);
+      if (window.matchMedia) {
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        const syncSystemTheme = function () {
+          if ((localStorage.getItem("lumaAppearance") || "light") === "system") {
+            setAppearance("system");
+          }
+        };
+        if (media.addEventListener) media.addEventListener("change", syncSystemTheme);
+        else if (media.addListener) media.addListener(syncSystemTheme);
+      }
+    })();
 
 
     /* Notifications */
@@ -12728,6 +12742,60 @@ body.ld-checkout-open{overflow:hidden!important}
 #page-profile .ld-account-identity{position:relative;z-index:1}#page-profile .ld-account-section-title{margin-top:34px}
 #page-profile .ld-account-shortcut,#page-profile .account-card{backdrop-filter:blur(10px)}
 @media(max-width:650px){#page-profile .ld-account-section-title{margin-top:25px}#page-profile .ld-account-shortcut-icon{flex-basis:44px;width:44px;height:44px}#page-profile .account-card-icon{flex-basis:40px;width:40px;height:40px}}
+</style>
+<style id="ld-theme-polish-v1">
+/* Appearance selector */
+#page-appearance .appearance-option{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 18px;border:1px solid #e1edf2;border-radius:15px;background:#fff;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+#page-appearance .appearance-option:hover{transform:translateY(-2px);border-color:#8bd4f2;box-shadow:0 9px 22px rgba(26,112,148,.08)}
+#page-appearance .appearance-option.is-selected{border-color:#36a9d9;background:linear-gradient(110deg,#effaff,#fff);box-shadow:inset 3px 0 #35addf,0 7px 18px rgba(33,143,184,.08)}
+#page-appearance .appearance-option.is-selected>span{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#d9f4ff;color:#087eae;font-size:0}
+#page-appearance .appearance-option.is-selected>span:before{content:"✓";font-size:14px;font-weight:900}
+#page-appearance .appearance-option>span{color:#8ca0aa;font-size:20px}
+#page-appearance .appearance-option strong{color:#1b3441}
+#page-appearance .appearance-option p{color:#738691}
+/* Global dark surfaces */
+body.dark-mode{background:#10171d!important;color:#e8f0f5!important;color-scheme:dark}
+body.dark-mode main,body.dark-mode .page,body.dark-mode #app,body.dark-mode .content-wrapper{background:transparent;color:#e8f0f5}
+body.dark-mode h1,body.dark-mode h2,body.dark-mode h3,body.dark-mode h4,body.dark-mode label,body.dark-mode strong{color:#edf5f9}
+body.dark-mode p,body.dark-mode small,.dark-mode .muted{color:#a8bac5}
+body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:#17232c!important;color:#edf5f9!important;border-color:#354956!important;color-scheme:dark}
+body.dark-mode input::placeholder,body.dark-mode textarea::placeholder{color:#8195a1!important}
+body.dark-mode button:not(.add-to-cart-btn):not(.profile-logout-btn){color:inherit}
+body.dark-mode .settings-page,body.dark-mode .option-row,body.dark-mode .profile-setting-card,body.dark-mode .security-row,body.dark-mode .toggle-row,body.dark-mode .support-card{background:#192630!important;color:#e8f0f5!important;border-color:#30434f!important}
+body.dark-mode .option-row strong,body.dark-mode .security-row strong,body.dark-mode .toggle-row strong,body.dark-mode .support-card h3{color:#edf5f9!important}
+body.dark-mode .option-row p,body.dark-mode .security-row p,body.dark-mode .toggle-row p,body.dark-mode .support-card p{color:#a8bac5!important}
+body.dark-mode .appearance-option.is-selected{background:linear-gradient(110deg,#163447,#1a2a34)!important;border-color:#2799c8!important;box-shadow:inset 3px 0 #35addf,0 8px 20px rgba(0,0,0,.2)}
+body.dark-mode .appearance-option strong{color:#f1f7fa!important}
+body.dark-mode .appearance-option p{color:#a8bac5!important}
+body.dark-mode .back-settings{color:#8edcff!important}
+body.dark-mode .account-page,body.dark-mode .ld-account-shell{color:#e8f0f5}
+body.dark-mode #page-profile{background:radial-gradient(ellipse at 10% 0%,rgba(28,139,185,.16),transparent 38%),linear-gradient(145deg,#101920,#121d25 58%,#101a21)!important}
+body.dark-mode #page-profile .ld-account-welcome{background:linear-gradient(115deg,#192832,#1a303d 72%,#173344)!important;border-color:#2c5265;box-shadow:0 18px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04)}
+body.dark-mode #page-profile .account-hero h1,body.dark-mode #page-profile .ld-account-section-title h2,body.dark-mode #page-profile .ld-account-shortcut strong,body.dark-mode #page-profile .account-card h3{color:#eef7fb!important}
+body.dark-mode #page-profile .account-hero p,body.dark-mode #page-profile .ld-account-shortcut small,body.dark-mode #page-profile .account-card p{color:#a7bbc6!important}
+body.dark-mode #page-profile .ld-account-shield,body.dark-mode #page-profile .ld-account-shortcut,body.dark-mode #page-profile .account-card{background:linear-gradient(145deg,#1b2b35,#192630)!important;border-color:#304653!important;box-shadow:0 9px 22px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.035)}
+body.dark-mode #page-profile .ld-account-shield span{color:#b6c7d0}
+body.dark-mode #page-profile .ld-account-shortcut-icon,body.dark-mode #page-profile .account-card-icon{background:linear-gradient(145deg,#203c4b,#1b303c)!important;border-color:#34576a!important;color:#75d4fa!important}
+body.dark-mode #page-profile .ld-account-signout{background:#192630;border-color:#30434f}
+body.dark-mode #page-profile .ld-account-signout strong{color:#edf5f9}
+body.dark-mode #page-profile .ld-account-signout span{color:#a8bac5}
+body.dark-mode #page-profile .profile-logout-btn{background:linear-gradient(180deg,#352528,#2b2023)!important;border-color:#684047!important;color:#ff9a9e!important;box-shadow:0 3px 0 #20191b,0 6px 12px rgba(0,0,0,.18)}
+/* Store, product, cart, checkout and order surfaces */
+body.dark-mode .product-card,body.dark-mode .product-item,body.dark-mode .you-may-also-like .product-card,body.dark-mode .related-products .product-card{background:linear-gradient(145deg,#1b2a34,#17232c)!important;border-color:#304652!important;color:#edf5f9!important;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+body.dark-mode .product-card h3,body.dark-mode .product-card h4,body.dark-mode .product-title,body.dark-mode .product-name{color:#edf5f9!important}
+body.dark-mode .product-card p,body.dark-mode .product-card small{color:#a8bac5!important}
+body.dark-mode .product-image-container,body.dark-mode .product-img-wrap{background:#202f39!important;border-color:#344a57!important}
+body.dark-mode #page-orders .order-card,body.dark-mode #page-orders .order-item,body.dark-mode #page-orders .orders-empty,body.dark-mode .order-card,body.dark-mode .order-summary,body.dark-mode .checkout-card,body.dark-mode .checkout-form,body.dark-mode #page-checkout .checkout-panel{background:#192630!important;border-color:#304652!important;color:#edf5f9!important}
+body.dark-mode .cart-modal,body.dark-mode .cart-content,body.dark-mode .cart-drawer,body.dark-mode .modal-content,body.dark-mode .luma-success-box{background:#192630!important;color:#edf5f9!important;border-color:#304652!important}
+body.dark-mode .cart-modal h2,body.dark-mode .cart-modal h3,body.dark-mode .modal-content h2,body.dark-mode .luma-success-box h2{color:#edf5f9!important}
+body.dark-mode .luma-order-id-box{background:#202f39;border-color:#344a57}
+body.dark-mode .luma-order-id-box span{color:#b4c4cd}
+body.dark-mode footer,body.dark-mode .site-footer{background:#0c141a!important;color:#e8f0f5!important;border-color:#263944!important}
+body.dark-mode footer p,body.dark-mode footer a,body.dark-mode .site-footer p,body.dark-mode .site-footer a{color:#b4c4cd}
+body.dark-mode .navbar,body.dark-mode nav,body.dark-mode .bottom-nav{border-color:#263944}
+body.dark-mode hr,body.dark-mode .divider{border-color:#30434f!important}
+body.dark-mode .luma-success-text{color:#b4c4cd}
+@media(prefers-reduced-motion:reduce){#page-appearance .appearance-option{transition:none}}
 </style>
 </body>
 </html>
