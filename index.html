@@ -1939,7 +1939,7 @@ LumaDeals AI
 
       <h2 id="detail-name" style="margin-top:15px;"></h2>
       <div id="detail-rating" class="rating"></div>
-      <div style="margin:10px 0;">
+      <div class="ld-detail-price-row" style="margin:10px 0;">
         <span class="price" id="detail-price" style="font-size:22px;"></span>
         <span class="old-price" id="detail-oldprice"></span>
       </div>
@@ -1954,11 +1954,11 @@ LumaDeals AI
       </div>
 
       <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
-      <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
+      <div class="ld-detail-description-panel" style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
         <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
         <p id="detail-description" style="color:#555; line-height:1.7; font-size:14px;"></p>
       </div>
-      <div style="margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+      <div class="ld-detail-benefits-panel" style="margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
           <span style="font-size: 20px;">✅</span>
           <span style="font-size: 14px; color: #0f172a;">7 Days Easy Return</span>
@@ -1980,7 +1980,7 @@ LumaDeals AI
           <span style="font-size: 14px; color: #0f172a;">24/7 Support on WhatsApp</span>
         </div>
       </div>
-      <div style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
+      <div class="ld-detail-reviews-panel" style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
         <h3 style="font-size:16px; margin-bottom:15px; color:#14171A;">Customer Reviews</h3>
         <div id="reviews-list" style="margin-bottom:15px;"></div>
 
@@ -12391,30 +12391,47 @@ padding: 22px;
 .ld-product-viewer>img{display:block;max-width:min(100%,1100px);max-height:100%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 25px 35px rgba(0,0,0,.35))}
 .ld-viewer-close{position:absolute;top:20px;right:22px;width:46px;height:46px;border:1px solid rgba(255,255,255,.2);border-radius:50%;color:#fff;background:rgba(255,255,255,.1);font-size:30px;cursor:pointer}
 .ld-viewer-arrow{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}.ld-viewer-arrow.is-prev{left:22px}.ld-viewer-arrow.is-next{right:22px}.ld-viewer-count{left:50%;bottom:22px;transform:translateX(-50%);color:#fff}body.ld-viewer-open{overflow:hidden}
-/* Desktop product detail: balanced two-column gallery + purchase panel. */
+/* Desktop product detail: balanced gallery, purchase panel and full-width content. */
 @media(min-width:901px){
  #page-product-detail .info-page{
-  width:min(1240px,calc(100% - 64px))!important;max-width:1240px!important;
-  margin:30px auto!important;padding:30px!important;
-  display:grid!important;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr)!important;
-  grid-template-rows:auto auto auto auto auto auto auto auto auto auto;
-  column-gap:clamp(30px,4vw,58px)!important;row-gap:14px!important;align-items:start!important;
+  width:min(1280px,calc(100% - 72px))!important;max-width:1280px!important;
+  margin:34px auto!important;padding:34px!important;
+  display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(390px,.95fr)!important;
+  grid-template-rows:auto auto auto auto auto auto auto auto;
+  grid-template-areas:
+   "back back"
+   "gallery title"
+   "gallery rating"
+   "gallery price"
+   "gallery discount"
+   "gallery quantity"
+   "gallery cart"
+   "description description"
+   "benefits benefits"
+   "reviews reviews";
+  column-gap:clamp(38px,5vw,72px)!important;row-gap:15px!important;align-items:start!important;
+  border-radius:28px!important;background:linear-gradient(145deg,#fff 0%,#fbfdff 100%)!important;
+  box-shadow:0 18px 58px rgba(20,23,26,.08)!important;
  }
- #page-product-detail .info-page>button:first-child{grid-column:1/-1;grid-row:1;justify-self:start;margin:0 0 8px!important}
- #detail-image-container.ld-detail-stage{grid-column:1;grid-row:2;align-self:start;width:100%;aspect-ratio:1/1;min-height:0;max-height:650px}
- #detail-image-container #detail-img{padding:clamp(24px,4vw,48px)!important;padding-right:clamp(112px,12vw,132px)!important}
- #detail-video-wrap{grid-column:1;grid-row:3;width:100%;margin:0!important}
- #detail-name{grid-column:2;grid-row:2;margin:0!important;font-size:clamp(25px,2.4vw,34px)!important;line-height:1.22!important}
- #detail-rating{grid-column:2;grid-row:3;margin:0!important}
- #page-product-detail .info-page>div:has(>#detail-price){grid-column:2;grid-row:4;margin:0!important;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
- #detail-price{font-size:29px!important}
- #detail-discount{grid-column:2;grid-row:5;margin:0!important}
- #page-product-detail .quantity-wrapper{grid-column:2;grid-row:6;display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:10px 0!important}
- #detail-addcart-btn{grid-column:2;grid-row:7;width:100%;margin:0!important;padding:16px!important;border-radius:14px!important}
- #page-product-detail .info-page>div:has(>#detail-description){grid-column:2;grid-row:8;margin:10px 0 0!important;padding-top:18px!important}
- #page-product-detail .info-page>div[style*="background: #f8fafc"]{grid-column:1/-1;grid-row:9;margin:18px 0 0!important}
- #detail-image-container #detail-thumbnails{width:84px;top:14px;right:14px;bottom:14px;padding:10px 7px!important;gap:10px!important}
- .ld-detail-thumb{flex-basis:66px;width:66px;height:66px}
+ #page-product-detail .info-page>button:first-child{grid-area:back;justify-self:start;margin:0 0 8px!important}
+ #detail-image-container.ld-detail-stage{grid-area:gallery;position:relative;width:100%;aspect-ratio:1/1;min-height:0;max-height:690px;align-self:start;border-radius:25px}
+ #detail-image-container #detail-img{padding:clamp(28px,4vw,54px)!important;padding-right:clamp(120px,12vw,142px)!important}
+ #detail-image-container #detail-thumbnails{width:90px;top:16px;right:16px;bottom:16px;padding:11px 8px!important;gap:11px!important;border-radius:18px}
+ .ld-detail-thumb{flex-basis:68px;width:68px;height:68px}
+ #detail-video-wrap{grid-area:gallery;align-self:end;width:calc(100% - 120px);margin:0!important;transform:translateY(calc(100% + 16px))}
+ #detail-name{grid-area:title;margin:0!important;padding-top:4px;font-size:clamp(27px,2.5vw,36px)!important;line-height:1.22!important;color:#14171A}
+ #detail-rating{grid-area:rating;margin:0!important}
+ .ld-detail-price-row{grid-area:price!important;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:8px 0!important}
+ #detail-price{font-size:32px!important;font-weight:800!important;color:#168fbe!important}
+ #detail-oldprice{font-size:15px!important}
+ #detail-discount{grid-area:discount;margin:0!important}
+ #page-product-detail .quantity-wrapper{grid-area:quantity;display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:12px 0 4px!important}
+ #detail-addcart-btn{grid-area:cart;width:100%;margin:0!important;padding:17px!important;border-radius:15px!important;font-size:15px!important;box-shadow:0 10px 22px rgba(20,23,26,.15)}
+ .ld-detail-description-panel{grid-area:description;margin:28px 0 0!important;padding:24px 4px 8px!important;border-top:1px solid #e8eef2!important}
+ .ld-detail-description-panel h3,.ld-detail-benefits-panel h3,.ld-detail-reviews-panel h3{font-size:19px!important}
+ .ld-detail-description-panel p{max-width:100%;font-size:15px!important;line-height:1.85!important}
+ .ld-detail-benefits-panel{grid-area:benefits;width:100%;margin:8px 0 0!important;padding:22px 26px!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:30px;row-gap:4px}
+ .ld-detail-reviews-panel{grid-area:reviews;width:100%;margin:18px 0 0!important;padding:24px 4px 0!important;border-top:1px solid #e8eef2!important}
 }
 /* Product detail: stack the whole purchase flow on tablet and phones. */
 @media(max-width:900px){
