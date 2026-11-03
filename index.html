@@ -1902,19 +1902,24 @@ LumaDeals AI
   </section>
   <!-- WISHLIST -->
   <section id="page-wishlist" class="page">
-
-    <section class="products-section">
-
-      <h2>
-        <span style="color:#3BB4EC;">❤️</span>
-        My Wishlist
-      </h2>
-
-      <div class="product-grid" id="wishlist-products">
+    <section class="products-section ld-wishlist-page">
+      <header class="ld-wishlist-header">
+        <div class="ld-wishlist-heading">
+          <span class="ld-wishlist-eyebrow">YOUR PERSONAL COLLECTION</span>
+          <h1>Saved Items</h1>
+          <p>All the products you love, together in one place.</p>
+        </div>
+        <div class="ld-wishlist-count" aria-live="polite">
+          <span class="ld-wishlist-count-icon" aria-hidden="true">♡</span>
+          <span><strong id="ld-wishlist-count">0</strong><small>Saved items</small></span>
+        </div>
+      </header>
+      <div class="ld-wishlist-toolbar">
+        <span><strong>Your Wishlist</strong><small>Ready when you are</small></span>
+        <button type="button" onclick="showPage('shop')">Continue Shopping <span aria-hidden="true">→</span></button>
       </div>
-
+      <div class="product-grid" id="wishlist-products"></div>
     </section>
-
   </section>
   <!-- PRODUCT DETAIL -->
   <section id="page-product-detail" class="page">
@@ -5916,22 +5921,21 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       var wishlist = getWishlist();
 
       /* EMPTY */
+      var countBadge = document.getElementById("ld-wishlist-count");
+      if (countBadge) countBadge.textContent = String(wishlist.length);
       if (!wishlist.length) {
         container.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:50px 20px;
-      ">
-        <div style="font-size:50px;">❤️</div>
-
-        <h3>Your Wishlist is Empty</h3>
-
-        <p>
-          Add products to your wishlist
-          and they will appear here.
-        </p>
-      </div>
-    `;
+          <div class="ld-wishlist-empty">
+            <div class="ld-wishlist-empty-art" aria-hidden="true">
+              <span class="ld-wishlist-empty-heart">♡</span>
+              <i></i><b></b><em></em>
+            </div>
+            <span class="ld-wishlist-empty-kicker">A LITTLE SPACE FOR THINGS YOU LOVE</span>
+            <h2>Your wishlist is waiting</h2>
+            <p>Save your favourite finds and they’ll be right here whenever you’re ready.</p>
+            <button type="button" onclick="showPage('shop')">Explore Products <span aria-hidden="true">→</span></button>
+          </div>
+        `;
         return;
       }
 
@@ -5971,21 +5975,16 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       /* PRODUCTS NOT FOUND */
       if (!wishlistProducts.length) {
         container.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:50px 20px;
-      ">
-        <div style="font-size:50px;">❤️</div>
-
-        <h3>No Wishlist Products Found</h3>
-
-        <p>
-          Your saved products could not be found.
-        </p>
-      </div>
-    `;
+          <div class="ld-wishlist-empty ld-wishlist-unavailable">
+            <div class="ld-wishlist-empty-art" aria-hidden="true"><span class="ld-wishlist-empty-heart">♡</span></div>
+            <h2>Your saved items are syncing</h2>
+            <p>We couldn’t match these saved items to the current product list. Please try again shortly.</p>
+            <button type="button" onclick="showWishlist()">Try Again</button>
+          </div>
+        `;
         return;
       }
+      if (countBadge) countBadge.textContent = String(wishlistProducts.length);
 
       /* RENDER */
       container.innerHTML =
@@ -12796,6 +12795,47 @@ body.dark-mode .navbar,body.dark-mode nav,body.dark-mode .bottom-nav{border-colo
 body.dark-mode hr,body.dark-mode .divider{border-color:#30434f!important}
 body.dark-mode .luma-success-text{color:#b4c4cd}
 @media(prefers-reduced-motion:reduce){#page-appearance .appearance-option{transition:none}}
+</style>
+<style id="ld-wishlist-premium-v1">
+#page-wishlist .ld-wishlist-page{max-width:1440px;margin:0 auto;padding-top:28px}
+#page-wishlist .ld-wishlist-header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden;margin:0 0 25px;padding:30px 34px;border:1px solid #dceef5;border-radius:23px;background:radial-gradient(circle at 92% 10%,rgba(59,180,236,.17),transparent 31%),linear-gradient(115deg,#f1faff 0%,#fff 56%,#f5fbfe 100%);box-shadow:0 14px 36px rgba(31,107,139,.075),inset 0 1px 0 #fff}
+#page-wishlist .ld-wishlist-header:after{content:"";position:absolute;right:115px;top:-95px;width:230px;height:230px;border:1px solid rgba(42,158,204,.13);border-radius:50%;box-shadow:0 0 0 22px rgba(59,180,236,.035),0 0 0 45px rgba(59,180,236,.025);pointer-events:none}
+#page-wishlist .ld-wishlist-heading{position:relative;z-index:1}
+#page-wishlist .ld-wishlist-eyebrow{display:block;margin-bottom:8px;color:#1688b7;font-size:10px;font-weight:800;letter-spacing:1.8px}
+#page-wishlist .ld-wishlist-heading h1{margin:0;color:#172c38;font-size:clamp(25px,3vw,35px);font-weight:800;letter-spacing:-.8px}
+#page-wishlist .ld-wishlist-heading p{margin:8px 0 0;color:#718794;font-size:13px;line-height:1.6}
+#page-wishlist .ld-wishlist-count{position:relative;z-index:1;display:flex;align-items:center;gap:12px;min-width:145px;padding:13px 17px;border:1px solid rgba(59,180,236,.2);border-radius:16px;background:rgba(255,255,255,.78);box-shadow:0 8px 22px rgba(35,119,151,.07);backdrop-filter:blur(10px)}
+#page-wishlist .ld-wishlist-count-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#e4f7ff,#ccefff);color:#168bb9;font-size:28px;line-height:1}
+#page-wishlist .ld-wishlist-count strong,#page-wishlist .ld-wishlist-count small{display:block}
+#page-wishlist .ld-wishlist-count strong{color:#172c38;font-size:20px;font-weight:800;line-height:1.2}
+#page-wishlist .ld-wishlist-count small{margin-top:3px;color:#81939d;font-size:10px}
+#page-wishlist .ld-wishlist-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 2px 17px;padding:0 2px 14px;border-bottom:1px solid #e7eff3}
+#page-wishlist .ld-wishlist-toolbar strong,#page-wishlist .ld-wishlist-toolbar small{display:block}
+#page-wishlist .ld-wishlist-toolbar strong{color:#243c49;font-size:16px;font-weight:800}
+#page-wishlist .ld-wishlist-toolbar small{margin-top:3px;color:#91a0a8;font-size:11px}
+#page-wishlist .ld-wishlist-toolbar button,#page-wishlist .ld-wishlist-empty button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:40px;padding:0 17px;border:1px solid #b9e5f5;border-radius:11px;background:linear-gradient(180deg,#fff,#effaff);color:#087eac;font-size:12px;font-weight:750;box-shadow:0 3px 0 #d4edf7,0 7px 15px rgba(26,133,174,.08);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+#page-wishlist .ld-wishlist-toolbar button:active,#page-wishlist .ld-wishlist-empty button:active{transform:translateY(2px);box-shadow:0 1px 0 #d4edf7}
+#page-wishlist #wishlist-products{align-items:stretch}
+#page-wishlist .ld-wishlist-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;margin:6px 0 24px;padding:36px 22px;text-align:center;border:1px solid #e0edf2;border-radius:22px;background:radial-gradient(circle at 50% 15%,rgba(59,180,236,.11),transparent 42%),linear-gradient(145deg,#fff,#f7fcfe);box-shadow:0 15px 36px rgba(25,94,121,.055)}
+#page-wishlist .ld-wishlist-empty-art{position:relative;display:grid;place-items:center;width:104px;height:104px;margin-bottom:20px;border:1px solid #d5edf6;border-radius:30px;background:linear-gradient(145deg,#f1fbff,#dff5fd);box-shadow:inset 0 1px 0 #fff,0 14px 28px rgba(34,147,190,.12);transform:rotate(-4deg)}
+#page-wishlist .ld-wishlist-empty-heart{color:#2da9d8;font-size:62px;font-weight:300;line-height:1}
+#page-wishlist .ld-wishlist-empty-art i,#page-wishlist .ld-wishlist-empty-art b,#page-wishlist .ld-wishlist-empty-art em{position:absolute;width:8px;height:8px;border-radius:50%;background:#7bd4f3}
+#page-wishlist .ld-wishlist-empty-art i{right:12px;top:15px}#page-wishlist .ld-wishlist-empty-art b{left:14px;bottom:18px;width:5px;height:5px}#page-wishlist .ld-wishlist-empty-art em{right:18px;bottom:23px;width:4px;height:4px}
+#page-wishlist .ld-wishlist-empty-kicker{color:#2696bd;font-size:9px;font-weight:800;letter-spacing:1.5px}
+#page-wishlist .ld-wishlist-empty h2{margin:0 0 8px;color:#1b3542;font-size:22px;font-weight:800}
+#page-wishlist .ld-wishlist-empty p{max-width:390px;margin:0 0 20px;color:#81939d;font-size:13px;line-height:1.7}
+#page-wishlist .ld-wishlist-empty button{min-height:44px;padding:0 22px;background:linear-gradient(180deg,#42bde9,#138fbe);border-color:#178fba;color:#fff;box-shadow:0 4px 0 #08739c,0 10px 20px rgba(15,144,190,.2)}
+body.dark-mode #page-wishlist .ld-wishlist-header{background:radial-gradient(circle at 92% 10%,rgba(35,156,204,.2),transparent 32%),linear-gradient(115deg,#192c37,#17232c 60%,#192a34);border-color:#304957;box-shadow:0 16px 38px rgba(0,0,0,.2)}
+body.dark-mode #page-wishlist .ld-wishlist-heading h1,body.dark-mode #page-wishlist .ld-wishlist-count strong,body.dark-mode #page-wishlist .ld-wishlist-toolbar strong,body.dark-mode #page-wishlist .ld-wishlist-empty h2{color:#edf6fa}
+body.dark-mode #page-wishlist .ld-wishlist-heading p,body.dark-mode #page-wishlist .ld-wishlist-count small,body.dark-mode #page-wishlist .ld-wishlist-toolbar small,body.dark-mode #page-wishlist .ld-wishlist-empty p{color:#a8bbc5}
+body.dark-mode #page-wishlist .ld-wishlist-count{background:rgba(25,43,54,.88);border-color:#355464}
+body.dark-mode #page-wishlist .ld-wishlist-count-icon{background:linear-gradient(145deg,#244b5d,#1d3a49);color:#7bd8fb}
+body.dark-mode #page-wishlist .ld-wishlist-toolbar{border-color:#30434f}
+body.dark-mode #page-wishlist .ld-wishlist-toolbar button{background:linear-gradient(180deg,#203b49,#1b303b);border-color:#365d70;color:#8bdfff;box-shadow:0 3px 0 #142630}
+body.dark-mode #page-wishlist .ld-wishlist-empty{background:radial-gradient(circle at 50% 15%,rgba(41,157,202,.14),transparent 42%),linear-gradient(145deg,#192832,#15232c);border-color:#304653;box-shadow:0 16px 35px rgba(0,0,0,.18)}
+body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(145deg,#244454,#1b3543);border-color:#345c70;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 28px rgba(0,0,0,.2)}
+@media(max-width:700px){#page-wishlist .ld-wishlist-page{padding:18px 12px 30px}#page-wishlist .ld-wishlist-header{align-items:flex-start;padding:22px 18px;border-radius:18px}#page-wishlist .ld-wishlist-header:after{right:-100px;top:-100px}#page-wishlist .ld-wishlist-count{min-width:0;padding:9px 10px;gap:8px}#page-wishlist .ld-wishlist-count-icon{width:35px;height:35px;font-size:23px}#page-wishlist .ld-wishlist-count strong{font-size:17px}#page-wishlist .ld-wishlist-count small{font-size:9px}#page-wishlist .ld-wishlist-heading p{max-width:220px;font-size:11px}#page-wishlist .ld-wishlist-toolbar{align-items:flex-end}#page-wishlist .ld-wishlist-toolbar button{min-height:36px;padding:0 11px;font-size:10px}#page-wishlist .ld-wishlist-empty{min-height:300px;padding:28px 17px;border-radius:18px}#page-wishlist .ld-wishlist-empty-art{width:88px;height:88px;border-radius:25px}#page-wishlist .ld-wishlist-empty-heart{font-size:53px}}
+@media(max-width:380px){#page-wishlist .ld-wishlist-header{gap:8px;padding:18px 13px}#page-wishlist .ld-wishlist-heading h1{font-size:23px}#page-wishlist .ld-wishlist-heading p{max-width:175px}#page-wishlist .ld-wishlist-count{padding:8px}#page-wishlist .ld-wishlist-toolbar button{font-size:9px}}
 </style>
 </body>
 </html>
