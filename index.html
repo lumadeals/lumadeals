@@ -12732,5 +12732,18 @@ footer .footer-bottom p{max-width:1400px;margin:0 auto;color:#73838e;font-size:1
 </style>
 <!-- /LD-MOCKUP-NAVBAR-FINISH-V1 -->
 
+
+<!-- LD-MOCKUP-ACCESSIBILITY-FEEDBACK-V1 -->
+<style id="ld-mockup-accessibility-feedback-v1">
+/* Keyboard focus: make existing interactive controls visibly discoverable. */
+:where(button,a,input,select,textarea,[role=button],[tabindex]):focus-visible{outline:3px solid rgba(8,125,184,.72)!important;outline-offset:3px!important}
+.navbar .logo:focus-visible,.navbar .hamburger:focus-visible,.mobile-sidebar li:focus-visible{outline:3px solid #38bdf8!important;outline-offset:3px!important;border-radius:10px}
+.product-card button:focus-visible,.category-card:focus-visible,.account-card:focus-visible{outline:3px solid rgba(8,125,184,.75)!important;outline-offset:3px!important}
+button:disabled,input:disabled,select:disabled,textarea:disabled{cursor:not-allowed!important;opacity:.58}
+button,[role=button],.category-card,.account-card,.wishlist-btn{ -webkit-tap-highlight-color:rgba(8,125,184,.12)}
+@media(forced-colors:active){:where(button,a,input,select,textarea,[role=button],[tabindex]):focus-visible{outline:3px solid Highlight!important}}
+</style>
+<!-- /LD-MOCKUP-ACCESSIBILITY-FEEDBACK-V1 -->
+
 </body>
 </html>
