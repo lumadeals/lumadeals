@@ -3429,6 +3429,7 @@ LumaDeals AI
     function showProductDetail(id) {
       const p = products.find(x => x.id == id);
       if (!p) return;
+      if (window.ldRecentlyViewed) window.ldRecentlyViewed.record(p.id);
 
       const images = (p.images && p.images.length) ? p.images : [p.img];
 
@@ -12351,6 +12352,11 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <!-- /LD-PREMIUM-EXPERIENCE-V1 -->
+<!-- LD-RECENTLY-VIEWED-V1 -->
+<style id="ld-recently-viewed-css">#ld-recently-viewed{margin:24px 0;padding:18px;border:1px solid rgba(59,180,236,.2);border-radius:20px;background:linear-gradient(135deg,#f1faff,#fff)}#ld-recently-viewed h3{margin:0 0 12px;color:#14171a;font-size:18px;font-weight:800}#ld-recently-viewed .ld-rv-list{display:flex;gap:12px;overflow:auto;padding:3px 2px 12px;scroll-snap-type:x mandatory}#ld-recently-viewed .ld-rv-item{flex:0 0 145px;scroll-snap-align:start;padding:10px;border-radius:15px;background:white;border:1px solid #e2f2fb;cursor:pointer;text-align:left}#ld-recently-viewed img{width:100%;height:105px;object-fit:contain;border-radius:10px;background:#f5fbff}#ld-recently-viewed .ld-rv-name{font-size:12px;font-weight:700;line-height:1.35;margin-top:8px;color:#14171a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#ld-recently-viewed .ld-rv-price{font-size:13px;font-weight:800;color:#168ac4;margin-top:5px}@media(max-width:600px){#ld-recently-viewed{padding:13px}#ld-recently-viewed .ld-rv-item{flex-basis:125px}}</style>
+<script id="ld-recently-viewed-script">(function(){'use strict';const KEY='lumaRecentlyViewedV1';function ids(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}function esc(v){return String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}function render(current){const list=ids().filter(x=>String(x)!==String(current)).map(id=>(window.products||[]).find(p=>String(p.id)===String(id))).filter(Boolean).slice(0,6);let root=document.getElementById('ld-recently-viewed');if(!list.length){if(root)root.remove();return}if(!root){root=document.createElement('section');root.id='ld-recently-viewed';root.setAttribute('aria-label','Recently viewed products');const desc=document.getElementById('detail-description');if(desc&&desc.parentElement)desc.parentElement.insertAdjacentElement('afterend',root);else document.getElementById('page-product-detail')?.appendChild(root)}root.innerHTML='<h3>Recently Viewed</h3><div class="ld-rv-list">'+list.map(p=>{const img=(p.images&&p.images[0])||p.img||'';return '<button type="button" class="ld-rv-item" onclick="showProductDetail('+JSON.stringify(p.id)+')"><img loading="lazy" src="'+esc(img)+'" alt="'+esc(p.name)+'"><div class="ld-rv-name">'+esc(p.name)+'</div><div class="ld-rv-price">Rs '+Number(p.price||0).toLocaleString('en-PK')+'</div></button>'}).join('')+'</div>'}window.ldRecentlyViewed={record:function(id){try{localStorage.setItem(KEY,JSON.stringify([String(id),...ids().filter(x=>String(x)!==String(id))].slice(0,8)))}catch(e){}render(id)}})();</script>
+<!-- /LD-RECENTLY-VIEWED-V1 -->
+
 
 </body>
 </html>
