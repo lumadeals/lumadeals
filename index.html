@@ -12518,5 +12518,22 @@ footer .footer-bottom p{max-width:1400px;margin:0 auto;color:#73838e;font-size:1
 </style>
 <!-- /LD-MOCKUP-HEADER-FOOTER-POLISH-V1 -->
 
+
+<!-- LD-MOCKUP-PRODUCT-CARD-FINISH-V1: improve generated product card layout without changing handlers -->
+<style id="ld-mockup-product-card-finish-v1">
+.product-card{display:flex;flex-direction:column;min-width:0;height:100%}
+.product-card .product-image-wrap{position:relative;overflow:hidden;isolation:isolate;background:#f6fafc;aspect-ratio:1/1;min-width:0}
+.product-card .product-image-wrap>img{display:block;width:100%;height:100%;object-fit:contain;aspect-ratio:1/1;transition:transform .28s cubic-bezier(.2,.7,.2,1)}
+.product-card:hover .product-image-wrap>img{transform:scale(1.035)}
+.product-card .product-info{display:flex;flex:1;flex-direction:column;align-items:stretch;gap:7px;min-width:0;padding:12px!important}
+.product-card .product-info h4{display:-webkit-box;min-width:0;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.45;overflow-wrap:anywhere}
+.product-card .product-info button,.product-card .product-info .add-to-cart-btn{margin-top:auto;min-height:38px}
+.product-card .product-discount-badge{z-index:2;max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-card .wishlist-btn{z-index:3;touch-action:manipulation}
+@media(max-width:760px){.product-card .product-info{padding:9px!important;gap:6px}.product-card .product-info h4{font-size:12px!important}.product-card .product-info button,.product-card .product-info .add-to-cart-btn{min-height:36px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.product-card .product-image-wrap>img{transition:none!important}}
+</style>
+<!-- /LD-MOCKUP-PRODUCT-CARD-FINISH-V1 -->
+
 </body>
 </html>
