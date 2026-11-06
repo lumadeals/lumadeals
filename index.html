@@ -566,6 +566,18 @@
        FIRESTORE PRODUCTS
        ========================= */
 
+    function renderHeroFeaturedProducts() {
+      const grid = document.getElementById('ld-hero-product-grid');
+      if (!grid) return;
+      const featured = (Array.isArray(window.products) ? window.products : []).filter(p => p && (p.img || (Array.isArray(p.images) && p.images[0]))).slice(0, 7);
+      if (!featured.length) { grid.innerHTML = '<div class="ld-hero-product-loading">Featured products will appear when the catalog loads.</div>'; return; }
+      grid.innerHTML = featured.map(p => {
+        const image = p.img || (Array.isArray(p.images) ? p.images[0] : '');
+        const price = p.salePrice ?? p.sale_price ?? p.price ?? '';
+        return '<article class="ld-hero-product"><img src="' + escapeAttribute(ldImg(image, 220) || '') + '" alt="' + escapeAttribute(p.name || p.title || 'Featured product') + '" loading="lazy"><span class="ld-hero-product-name">' + escapeHTML(p.name || p.title || 'Featured product') + '</span>' + (price !== '' ? '<span class="ld-hero-product-price">Rs ' + escapeHTML(price) + '</span>' : '') + '</article>';
+      }).join('');
+    }
+
     async function loadProductsFromFirestore() {
 
       const homeGrid =
@@ -620,6 +632,7 @@
         var __ldCached = (typeof ldCacheRead === 'function') ? ldCacheRead() : null;
         if (__ldCached && __ldCached.products && __ldCached.products.length > 0) {
           window.products = __ldCached.products;
+          if (typeof renderHeroFeaturedProducts === "function") renderHeroFeaturedProducts();
           window.__ldProductsSignature = (typeof ldCacheSignature === 'function')
             ? ldCacheSignature(__ldCached.products)
             : '';
@@ -682,6 +695,7 @@
           "Products loaded:",
           window.products.length
         );
+        renderHeroFeaturedProducts();
 
 
         if (
@@ -897,6 +911,11 @@
 .ld-open-track{width:100%;;margin:12px 0 14px;padding:12px 15px;display:flex;justify-content:space-between;border:1px solid #b7e6fa;border-radius:12px;background:#effaff;color:#087eb7;font-weight:800;cursor:pointer}
 .ld-open-track:hover{background:#dff5ff}
 @media(max-width:700px){.ld-track-page{padding:18px 12px 50px}.ld-track-hero{padding:25px 20px;border-radius:20px}.ld-track-columns{grid-template-columns:1fr}.ld-track-panel{padding:19px}.ld-track-summary{padding:17px;align-items:flex-start;flex-direction:column}.ld-track-status{align-self:flex-start}}
+
+/* Luma hero: premium 3D featured product showcase */
+.ld-hero-carousel{isolation:isolate;overflow:hidden;border-radius:28px;background:radial-gradient(ellipse at 78% 42%,rgba(59,180,236,.24),transparent 38%),linear-gradient(130deg,#07111e 0%,#102b43 54%,#07121e 100%);box-shadow:0 24px 60px rgba(3,15,28,.24),inset 0 1px 0 rgba(255,255,255,.12);border:1px solid rgba(125,211,252,.18)}
+.ld-hero-slide{position:relative;min-height:430px;padding:62px 6%;display:flex;align-items:center;perspective:1200px;transform-style:preserve-3d}
+.ld-hero-content{max-width:48%;position:relative;z-index:6}.ld-hero-products{position:absolute;right:3.5%;top:50%;transform:translateY(-50%);width:48%;z-index:4;perspective:1000px}.ld-hero-products-label{display:flex;justify-content:space-between;align-items:center;color:#a9e7ff;font-size:10px;letter-spacing:2px;font-weight:900;margin:0 0 12px 5px}.ld-hero-products-label span{border:1px solid rgba(125,211,252,.3);background:rgba(255,255,255,.06);padding:4px 8px;border-radius:99px}.ld-hero-product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;transform:rotateY(-9deg) rotateX(4deg);transform-style:preserve-3d}.ld-hero-product{min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:10px 7px 9px;border-radius:17px;background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.055));border:1px solid rgba(255,255,255,.2);box-shadow:0 14px 22px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.2);backdrop-filter:blur(12px);transform:translateZ(14px);transition:transform .28s ease,border-color .28s ease,background .28s ease;animation:ldHeroProductFloat 5s ease-in-out infinite}.ld-hero-product:nth-child(2n){animation-delay:-1.2s;transform:translateZ(28px)}.ld-hero-product:nth-child(3n){animation-delay:-2.4s}.ld-hero-product:hover{transform:translateY(-7px) translateZ(38px) rotateY(-3deg);border-color:rgba(125,211,252,.65);background:linear-gradient(145deg,rgba(59,180,236,.24),rgba(255,255,255,.08))}.ld-hero-product img{width:100%;height:74px;object-fit:contain;filter:drop-shadow(0 9px 9px rgba(0,0,0,.25));border-radius:9px}.ld-hero-product-name{width:100%;font-size:10px;line-height:1.35;color:#f1f8fc;font-weight:750;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:27px}.ld-hero-product-price{font-size:10px;color:#9fe4ff;font-weight:900;white-space:nowrap}.ld-hero-product-loading{grid-column:1/-1;padding:35px;text-align:center;color:#b5d9e9;font-size:12px;border:1px dashed rgba(255,255,255,.2);border-radius:18px}.ld-hero-product:nth-child(7){grid-column:2/4}.ld-hero-decoration{opacity:.035!important;right:4%!important;font-size:180px!important}@keyframes ldHeroProductFloat{0%,100%{translate:0 0}50%{translate:0 -5px}}@media(max-width:768px){.ld-hero-slide{min-height:590px!important;padding:34px 22px 215px!important;align-items:flex-start!important}.ld-hero-content{max-width:100%!important}.ld-hero-products{width:calc(100% - 32px);right:16px;top:auto;bottom:38px;transform:none}.ld-hero-products-label{font-size:9px;margin-bottom:7px}.ld-hero-product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;transform:rotateX(3deg)}.ld-hero-product{padding:7px 4px;border-radius:12px;gap:4px}.ld-hero-product img{height:48px}.ld-hero-product-name{font-size:8px;min-height:22px}.ld-hero-product-price{font-size:8px}.ld-hero-product:nth-child(7){grid-column:2/4}.ld-hero-decoration{display:none!important}}@media(prefers-reduced-motion:reduce){.ld-hero-product{animation:none!important;transition:none!important}}
 </style>
 
   <!-- Mobile performance: Font Awesome no longer blocks first paint.
@@ -1801,6 +1820,8 @@ LumaDeals AI
      LUMA DEALS — PROFESSIONAL HERO CAROUSEL
      ===================================================== -->
 <div class="ld-hero-carousel" id="ldHeroCarousel">
+
+<div class="ld-hero-products" id="ld-hero-products" aria-label="Featured products"><div class="ld-hero-products-label">FEATURED PICKS <span>07</span></div><div class="ld-hero-product-grid" id="ld-hero-product-grid"><div class="ld-hero-product-loading">Loading featured products…</div></div></div>
 
   <div class="ld-hero-track">
 
