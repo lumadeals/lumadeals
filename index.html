@@ -1837,6 +1837,8 @@ LumaDeals AI
      ===================================================== -->
 <style id="ld-premium-hero-css">
 /* LUMA DEALS — premium hero + product display (2026-11-09, branch hero-rotating-slides-v1).
+   v3.2: slideshow classes use the ld-rotator- prefix (the old carousel styles
+   in this file must never match the slideshow again).
    Additive layer only: restyles the existing product-card markup (productCardHTML)
    and adds new homepage sections. No existing functionality, layout, navigation
    or page is changed. Brand colors #3BB4EC / #14171A throughout. */
@@ -1865,29 +1867,32 @@ LumaDeals AI
 .ld-hero-trust{display:flex;flex-wrap:wrap;gap:6px 0;margin-top:26px;font-size:13px;color:#9fc3d8;}
 .ld-hero-trust span{display:inline-flex;align-items:center;}
 .ld-hero-trust span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#3bb4ec;margin:0 12px;}
-/* Rotating hero slideshow (v3): 7 slides, one per featured product.
+/* Rotating hero slideshow (v3.2): 7 slides, one per featured product.
+   Viewport height is fixed (470px desktop) so the banner can never stretch;
+   class names use the ld-rotator- prefix so the old carousel styles in this
+   file can never match the slideshow again.
    Slides are grid-stacked in a single cell, so the viewport height is always
    the tallest slide - no fixed heights, no overflow, no JS measuring. Only the
    active slide is visible; the rest are opacity 0 + visibility hidden. */
 .ld-hero-show{min-width:0;width:100%;}
-.ld-hero-slides{position:relative;display:grid;grid-template-columns:minmax(0,1fr);min-width:0;padding:0 56px;}
-.ld-hero-slide{grid-area:1/1;min-width:0;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center;opacity:0;visibility:hidden;transform:translateX(26px);transition:opacity .6s ease,transform .6s ease,visibility 0s linear .6s;pointer-events:none;}
-.ld-hero-slide.is-active{opacity:1;visibility:visible;transform:translateX(0);transition:opacity .6s ease,transform .6s ease,visibility 0s;pointer-events:auto;}
-.ld-slide-copy{min-width:0;}
-.ld-slide-copy h2{font-size:clamp(20px,2vw,27px);line-height:1.25;font-weight:800;color:#fff;margin:16px 0 10px;}
-.ld-slide-price{font-size:21px;font-weight:800;color:#8fd8ff;margin:0 0 20px;}
-.ld-slide-price s{font-size:15px;font-weight:600;color:#9fc3d8;margin-left:8px;}
-.ld-slide-img{display:block;background:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 44px rgba(2,20,35,.45);text-decoration:none;}
-.ld-slide-img img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;border-radius:14px;background:#fff;}
-.ld-hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(13,32,47,.55);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s ease;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
-.ld-hero-arrow:hover{background:#3bb4ec;}
-.ld-hero-prev{left:6px;}
-.ld-hero-next{right:6px;}
-.ld-hero-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
-.ld-hero-dots button{width:10px;height:10px;padding:0;border:none;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s ease,background .3s ease;}
-.ld-hero-dots button:hover{background:rgba(255,255,255,.65);}
-.ld-hero-dots button.is-active{width:28px;background:#3bb4ec;}
-@media (prefers-reduced-motion: reduce){.ld-hero-slide{transition:none;}}
+.ld-rotator-viewport{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:470px;min-width:0;padding:0 56px;}
+.ld-rotator-slide{grid-area:1/1;min-width:0;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s;pointer-events:none;}
+.ld-rotator-slide.is-active{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s;pointer-events:auto;}
+.ld-rotator-copy{min-width:0;}
+.ld-rotator-copy h2{font-size:clamp(20px,2vw,27px);line-height:1.25;font-weight:800;color:#fff;margin:16px 0 10px;}
+.ld-rotator-price{font-size:21px;font-weight:800;color:#8fd8ff;margin:0 0 20px;}
+.ld-rotator-price s{font-size:15px;font-weight:600;color:#9fc3d8;margin-left:8px;}
+.ld-rotator-img{display:block;min-width:0;background:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 44px rgba(2,20,35,.45);text-decoration:none;aspect-ratio:1/1;width:100%;max-height:446px;}
+.ld-rotator-img img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;border-radius:14px;background:#fff;}
+.ld-rotator-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(13,32,47,.55);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s ease;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
+.ld-rotator-arrow:hover{background:#3bb4ec;}
+.ld-rotator-prev{left:6px;}
+.ld-rotator-next{right:6px;}
+.ld-rotator-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
+.ld-rotator-dots button{width:10px;height:10px;padding:0;border:none;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s ease,background .3s ease;}
+.ld-rotator-dots button:hover{background:rgba(255,255,255,.65);}
+.ld-rotator-dots button.is-active{width:28px;background:#3bb4ec;}
+@media (prefers-reduced-motion: reduce){.ld-rotator-slide{transition:none;}}
 
 /* ---- New homepage sections (same side padding as existing sections) ---- */
 .ld-featured,.ld-why,.ld-benefits{padding:26px 50px 8px;}
@@ -1909,18 +1914,18 @@ LumaDeals AI
 .ld-footer-pay strong{color:#fff;}
 @media (max-width:1100px){
   .ld-premium-hero-inner{padding:42px 32px;gap:24px;}
-  .ld-hero-slides{padding:0 46px;}
+  .ld-rotator-viewport{padding:0 46px;height:440px;}
 }
 @media (max-width:1024px){.ld-why-grid,.ld-benefit-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:860px){
   .ld-premium-hero{margin:8px 12px 10px;border-radius:22px;}
   .ld-premium-hero-inner{grid-template-columns:1fr;padding:34px 20px;gap:28px;}
-  .ld-hero-slides{padding:0;}
-  .ld-hero-slide{grid-template-columns:1fr;gap:16px;text-align:center;}
-  .ld-slide-img{order:-1;width:100%;max-width:320px;margin:0 auto;}
-  .ld-hero-arrow{top:150px;width:36px;height:36px;font-size:22px;}
-  .ld-hero-prev{left:4px;}
-  .ld-hero-next{right:4px;}
+  .ld-rotator-viewport{padding:0;height:auto;}
+  .ld-rotator-slide{grid-template-columns:1fr;gap:16px;text-align:center;}
+  .ld-rotator-img{order:-1;width:100%;max-width:320px;margin:0 auto;}
+  .ld-rotator-arrow{top:150px;width:36px;height:36px;font-size:22px;}
+  .ld-rotator-prev{left:4px;}
+  .ld-rotator-next{right:4px;}
   .ld-featured,.ld-why,.ld-benefits{padding:20px 12px 8px;}
   .ld-explore{margin:10px 12px 24px;padding:26px 22px;flex-direction:column;align-items:flex-start;}
 }
@@ -1939,88 +1944,88 @@ LumaDeals AI
       <div class="ld-hero-trust"><span>Cash on Delivery</span><span>Easy Returns</span><span>Nationwide Delivery</span></div>
     </div>
     <div class="ld-hero-show">
-      <div class="ld-hero-slides" id="ld-hero-slides" role="region" aria-roledescription="carousel" aria-label="Featured products">
-      <article class="ld-hero-slide is-active" aria-hidden="false">
-        <div class="ld-slide-copy">
+      <div class="ld-rotator-viewport" id="ld-rotator-viewport" role="region" aria-roledescription="carousel" aria-label="Featured products">
+      <article class="ld-rotator-slide is-active" aria-hidden="false">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Wireless Earbuds with ANC &amp; Water Resistant White</h2>
-          <p class="ld-slide-price">Rs 1,350 <s>Rs 1,820</s></p>
+          <p class="ld-rotator-price">Rs 1,350 <s>Rs 1,820</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(67)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=67" onclick="event.preventDefault(); showProductDetail(67)" title="Wireless Earbuds with ANC &amp; Water Resistant White">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=67" onclick="event.preventDefault(); showProductDetail(67)" title="Wireless Earbuds with ANC &amp; Water Resistant White">
           <img src="images/electronics/earbuds-anc-white-1.jpg" alt="Wireless Earbuds with ANC and Water Resistant White" width="600" height="590" fetchpriority="high">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Push Vegetable Cutter Multi-Use Kitchen</h2>
-          <p class="ld-slide-price">Rs 1,399 <s>Rs 1,789</s></p>
+          <p class="ld-rotator-price">Rs 1,399 <s>Rs 1,789</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(51)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=51" onclick="event.preventDefault(); showProductDetail(51)" title="Push Vegetable Cutter Multi-Use Kitchen">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=51" onclick="event.preventDefault(); showProductDetail(51)" title="Push Vegetable Cutter Multi-Use Kitchen">
           <img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Push Vegetable Cutter Multi-Use Kitchen" width="1080" height="1095" loading="lazy">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Men's Black Quartz Watch Lightweight Casual Wear</h2>
-          <p class="ld-slide-price">Rs 1,899 <s>Rs 2,570</s></p>
+          <p class="ld-rotator-price">Rs 1,899 <s>Rs 2,570</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(65)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=65" onclick="event.preventDefault(); showProductDetail(65)" title="Men's Black Quartz Watch Lightweight Casual Wear">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=65" onclick="event.preventDefault(); showProductDetail(65)" title="Men's Black Quartz Watch Lightweight Casual Wear">
           <img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Men's Black Quartz Watch Lightweight Casual Wear" width="800" height="800" loading="lazy">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>3D Islamic Calligraphy Wall Clock Black Modern Art</h2>
-          <p class="ld-slide-price">Rs 999 <s>Rs 1,250</s></p>
+          <p class="ld-rotator-price">Rs 999 <s>Rs 1,250</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(71)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=71" onclick="event.preventDefault(); showProductDetail(71)" title="3D Islamic Calligraphy Wall Clock Black Modern Art">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=71" onclick="event.preventDefault(); showProductDetail(71)" title="3D Islamic Calligraphy Wall Clock Black Modern Art">
           <img src="images/home-living/Bismillah-Clock-1.jpg" alt="3D Islamic Calligraphy Wall Clock Black Modern Art" width="1080" height="1080" loading="lazy">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>2 Pcs Women's Unstitched Chikankari Embroidered Suit</h2>
-          <p class="ld-slide-price">Rs 2,699 <s>Rs 3,359</s></p>
+          <p class="ld-rotator-price">Rs 2,699 <s>Rs 3,359</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(79)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=79" onclick="event.preventDefault(); showProductDetail(79)" title="2 Pcs Women's Unstitched Chikankari Embroidered Suit">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=79" onclick="event.preventDefault(); showProductDetail(79)" title="2 Pcs Women's Unstitched Chikankari Embroidered Suit">
           <img src="https://res.cloudinary.com/szx9toyu/image/upload/f_auto,q_auto,w_600/v1792002277/luma-deals/products/zegepchmrbupmys3kvmw.webp" alt="2 Pcs Women's Unstitched Chikankari Embroidered Suit" width="1067" height="1600" loading="lazy">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Kids Riding Car Red Yellow ABS Plastic</h2>
-          <p class="ld-slide-price">Rs 2,360 <s>Rs 3,780</s></p>
+          <p class="ld-rotator-price">Rs 2,360 <s>Rs 3,780</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(38)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=38" onclick="event.preventDefault(); showProductDetail(38)" title="Kids Riding Car Red Yellow ABS Plastic">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=38" onclick="event.preventDefault(); showProductDetail(38)" title="Kids Riding Car Red Yellow ABS Plastic">
           <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car Red Yellow ABS Plastic" width="657" height="713" loading="lazy">
         </a>
       </article>
-      <article class="ld-hero-slide" aria-hidden="true">
-        <div class="ld-slide-copy">
+      <article class="ld-rotator-slide" aria-hidden="true">
+        <div class="ld-rotator-copy">
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Eventone-C Whitening Face Cream</h2>
-          <p class="ld-slide-price">Rs 599 <s>Rs 799</s></p>
+          <p class="ld-rotator-price">Rs 599 <s>Rs 799</s></p>
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(11)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <a class="ld-slide-img" href="/?page=product-detail&amp;id=11" onclick="event.preventDefault(); showProductDetail(11)" title="Eventone-C Whitening Face Cream">
+        <a class="ld-rotator-img" href="/?page=product-detail&amp;id=11" onclick="event.preventDefault(); showProductDetail(11)" title="Eventone-C Whitening Face Cream">
           <img src="images/Beauty/eventone-c.jpg" alt="Eventone-C Whitening Face Cream" width="1080" height="1080" loading="lazy">
         </a>
       </article>
-        <button class="ld-hero-arrow ld-hero-prev" id="ld-hero-prev" type="button" aria-label="Previous product">&#8249;</button>
-        <button class="ld-hero-arrow ld-hero-next" id="ld-hero-next" type="button" aria-label="Next product">&#8250;</button>
+        <button class="ld-rotator-arrow ld-rotator-prev" id="ld-rotator-prev" type="button" aria-label="Previous product">&#8249;</button>
+        <button class="ld-rotator-arrow ld-rotator-next" id="ld-rotator-next" type="button" aria-label="Next product">&#8250;</button>
       </div>
-      <div class="ld-hero-dots" id="ld-hero-dots" aria-label="Choose featured product">
+      <div class="ld-rotator-dots" id="ld-rotator-dots" aria-label="Choose featured product">
       <button type="button" class="is-active" aria-current="true" aria-label="Slide 1: Wireless Earbuds with ANC &amp; Water Resistant White"></button>
       <button type="button" aria-label="Slide 2: Push Vegetable Cutter Multi-Use Kitchen"></button>
       <button type="button" aria-label="Slide 3: Men's Black Quartz Watch Lightweight Casual Wear"></button>
@@ -2040,14 +2045,14 @@ LumaDeals AI
    focus, touch, or when the tab is hidden; arrows, dots, arrow keys and swipe
    all work. Respects prefers-reduced-motion (no auto-advance, no transition). */
 (function () {
-  if (window.__ldHeroSlidesInit) return;
-  window.__ldHeroSlidesInit = true;
-  var root = document.getElementById('ld-hero-slides');
+  if (window.__ldRotatorInit) return;
+  window.__ldRotatorInit = true;
+  var root = document.getElementById('ld-rotator-viewport');
   if (!root) return;
-  var slides = Array.prototype.slice.call(root.querySelectorAll('.ld-hero-slide'));
-  var dots = Array.prototype.slice.call(document.querySelectorAll('#ld-hero-dots button'));
-  var prev = document.getElementById('ld-hero-prev');
-  var next = document.getElementById('ld-hero-next');
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.ld-rotator-slide'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('#ld-rotator-dots button'));
+  var prev = document.getElementById('ld-rotator-prev');
+  var next = document.getElementById('ld-rotator-next');
   if (!slides.length) return;
   var i = 0, timer = null, DELAY = 5000;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2070,10 +2075,11 @@ LumaDeals AI
   if (prev) prev.addEventListener('click', function () { show(i - 1); restart(); });
   if (next) next.addEventListener('click', function () { show(i + 1); restart(); });
   dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); restart(); }); });
-  root.addEventListener('mouseenter', stop);
-  root.addEventListener('mouseleave', start);
-  root.addEventListener('focusin', stop);
-  root.addEventListener('focusout', start);
+  var pauseEl = (root.closest ? root.closest('.ld-premium-hero') : null) || root;
+  pauseEl.addEventListener('mouseenter', stop);
+  pauseEl.addEventListener('mouseleave', start);
+  pauseEl.addEventListener('focusin', stop);
+  pauseEl.addEventListener('focusout', start);
   document.addEventListener('visibilitychange', function () { if (document.hidden) { stop(); } else { start(); } });
   root.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') { show(i - 1); restart(); }
