@@ -2108,6 +2108,41 @@ LumaDeals AI
 })();
 </script>
 
+    <!-- FEATURED PRODUCTS: single horizontal row (scrollable) instead of a grid.
+         Scoped to #featured-product-grid only; the shared .product-grid rules
+         (incl. block10 !important 4/3/2-col grids) are left untouched, so All
+         Products stays a grid. ID + !important beats the class !important rules. -->
+    <style id="ld-featured-row-css">
+      #featured-product-grid{
+        display:flex !important;
+        flex-wrap:nowrap !important;
+        overflow-x:auto !important;
+        gap:18px !important;
+        grid-template-columns:none !important;
+        scroll-snap-type:x mandatory;
+        padding:4px 2px 10px;
+        scrollbar-width:thin;
+        scrollbar-color:#b9cdd9 transparent;
+      }
+      #featured-product-grid::-webkit-scrollbar{height:6px;}
+      #featured-product-grid::-webkit-scrollbar-track{background:transparent;}
+      #featured-product-grid::-webkit-scrollbar-thumb{background:#b9cdd9;border-radius:999px;}
+      #featured-product-grid .product-card{
+        flex:0 0 270px !important;
+        width:270px !important;
+        max-width:270px !important;
+        scroll-snap-align:start;
+      }
+      @media (max-width:860px){
+        #featured-product-grid{gap:14px !important;}
+        #featured-product-grid .product-card{
+          flex-basis:240px !important;
+          width:240px !important;
+          max-width:240px !important;
+        }
+      }
+    </style>
+
     <!-- FEATURED PRODUCTS: top 8 by real discount, rendered live from Firestore -->
     <section class="ld-featured">
       <div class="home-section-heading">
@@ -2122,6 +2157,38 @@ LumaDeals AI
       <p class="ld-section-sub">Handpicked deals with the biggest savings in the store &mdash; rendered live from our product catalog, so prices and discounts are always current.</p>
       <div class="product-grid" id="featured-product-grid"></div>
     </section>
+
+    <!-- FEATURED ROW SNAP: CSS scroll-snap alone did not engage on wheel scroll
+         (QA round 1: row rested mid-card), so a small JS snap backs it up.
+         On scroll end it snaps to the nearest card's left edge. The 2px dead
+         zone means it never fights the native CSS snap when that one works. -->
+    <script>
+    (function(){
+      var grid = document.getElementById('featured-product-grid');
+      if(!grid) return;
+      function snap(){
+        var rect = grid.getBoundingClientRect();
+        var cur = grid.scrollLeft;
+        var cards = grid.querySelectorAll('.product-card');
+        if(!cards.length) return;
+        var best = null, bd = 1e9;
+        for(var i=0;i<cards.length;i++){
+          var left = cards[i].getBoundingClientRect().left - rect.left + cur;
+          var d = Math.abs(left - cur);
+          if(d < bd){ bd = d; best = left; }
+        }
+        if(best !== null && Math.abs(best - cur) > 2){
+          grid.scrollTo({left: best, behavior:'smooth'});
+        }
+      }
+      var t = null;
+      grid.addEventListener('scroll', function(){
+        if(t) clearTimeout(t);
+        t = setTimeout(snap, 120);
+      }, {passive:true});
+      grid.addEventListener('scrollend', snap);
+    })();
+    </script>
 
     <!-- ALL PRODUCTS -->
     <section class="products-section">
