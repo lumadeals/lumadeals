@@ -2845,6 +2845,115 @@ LumaDeals AI
      LUMA DEALS — PROFILE PAGES
      ========================================= -->
 
+  <!-- PROFILE — PREMIUM LOOK (Amazon-or-better). CSS only, scoped to #page-profile.
+       No markup, links, or behaviour changed. Brand #3BB4EC / #14171A.
+       Dark-mode keeps its own styling: block20 dark rules outrank these
+       (higher specificity), so this pass only restyles the light theme. -->
+  <style id="ld-profile-premium-css">
+    /* --- header: rich dark card, white text, glowing avatar --- */
+    #page-profile .ld-account-welcome{
+      background:radial-gradient(640px 320px at 88% -12%,rgba(59,180,236,.38),transparent 62%),linear-gradient(118deg,#0f161b 0%,#152833 55%,#0d3a52 100%) !important;
+      border:1px solid rgba(59,180,236,.30) !important;
+      box-shadow:0 22px 48px rgba(8,28,42,.22),inset 0 1px 0 rgba(255,255,255,.09) !important;
+    }
+    #page-profile .ld-account-welcome:after{
+      border-color:rgba(59,180,236,.28) !important;
+      box-shadow:0 0 0 22px rgba(59,180,236,.08),0 0 0 46px rgba(59,180,236,.05) !important;
+    }
+    #page-profile .account-avatar-large{
+      border:3px solid rgba(255,255,255,.92) !important;
+      border-radius:50% !important;
+      background:linear-gradient(145deg,#5cc8f5,#1588c4) !important;
+      box-shadow:0 0 0 4px rgba(59,180,236,.28),0 12px 26px rgba(0,0,0,.35) !important;
+      color:#fff !important;
+    }
+    #page-profile .account-avatar-large img{border-radius:50% !important;}
+    #page-profile .ld-account-kicker{color:#8fd8f8 !important;font-size:11px !important;letter-spacing:2px !important;}
+    #page-profile .account-hero h1{color:#ffffff !important;font-size:clamp(24px,3.2vw,32px) !important;}
+    #page-profile .account-hero p{color:#b9cdd9 !important;font-size:13px !important;}
+    #page-profile .ld-account-shield{
+      background:rgba(255,255,255,.10) !important;
+      border:1px solid rgba(255,255,255,.30) !important;
+      color:#ffffff !important;
+      backdrop-filter:blur(6px);
+    }
+    #page-profile .ld-account-shield span{color:#d6e9f2 !important;}
+    /* --- section titles: stronger hierarchy --- */
+    #page-profile .ld-account-section-title span{color:#0e86b8 !important;font-size:11px !important;letter-spacing:2px !important;}
+    #page-profile .ld-account-section-title h2{color:#12222e !important;font-size:21px !important;}
+    /* --- shopping shortcuts: clean white cards, chevron affordance --- */
+    #page-profile .ld-account-shortcut{
+      position:relative;
+      padding:20px 42px 20px 20px !important;
+      border:1px solid #dfe9ef !important;
+      border-radius:20px !important;
+      background:#ffffff !important;
+      box-shadow:0 10px 26px rgba(15,45,65,.07),inset 0 1px 0 #ffffff !important;
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease !important;
+    }
+    #page-profile .ld-account-shortcut:hover{transform:translateY(-3px);border-color:#3BB4EC !important;box-shadow:0 16px 34px rgba(20,90,130,.13) !important;}
+    #page-profile .ld-account-shortcut-icon{
+      flex-basis:54px !important;width:54px !important;height:54px !important;
+      border-radius:16px !important;
+      background:linear-gradient(145deg,#e8f7ff,#cdeeff) !important;
+      color:#0d7eae !important;
+      border:1px solid #cfeefb !important;
+    }
+    #page-profile .ld-account-shortcut strong{color:#16283a !important;font-size:15px !important;}
+    #page-profile .ld-account-shortcut small{color:#6b7f8c !important;font-size:12px !important;}
+    #page-profile .ld-account-shortcut b{display:none !important;}
+    #page-profile .ld-account-shortcut:after{
+      content:"\203A";position:absolute;right:18px;top:50%;transform:translateY(-50%);
+      color:#3BB4EC;font-size:24px;font-weight:700;line-height:1;pointer-events:none;
+    }
+    /* --- settings cards: same premium treatment + chevron --- */
+    #page-profile .account-card{
+      position:relative;
+      padding:18px 40px 18px 18px !important;
+      border:1px solid #e2ebf0 !important;
+      border-radius:20px !important;
+      background:#ffffff !important;
+      box-shadow:0 8px 22px rgba(15,45,65,.06),inset 0 1px 0 #ffffff !important;
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease !important;
+    }
+    #page-profile .account-card:hover{transform:translateY(-3px);border-color:#3BB4EC !important;box-shadow:0 14px 30px rgba(20,90,130,.12) !important;}
+    #page-profile .account-card-icon{
+      width:50px !important;height:50px !important;flex-basis:50px !important;
+      border-radius:15px !important;
+      background:linear-gradient(145deg,#eef9ff,#d8f1ff) !important;
+      color:#0d7eae !important;
+      border:1px solid #d2eefb !important;
+    }
+    #page-profile .account-card h3{color:#16283a !important;font-size:15px !important;}
+    #page-profile .account-card p{color:#6b7f8c !important;font-size:12px !important;line-height:1.55 !important;}
+    #page-profile .account-card:after{
+      content:"\203A";position:absolute;right:16px;top:50%;transform:translateY(-50%);
+      color:#3BB4EC;font-size:22px;font-weight:700;line-height:1;pointer-events:none;
+    }
+    /* --- sign out: calm card, confident solid-red action --- */
+    #page-profile .ld-account-signout{
+      border:1px solid #f0d9d9 !important;
+      border-radius:18px !important;
+      background:linear-gradient(145deg,#ffffff,#fff8f8) !important;
+      box-shadow:0 8px 22px rgba(120,40,40,.05) !important;
+    }
+    #page-profile .ld-account-signout strong{color:#3a2a2a !important;font-size:13px !important;}
+    #page-profile .ld-account-signout span{color:#8a7a7a !important;font-size:12px !important;}
+    #page-profile .ld-account-signout .profile-logout-btn{
+      background:linear-gradient(180deg,#e5484d,#d92d20) !important;
+      border:1px solid #d92d20 !important;
+      color:#ffffff !important;
+      border-radius:12px !important;
+      font-weight:700 !important;
+      box-shadow:0 8px 18px rgba(217,45,32,.28) !important;
+    }
+    @media (max-width:860px){
+      #page-profile .ld-account-welcome{padding:20px 18px !important;border-radius:20px !important;}
+      #page-profile .ld-account-shortcut-icon{flex-basis:48px !important;width:48px !important;height:48px !important;}
+      #page-profile .account-card-icon{width:46px !important;height:46px !important;flex-basis:46px !important;}
+    }
+  </style>
+
   <!-- MY ACCOUNT -->
   <section id="page-profile" class="page">
     <div class="account-page ld-account-shell">
