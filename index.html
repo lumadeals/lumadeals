@@ -1835,127 +1835,235 @@ LumaDeals AI
     <!-- =====================================================
      LUMA DEALS — PROFESSIONAL HERO CAROUSEL
      ===================================================== -->
-<div class="ld-hero-carousel" id="ldHeroCarousel">
+<style id="ld-premium-hero-css">
+/* LUMA DEALS — premium hero + product display (2026-11-09, branch premium-products-hero-v1).
+   Additive layer only: restyles the existing product-card markup (productCardHTML)
+   and adds new homepage sections. No existing functionality, layout, navigation
+   or page is changed. Brand colors #3BB4EC / #14171A throughout. */
 
-  <div class="ld-hero-track">
+/* ---- Product cards: consistent square image area, premium depth ---- */
+.product-image-wrap{aspect-ratio:1/1;padding:12px;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%);}
+.product-image-wrap img{height:100%;background:#ffffff;border-radius:10px;}
+.product-card{border-color:#e3ebf1 !important;box-shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.08) !important;}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(15,23,42,.06),0 18px 38px rgba(2,132,199,.18) !important;}
+.product-grid{gap:26px;}
+.skeleton-img{height:auto;aspect-ratio:1/1;}
+@media (max-width:640px){.product-grid{gap:16px;}}
 
-    <!-- BANNER 1 -->
-    <div class="ld-hero-slide">
-      <div class="ld-hero-content">
-        <span class="ld-hero-tag">NEW ARRIVALS</span>
-        <h1>Shop Smarter. Live Better.</h1>
-        <p>Handpicked products across every category — quality you can trust, prices you'll love.</p>
+/* ---- Premium hero banner ---- */
+.ld-premium-hero{position:relative;overflow:hidden;border-radius:26px;margin:8px 50px 10px;background:radial-gradient(1100px 560px at 88% -10%,rgba(59,180,236,.32),transparent 60%),linear-gradient(135deg,#0e1a24 0%,#12293a 48%,#0d3a52 100%);color:#fff;}
+.ld-premium-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(620px 320px at 8% 112%,rgba(59,180,236,.18),transparent 62%);pointer-events:none;}
+.ld-premium-hero-inner{position:relative;display:grid;grid-template-columns:1.02fr .98fr;gap:36px;align-items:center;padding:52px 48px;}
+.ld-hero-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:2.5px;color:#8fd8ff;background:rgba(59,180,236,.14);border:1px solid rgba(143,216,255,.35);padding:8px 14px;border-radius:999px;}
+.ld-premium-hero h1{font-size:clamp(30px,4.2vw,54px);line-height:1.08;font-weight:800;margin:20px 0 14px;color:#fff;}
+.ld-premium-hero h1 em{font-style:normal;color:#3bb4ec;}
+.ld-premium-hero p.ld-hero-sub{font-size:16px;line-height:1.65;color:#c9dbe8;margin:0 0 26px;max-width:520px;}
+.ld-hero-cta{display:inline-flex;align-items:center;gap:10px;background:#3bb4ec;color:#fff;border:none;border-radius:999px;padding:15px 30px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(59,180,236,.35);transition:transform .25s ease,background .25s ease;}
+.ld-hero-cta:hover{background:#2aa5dd;transform:translateY(-2px);}
+.ld-hero-cta span{font-size:18px;}
+.ld-hero-trust{display:flex;flex-wrap:wrap;gap:6px 0;margin-top:26px;font-size:13px;color:#9fc3d8;}
+.ld-hero-trust span{display:inline-flex;align-items:center;}
+.ld-hero-trust span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#3bb4ec;margin:0 12px;}
+/* 3D product stage */
+.ld-hero-stage{position:relative;height:470px;perspective:1200px;}
+.ld-hero-tile{position:absolute;display:block;background:#fff;border-radius:18px;padding:10px;box-shadow:0 18px 40px rgba(2,20,35,.45);transition:transform .35s ease,box-shadow .35s ease;text-decoration:none;}
+.ld-hero-tile img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;border-radius:12px;background:#fff;}
+.ld-hero-tile small{display:block;margin-top:8px;font-size:11px;font-weight:700;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ld-hero-tile b{display:block;font-size:13px;color:#0284c7;}
+.ld-hero-tile:hover{transform:translateY(-5px) rotate(0deg) !important;box-shadow:0 26px 50px rgba(2,20,35,.5);}
+.ld-hero-tile-1{left:0;top:6px;width:112px;transform:rotate(-7deg);}
+.ld-hero-tile-2{left:2px;bottom:6px;width:108px;transform:rotate(5deg);}
+.ld-hero-tile-3{right:0;top:0;width:112px;transform:rotate(6deg);}
+.ld-hero-tile-4{right:2px;bottom:0;width:108px;transform:rotate(-5deg);}
+.ld-hero-tile-5{left:21%;bottom:0;width:104px;transform:rotate(-4deg);}
+.ld-hero-tile-6{right:21%;top:0;width:104px;transform:rotate(4deg);}
+.ld-hero-main{position:absolute;left:50%;top:50%;width:min(250px,56%);transform:translate(-50%,-50%) rotateY(-7deg) rotateX(3deg);z-index:3;display:block;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:14px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 30px 60px rgba(2,20,35,.55);transition:transform .4s ease;text-decoration:none;}
+.ld-hero-main:hover{transform:translate(-50%,-50%) rotateY(0deg) rotateX(0deg);}
+.ld-hero-main img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#fff;border-radius:16px;display:block;}
+.ld-hero-main-name{display:block;margin-top:12px;font-size:14px;font-weight:700;line-height:1.35;color:#fff;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.ld-hero-main-price{display:block;margin-top:6px;font-size:16px;font-weight:800;color:#8fd8ff;}
+.ld-hero-main-price s{font-size:13px;font-weight:600;color:#9fc3d8;margin-left:6px;}
 
-        <div class="ld-hero-offer">
-          <strong>UP TO 30% OFF</strong>
-        </div>
+/* ---- New homepage sections (same side padding as existing sections) ---- */
+.ld-featured,.ld-why,.ld-benefits{padding:26px 50px 8px;}
+.ld-section-sub{color:#64748b;font-size:14px;line-height:1.6;margin:2px 0 20px;max-width:640px;}
+.ld-why-grid,.ld-benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.ld-why-card,.ld-benefit-card{background:#fff;border:1px solid #e5eaf0;border-radius:18px;padding:22px;box-shadow:0 4px 14px rgba(15,23,42,.05);}
+.ld-why-card h3,.ld-benefit-card h3{font-size:15px;line-height:1.4;margin:14px 0 6px;color:#14171a;}
+.ld-why-card p,.ld-benefit-card p{font-size:13.5px;line-height:1.65;color:#64748b;margin:0;}
+.ld-why-icon,.ld-benefit-icon{width:44px;height:44px;border-radius:12px;background:rgba(59,180,236,.12);color:#0284c7;display:flex;align-items:center;justify-content:center;}
+.ld-why-icon svg,.ld-benefit-icon svg{width:22px;height:22px;}
+.ld-benefit-card a{color:#0284c7;font-size:13px;font-weight:700;text-decoration:none;display:inline-block;margin-top:12px;}
+.ld-benefit-card a:hover{text-decoration:underline;}
+.ld-explore{margin:16px 50px 30px;background:linear-gradient(135deg,#101d2b,#183d56 60%,#087eb7);border-radius:22px;padding:34px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;color:#fff;box-shadow:0 18px 40px rgba(12,41,64,.25);}
+.ld-explore h2{font-size:clamp(22px,3vw,30px);margin:0 0 8px;color:#fff;}
+.ld-explore p{margin:0;color:#d5e8f2;font-size:14.5px;line-height:1.6;max-width:560px;}
+.ld-explore button{flex:none;background:#3bb4ec;color:#fff;border:none;border-radius:999px;padding:14px 26px;font-size:14px;font-weight:800;cursor:pointer;transition:transform .25s ease,background .25s ease;}
+.ld-explore button:hover{background:#2aa5dd;transform:translateY(-2px);}
+.ld-footer-pay{margin-top:14px;font-size:13.5px;color:#cbd5e1;}
+.ld-footer-pay strong{color:#fff;}
+@media (max-width:1100px){
+  .ld-premium-hero-inner{padding:42px 32px;gap:24px;}
+  .ld-hero-stage{height:440px;}
+  .ld-hero-tile-1,.ld-hero-tile-3{width:100px;}
+  .ld-hero-tile-2,.ld-hero-tile-4{width:96px;}
+  .ld-hero-tile-5,.ld-hero-tile-6{width:94px;}
+  .ld-hero-main{width:min(230px,58%);}
+}
+@media (max-width:1024px){.ld-why-grid,.ld-benefit-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:860px){
+  .ld-premium-hero{margin:8px 12px 10px;border-radius:22px;}
+  .ld-premium-hero-inner{grid-template-columns:1fr;padding:34px 20px;gap:28px;}
+  .ld-hero-stage{height:auto;perspective:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .ld-hero-main{position:relative;left:auto;top:auto;transform:none;width:100%;max-width:320px;margin:0 auto;grid-column:1/-1;}
+  .ld-hero-main:hover{transform:none;}
+  .ld-hero-tile{position:static;width:100%;transform:none !important;}
+  .ld-featured,.ld-why,.ld-benefits{padding:20px 12px 8px;}
+  .ld-explore{margin:10px 12px 24px;padding:26px 22px;flex-direction:column;align-items:flex-start;}
+}
+@media (max-width:520px){.ld-why-grid,.ld-benefit-grid{grid-template-columns:1fr;}}
+</style>
 
-        <button onclick="showPage('shop')">
-          Explore Now →
-        </button>
-      </div>
-
-      <div class="ld-hero-decoration">🛍️</div>
+<!-- PREMIUM HERO BANNER: real Luma Deals products, real image URLs, real prices -->
+<section class="ld-premium-hero" aria-label="Luma Deals featured products">
+  <div class="ld-premium-hero-inner">
+    <div class="ld-hero-copy">
+      <span class="ld-hero-eyebrow">Luma Deals &bull; Online Shopping in Pakistan</span>
+      <h1>Quality Products. <em>Honest Prices.</em> Delivered to You.</h1>
+      <p class="ld-hero-sub">Handpicked electronics, fashion, home essentials and more &mdash; with cash on delivery across Pakistan.</p>
+      <button class="ld-hero-cta" onclick="showPage('shop')">Shop Now <span aria-hidden="true">&rarr;</span></button>
+      <div class="ld-hero-trust"><span>Cash on Delivery</span><span>Easy Returns</span><span>Nationwide Delivery</span></div>
     </div>
-
-
-    <!-- BANNER 2 -->
-    <div class="ld-hero-slide">
-      <div class="ld-hero-content">
-        <span class="ld-hero-tag">TRENDING NOW</span>
-        <h1>The Products Everyone's Talking About</h1>
-        <p>From everyday essentials to trending finds, curated just for you.</p>
-
-        <div class="ld-hero-offer">
-          <strong>FLASH DEALS — ENDING SOON</strong>
-        </div>
-
-        <button onclick="showPage('shop')">
-          Shop Trending →
-        </button>
-      </div>
-
-      <div class="ld-hero-decoration">⚡</div>
+    <div class="ld-hero-stage">
+      <a class="ld-hero-main" href="/?page=product-detail&amp;id=67" onclick="event.preventDefault(); showProductDetail(67)">
+        <img src="images/electronics/earbuds-anc-white-1.jpg" alt="Wireless Earbuds with ANC and Water Resistant White" width="600" height="590" fetchpriority="high">
+        <span class="ld-hero-main-name">Wireless Earbuds with ANC &amp; Water Resistant White</span>
+        <span class="ld-hero-main-price">Rs 1,350 <s>Rs 1,820</s></span>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-1" href="/?page=product-detail&amp;id=51" onclick="event.preventDefault(); showProductDetail(51)">
+        <img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Push Vegetable Cutter Multi-Use Kitchen" width="1080" height="1095" loading="eager">
+        <small>Push Vegetable Cutter Multi-Use Kitchen</small><b>Rs 1,399</b>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-2" href="/?page=product-detail&amp;id=65" onclick="event.preventDefault(); showProductDetail(65)">
+        <img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Men's Black Quartz Watch Lightweight Casual Wear" width="800" height="800" loading="eager">
+        <small>Men&rsquo;s Black Quartz Watch Lightweight Casual Wear</small><b>Rs 1,899</b>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-3" href="/?page=product-detail&amp;id=71" onclick="event.preventDefault(); showProductDetail(71)">
+        <img src="images/home-living/Bismillah-Clock-1.jpg" alt="3D Islamic Calligraphy Wall Clock Black Modern Art" width="1080" height="1080" loading="eager">
+        <small>3D Islamic Calligraphy Wall Clock</small><b>Rs 999</b>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-4" href="/?page=product-detail&amp;id=79" onclick="event.preventDefault(); showProductDetail(79)">
+        <img src="https://res.cloudinary.com/szx9toyu/image/upload/f_auto,q_auto,w_600/v1792002277/luma-deals/products/zegepchmrbupmys3kvmw.webp" alt="2 Pcs Women's Unstitched Chikankari Embroidered Suit" width="1067" height="1600" loading="eager">
+        <small>2 Pcs Women&rsquo;s Unstitched Chikankari Embroidered Suit</small><b>Rs 2,699</b>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-5" href="/?page=product-detail&amp;id=38" onclick="event.preventDefault(); showProductDetail(38)">
+        <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car Red Yellow ABS Plastic" width="657" height="713" loading="eager">
+        <small>Kids Riding Car Red Yellow ABS Plastic</small><b>Rs 2,360</b>
+      </a>
+      <a class="ld-hero-tile ld-hero-tile-6" href="/?page=product-detail&amp;id=11" onclick="event.preventDefault(); showProductDetail(11)">
+        <img src="images/Beauty/eventone-c.jpg" alt="Eventone-C Whitening Face Cream" width="1080" height="1080" loading="eager">
+        <small>Eventone-C Whitening Face Cream</small><b>Rs 599</b>
+      </a>
     </div>
-
-
-    <!-- BANNER 3 -->
-    <div class="ld-hero-slide">
-      <div class="ld-hero-content">
-        <span class="ld-hero-tag">CASH ON DELIVERY</span>
-        <h1>Order with Confidence, Every Time</h1>
-        <p>No advance payment needed — pay when your order arrives at your doorstep.</p>
-
-        <div class="ld-hero-offer">
-          <strong>FAST DELIVERY NATIONWIDE</strong>
-        </div>
-
-        <button onclick="showPage('shop')">
-          Start Shopping →
-        </button>
-      </div>
-
-      <div class="ld-hero-decoration">📦</div>
-    </div>
-
-
-    <!-- BANNER 4 -->
-    <div class="ld-hero-slide">
-      <div class="ld-hero-content">
-        <span class="ld-hero-tag">VERIFIED QUALITY</span>
-        <h1>Quality Products, Verified for You</h1>
-        <p>Every item checked and verified by our team — shop with complete peace of mind.</p>
-
-        <div class="ld-hero-offer">
-          <strong>100% VERIFIED PRODUCTS</strong>
-        </div>
-
-        <button onclick="showPage('shop')">
-          Browse Collection →
-        </button>
-      </div>
-
-      <div class="ld-hero-decoration">✔️</div>
-    </div>
-
-
-    <!-- BANNER 5 -->
-    <div class="ld-hero-slide">
-      <div class="ld-hero-content">
-        <span class="ld-hero-tag">LUMA DEALS</span>
-        <h1>Your Shopping Journey Starts Here</h1>
-        <p>Thousands of products, unbeatable prices, made just for you.</p>
-
-        <div class="ld-hero-offer">
-          <strong>NEW CUSTOMER? EXTRA SAVINGS</strong>
-        </div>
-
-        <button onclick="showPage('shop')">
-          Get Started →
-        </button>
-      </div>
-
-      <div class="ld-hero-decoration">🎁</div>
-    </div>
-
   </div>
+</section>
 
-  <!-- Carousel dots -->
-  <div class="ld-hero-dots">
-    <span class="ld-hero-dot active" onclick="ldHeroGoTo(0)"></span>
-    <span class="ld-hero-dot" onclick="ldHeroGoTo(1)"></span>
-    <span class="ld-hero-dot" onclick="ldHeroGoTo(2)"></span>
-    <span class="ld-hero-dot" onclick="ldHeroGoTo(3)"></span>
-    <span class="ld-hero-dot" onclick="ldHeroGoTo(4)"></span>
-  </div>
-
-</div>
-   
+    <!-- FEATURED PRODUCTS: top 8 by real discount, rendered live from Firestore -->
+    <section class="ld-featured">
+      <div class="home-section-heading">
+        <div>
+          <span>TOP SAVINGS</span>
+          <h2>Featured Products</h2>
+        </div>
+        <button onclick="showPage('shop')">
+          View All &rarr;
+        </button>
+      </div>
+      <p class="ld-section-sub">Handpicked deals with the biggest savings in the store &mdash; rendered live from our product catalog, so prices and discounts are always current.</p>
+      <div class="product-grid" id="featured-product-grid"></div>
+    </section>
 
     <!-- ALL PRODUCTS -->
     <section class="products-section">
       <h2 id="home-products-heading">All Products</h2>
       <div class="product-grid" id="home-product-grid"></div>
+    </section>
+
+
+    <!-- WHY SHOP AT LUMA DEALS -->
+    <section class="ld-why">
+      <div class="home-section-heading">
+        <div>
+          <span>THE LUMA PROMISE</span>
+          <h2>Why Shop at Luma Deals</h2>
+        </div>
+      </div>
+      <div class="ld-why-grid">
+        <div class="ld-why-card">
+          <span class="ld-why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5.5v5.6c0 5 3.4 9.3 8 10.9 4.6-1.6 8-5.9 8-10.9V5.5L12 2Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg></span>
+          <h3>Professional Shopping Experience</h3>
+          <p>Carefully listed products with clear photos, prices and details &mdash; no guesswork before you buy.</p>
+        </div>
+        <div class="ld-why-card">
+          <span class="ld-why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg></span>
+          <h3>Convenient Product Discovery</h3>
+          <p>Browse by category, search the catalog or filter by what you need &mdash; finding a product takes seconds.</p>
+        </div>
+        <div class="ld-why-card">
+          <span class="ld-why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 12 22 2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
+          <h3>Clear Product Information</h3>
+          <p>Real prices, real discounts and honest product details on every listing in the store.</p>
+        </div>
+        <div class="ld-why-card">
+          <span class="ld-why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="4" height="7" rx="1.5"/><rect x="18" y="13" width="4" height="7" rx="1.5"/><path d="M20 19a3 3 0 0 1-3 3h-3"/></svg></span>
+          <h3>Customer-Focused Service</h3>
+          <p>Cash on delivery, a straightforward returns review and a support team you can reach on WhatsApp, phone or email.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOPPING BENEFITS: only services and policies that actually exist -->
+    <section class="ld-benefits">
+      <div class="home-section-heading">
+        <div>
+          <span>GOOD TO KNOW</span>
+          <h2>Shopping Benefits</h2>
+        </div>
+      </div>
+      <div class="ld-benefit-grid">
+        <div class="ld-benefit-card">
+          <span class="ld-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+          <h3>Cash on Delivery</h3>
+          <p>Pay when your order arrives at your doorstep. No advance payment needed.</p>
+        </div>
+        <div class="ld-benefit-card">
+          <span class="ld-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+          <h3>Delivery Across Pakistan</h3>
+          <p>Delivery availability and charges are shown at checkout before you place your order.</p>
+          <a href="/shipping-policy.html">Shipping &amp; Delivery &rarr;</a>
+        </div>
+        <div class="ld-benefit-card">
+          <span class="ld-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>
+          <h3>Returns &amp; Exchanges</h3>
+          <p>Got a damaged or incorrect item? Contact support with your order number and photos and we&rsquo;ll review it.</p>
+          <a href="/return-policy.html">Returns &amp; Exchanges &rarr;</a>
+        </div>
+        <div class="ld-benefit-card">
+          <span class="ld-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9Z"/></svg></span>
+          <h3>Customer Support</h3>
+          <p>Questions about a product or order? Reach our team on WhatsApp, phone or email.</p>
+          <a href="#" onclick="showPage('contact');return false;">Contact Us &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORE MORE PRODUCTS -->
+    <section class="ld-explore">
+      <div>
+        <h2>Explore More Products</h2>
+        <p>Browse the full catalog &mdash; electronics, fashion, home, beauty, kitchen, toys, boutique and handmade, all in one place.</p>
+      </div>
+      <button onclick="showPage('shop')">Shop All Products &rarr;</button>
     </section>
 
   <!-- Luma Deals AdSense placement: homepage, after product grid (page-gated, lazy-loaded by #ld-adsense-loader) -->
@@ -5145,6 +5253,24 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         showPage('shop');
       }
 
+      /* FEATURED PRODUCTS (additive, 2026-11-09): top 8 by real discount,
+         rendered once per catalog version into #featured-product-grid.
+         Uses the same productCardHTML cards as the main grids. */
+      try {
+        var __ldFeatGrid = document.getElementById('featured-product-grid');
+        if (__ldFeatGrid && window.products && window.products.length > 0 && window.__ldFeaturedSig !== window.__ldProductsSignature) {
+          window.__ldFeaturedSig = window.__ldProductsSignature;
+          var __ldFeat = window.products.filter(function (p) { return p && Number(p.price) > 0 && Number(p.oldPrice) > Number(p.price); })
+            .map(function (p) { return { p: p, d: (Number(p.oldPrice) - Number(p.price)) / Number(p.oldPrice) }; })
+            .sort(function (a, b) { return b.d - a.d; })
+            .slice(0, 8)
+            .map(function (x) { return x.p; });
+          if (__ldFeat.length > 0 && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(__ldFeatGrid, __ldFeat, productCardHTML, '');
+          }
+        }
+      } catch (e) { /* featured strip must never break the page */ }
+
     }
 
     async function submitSignup(event) {
@@ -6707,80 +6833,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         }
       }, 150);
     }
-    /* =====================================================
-     LUMA DEALS — HERO CAROUSEL
-     ===================================================== */
-
-    let ldHeroCurrent = 0;
-    let ldHeroTimer;
-
-    function ldHeroUpdate() {
-
-      const track = document.querySelector('.ld-hero-track');
-      const dots = document.querySelectorAll('.ld-hero-dot');
-
-      if (!track) return;
-
-      track.style.transform =
-        `translateX(-${ldHeroCurrent * 20}%)`;
-
-      dots.forEach((dot, index) => {
-        dot.classList.toggle(
-          'active',
-          index === ldHeroCurrent
-        );
-      });
-    }
-
-
-    function ldHeroGoTo(index) {
-
-      ldHeroCurrent = index;
-
-      ldHeroUpdate();
-
-      ldHeroRestart();
-    }
-
-
-    function ldHeroNext() {
-
-      ldHeroCurrent++;
-
-      if (ldHeroCurrent >= 5) {
-        ldHeroCurrent = 0;
-      }
-
-      ldHeroUpdate();
-    }
-
-
-    function ldHeroRestart() {
-
-      clearInterval(ldHeroTimer);
-
-      ldHeroTimer = setInterval(
-        ldHeroNext,
-        4500
-      );
-    }
-
-
-    document.addEventListener(
-      'DOMContentLoaded',
-      function () {
-
-        ldHeroUpdate();
-
-        ldHeroTimer = setInterval(
-          ldHeroNext,
-          4500
-        );
-
-      }
-    );
-
-  </script>
+      </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -11971,6 +12024,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
             <span class="ld-footer-brand-lockup"><img class="ld-footer-logo-image" src="/images/assets/favicon.png" alt="" width="44" height="44" loading="lazy"><span class="ld-footer-wordmark">LUMA<span>DEALS</span></span></span>
           </a>
           <p class="ld-footer-about">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
+          <p class="ld-footer-pay">Payment: <strong>Cash on Delivery</strong> available across Pakistan.</p>
           <div class="footer-socials ld-footer-socials">
             <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on TikTok"><i aria-hidden="true" class="fa-brands fa-tiktok"></i></a>
             <a href="https://www.instagram.com/lumadeals1?igsh=MXZkaGx6cmhpaWM2eA==" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on Instagram"><i aria-hidden="true" class="fa-brands fa-instagram"></i></a>
