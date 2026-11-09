@@ -3,6 +3,8 @@ Allow: /
 
 # Private / account views (reachable via ?page= but not for search engines)
 Disallow: /?page=login
+Disallow: /?page=signup
+Disallow: /?page=forgot-password
 Disallow: /?page=wishlist
 Disallow: /?page=profile
 Disallow: /?page=edit-profile
@@ -11,6 +13,8 @@ Disallow: /?page=language
 Disallow: /?page=appearance
 Disallow: /?page=notifications
 Disallow: /?page=help
+Disallow: /?page=orders
+Disallow: /?page=order-tracking
 
 # Transactional / internal files
 Disallow: /api/products
