@@ -19,3 +19,4 @@ Disallow: /receipt.html
 Disallow: /luma-deals-admin-panel-cloudinary-2.html
 
 Sitemap: https://www.lumadeals.shop/sitemap.xml
+Sitemap: https://www.lumadeals.shop/api/sitemap
