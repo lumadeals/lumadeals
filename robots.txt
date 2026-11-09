@@ -11,10 +11,10 @@ Disallow: /?page=language
 Disallow: /?page=appearance
 Disallow: /?page=notifications
 Disallow: /?page=help
-Disallow: /?page=product-detail$
 
 # Transactional / internal files
-Disallow: /api/
+Disallow: /api/products
+Disallow: /api/chat
 Disallow: /receipt.html
 Disallow: /luma-deals-admin-panel-cloudinary-2.html
 
