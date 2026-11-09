@@ -1875,20 +1875,20 @@ LumaDeals AI
    the tallest slide - no fixed heights, no overflow, no JS measuring. Only the
    active slide is visible; the rest are opacity 0 + visibility hidden. */
 .ld-hero-show{min-width:0;width:100%;}
-.ld-rotator-viewport{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:470px;min-width:0;padding:0 56px;}
+.ld-rotator-viewport{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:400px;min-width:0;padding:0 56px;overflow:hidden;}
 .ld-rotator-slide{grid-area:1/1;min-width:0;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s;pointer-events:none;}
 .ld-rotator-slide.is-active{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s;pointer-events:auto;}
 .ld-rotator-copy{min-width:0;}
 .ld-rotator-copy h2{font-size:clamp(20px,2vw,27px);line-height:1.25;font-weight:800;color:#fff;margin:16px 0 10px;}
 .ld-rotator-price{font-size:21px;font-weight:800;color:#8fd8ff;margin:0 0 20px;}
 .ld-rotator-price s{font-size:15px;font-weight:600;color:#9fc3d8;margin-left:8px;}
-.ld-rotator-img{display:block;min-width:0;background:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 44px rgba(2,20,35,.45);text-decoration:none;aspect-ratio:1/1;width:100%;max-height:446px;}
-.ld-rotator-img img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;border-radius:14px;background:#fff;}
+.ld-rotator-img{display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;height:360px;max-width:360px;width:100%;justify-self:center;min-width:0;background:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 44px rgba(2,20,35,.45);text-decoration:none;}
+.ld-rotator-img img{width:100%;height:100%;object-fit:contain;display:block;border-radius:14px;background:#fff;}
 .ld-rotator-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(13,32,47,.55);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s ease;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
 .ld-rotator-arrow:hover{background:#3bb4ec;}
 .ld-rotator-prev{left:6px;}
 .ld-rotator-next{right:6px;}
-.ld-rotator-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
+.ld-rotator-dots{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:5;display:flex;justify-content:center;gap:8px;margin-top:0;padding:8px 12px;background:rgba(13,32,47,.45);border:1px solid rgba(255,255,255,.18);border-radius:999px;}
 .ld-rotator-dots button{width:10px;height:10px;padding:0;border:none;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s ease,background .3s ease;}
 .ld-rotator-dots button:hover{background:rgba(255,255,255,.65);}
 .ld-rotator-dots button.is-active{width:28px;background:#3bb4ec;}
@@ -1914,7 +1914,7 @@ LumaDeals AI
 .ld-footer-pay strong{color:#fff;}
 @media (max-width:1100px){
   .ld-premium-hero-inner{padding:42px 32px;gap:24px;}
-  .ld-rotator-viewport{padding:0 46px;height:440px;}
+  .ld-rotator-viewport{padding:0 46px;height:380px;}
 }
 @media (max-width:1024px){.ld-why-grid,.ld-benefit-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:860px){
@@ -1922,7 +1922,7 @@ LumaDeals AI
   .ld-premium-hero-inner{grid-template-columns:1fr;padding:34px 20px;gap:28px;}
   .ld-rotator-viewport{padding:0;height:auto;}
   .ld-rotator-slide{grid-template-columns:1fr;gap:16px;text-align:center;}
-  .ld-rotator-img{order:-1;width:100%;max-width:320px;margin:0 auto;}
+  .ld-rotator-img{order:-1;width:100%;max-width:320px;height:320px;margin:0 auto;}
   .ld-rotator-arrow{top:150px;width:36px;height:36px;font-size:22px;}
   .ld-rotator-prev{left:4px;}
   .ld-rotator-next{right:4px;}
@@ -1964,7 +1964,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(51)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=51" onclick="event.preventDefault(); showProductDetail(51)" title="Push Vegetable Cutter Multi-Use Kitchen">
-          <img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Push Vegetable Cutter Multi-Use Kitchen" width="1080" height="1095" loading="lazy">
+          <img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Push Vegetable Cutter Multi-Use Kitchen" width="1080" height="1095">
         </a>
       </article>
       <article class="ld-rotator-slide" aria-hidden="true">
@@ -1975,7 +1975,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(65)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=65" onclick="event.preventDefault(); showProductDetail(65)" title="Men's Black Quartz Watch Lightweight Casual Wear">
-          <img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Men's Black Quartz Watch Lightweight Casual Wear" width="800" height="800" loading="lazy">
+          <img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Men's Black Quartz Watch Lightweight Casual Wear" width="800" height="800">
         </a>
       </article>
       <article class="ld-rotator-slide" aria-hidden="true">
@@ -1986,7 +1986,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(71)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=71" onclick="event.preventDefault(); showProductDetail(71)" title="3D Islamic Calligraphy Wall Clock Black Modern Art">
-          <img src="images/home-living/Bismillah-Clock-1.jpg" alt="3D Islamic Calligraphy Wall Clock Black Modern Art" width="1080" height="1080" loading="lazy">
+          <img src="images/home-living/Bismillah-Clock-1.jpg" alt="3D Islamic Calligraphy Wall Clock Black Modern Art" width="1080" height="1080">
         </a>
       </article>
       <article class="ld-rotator-slide" aria-hidden="true">
@@ -1997,7 +1997,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(79)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=79" onclick="event.preventDefault(); showProductDetail(79)" title="2 Pcs Women's Unstitched Chikankari Embroidered Suit">
-          <img src="https://res.cloudinary.com/szx9toyu/image/upload/f_auto,q_auto,w_600/v1792002277/luma-deals/products/zegepchmrbupmys3kvmw.webp" alt="2 Pcs Women's Unstitched Chikankari Embroidered Suit" width="1067" height="1600" loading="lazy">
+          <img src="https://res.cloudinary.com/szx9toyu/image/upload/f_auto,q_auto,w_600/v1792002277/luma-deals/products/zegepchmrbupmys3kvmw.webp" alt="2 Pcs Women's Unstitched Chikankari Embroidered Suit" width="1067" height="1600">
         </a>
       </article>
       <article class="ld-rotator-slide" aria-hidden="true">
@@ -2008,7 +2008,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(38)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=38" onclick="event.preventDefault(); showProductDetail(38)" title="Kids Riding Car Red Yellow ABS Plastic">
-          <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car Red Yellow ABS Plastic" width="657" height="713" loading="lazy">
+          <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car Red Yellow ABS Plastic" width="657" height="713">
         </a>
       </article>
       <article class="ld-rotator-slide" aria-hidden="true">
@@ -2019,7 +2019,7 @@ LumaDeals AI
           <button class="ld-hero-cta" type="button" onclick="showProductDetail(11)">Shop Now <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=11" onclick="event.preventDefault(); showProductDetail(11)" title="Eventone-C Whitening Face Cream">
-          <img src="images/Beauty/eventone-c.jpg" alt="Eventone-C Whitening Face Cream" width="1080" height="1080" loading="lazy">
+          <img src="images/Beauty/eventone-c.jpg" alt="Eventone-C Whitening Face Cream" width="1080" height="1080">
         </a>
       </article>
         <button class="ld-rotator-arrow ld-rotator-prev" id="ld-rotator-prev" type="button" aria-label="Previous product">&#8249;</button>
