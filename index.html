@@ -26,6 +26,41 @@
   <meta property="og:description"
     content="Shop the best smart gadgets, home utilities, and trending deals online in Pakistan at Luma Deals with Cash on Delivery.">
   <meta property="og:url" content="https://www.lumadeals.shop/">
+  <!-- SEO: set the canonical + og:url from the URL itself while the page
+       is parsed, before any async product load. showPage() used to set the
+       canonical to the id-less /?page=product-detail and only fix it once
+       the product loaded; Google's render snapshot caught that transient
+       value, so it treated every product page as a duplicate and picked
+       one product (id=60) as canonical for all of them (Search Console,
+       Nov 2026). This keeps the declared canonical correct from the first
+       paint. updateProductMeta() later sets the same value for product
+       pages. Placed after og:url so both tags exist when it runs. -->
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(window.location.search);
+        var page = q.get('page');
+        var canon = null;
+        if (page === 'product-detail' && q.get('id')) {
+          canon = 'https://www.lumadeals.shop/?page=product-detail&id=' + encodeURIComponent(q.get('id'));
+        } else if (page === 'shop' && q.get('category')) {
+          canon = 'https://www.lumadeals.shop/?page=shop&category=' + encodeURIComponent(q.get('category'));
+        } else if (page === 'shop') {
+          canon = 'https://www.lumadeals.shop/?page=shop';
+        } else if (page === 'about') {
+          canon = 'https://www.lumadeals.shop/?page=about';
+        } else if (page === 'contact') {
+          canon = 'https://www.lumadeals.shop/?page=contact';
+        }
+        if (canon) {
+          var link = document.querySelector('link[rel="canonical"]');
+          if (link) link.setAttribute('href', canon);
+          var og = document.querySelector('meta[property="og:url"]');
+          if (og) og.setAttribute('content', canon);
+        }
+      } catch (e) { /* canonical stays at the static homepage value */ }
+    })();
+  </script>
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
   <meta property="og:image:alt" content="Luma Deals - Online Shopping in Pakistan">
@@ -2899,6 +2934,13 @@ LumaDeals AI
       const imageSmall = ldImg(p.img || p.image || p.images?.[0] || '', 400);
       const isEager = typeof index === 'number' && index < 4 && gridVisible !== false;
       const productId = JSON.stringify(p.id);
+      /* SEO: real crawlable links to the product page. The card used to be
+         onclick-only, so Googlebot could not discover product URLs by
+         crawling (Search Console showed "referring page: None detected" for
+         every product). The anchors keep the SPA behaviour — the click is
+         intercepted and opens the detail view without a reload — while
+         giving crawlers (and right-click / open-in-new-tab) a real URL. */
+      const detailUrl = '/?page=product-detail&id=' + encodeURIComponent(String(p.id));
 
       return `
     <div class="product-card" role="button" tabindex="0" aria-label="View product" onclick="showProductDetail(${productId})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showProductDetail(${productId});}">
@@ -2923,6 +2965,7 @@ LumaDeals AI
           </svg>
         </button>
 
+        <a href="${detailUrl}" onclick="event.preventDefault(); event.stopPropagation(); showProductDetail(${productId})" style="display:block;">
         <img
           src="${image}"
           srcset="${imageSmall} 400w, ${image} 600w"
@@ -2931,6 +2974,7 @@ LumaDeals AI
           loading="${isEager ? 'eager' : 'lazy'}"
           decoding="async"
         >
+        </a>
 
       </div>
 
@@ -2940,7 +2984,7 @@ LumaDeals AI
           onclick="showProductDetail(${productId})"
           style="cursor:pointer;"
         >
-          ${p.name || 'Product'}
+          <a href="${detailUrl}" onclick="event.preventDefault(); event.stopPropagation(); showProductDetail(${productId})" style="color:inherit; text-decoration:none;">${p.name || 'Product'}</a>
 
           <span
             class="verified-badge"
@@ -3441,6 +3485,27 @@ LumaDeals AI
         setSeoMetaHelper('property', 'og:image', abs);
         setSeoMetaHelper('name', 'twitter:image', abs);
       }
+      /* Product structured data — ONLY fields present on the listing.
+         No aggregateRating: the listing's rating is star-emoji text with
+         no review count, so no numeric rating can be stated honestly.
+         No brand: the listing carries none. Availability only when the
+         listing has a parseable stock value; otherwise it is omitted. */
+      var ld = document.getElementById('ld-product');
+      if (!ld) {
+        ld = document.createElement('script');
+        ld.id = 'ld-product';
+        ld.type = 'application/ld+json';
+        document.head.appendChild(ld);
+      }
+      var offer = { '@type': 'Offer', priceCurrency: 'PKR' };
+      if (p.price !== undefined && p.price !== null && p.price !== '') offer.price = p.price;
+      var stockNum = (p.stock !== undefined && p.stock !== null && p.stock !== '') ? Number(p.stock) : NaN;
+      if (!isNaN(stockNum)) offer.availability = stockNum > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+      var productLd = { '@context': 'https://schema.org', '@type': 'Product', name: name, offers: offer };
+      if (typeof abs !== 'undefined' && abs) productLd.image = abs;
+      if (p.category) productLd.category = String(p.category).trim();
+      if (p.description) productLd.description = String(p.description);
+      ld.textContent = JSON.stringify(productLd);
     }
     function showProductDetail(id) {
       const p = products.find(x => x.id == id);
@@ -3481,6 +3546,10 @@ LumaDeals AI
       loadRelatedProducts(p);
       if (typeof showPage === 'function') showPage('product-detail');
       if (typeof updateProductMeta === 'function') { updateProductMeta(p); }
+      /* showPage() pushes the id-less /?page=product-detail into the
+         address bar; restore the id so shared, copied and refreshed
+         product URLs keep working and match the canonical. */
+      try { history.replaceState(null, '', '/?page=product-detail&id=' + encodeURIComponent(String(p.id))); } catch (e) { /* URL cosmetics only */ }
     }
 
     function loadRelatedProducts(currentProduct) {
@@ -6333,7 +6402,21 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           block: "start"
         });
       }
-      if (typeof updateCategoryMeta === 'function') { updateCategoryMeta(category); }
+      /* SEO: category meta + URL only when the shop view is showing.
+         These subcategory buttons also live on the home page, where the
+         grid is filtered in place — there the visible page is home, so
+         the canonical must stay on / and the URL must not change. On the
+         shop view, keep the address bar on the canonical category URL
+         that updateCategoryMeta() declares, so URL and canonical agree
+         and the category URL is shareable and bookmarkable. */
+      var shopActive = document.getElementById('page-shop') && document.getElementById('page-shop').classList.contains('active');
+      if (shopActive) {
+        if (typeof updateCategoryMeta === 'function') { updateCategoryMeta(category); }
+        try {
+          var catUrl = '/?page=shop&category=' + encodeURIComponent(category);
+          if (window.location.search !== catUrl) history.pushState(null, '', catUrl);
+        } catch (e) { /* URL cosmetics only */ }
+      }
     }
 
 
@@ -7833,6 +7916,16 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     }
 
     function updatePageTitle(pageId) {
+      /* SEO: drop any stale Product structured data when leaving a product
+         page, so it is never associated with another page. */
+      var ldOld = document.getElementById('ld-product');
+      if (ldOld) ldOld.remove();
+      /* SEO: product pages are owned by the inline head script (canonical)
+         and updateProductMeta() (full meta once the product loads). Do not
+         set the id-less /?page=product-detail fallback here — Google's
+         render snapshot caught that transient value and collapsed every
+         product page into a duplicate of one product. */
+      if (pageId === 'product-detail') return;
       const titles = {
         'home': 'Luma Deals - Online Shopping in Pakistan | Cash on Delivery',
         'shop': 'Shop All Products Online in Pakistan - Luma Deals',

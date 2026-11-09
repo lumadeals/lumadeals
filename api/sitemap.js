@@ -62,6 +62,9 @@ export default async function handler(req, res) {
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
       urls +
       "</urlset>\n";
+    /* Cache at the edge so Google's refetch is fast and reliable: the
+       catalog changes rarely, and a cold Firestore read took ~3s. */
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
     res.setHeader("Content-Type", "application/xml");
     return res.status(200).send(xml);
   } catch (e) {
