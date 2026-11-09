@@ -2078,6 +2078,10 @@ LumaDeals AI
   var pauseEl = (root.closest ? root.closest('.ld-premium-hero') : null) || root;
   pauseEl.addEventListener('mouseenter', stop);
   pauseEl.addEventListener('mouseleave', start);
+  pauseEl.addEventListener('mouseover', stop);
+  pauseEl.addEventListener('mouseout', function (e) {
+    if (!pauseEl.contains(e.relatedTarget)) start();
+  });
   pauseEl.addEventListener('focusin', stop);
   pauseEl.addEventListener('focusout', start);
   document.addEventListener('visibilitychange', function () { if (document.hidden) { stop(); } else { start(); } });
@@ -2086,12 +2090,13 @@ LumaDeals AI
     else if (e.key === 'ArrowRight') { show(i + 1); restart(); }
   });
   var touchX = null;
-  root.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  root.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; stop(); }, { passive: true });
   root.addEventListener('touchend', function (e) {
     if (touchX === null) return;
     var dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 40) { show(dx < 0 ? i + 1 : i - 1); restart(); }
+    if (Math.abs(dx) > 40) { show(dx < 0 ? i + 1 : i - 1); }
     touchX = null;
+    restart();
   }, { passive: true });
   show(0);
   start();
