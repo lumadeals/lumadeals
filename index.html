@@ -2228,6 +2228,53 @@ LumaDeals AI
         <div class="product-grid" id="newarrivals-product-grid"></div>
       </section>
 
+      <!-- DEAL OF THE DAY: one spotlight product + a live countdown to midnight.
+           Rendered by JS below. The product rotates daily: the pool is the top 7
+           by real discount, picked by day-of-year, so a new deal shows every day.
+           Prices, discount and savings are all computed live from the catalog. -->
+      <style id="ld-deal-day-css">
+        .ld-deal-day{margin:26px 50px 8px;}
+        .ld-deal-day-inner{
+          display:flex;gap:28px;align-items:center;
+          background:#ffffff;border:1px solid #e6eef3;border-radius:24px;
+          box-shadow:0 12px 30px rgba(15,45,65,.08);
+          padding:28px 32px;
+        }
+        .ld-deal-img{flex:0 0 320px;}
+        .ld-deal-img img{width:100%;height:320px;object-fit:cover;border-radius:18px;border:1px solid #e2ebf0;display:block;}
+        .ld-deal-info{flex:1;min-width:0;}
+        .ld-deal-badge{display:inline-block;background:#e5484d;color:#ffffff;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:6px 12px;border-radius:999px;}
+        .ld-deal-save{display:inline-block;background:#eaf7ee;color:#15803d;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;margin-left:8px;}
+        .ld-deal-info h3{margin:14px 0 10px;color:#14171A;font-size:24px;font-weight:800;line-height:1.3;}
+        .ld-deal-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+        .ld-deal-now{color:#0e86b8;font-size:28px;font-weight:800;}
+        .ld-deal-was{color:#8b9ba4;font-size:16px;text-decoration:line-through;}
+        .ld-deal-off{background:#eaf7ee;color:#15803d;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;}
+        .ld-deal-count{margin-top:18px;}
+        .ld-deal-count-label{color:#5b6f7b;font-size:13px;font-weight:700;}
+        .ld-deal-timer{display:flex;align-items:center;gap:8px;margin-top:8px;}
+        .ld-deal-t{display:flex;flex-direction:column;align-items:center;background:#0f161b;border-radius:12px;padding:10px 0;width:72px;}
+        .ld-deal-t b{color:#ffffff;font-size:26px;font-weight:800;line-height:1;}
+        .ld-deal-t span{color:#8fd8f8;font-size:10px;font-weight:700;letter-spacing:1px;margin-top:4px;text-transform:uppercase;}
+        .ld-deal-timer > span{color:#5b6f7b;font-size:22px;font-weight:800;}
+        .ld-deal-btn{margin-top:20px;border:none;cursor:pointer;background:linear-gradient(135deg,#3BB4EC,#0e86b8);color:#ffffff;font-size:15px;font-weight:800;padding:13px 26px;border-radius:14px;box-shadow:0 8px 20px rgba(14,134,184,.25);}
+        .ld-deal-btn:hover{filter:brightness(1.06);}
+        .ld-deal-note{display:block;margin-top:12px;color:#8b9ba4;font-size:12px;}
+        @media (max-width:860px){
+          .ld-deal-day{margin:18px 12px 8px;}
+          .ld-deal-day-inner{flex-direction:column;align-items:stretch;gap:18px;padding:20px;}
+          .ld-deal-img{flex:none;}
+          .ld-deal-img img{height:260px;}
+          .ld-deal-info h3{font-size:20px;}
+          .ld-deal-now{font-size:24px;}
+          .ld-deal-t{width:64px;}
+          .ld-deal-t b{font-size:22px;}
+        }
+      </style>
+      <section class="ld-deal-day" id="deal-of-the-day">
+        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
+      </section>
+
       <!-- ABOUT LUMA DEALS (home): our story, copied from the real About page (#page-about).
            No new claims — the same intro and goal text as the About page. -->
       <section class="ld-about-home">
@@ -5966,6 +6013,64 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           }
         }
       } catch (e) { /* best sellers strip must never break the page */ }
+      /* DEAL OF THE DAY (additive, 2026-11-10): one spotlight product + a live
+         countdown to midnight, rendered once per catalog version into
+         #deal-of-the-day-inner. The product rotates daily: the pool is the top 7
+         by real discount, picked by day-of-year, so a new deal shows every day.
+         Prices, discount and savings are computed live from the catalog. */
+      try {
+        var __ldDealBox = document.getElementById('deal-of-the-day-inner');
+        if (__ldDealBox && window.products && window.products.length > 0 && window.__ldDealSig !== window.__ldProductsSignature) {
+          window.__ldDealSig = window.__ldProductsSignature;
+          var __ldPool = window.products.filter(function (p) { return p && Number(p.price) > 0 && Number(p.oldPrice) > Number(p.price); })
+            .map(function (p) { return { p: p, d: (Number(p.oldPrice) - Number(p.price)) / Number(p.oldPrice) }; })
+            .sort(function (a, b) { return b.d - a.d; })
+            .slice(0, 7)
+            .map(function (x) { return x.p; });
+          if (__ldPool.length > 0) {
+            var __ldNow = new Date();
+            var __ldDayNum = Math.floor((__ldNow - new Date(__ldNow.getFullYear(), 0, 0)) / 86400000);
+            var __ldDeal = __ldPool[__ldDayNum % __ldPool.length];
+            var __ldDisc = Math.round((Number(__ldDeal.oldPrice) - Number(__ldDeal.price)) / Number(__ldDeal.oldPrice) * 100);
+            var __ldSave = Math.round(Number(__ldDeal.oldPrice) - Number(__ldDeal.price));
+            var __ldImg = (typeof ldImg === 'function') ? ldImg(__ldDeal.img || __ldDeal.image || (__ldDeal.images && __ldDeal.images[0]) || '', 600) : (__ldDeal.img || '');
+            var __ldId = JSON.stringify(__ldDeal.id);
+            var __ldName = String(__ldDeal.name || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            __ldDealBox.innerHTML =
+              '<div class="ld-deal-img"><img src="' + String(__ldImg).replace(/"/g, '&quot;') + '" alt=""></div>' +
+              '<div class="ld-deal-info">' +
+                '<span class="ld-deal-badge">DEAL OF THE DAY</span>' +
+                '<span class="ld-deal-save">Save Rs ' + __ldSave + '</span>' +
+                '<h3>' + __ldName + '</h3>' +
+                '<div class="ld-deal-price"><span class="ld-deal-now">Rs ' + Number(__ldDeal.price) + '</span>' +
+                '<span class="ld-deal-was">Rs ' + Number(__ldDeal.oldPrice) + '</span>' +
+                '<span class="ld-deal-off">' + __ldDisc + '% OFF</span></div>' +
+                '<div class="ld-deal-count"><span class="ld-deal-count-label">Hurry &mdash; deal ends tonight</span>' +
+                '<div class="ld-deal-timer"><div class="ld-deal-t"><b id="ld-deal-hh">00</b><span>Hours</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-mm">00</b><span>Minutes</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-ss">00</b><span>Seconds</span></div></div></div>' +
+                '<button class="ld-deal-btn" onclick="showProductDetail(' + __ldId + ')">Shop Now &rarr;</button>' +
+                '<span class="ld-deal-note">A new deal every day &mdash; check back tomorrow.</span>' +
+              '</div>';
+            (function(){
+              function tick(){
+                var n = new Date();
+                var end = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1, 0, 0, 0);
+                var s = Math.max(0, Math.floor((end - n) / 1000));
+                var hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+                var hEl = document.getElementById('ld-deal-hh'),
+                    mEl = document.getElementById('ld-deal-mm'),
+                    sEl = document.getElementById('ld-deal-ss');
+                if(hEl) hEl.textContent = (hh < 10 ? '0' : '') + hh;
+                if(mEl) mEl.textContent = (mm < 10 ? '0' : '') + mm;
+                if(sEl) sEl.textContent = (ss < 10 ? '0' : '') + ss;
+              }
+              tick();
+              setInterval(tick, 1000);
+            })();
+          }
+        }
+      } catch (e) { /* deal of the day must never break the page */ }
 
     }
 
