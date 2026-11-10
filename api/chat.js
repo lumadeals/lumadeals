@@ -322,7 +322,7 @@ export default async function handler(req, res) {
 
       contents.push(modelContent);
       contents.push({
-        role: "function",
+        role: "user",
         parts: functionResponseParts
       });
 
