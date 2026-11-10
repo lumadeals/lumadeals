@@ -2197,6 +2197,185 @@ LumaDeals AI
     </section>
 
 
+      <!-- BEST SELLERS: live row of the store's 5-star rated products.
+           Rendered by JS below (same productCardHTML cards as Featured).
+           "Best Sellers" = 5-star rated products; the catalog has no sales-count
+           field, so the 5-star rating is the closest real signal. -->
+      <section class="ld-featured">
+        <div class="home-section-heading">
+          <div>
+            <span>MOST LOVED</span>
+            <h2>Best Sellers</h2>
+          </div>
+          <button onclick="showPage('shop')">View All &rarr;</button>
+        </div>
+        <p class="ld-section-sub">Our highest-rated products &mdash; the ones customers love most. Rendered live from our product catalog, so prices and discounts are always current.</p>
+        <div class="product-grid" id="bestsellers-product-grid"></div>
+      </section>
+
+      <!-- NEW ARRIVALS: live row of the most recently added products.
+           Rendered by JS below. "New Arrivals" = the 8 highest catalog IDs;
+           the catalog has no createdAt field, so ID order is the newest-first signal. -->
+      <section class="ld-featured">
+        <div class="home-section-heading">
+          <div>
+            <span>JUST IN</span>
+            <h2>New Arrivals</h2>
+          </div>
+          <button onclick="showPage('shop')">View All &rarr;</button>
+        </div>
+        <p class="ld-section-sub">The newest additions to our store. Rendered live from our product catalog, so prices and discounts are always current.</p>
+        <div class="product-grid" id="newarrivals-product-grid"></div>
+      </section>
+
+      <!-- ABOUT LUMA DEALS (home): our story, copied from the real About page (#page-about).
+           No new claims — the same intro and goal text as the About page. -->
+      <section class="ld-about-home">
+        <div class="ld-about-home-inner">
+          <span class="ld-about-home-eyebrow">OUR STORY</span>
+          <h2>About Luma Deals</h2>
+          <p>Welcome to Luma Deals &mdash; where smart shopping meets everyday convenience. We&rsquo;re on a mission to bring you the latest trending products, straight to your doorstep, across Pakistan.</p>
+          <p>Our goal is simple: bridge the gap between quality and affordability. We handpick high-demand gadgets, lifestyle essentials, and trending accessories so you never miss out on what&rsquo;s modern and useful &mdash; all while keeping customer satisfaction our top priority.</p>
+          <a href="#" onclick="showPage('about');return false;">Read more about us &rarr;</a>
+        </div>
+      </section>
+
+      <!-- FAQ (home): quick answers, copied from the real FAQ page (/faq.html).
+           Six of the most common questions; the full list lives on the FAQ page. -->
+      <section class="ld-faq-home">
+        <div class="home-section-heading">
+          <div>
+            <span>HELP CENTER</span>
+            <h2>Frequently Asked Questions</h2>
+          </div>
+        </div>
+        <p class="ld-section-sub">Quick answers to common questions about shopping with Luma Deals.</p>
+        <div class="ld-faq-grid">
+          <div class="ld-faq-card">
+            <h3>How do I place an order?</h3>
+            <p>Browse the shop, open the product you want, add it to your cart and proceed to checkout. Enter your contact details and complete delivery information carefully. Review your order before submitting it.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Which payment methods are available?</h3>
+            <p>Payment options shown at checkout are the options currently available for your order. If Cash on Delivery (COD) is displayed, you can select it and pay when the parcel is delivered, according to the order instructions.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Where does Luma Deals deliver?</h3>
+            <p>Delivery availability and any applicable charges are shown during checkout or confirmed by our team. Please provide a complete address, including house or building, street, area and city, to help the courier deliver your parcel.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>How can I track my order?</h3>
+            <p>Sign in and check your Orders section for available order updates. If tracking details are not shown yet, contact customer support with your order number.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Can I cancel or change an order?</h3>
+            <p>Contact customer support as soon as possible and share your order number. A change or cancellation may not be possible after the order has been processed or handed to the courier.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>What if my item arrives damaged or incorrect?</h3>
+            <p>Please contact customer support promptly with your order number and clear photos of the item and packaging. Our team will review the issue and explain the available next steps.</p>
+          </div>
+        </div>
+        <a class="ld-faq-more" href="/faq.html">View all FAQs &rarr;</a>
+      </section>
+
+      <!-- HOME ROWS SNAP: same wheel-scroll snap backup as the Featured row, for the
+           Best Sellers and New Arrivals rows (CSS scroll-snap alone rests mid-card on wheel scroll). -->
+      <script>
+      (function(){
+        function ldRowSnap(grid){
+          if(!grid) return;
+          function snap(){
+            var rect = grid.getBoundingClientRect();
+            var cur = grid.scrollLeft;
+            var cards = grid.querySelectorAll('.product-card');
+            if(!cards.length) return;
+            var best = null, bd = 1e9;
+            for(var i=0;i<cards.length;i++){
+              var left = cards[i].getBoundingClientRect().left - rect.left + cur;
+              var d = Math.abs(left - cur);
+              if(d < bd){ bd = d; best = left; }
+            }
+            if(best !== null && Math.abs(best - cur) > 2){
+              grid.scrollTo({left: best, behavior:'smooth'});
+            }
+          }
+          var t = null;
+          grid.addEventListener('scroll', function(){
+            if(t) clearTimeout(t);
+            t = setTimeout(snap, 120);
+          }, {passive:true});
+          grid.addEventListener('scrollend', snap);
+        }
+        ldRowSnap(document.getElementById('bestsellers-product-grid'));
+        ldRowSnap(document.getElementById('newarrivals-product-grid'));
+      })();
+      </script>
+
+      <!-- HOME CONTENT CSS: row styling for the two new product rows + About + FAQ sections.
+           Scoped to the new IDs/classes only; the shared .product-grid rules are left untouched. -->
+      <style id="ld-home-content-css">
+        #bestsellers-product-grid,
+        #newarrivals-product-grid{
+          display:flex !important;
+          flex-wrap:nowrap !important;
+          overflow-x:auto !important;
+          gap:18px !important;
+          grid-template-columns:none !important;
+          scroll-snap-type:x mandatory;
+          padding:4px 2px 10px;
+          scrollbar-width:thin;
+          scrollbar-color:#b9cdd9 transparent;
+        }
+        #bestsellers-product-grid::-webkit-scrollbar,
+        #newarrivals-product-grid::-webkit-scrollbar{height:6px;}
+        #bestsellers-product-grid::-webkit-scrollbar-track,
+        #newarrivals-product-grid::-webkit-scrollbar-track{background:transparent;}
+        #bestsellers-product-grid::-webkit-scrollbar-thumb,
+        #newarrivals-product-grid::-webkit-scrollbar-thumb{background:#b9cdd9;border-radius:999px;}
+        #bestsellers-product-grid .product-card,
+        #newarrivals-product-grid .product-card{
+          flex:0 0 270px !important;
+          width:270px !important;
+          max-width:270px !important;
+          scroll-snap-align:start;
+        }
+        .ld-about-home{
+          margin:26px 50px 8px;
+          border-radius:24px;
+          background:radial-gradient(640px 320px at 88% -12%,rgba(59,180,236,.38),transparent 62%),linear-gradient(118deg,#0f161b 0%,#152833 55%,#0d3a52 100%);
+          border:1px solid rgba(59,180,236,.30);
+          box-shadow:0 22px 48px rgba(8,28,42,.22),inset 0 1px 0 rgba(255,255,255,.09);
+          padding:34px 36px;
+        }
+        .ld-about-home-eyebrow{display:block;color:#8fd8f8;font-size:10px;font-weight:800;letter-spacing:1.7px;margin-bottom:6px;}
+        .ld-about-home h2{margin:0 0 14px;color:#ffffff;font-size:26px;font-weight:800;letter-spacing:-.4px;}
+        .ld-about-home p{color:#b9cdd9;font-size:15px;line-height:1.7;margin:0 0 12px;max-width:720px;}
+        .ld-about-home a{color:#8fd8f8;font-size:14px;font-weight:700;text-decoration:none;}
+        .ld-about-home a:hover{text-decoration:underline;}
+        .ld-faq-home{padding:26px 50px 8px;}
+        .ld-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+        .ld-faq-card{background:#ffffff;border:1px solid #e6eef3;border-radius:16px;padding:20px 22px;box-shadow:0 4px 14px rgba(15,45,65,.05);}
+        .ld-faq-card h3{margin:0 0 8px;color:#14171A;font-size:16px;font-weight:800;}
+        .ld-faq-card p{margin:0;color:#5b6f7b;font-size:14px;line-height:1.65;}
+        .ld-faq-more{display:inline-block;margin-top:18px;color:#0284c7;font-size:14px;font-weight:700;text-decoration:none;}
+        .ld-faq-more:hover{text-decoration:underline;}
+        @media (max-width:860px){
+          #bestsellers-product-grid,
+          #newarrivals-product-grid{gap:14px !important;}
+          #bestsellers-product-grid .product-card,
+          #newarrivals-product-grid .product-card{
+            flex-basis:240px !important;
+            width:240px !important;
+            max-width:240px !important;
+          }
+          .ld-about-home{margin:18px 12px 8px;padding:26px 20px;border-radius:20px;}
+          .ld-about-home h2{font-size:22px;}
+          .ld-faq-home{padding:22px 12px 8px;}
+          .ld-faq-grid{grid-template-columns:1fr;gap:12px;}
+        }
+      </style>
+
     <!-- WHY SHOP AT LUMA DEALS -->
     <section class="ld-why">
       <div class="home-section-heading">
@@ -5748,6 +5927,45 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           }
         }
       } catch (e) { /* featured strip must never break the page */ }
+      /* BEST SELLERS + NEW ARRIVALS (additive, 2026-11-10): two more live rows
+         below All Products, rendered once per catalog version into
+         #bestsellers-product-grid and #newarrivals-product-grid.
+         Uses the same productCardHTML cards as the main grids.
+         - New Arrivals = the 8 most recently added products (highest catalog IDs;
+           the catalog has no createdAt field, so ID order is the newest-first signal).
+         - Best Sellers = the store's 5-star rated products (no sales-count field
+           exists in the catalog; the 5-star rating is the closest real signal),
+           excluding the New Arrivals so the two rows never show the same product. */
+      try {
+        var __ldNewGrid = document.getElementById('newarrivals-product-grid');
+        if (__ldNewGrid && window.products && window.products.length > 0 && window.__ldNewArrSig !== window.__ldProductsSignature) {
+          window.__ldNewArrSig = window.__ldProductsSignature;
+          var __ldNew = window.products.filter(function (p) { return p && Number(p.price) > 0; })
+            .sort(function (a, b) { return Number(b.id) - Number(a.id); })
+            .slice(0, 8);
+          if (__ldNew.length > 0 && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(__ldNewGrid, __ldNew, productCardHTML, '');
+          }
+        }
+      } catch (e) { /* new arrivals strip must never break the page */ }
+      try {
+        var __ldBestGrid = document.getElementById('bestsellers-product-grid');
+        if (__ldBestGrid && window.products && window.products.length > 0 && window.__ldBestSig !== window.__ldProductsSignature) {
+          window.__ldBestSig = window.__ldProductsSignature;
+          var __ldNewIds = {};
+          window.products.filter(function (p) { return p && Number(p.price) > 0; })
+            .sort(function (a, b) { return Number(b.id) - Number(a.id); })
+            .slice(0, 8)
+            .forEach(function (p) { __ldNewIds[p.id] = true; });
+          var __ldBest = window.products.filter(function (p) {
+            return p && Number(p.price) > 0 && String(p.rating || '').indexOf('⭐⭐⭐⭐⭐') >= 0 && !__ldNewIds[p.id];
+          }).sort(function (a, b) { return Number(a.id) - Number(b.id); })
+            .slice(0, 8);
+          if (__ldBest.length > 0 && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(__ldBestGrid, __ldBest, productCardHTML, '');
+          }
+        }
+      } catch (e) { /* best sellers strip must never break the page */ }
 
     }
 
