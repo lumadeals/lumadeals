@@ -3070,7 +3070,8 @@ async function toggleLumaVoice() {
 
     const ai =
       new GoogleGenAI({
-        apiKey: token
+        apiKey: token,
+        httpOptions: { apiVersion: "v1alpha" }
       });
 
 
