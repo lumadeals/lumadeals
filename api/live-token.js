@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         newSessionExpireTime,
 
         liveConnectConstraints: {
-          model: "gemini-3.1-flash-live-preview",
+          model: "gemini-3.8-live",
 
           config: {
             responseModalities: ["AUDIO"],
