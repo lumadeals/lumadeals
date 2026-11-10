@@ -2813,6 +2813,137 @@ body {
   }
 }
 </style>
+
+<style id="ld-ai-mic-fix">
+/* ============================================================
+   LumaDeals AI — MIC BUTTON FIX
+   Fixes (user report 2026-11-10, from their phone screenshot):
+   (1) Tapping a button flashed a blue highlight square.
+       Root cause: the page's only tap-highlight rule targeted
+       #voiceButton, an element that DOES NOT EXIST — the real
+       button is #luma-ai-voice. So the browser default showed.
+   (2) When voice turned on, the mic "disappeared".
+       Root cause: startLumaVoice swaps the mic for a WHITE
+       stop-square, but the button's inline background:none
+       beat the .active blue gradient — white-on-white.
+   (3) The mic looked unprofessional: a transparent square
+       with a small blue icon, not a clean button.
+   Fix: kill the tap highlight on every button, and make the
+   mic a proper solid circle with a WHITE icon in every state
+   (idle = brand blue, live = rose "recording", connecting =
+   brand blue at 70% — always visible, never vanished).
+   Additive layer only; no JS, markup, chat or voice logic
+   touched.
+   ============================================================ */
+
+/* --- 1. No blue tap highlight anywhere on this page --- */
+button,
+a,
+input,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent;
+}
+button:focus,
+a:focus,
+input:focus {
+  outline: none;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(59, 180, 236, 0.7);
+  outline-offset: 2px;
+}
+
+/* --- 2. Professional mic button (idle) --- */
+#luma-ai-voice {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #3bb4ec, #1f8fc4) !important;
+  box-shadow: 0 4px 14px rgba(59, 180, 236, 0.45) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background 0.2s ease !important;
+}
+/* White mic icon in EVERY state (overrides the blue
+   fill="#3BB4EC" attributes on the idle mic SVG, and keeps
+   the white stop-square white when live). */
+#luma-ai-voice svg path,
+#luma-ai-voice svg rect {
+  fill: #ffffff !important;
+}
+#luma-ai-voice svg {
+  width: 22px !important;
+  height: 22px !important;
+  flex-shrink: 0 !important;
+}
+/* Pressed: subtle, professional — a slightly deeper blue,
+   never a highlight square. */
+#luma-ai-voice:active {
+  transform: scale(0.93) !important;
+  background: linear-gradient(135deg, #2aa5dd, #177ba8) !important;
+  box-shadow: 0 2px 8px rgba(59, 180, 236, 0.4) !important;
+}
+@media (hover: hover) {
+  #luma-ai-voice:hover {
+    box-shadow: 0 6px 18px rgba(59, 180, 236, 0.55) !important;
+  }
+}
+
+/* --- 3. Mic LIVE (voice on): rose "recording" circle ---
+   The white stop-square now sits on a solid rose background,
+   so it can never vanish. Red pulse ring (base pulse was
+   blue; a blue ring on a rose button looked wrong). */
+@keyframes lumaVoicePulseRed {
+  0% {
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.5),
+      0 0 0 0 rgba(244, 63, 94, 0.45);
+  }
+  70% {
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.5),
+      0 0 0 12px rgba(244, 63, 94, 0);
+  }
+  100% {
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.5),
+      0 0 0 0 rgba(244, 63, 94, 0);
+  }
+}
+#luma-ai-voice.active {
+  background: linear-gradient(135deg, #f43f5e, #e11d48) !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(244, 63, 94, 0.5) !important;
+  animation: lumaVoicePulseRed 1.4s infinite !important;
+}
+#luma-ai-voice.active:active {
+  background: linear-gradient(135deg, #e11d48, #be123c) !important;
+}
+
+/* --- 4. Connecting / disabled: still visible, never gone --- */
+#luma-ai-voice:disabled {
+  opacity: 0.7 !important;
+  cursor: wait !important;
+}
+
+/* --- 5. Same size on mobile (matches the send button) --- */
+@media (max-width: 900px) {
+  #luma-ai-voice {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+}
+</style>
 </head>
 
 
