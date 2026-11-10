@@ -1,7 +1,32 @@
 
 import { GoogleGenAI } from "@google/genai";
 
+const ALLOWED_ORIGINS = [
+  "https://ai.lumadeals.shop",
+  "https://www.lumadeals.shop",
+  "https://lumadeals.shop"
+];
+
 export default async function handler(req, res) {
+  const origin = req.headers.origin;
+
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://ai.lumadeals.shop"
+    );
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Max-Age", "86400");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed"
