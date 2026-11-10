@@ -2497,6 +2497,29 @@ LumaDeals AI
         <div class="ld-cat-grid" id="ld-cat-grid"></div>
       </section>
 
+      <!-- ldShopCategory: opens the shop filtered to one category.
+           Why a helper (not filterByCategory): filterByCategory renders the
+           filtered list FIRST and then calls showPage('shop'), but showPage
+           resets both product grids to the full catalog on every visit, so
+           the filter was silently wiped and the shop showed all 81 products.
+           This helper navigates FIRST (letting showPage do its reset), then
+           applies the filter, so the filtered list is what stays on screen. -->
+      <script>
+        function ldShopCategory(category) {
+          if (typeof showPage === 'function') showPage('shop');
+          var list = (window.products || []).filter(function (p) {
+            return String(p.category || '').trim().toLowerCase() === String(category || '').trim().toLowerCase();
+          });
+          var grid = document.getElementById('shop-product-grid');
+          if (grid && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(grid, list, productCardHTML, '<p style="padding:20px;color:#595959;">No products in this category yet.</p>');
+          }
+          var heading = document.getElementById('shop-heading');
+          if (heading) heading.innerText = category;
+          window.__ldCurrentCategory = category;
+        }
+      </script>
+
     <!-- WHY SHOP AT LUMA DEALS -->
     <section class="ld-why">
       <div class="home-section-heading">
@@ -6168,7 +6191,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
             var __ldCat = JSON.stringify(cat.name).replace(/"/g, '&quot;');
             var __ldImg = String(cat.img).replace(/"/g, '&quot;');
             var __ldCount = cat.count + (cat.count === 1 ? ' product' : ' products');
-            return '<div class="ld-cat-tile" role="button" tabindex="0" onclick="filterByCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();filterByCategory(' + __ldCat + ');}">' +
+            return '<div class="ld-cat-tile" role="button" tabindex="0" onclick="ldShopCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();ldShopCategory(' + __ldCat + ');}">' +
               '<img src="' + __ldImg + '" alt="" loading="lazy" decoding="async">' +
               '<div class="ld-cat-overlay"><h3>' + __ldName + '</h3><span>' + __ldCount + '</span></div>' +
               '</div>';
