@@ -2431,6 +2431,388 @@ body {
   box-shadow: 0 8px 22px rgba(20, 23, 26, .08);
 }
 </style>
+
+<style id="ld-ai-sidebar-layout">
+/* ============================================================
+   LumaDeals AI — SIDEBAR LAYOUT v1
+   A STRUCTURAL redesign, not a recolor:
+   desktop = dark sidebar (brand + New chat + working
+   shortcuts) + light chat column; hero hidden on desktop,
+   input docked at the bottom of the chat column, messages
+   scroll inside the chat column. Mobile = the sidebar
+   becomes a horizontal chips strip, hero becomes a compact
+   strip, chat-first. Brand: #3BB4EC / #14171A.
+   ============================================================ */
+
+/* ---- Shared sidebar base ---- */
+.luma-ai-sidebar {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #14171A 0%, #0f172a 100%);
+  color: #ffffff;
+}
+
+.luma-ai-side-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.luma-ai-side-brand img {
+  width: 44px;
+  height: 44px;
+  padding: 4px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .10);
+  border: 1px solid rgba(255, 255, 255, .20);
+}
+
+.luma-ai-side-brand-text strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.2px;
+  color: #ffffff;
+}
+
+.luma-ai-side-brand-text span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, .55);
+  margin-top: 3px;
+}
+
+.luma-ai-side-new {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3bb4ec, #269dcc);
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+  font-family: inherit;
+  box-shadow: 0 8px 20px rgba(59, 180, 236, .35);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.luma-ai-side-new:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(59, 180, 236, .45);
+}
+
+.luma-ai-side-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .45);
+}
+
+.luma-ai-side-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.luma-ai-side-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, .88);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background .15s ease, color .15s ease;
+}
+
+.luma-ai-side-nav button:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #ffffff;
+}
+
+.luma-ai-side-nav button::before {
+  content: "›";
+  color: #3bb4ec;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.luma-ai-side-foot {
+  font-size: 12px;
+  color: rgba(255, 255, 255, .40);
+}
+
+/* ============================================================
+   DESKTOP (>= 901px): two-column app shell
+   ============================================================ */
+@media (min-width: 901px) {
+  body {
+    background: #f4f8fb;
+  }
+
+  .ai-orb {
+    opacity: .06;
+  }
+
+  /* Page = sidebar + chat, full viewport height */
+  .luma-ai-page {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "side top"
+      "side chat";
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  /* Sidebar: full-height dark column */
+  .luma-ai-sidebar {
+    grid-area: side;
+    padding: 22px 18px;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, .08);
+  }
+
+  .luma-ai-side-brand {
+    margin-bottom: 20px;
+  }
+
+  .luma-ai-side-new {
+    margin-bottom: 22px;
+  }
+
+  .luma-ai-side-label {
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+
+  .luma-ai-side-nav {
+    gap: 4px;
+  }
+
+  .luma-ai-side-foot {
+    margin-top: auto;
+    padding-top: 20px;
+  }
+
+  /* Topbar = chat header (right column only).
+     Brand lives in the sidebar now, so hide it here. */
+  .luma-ai-topbar {
+    grid-area: top;
+    justify-content: flex-end;
+    min-height: 64px;
+    padding: 10px 24px;
+  }
+
+  .luma-ai-topbar .luma-brand {
+    display: none;
+  }
+
+  /* Hero hidden on desktop — its content is in the sidebar */
+  .ai-hero {
+    display: none;
+  }
+
+  /* Chat column fills the grid area */
+  .luma-ai-container {
+    grid-area: chat;
+    height: auto;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .luma-ai-container::before {
+    display: none;
+  }
+
+  /* Aurora hidden — clean chat column */
+  .luma-aurora-center {
+    display: none;
+  }
+
+  #luma-ai-messages {
+    padding: 20px 28px 16px;
+  }
+
+  /* Input docked at the bottom of the chat column
+     (no longer a floating fixed pill) */
+  .luma-ai-input-area {
+    position: static !important;
+    transform: none;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    flex: 0 0 auto;
+    min-height: 62px;
+    margin: 0;
+    padding: 10px 20px;
+    border: none;
+    border-top: 1px solid #e6eef3;
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: none;
+  }
+
+  /* Voice pill + caption centre on the CHAT column,
+     above the docked input */
+  #luma-ai-voice-status {
+    left: calc(300px + (100vw - 300px) / 2);
+    bottom: 88px;
+  }
+
+  #luma-live-caption {
+    left: calc(300px + (100vw - 300px) / 2);
+    bottom: 152px;
+    width: min(700px, calc(100vw - 340px));
+  }
+}
+
+/* ============================================================
+   MOBILE (<= 900px): sidebar becomes a chips strip,
+   hero becomes a compact strip, chat-first.
+   ============================================================ */
+@media (max-width: 900px) {
+  .luma-ai-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sidebar = horizontal scrollable chips below the topbar */
+  .luma-ai-sidebar {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #ffffff;
+    border-bottom: 1px solid #e6eef3;
+    scrollbar-width: none;
+  }
+
+  .luma-ai-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .luma-ai-side-brand,
+  .luma-ai-side-label,
+  .luma-ai-side-foot {
+    display: none;
+  }
+
+  .luma-ai-side-new {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 8px 14px;
+    margin: 0;
+    border-radius: 999px;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(59, 180, 236, .30);
+  }
+
+  .luma-ai-side-nav {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .luma-ai-side-nav button {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 8px 14px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    color: #14171A;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .luma-ai-side-nav button::before {
+    content: none;
+  }
+
+  .luma-ai-side-nav button:hover {
+    background: rgba(59, 180, 236, .12);
+    border-color: rgba(59, 180, 236, .40);
+    color: #14171A;
+  }
+
+  /* Hero = compact horizontal strip */
+  .ai-hero {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    align-items: center;
+    text-align: left;
+    padding: 14px 16px;
+  }
+
+  .ai-avatar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 48px;
+    height: 48px;
+    padding: 6px;
+    margin: 0;
+    border-radius: 14px;
+  }
+
+  .ai-avatar img {
+    border-radius: 10px;
+  }
+
+  .ai-hero h1 {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 22px;
+    letter-spacing: -.8px;
+  }
+
+  .ai-hero p {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 12.5px;
+    margin: 0;
+  }
+
+  .luma-aurora-center {
+    display: none;
+  }
+
+  /* Input stays fixed (base) with safe-area;
+     voice pill + caption clear it */
+  .luma-ai-input-area {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #luma-ai-voice-status {
+    bottom: 96px;
+  }
+
+  #luma-live-caption {
+    bottom: 152px;
+    width: calc(100vw - 32px);
+  }
+}
+</style>
 </head>
 
 
@@ -2478,6 +2860,62 @@ body {
 
   </header>
 
+
+
+  <!-- SIDEBAR -->
+  <aside class="luma-ai-sidebar" id="luma-ai-sidebar">
+
+    <div class="luma-ai-side-brand">
+      <img
+        src="./images/assets/luma-deals-ai-logo.jpg"
+        alt="Luma Deals"
+      >
+      <div class="luma-ai-side-brand-text">
+        <strong>LumaDeals AI</strong>
+        <span>SMART SHOPPING ASSISTANT</span>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="luma-ai-side-new"
+      onclick="lumaAINewChat()"
+    >
+      + New chat
+    </button>
+
+    <div class="luma-ai-side-label">Shortcuts</div>
+
+    <nav class="luma-ai-side-nav">
+      <button
+        type="button"
+        onclick="lumaAIShortcut('Show me the best deals today')"
+      >Best deals</button>
+      <button
+        type="button"
+        onclick="lumaAIShortcut('Show me watches')"
+      >Watches</button>
+      <button
+        type="button"
+        onclick="lumaAIShortcut('Show me new arrivals')"
+      >New arrivals</button>
+      <button
+        type="button"
+        onclick="lumaAIShortcut('How do I track my order?')"
+      >Track my order</button>
+      <button
+        type="button"
+        onclick="window.location.href='/?page=shop'"
+      >Shop all</button>
+      <button
+        type="button"
+        onclick="window.location.href='/?page=wishlist'"
+      >Wishlist</button>
+    </nav>
+
+    <div class="luma-ai-side-foot">Powered by Luma Deals</div>
+
+  </aside>
 
 
   <!-- HERO -->
@@ -2993,6 +3431,45 @@ function hideLumaVoiceStatus() {
 /* =========================================
    START / STOP VOICE
    ========================================= */
+
+/* =========================
+   SIDEBAR SHORTCUTS
+========================= */
+
+/* Fill the input with a preset question and send it. */
+function lumaAIShortcut(query) {
+
+  const input =
+    document.getElementById(
+      "luma-ai-input"
+    );
+
+  if (!input) return;
+
+  input.value = query;
+
+  sendLumaAIMessage();
+}
+
+
+/* Start a fresh chat: clear history + messages, restore greeting. */
+function lumaAINewChat() {
+
+  const container =
+    document.getElementById(
+      "luma-ai-messages"
+    );
+
+  if (!container) return;
+
+  lumaAIHistory = [];
+
+  container.innerHTML =
+    '<div class="luma-ai-message ai">👋 Hi! I\'m <strong>LumaDeals AI</strong>.<br>How can I help you today?</div>';
+
+  container.scrollTop = 0;
+}
+
 
 async function toggleLumaVoice() {
   if (lumaVoiceActive) {
