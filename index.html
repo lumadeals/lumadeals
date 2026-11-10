@@ -13962,11 +13962,12 @@ body.dark-mode hr,body.dark-mode .divider{border-color:#30434f!important}
 body.dark-mode .luma-success-text{color:#b4c4cd}
 @media(prefers-reduced-motion:reduce){#page-appearance .appearance-option{transition:none}}
 </style>
-<style id="ld-wishlist-v2">
-/* Luma Deals — Wishlist v2 "Midnight Collection" (2026-11-10).
-   Replaces ld-wishlist-premium-v1 (light/blue) with a dark editorial
-   header + cohesive dark empty state. CSS-only: no JS, no logic,
-   guest login popup untouched. */
+<style id="ld-wishlist-v3">
+/* Luma Deals — Wishlist v3 "Collection List" (2026-11-10).
+   STRUCTURAL redesign, not a recolour: saved items are now a list of
+   horizontal rows (thumbnail left, details + actions right) instead of
+   the shop grid. Dark header / toolbar / empty state kept from v2.
+   CSS-only: no JS, no logic, guest login popup untouched. */
 #page-wishlist .ld-wishlist-page{max-width:1440px;margin:0 auto;padding-top:28px}
 #page-wishlist .ld-wishlist-header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:28px;overflow:hidden;margin:0 0 22px;padding:36px 38px;border:1px solid rgba(59,180,236,.24);border-radius:24px;background:radial-gradient(circle at 88% 0%,rgba(59,180,236,.30),transparent 44%),linear-gradient(120deg,#0e1a22 0%,#14171A 55%,#101d26 100%);box-shadow:0 18px 44px rgba(10,25,35,.28)}
 #page-wishlist .ld-wishlist-header:after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border:1px solid rgba(59,180,236,.25);border-radius:50%;box-shadow:0 0 0 24px rgba(59,180,236,.06),0 0 0 48px rgba(59,180,236,.03);pointer-events:none}
@@ -13985,8 +13986,18 @@ body.dark-mode .luma-success-text{color:#b4c4cd}
 #page-wishlist .ld-wishlist-toolbar small{margin-top:3px;color:#8a9ba6;font-size:11px}
 #page-wishlist .ld-wishlist-toolbar button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:0 18px;border:1px solid #0a7fb0;border-radius:12px;background:linear-gradient(135deg,#3BB4EC,#0a7fb0);color:#fff;font-size:13px;font-weight:700;box-shadow:0 8px 18px rgba(59,180,236,.28);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
 #page-wishlist .ld-wishlist-toolbar button:active{transform:translateY(2px);box-shadow:0 3px 8px rgba(59,180,236,.28)}
-#page-wishlist #wishlist-products{align-items:stretch}
-#page-wishlist #wishlist-products .product-card{border:1px solid rgba(59,180,236,.28)!important;box-shadow:0 10px 28px rgba(20,60,90,.10)!important}
+/* --- Saved items as horizontal rows (the structural change) --- */
+#page-wishlist #wishlist-products{display:flex!important;flex-direction:column;gap:14px;align-items:stretch}
+#page-wishlist #wishlist-products .product-card{flex-direction:row!important;align-items:stretch;text-align:left;border:1px solid rgba(59,180,236,.28)!important;box-shadow:0 10px 28px rgba(20,60,90,.10)!important}
+#page-wishlist #wishlist-products .product-card:hover{transform:translateY(-2px)!important}
+#page-wishlist #wishlist-products .product-image-wrap{flex:0 0 168px;position:relative;display:flex;align-items:center;justify-content:center;padding:10px!important}
+#page-wishlist #wishlist-products .product-image-wrap a{display:block;width:100%}
+#page-wishlist #wishlist-products .product-image-wrap img{width:100%;height:148px;object-fit:contain}
+#page-wishlist #wishlist-products .product-info{flex:1;min-width:0;padding:18px 20px 16px!important}
+#page-wishlist #wishlist-products .product-info h4{min-height:0!important;font-size:15px!important}
+#page-wishlist #wishlist-products .product-info .rating{margin:6px 0!important}
+#page-wishlist #wishlist-products .product-info .price-row{margin-top:2px}
+#page-wishlist #wishlist-products .product-info .add-cart-btn{margin-top:12px!important;align-self:flex-start;padding:10px 20px!important}
 #page-wishlist .ld-wishlist-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;margin:6px 0 24px;padding:40px 22px;text-align:center;border:1px solid rgba(59,180,236,.24);border-radius:24px;background:radial-gradient(circle at 50% 0%,rgba(59,180,236,.18),transparent 48%),linear-gradient(160deg,#101d26,#14171A);box-shadow:0 18px 44px rgba(10,25,35,.25)}
 #page-wishlist .ld-wishlist-empty-art{position:relative;display:grid;place-items:center;width:104px;height:104px;margin-bottom:22px;border:1px solid rgba(59,180,236,.35);border-radius:30px;background:rgba(255,255,255,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 28px rgba(0,0,0,.28);transform:rotate(-4deg)}
 #page-wishlist .ld-wishlist-empty-heart{color:#3BB4EC;font-size:62px;font-weight:300;line-height:1}
@@ -14000,8 +14011,8 @@ body.dark-mode #page-wishlist .ld-wishlist-header{background:radial-gradient(cir
 body.dark-mode #page-wishlist .ld-wishlist-toolbar{border-color:#26343e}
 body.dark-mode #page-wishlist .ld-wishlist-toolbar strong{color:#edf6fa}
 body.dark-mode #page-wishlist .ld-wishlist-toolbar small{color:#8fa6b2}
-@media(max-width:700px){#page-wishlist .ld-wishlist-page{padding:18px 12px 30px}#page-wishlist .ld-wishlist-header{flex-direction:column;align-items:flex-start;gap:18px;padding:26px 20px;border-radius:20px}#page-wishlist .ld-wishlist-header:after{right:-90px;top:-90px}#page-wishlist .ld-wishlist-heading p{max-width:260px;font-size:12px}#page-wishlist .ld-wishlist-count{min-width:0;padding:11px 13px;gap:10px}#page-wishlist .ld-wishlist-count-icon{width:38px;height:38px;font-size:24px}#page-wishlist .ld-wishlist-count strong{font-size:19px}#page-wishlist .ld-wishlist-toolbar{align-items:flex-end}#page-wishlist .ld-wishlist-toolbar button{min-height:38px;padding:0 13px;font-size:12px}#page-wishlist .ld-wishlist-empty{min-height:320px;padding:32px 18px;border-radius:20px}#page-wishlist .ld-wishlist-empty-art{width:88px;height:88px;border-radius:25px}#page-wishlist .ld-wishlist-empty-heart{font-size:53px}}
-@media(max-width:380px){#page-wishlist .ld-wishlist-header{gap:14px;padding:22px 15px}#page-wishlist .ld-wishlist-heading h1{font-size:26px}#page-wishlist .ld-wishlist-heading p{max-width:210px}#page-wishlist .ld-wishlist-count{padding:10px}#page-wishlist .ld-wishlist-toolbar button{font-size:11px}}
+@media(max-width:700px){#page-wishlist .ld-wishlist-page{padding:18px 12px 30px}#page-wishlist .ld-wishlist-header{flex-direction:column;align-items:flex-start;gap:18px;padding:26px 20px;border-radius:20px}#page-wishlist .ld-wishlist-header:after{right:-90px;top:-90px}#page-wishlist .ld-wishlist-heading p{max-width:260px;font-size:12px}#page-wishlist .ld-wishlist-count{min-width:0;padding:11px 13px;gap:10px}#page-wishlist .ld-wishlist-count-icon{width:38px;height:38px;font-size:24px}#page-wishlist .ld-wishlist-count strong{font-size:19px}#page-wishlist .ld-wishlist-toolbar{align-items:flex-end}#page-wishlist .ld-wishlist-toolbar button{min-height:38px;padding:0 13px;font-size:12px}#page-wishlist #wishlist-products{gap:10px}#page-wishlist #wishlist-products .product-image-wrap{flex-basis:118px;padding:8px!important}#page-wishlist #wishlist-products .product-image-wrap img{height:108px}#page-wishlist #wishlist-products .product-info{padding:12px 14px!important}#page-wishlist #wishlist-products .product-info h4{font-size:13px!important}#page-wishlist #wishlist-products .product-info .price{font-size:16px!important}#page-wishlist #wishlist-products .product-info .add-cart-btn{padding:9px 14px!important;font-size:12px!important}#page-wishlist #wishlist-products .product-card .wishlist-btn{top:8px!important;right:8px!important;width:32px!important;height:32px!important}#page-wishlist .ld-wishlist-empty{min-height:320px;padding:32px 18px;border-radius:20px}#page-wishlist .ld-wishlist-empty-art{width:88px;height:88px;border-radius:25px}#page-wishlist .ld-wishlist-empty-heart{font-size:53px}}
+@media(max-width:380px){#page-wishlist .ld-wishlist-header{gap:14px;padding:22px 15px}#page-wishlist .ld-wishlist-heading h1{font-size:26px}#page-wishlist .ld-wishlist-heading p{max-width:210px}#page-wishlist .ld-wishlist-count{padding:10px}#page-wishlist .ld-wishlist-toolbar button{font-size:11px}#page-wishlist #wishlist-products .product-image-wrap{flex-basis:102px}#page-wishlist #wishlist-products .product-image-wrap img{height:96px}}
 </style>
 </body>
 </html>
