@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 const PROJECT_ID = "luma-deals";
-const MODEL = "gemini-2.5-flash";
+const MODEL = "gemini-3.8-flash";
 
 const ALLOWED_ORIGINS = [
   "https://ai.lumadeals.shop",
