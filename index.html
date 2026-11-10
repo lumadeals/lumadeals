@@ -2457,6 +2457,46 @@ LumaDeals AI
         }
       </style>
 
+      <!-- SHOP BY CATEGORY SHOWCASE (home): visual photo tiles with live
+           product counts, between FAQ and Why Shop. Rendered by JS below:
+           categories are grouped live from the catalog, so the tiles and
+           counts stay accurate as products are added or removed. Each tile
+           shows the first product photo of its category and opens the shop
+           filtered to that category (filterByCategory). Unlike the emoji
+           category row near the top, this one uses real product photos. -->
+      <style id="ld-category-showcase-css">
+        .ld-category-showcase{margin:26px 50px 8px;}
+        .ld-category-showcase .home-section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;}
+        .ld-category-showcase .home-section-heading span{display:block;color:#0284c7;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+        .ld-category-showcase .home-section-heading h2{margin:0;color:#14171A;font-size:24px;font-weight:800;}
+        .ld-category-showcase .home-section-heading button{border:1px solid #dbe7ee;background:#ffffff;color:#0284c7;font-size:13px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap;}
+        .ld-category-showcase .home-section-heading button:hover{border-color:#3BB4EC;color:#0e86b8;}
+        .ld-cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+        .ld-cat-tile{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;background:#f4f8fb;border:1px solid #e6eef3;box-shadow:0 6px 18px rgba(15,45,65,.07);transition:transform .3s ease,box-shadow .3s ease;}
+        .ld-cat-tile:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(15,45,65,.14);}
+        .ld-cat-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease;}
+        .ld-cat-tile:hover img{transform:scale(1.05);}
+        .ld-cat-overlay{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(180deg,transparent,rgba(10,20,28,.72));color:#ffffff;text-align:left;}
+        .ld-cat-overlay h3{margin:0;color:#ffffff;font-size:17px;font-weight:800;line-height:1.25;}
+        .ld-cat-overlay span{display:block;margin-top:2px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;}
+        @media (max-width:860px){
+          .ld-category-showcase{margin:18px 12px 8px;}
+          .ld-cat-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+          .ld-category-showcase .home-section-heading h2{font-size:20px;}
+          .ld-cat-overlay h3{font-size:15px;}
+        }
+      </style>
+      <section class="ld-category-showcase" id="category-showcase">
+        <div class="home-section-heading">
+          <div>
+            <span>Browse by Category</span>
+            <h2>Shop by Category</h2>
+          </div>
+          <button onclick="showPage('shop')">View All &rarr;</button>
+        </div>
+        <div class="ld-cat-grid" id="ld-cat-grid"></div>
+      </section>
+
     <!-- WHY SHOP AT LUMA DEALS -->
     <section class="ld-why">
       <div class="home-section-heading">
@@ -6105,6 +6145,36 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           }
         }
       } catch (e) { /* deal of the day must never break the page */ }
+      /* SHOP BY CATEGORY SHOWCASE (additive, 2026-11-10): visual photo tiles
+         with live product counts, rendered once per catalog version into
+         #ld-cat-grid. Categories are grouped live from the catalog (name +
+         count + first product photo as the tile image), sorted by count
+         descending, so the tiles stay accurate as the catalog changes.
+         Clicking a tile opens the shop filtered to that category. */
+      try {
+        var __ldCatGrid = document.getElementById('ld-cat-grid');
+        if (__ldCatGrid && window.products && window.products.length > 0 && window.__ldCatSig !== window.__ldProductsSignature) {
+          window.__ldCatSig = window.__ldProductsSignature;
+          var __ldCats = {};
+          window.products.forEach(function (p) {
+            var c = (p && p.category ? String(p.category).trim() : 'Other') || 'Other';
+            if (!__ldCats[c]) __ldCats[c] = { name: c, count: 0, img: '' };
+            __ldCats[c].count++;
+            if (!__ldCats[c].img) __ldCats[c].img = (typeof ldImg === 'function') ? ldImg(p.img || p.image || (p.images && p.images[0]) || '', 500) : (p.img || '');
+          });
+          var __ldCatList = Object.keys(__ldCats).map(function (k) { return __ldCats[k]; }).sort(function (a, b) { return b.count - a.count; });
+          __ldCatGrid.innerHTML = __ldCatList.map(function (cat) {
+            var __ldName = String(cat.name).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            var __ldCat = JSON.stringify(cat.name);
+            var __ldImg = String(cat.img).replace(/"/g, '&quot;');
+            var __ldCount = cat.count + (cat.count === 1 ? ' product' : ' products');
+            return '<div class="ld-cat-tile" role="button" tabindex="0" onclick="filterByCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();filterByCategory(' + __ldCat + ');}">' +
+              '<img src="' + __ldImg + '" alt="" loading="lazy" decoding="async">' +
+              '<div class="ld-cat-overlay"><h3>' + __ldName + '</h3><span>' + __ldCount + '</span></div>' +
+              '</div>';
+          }).join('');
+        }
+      } catch (e) { /* category showcase must never break the page */ }
 
     }
 
