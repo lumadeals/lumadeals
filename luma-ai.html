@@ -2431,6 +2431,389 @@ body {
   box-shadow: 0 8px 22px rgba(20, 23, 26, .08);
 }
 </style>
+
+<style id="ld-ai-bold-gradient">
+/* ============================================================
+   LumaDeals AI — BOLD GRADIENT v1
+   Rich, vibrant brand-blue-to-violet gradient page.
+   Deliberately MUCH different from the old light look:
+   dark vivid gradient background, white text, glass panels,
+   vivid gradient accents. CSS only — no JS, no markup,
+   no behaviour change. Brand: #3BB4EC / #14171A + violet.
+   ============================================================ */
+
+/* ---- Page: bold fixed gradient, white text ---- */
+body {
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 15% -10%,
+      rgba(59, 180, 236, .55),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 90% 110%,
+      rgba(124, 58, 237, .55),
+      transparent 45%
+    ),
+    linear-gradient(
+      160deg,
+      #0f172a 0%,
+      #1e3a8a 30%,
+      #2563eb 55%,
+      #7c3aed 80%,
+      #5b21b6 100%
+    );
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Orbs become vivid gradient glow */
+.ai-orb {
+  opacity: .5;
+  filter: blur(2px);
+}
+
+.ai-orb.one {
+  background: #3bb4ec;
+}
+
+.ai-orb.two {
+  background: #a78bfa;
+}
+
+/* ---- Topbar: transparent glass over the gradient ---- */
+.luma-ai-topbar {
+  background: rgba(15, 23, 42, .55);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  border-bottom: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, .35);
+}
+
+.luma-brand-text strong {
+  color: #ffffff;
+}
+
+.luma-brand-text span {
+  color: rgba(255, 255, 255, .65);
+}
+
+.luma-logo {
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .30);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, .35), 0 0 0 3px rgba(255, 255, 255, .06);
+}
+
+.back-button {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .30);
+  background: rgba(255, 255, 255, .12);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(2, 6, 23, .25);
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, .22);
+  border-color: rgba(255, 255, 255, .55);
+  box-shadow: 0 8px 22px rgba(2, 6, 23, .35);
+}
+
+/* ---- Hero: big, bold, glowing ---- */
+.ai-hero {
+  padding: 44px 20px 26px;
+}
+
+.ai-avatar {
+  width: 104px;
+  height: 104px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .35);
+  box-shadow: 0 20px 50px rgba(2, 6, 23, .45), 0 0 0 4px rgba(255, 255, 255, .06), 0 0 46px rgba(124, 58, 237, .45);
+}
+
+.ai-avatar img {
+  border-radius: 20px;
+  filter: drop-shadow(0 6px 12px rgba(2, 6, 23, .4));
+}
+
+.ai-hero h1 {
+  font-size: clamp(38px, 7vw, 58px);
+  letter-spacing: -1.8px;
+  background: linear-gradient(
+    92deg,
+    #ffffff 10%,
+    #bae6fd 42%,
+    #c4b5fd 75%,
+    #f0abfc 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.ai-hero p {
+  color: rgba(255, 255, 255, .78);
+  font-size: 16px;
+}
+
+/* ---- Aurora: vivid ambient light ---- */
+.luma-aurora-center {
+  opacity: .8;
+}
+
+.luma-ai-glow {
+  opacity: .8;
+}
+
+/* ---- Messages: glass AI, vivid gradient user ---- */
+#luma-ai-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .35);
+}
+
+#luma-ai-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .55);
+}
+
+.luma-ai-message {
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+.luma-ai-message.ai {
+  background: rgba(255, 255, 255, .13);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .24);
+  color: #ffffff;
+  box-shadow: 0 10px 28px rgba(2, 6, 23, .30);
+}
+
+.luma-ai-message.user {
+  background: linear-gradient(135deg, #3bb4ec, #7c3aed);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, .30);
+  box-shadow: 0 10px 26px rgba(124, 58, 237, .40);
+}
+
+.luma-ai-message.error {
+  background: rgba(220, 38, 38, .22);
+  border: 1px solid rgba(255, 255, 255, .25);
+  color: #fecaca;
+}
+
+/* ---- Input: dark glass pill ---- */
+.luma-ai-input-area {
+  background: rgba(10, 14, 30, .62);
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, .28);
+  box-shadow: 0 18px 44px rgba(2, 6, 23, .50), 0 0 0 4px rgba(124, 58, 237, .14), inset 0 1px 0 rgba(255, 255, 255, .14);
+}
+
+#luma-ai-input {
+  color: #ffffff;
+}
+
+#luma-ai-input::placeholder {
+  color: rgba(255, 255, 255, .55);
+}
+
+/* Voice button: vivid gradient circle, white mic.
+   !important beats the button's inline background/border/padding. */
+#luma-ai-voice {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, .40) !important;
+  background: linear-gradient(135deg, #3bb4ec, #7c3aed) !important;
+  box-shadow: 0 8px 22px rgba(124, 58, 237, .45) !important;
+}
+
+#luma-ai-voice svg path {
+  fill: #ffffff;
+}
+
+#luma-ai-voice:hover {
+  box-shadow: 0 12px 28px rgba(124, 58, 237, .60) !important;
+}
+
+#luma-ai-voice.active {
+  background: linear-gradient(135deg, #7c3aed, #3bb4ec) !important;
+  border-color: rgba(255, 255, 255, .65) !important;
+}
+
+/* Send button: vivid violet-to-blue circle, white arrow */
+#luma-ai-send {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 18px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, .50);
+}
+
+#luma-ai-send:hover {
+  box-shadow: 0 12px 28px rgba(124, 58, 237, .60);
+}
+
+/* ---- Voice status pill: vivid gradient, clear of the input ---- */
+#luma-ai-voice-status {
+  bottom: 100px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: 1px solid rgba(255, 255, 255, .40);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(2, 6, 23, .45), 0 0 0 4px rgba(255, 255, 255, .08);
+}
+
+/* ---- Live caption: dark glass card above the voice pill ---- */
+#luma-live-caption {
+  bottom: 164px;
+  background: rgba(10, 14, 30, .78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, .24);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, .45);
+}
+
+/* ---- Product cards: white with a vivid gradient top edge ---- */
+.luma-ai-product-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, .5);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, .35);
+}
+
+.luma-ai-product-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3bb4ec, #7c3aed, #ec4899);
+}
+
+.luma-ai-product-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, .8);
+  box-shadow: 0 20px 44px rgba(2, 6, 23, .45), 0 0 0 3px rgba(124, 58, 237, .22);
+}
+
+.luma-ai-product-name {
+  color: #14171A;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .ai-avatar,
+  #luma-ai-voice.active {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   MOBILE (<= 640px): same bold gradient, compact hero,
+   full-width glass chat, thumb-friendly input, no overlap.
+   ============================================================ */
+@media (max-width: 640px) {
+  body {
+    background:
+      radial-gradient(
+        circle at 15% -5%,
+        rgba(59, 180, 236, .5),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 90% 105%,
+        rgba(124, 58, 237, .5),
+        transparent 48%
+      ),
+      linear-gradient(
+        165deg,
+        #0f172a 0%,
+        #1e3a8a 32%,
+        #2563eb 58%,
+        #7c3aed 82%,
+        #5b21b6 100%
+      );
+    background-attachment: fixed;
+  }
+
+  .luma-ai-topbar {
+    min-height: 60px;
+    padding: 10px 16px;
+  }
+
+  .luma-brand-text strong {
+    color: #ffffff;
+  }
+
+  .luma-brand-text span {
+    color: rgba(255, 255, 255, .65);
+  }
+
+  .ai-hero {
+    padding: 30px 16px 18px;
+  }
+
+  .ai-avatar {
+    width: 84px;
+    height: 84px;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 24px;
+  }
+
+  .ai-hero h1 {
+    font-size: 36px;
+    letter-spacing: -1.4px;
+  }
+
+  .ai-hero p {
+    font-size: 14.5px;
+  }
+
+  .luma-ai-message {
+    font-size: 15px;
+  }
+
+  .luma-ai-input-area {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #luma-ai-voice {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px;
+  }
+
+  #luma-ai-send {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Voice pill sits cleanly above the input, never on it */
+  #luma-ai-voice-status {
+    bottom: 96px;
+  }
+
+  #luma-live-caption {
+    bottom: 152px;
+    width: calc(100vw - 32px);
+  }
+}
+</style>
 </head>
 
 
