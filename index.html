@@ -13503,6 +13503,18 @@ padding: 22px;
 </style>
   
 
+<!-- PRODUCT IMAGES CLEAR (2026-11-10): the premium 3D card layer put a
+     72%-white gloss gradient (.product-card:before, z-index:1) ON TOP of
+     the whole card, so a milky white veil sat over every product photo.
+     It also tilted each photo in 3D (perspective + translateZ), which
+     softens the render on phones. This additive override removes the
+     veil and renders each photo flat and crisp. No other card styling
+     (border, shadow, hover zoom, badges, wishlist) is changed. -->
+<style id="ld-product-image-clear-css">
+  .product-card:before{display:none !important;}
+  .product-image-wrap>img{transform:none !important;}
+</style>
+
 <style id="ld-related-premium-v1">
 .ld-related-section{--ld-related-blue:#3BB4EC;margin:34px 0 20px!important;padding:clamp(16px,2.4vw,28px)!important;border:1px solid rgba(59,180,236,.18)!important;border-radius:26px!important;background:radial-gradient(circle at 100% 0%,rgba(59,180,236,.10),transparent 34%),linear-gradient(145deg,#f8fcff 0%,#fff 58%,#f5fbff 100%)!important;box-shadow:0 14px 38px rgba(20,23,26,.055),inset 0 1px 0 #fff!important;overflow:hidden}
 .ld-related-heading{display:flex;align-items:flex-start;justify-content:flex-start;gap:16px;margin:0 0 22px;padding:0 2px 15px;border-bottom:1px solid rgba(59,180,236,.16);position:relative}
