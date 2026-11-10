@@ -2197,6 +2197,266 @@ LumaDeals AI
     </section>
 
 
+      <!-- BEST SELLERS: live row of the store's 5-star rated products.
+           Rendered by JS below (same productCardHTML cards as Featured).
+           "Best Sellers" = 5-star rated products; the catalog has no sales-count
+           field, so the 5-star rating is the closest real signal. -->
+      <section class="ld-featured">
+        <div class="home-section-heading">
+          <div>
+            <span>MOST LOVED</span>
+            <h2>Best Sellers</h2>
+          </div>
+          <button onclick="showPage('shop')">View All &rarr;</button>
+        </div>
+        <p class="ld-section-sub">Our highest-rated products &mdash; the ones customers love most. Rendered live from our product catalog, so prices and discounts are always current.</p>
+        <div class="product-grid" id="bestsellers-product-grid"></div>
+      </section>
+
+      <!-- NEW ARRIVALS: live row of the most recently added products.
+           Rendered by JS below. "New Arrivals" = the 8 highest catalog IDs;
+           the catalog has no createdAt field, so ID order is the newest-first signal. -->
+      <section class="ld-featured">
+        <div class="home-section-heading">
+          <div>
+            <span>JUST IN</span>
+            <h2>New Arrivals</h2>
+          </div>
+          <button onclick="showPage('shop')">View All &rarr;</button>
+        </div>
+        <p class="ld-section-sub">The newest additions to our store. Rendered live from our product catalog, so prices and discounts are always current.</p>
+        <div class="product-grid" id="newarrivals-product-grid"></div>
+      </section>
+
+      <!-- DEAL OF THE DAY: one spotlight product + a live countdown to midnight.
+           Rendered by JS below. The product rotates daily: the pool is the top 7
+           by real discount, picked by day-of-year, so a new deal shows every day.
+           Prices, discount and savings are all computed live from the catalog. -->
+      <style id="ld-deal-day-css">
+        .ld-deal-day{margin:26px 50px 8px;}
+        .ld-deal-day-inner{
+          display:flex;gap:28px;align-items:center;
+          background:#ffffff;border:1px solid #e6eef3;border-radius:24px;
+          box-shadow:0 12px 30px rgba(15,45,65,.08);
+          padding:28px 32px;
+        }
+        .ld-deal-img{flex:0 0 320px;}
+        .ld-deal-img img{width:100%;height:320px;object-fit:cover;border-radius:18px;border:1px solid #e2ebf0;display:block;}
+        .ld-deal-info{flex:1;min-width:0;}
+        .ld-deal-badge{display:inline-block;background:#e5484d;color:#ffffff;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:6px 12px;border-radius:999px;}
+        .ld-deal-save{display:inline-block;background:#eaf7ee;color:#15803d;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;margin-left:8px;}
+        .ld-deal-info h3{margin:14px 0 10px;color:#14171A;font-size:24px;font-weight:800;line-height:1.3;}
+        .ld-deal-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+        .ld-deal-now{color:#0e86b8;font-size:28px;font-weight:800;}
+        .ld-deal-was{color:#8b9ba4;font-size:16px;text-decoration:line-through;}
+        .ld-deal-off{background:#eaf7ee;color:#15803d;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;}
+        .ld-deal-count{margin-top:18px;}
+        .ld-deal-count-label{color:#5b6f7b;font-size:13px;font-weight:700;}
+        .ld-deal-timer{display:flex;align-items:center;gap:8px;margin-top:8px;}
+        .ld-deal-t{display:flex;flex-direction:column;align-items:center;background:#0f161b;border-radius:12px;padding:10px 0;width:72px;}
+        .ld-deal-t b{color:#ffffff;font-size:26px;font-weight:800;line-height:1;}
+        .ld-deal-t span{color:#8fd8f8;font-size:10px;font-weight:700;letter-spacing:1px;margin-top:4px;text-transform:uppercase;}
+        .ld-deal-timer > span{color:#5b6f7b;font-size:22px;font-weight:800;}
+        .ld-deal-btn{margin-top:20px;border:none;cursor:pointer;background:linear-gradient(135deg,#3BB4EC,#0e86b8);color:#ffffff;font-size:15px;font-weight:800;padding:13px 26px;border-radius:14px;box-shadow:0 8px 20px rgba(14,134,184,.25);}
+        .ld-deal-btn:hover{filter:brightness(1.06);}
+        .ld-deal-note{display:block;margin-top:12px;color:#8b9ba4;font-size:12px;}
+        @media (max-width:860px){
+          .ld-deal-day{margin:18px 12px 8px;}
+          .ld-deal-day-inner{flex-direction:column;align-items:stretch;gap:18px;padding:20px;}
+          .ld-deal-img{flex:none;}
+          .ld-deal-img img{height:260px;}
+          .ld-deal-info h3{font-size:20px;}
+          .ld-deal-now{font-size:24px;}
+          .ld-deal-t{width:64px;}
+          .ld-deal-t b{font-size:22px;}
+        }
+      </style>
+      <section class="ld-deal-day" id="deal-of-the-day">
+        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
+      </section>
+
+      <!-- ABOUT LUMA DEALS (home): our story, copied from the real About page (#page-about).
+           No new claims — the same intro and goal text as the About page. -->
+      <section class="ld-about-home">
+        <div class="ld-about-home-inner">
+          <span class="ld-about-home-eyebrow">OUR STORY</span>
+          <h2>About Luma Deals</h2>
+          <p>Welcome to Luma Deals &mdash; where smart shopping meets everyday convenience. We&rsquo;re on a mission to bring you the latest trending products, straight to your doorstep, across Pakistan.</p>
+          <p>Our goal is simple: bridge the gap between quality and affordability. We handpick high-demand gadgets, lifestyle essentials, and trending accessories so you never miss out on what&rsquo;s modern and useful &mdash; all while keeping customer satisfaction our top priority.</p>
+          <a href="#" onclick="showPage('about');return false;">Read more about us &rarr;</a>
+        </div>
+      </section>
+
+      <!-- SALE BANNER (home): "Up to 20% Off", between About and FAQ.
+           Static copy as the owner specified. No invented deadline — no "limited time"
+           or countdown here; the Deal of the Day above already carries the urgency. -->
+      <style id="ld-sale-banner-css">
+        .ld-sale-banner{margin:26px 50px 8px;}
+        .ld-sale-banner-inner{
+          border-radius:24px;
+          background:radial-gradient(520px 260px at 85% -10%,rgba(255,255,255,.28),transparent 60%),linear-gradient(115deg,#3BB4EC 0%,#0e86b8 55%,#0a5e85 100%);
+          border:1px solid rgba(255,255,255,.35);
+          box-shadow:0 22px 48px rgba(14,134,184,.28),inset 0 1px 0 rgba(255,255,255,.35);
+          padding:38px 36px;
+          text-align:center;
+          color:#ffffff;
+        }
+        .ld-sale-banner-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:8px;}
+        .ld-sale-banner h2{margin:0 0 10px;color:#ffffff;font-size:40px;font-weight:800;letter-spacing:-.8px;line-height:1.1;}
+        .ld-sale-banner p{margin:0 auto 20px;color:rgba(255,255,255,.92);font-size:15px;line-height:1.6;max-width:520px;}
+        .ld-sale-banner-btn{display:inline-block;border:none;cursor:pointer;background:#ffffff;color:#0a5e85;font-size:15px;font-weight:800;padding:13px 28px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.18);text-decoration:none;}
+        .ld-sale-banner-btn:hover{filter:brightness(.96);}
+        @media (max-width:860px){
+          .ld-sale-banner{margin:18px 12px 8px;}
+          .ld-sale-banner-inner{padding:28px 20px;border-radius:20px;}
+          .ld-sale-banner h2{font-size:30px;}
+        }
+      </style>
+      <section class="ld-sale-banner" id="sale-banner">
+        <div class="ld-sale-banner-inner">
+          <span class="ld-sale-banner-eyebrow">Storewide Sale</span>
+          <h2>Up to 20% Off</h2>
+          <p>Real discounts on trending products across the store &mdash; no code needed.</p>
+          <button class="ld-sale-banner-btn" onclick="showPage('shop')">Shop the Sale &rarr;</button>
+        </div>
+      </section>
+
+      <!-- FAQ (home): quick answers, copied from the real FAQ page (/faq.html).
+           Six of the most common questions; the full list lives on the FAQ page. -->
+      <section class="ld-faq-home">
+        <div class="home-section-heading">
+          <div>
+            <span>HELP CENTER</span>
+            <h2>Frequently Asked Questions</h2>
+          </div>
+        </div>
+        <p class="ld-section-sub">Quick answers to common questions about shopping with Luma Deals.</p>
+        <div class="ld-faq-grid">
+          <div class="ld-faq-card">
+            <h3>How do I place an order?</h3>
+            <p>Browse the shop, open the product you want, add it to your cart and proceed to checkout. Enter your contact details and complete delivery information carefully. Review your order before submitting it.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Which payment methods are available?</h3>
+            <p>Payment options shown at checkout are the options currently available for your order. If Cash on Delivery (COD) is displayed, you can select it and pay when the parcel is delivered, according to the order instructions.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Where does Luma Deals deliver?</h3>
+            <p>Delivery availability and any applicable charges are shown during checkout or confirmed by our team. Please provide a complete address, including house or building, street, area and city, to help the courier deliver your parcel.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>How can I track my order?</h3>
+            <p>Sign in and check your Orders section for available order updates. If tracking details are not shown yet, contact customer support with your order number.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>Can I cancel or change an order?</h3>
+            <p>Contact customer support as soon as possible and share your order number. A change or cancellation may not be possible after the order has been processed or handed to the courier.</p>
+          </div>
+          <div class="ld-faq-card">
+            <h3>What if my item arrives damaged or incorrect?</h3>
+            <p>Please contact customer support promptly with your order number and clear photos of the item and packaging. Our team will review the issue and explain the available next steps.</p>
+          </div>
+        </div>
+        <a class="ld-faq-more" href="/faq.html">View all FAQs &rarr;</a>
+      </section>
+
+      <!-- HOME ROWS SNAP: same wheel-scroll snap backup as the Featured row, for the
+           Best Sellers and New Arrivals rows (CSS scroll-snap alone rests mid-card on wheel scroll). -->
+      <script>
+      (function(){
+        function ldRowSnap(grid){
+          if(!grid) return;
+          function snap(){
+            var rect = grid.getBoundingClientRect();
+            var cur = grid.scrollLeft;
+            var cards = grid.querySelectorAll('.product-card');
+            if(!cards.length) return;
+            var best = null, bd = 1e9;
+            for(var i=0;i<cards.length;i++){
+              var left = cards[i].getBoundingClientRect().left - rect.left + cur;
+              var d = Math.abs(left - cur);
+              if(d < bd){ bd = d; best = left; }
+            }
+            if(best !== null && Math.abs(best - cur) > 2){
+              grid.scrollTo({left: best, behavior:'smooth'});
+            }
+          }
+          var t = null;
+          grid.addEventListener('scroll', function(){
+            if(t) clearTimeout(t);
+            t = setTimeout(snap, 120);
+          }, {passive:true});
+          grid.addEventListener('scrollend', snap);
+        }
+        ldRowSnap(document.getElementById('bestsellers-product-grid'));
+        ldRowSnap(document.getElementById('newarrivals-product-grid'));
+      })();
+      </script>
+
+      <!-- HOME CONTENT CSS: row styling for the two new product rows + About + FAQ sections.
+           Scoped to the new IDs/classes only; the shared .product-grid rules are left untouched. -->
+      <style id="ld-home-content-css">
+        #bestsellers-product-grid,
+        #newarrivals-product-grid{
+          display:flex !important;
+          flex-wrap:nowrap !important;
+          overflow-x:auto !important;
+          gap:18px !important;
+          grid-template-columns:none !important;
+          scroll-snap-type:x mandatory;
+          padding:4px 2px 10px;
+          scrollbar-width:thin;
+          scrollbar-color:#b9cdd9 transparent;
+        }
+        #bestsellers-product-grid::-webkit-scrollbar,
+        #newarrivals-product-grid::-webkit-scrollbar{height:6px;}
+        #bestsellers-product-grid::-webkit-scrollbar-track,
+        #newarrivals-product-grid::-webkit-scrollbar-track{background:transparent;}
+        #bestsellers-product-grid::-webkit-scrollbar-thumb,
+        #newarrivals-product-grid::-webkit-scrollbar-thumb{background:#b9cdd9;border-radius:999px;}
+        #bestsellers-product-grid .product-card,
+        #newarrivals-product-grid .product-card{
+          flex:0 0 270px !important;
+          width:270px !important;
+          max-width:270px !important;
+          scroll-snap-align:start;
+        }
+        .ld-about-home{
+          margin:26px 50px 8px;
+          border-radius:24px;
+          background:radial-gradient(640px 320px at 88% -12%,rgba(59,180,236,.38),transparent 62%),linear-gradient(118deg,#0f161b 0%,#152833 55%,#0d3a52 100%);
+          border:1px solid rgba(59,180,236,.30);
+          box-shadow:0 22px 48px rgba(8,28,42,.22),inset 0 1px 0 rgba(255,255,255,.09);
+          padding:34px 36px;
+        }
+        .ld-about-home-eyebrow{display:block;color:#8fd8f8;font-size:10px;font-weight:800;letter-spacing:1.7px;margin-bottom:6px;}
+        .ld-about-home h2{margin:0 0 14px;color:#ffffff;font-size:26px;font-weight:800;letter-spacing:-.4px;}
+        .ld-about-home p{color:#b9cdd9;font-size:15px;line-height:1.7;margin:0 0 12px;max-width:720px;}
+        .ld-about-home a{color:#8fd8f8;font-size:14px;font-weight:700;text-decoration:none;}
+        .ld-about-home a:hover{text-decoration:underline;}
+        .ld-faq-home{padding:26px 50px 8px;}
+        .ld-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+        .ld-faq-card{background:#ffffff;border:1px solid #e6eef3;border-radius:16px;padding:20px 22px;box-shadow:0 4px 14px rgba(15,45,65,.05);}
+        .ld-faq-card h3{margin:0 0 8px;color:#14171A;font-size:16px;font-weight:800;}
+        .ld-faq-card p{margin:0;color:#5b6f7b;font-size:14px;line-height:1.65;}
+        .ld-faq-more{display:inline-block;margin-top:18px;color:#0284c7;font-size:14px;font-weight:700;text-decoration:none;}
+        .ld-faq-more:hover{text-decoration:underline;}
+        @media (max-width:860px){
+          #bestsellers-product-grid,
+          #newarrivals-product-grid{gap:14px !important;}
+          #bestsellers-product-grid .product-card,
+          #newarrivals-product-grid .product-card{
+            flex-basis:240px !important;
+            width:240px !important;
+            max-width:240px !important;
+          }
+          .ld-about-home{margin:18px 12px 8px;padding:26px 20px;border-radius:20px;}
+          .ld-about-home h2{font-size:22px;}
+          .ld-faq-home{padding:22px 12px 8px;}
+          .ld-faq-grid{grid-template-columns:1fr;gap:12px;}
+        }
+      </style>
+
     <!-- WHY SHOP AT LUMA DEALS -->
     <section class="ld-why">
       <div class="home-section-heading">
@@ -5748,6 +6008,103 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           }
         }
       } catch (e) { /* featured strip must never break the page */ }
+      /* BEST SELLERS + NEW ARRIVALS (additive, 2026-11-10): two more live rows
+         below All Products, rendered once per catalog version into
+         #bestsellers-product-grid and #newarrivals-product-grid.
+         Uses the same productCardHTML cards as the main grids.
+         - New Arrivals = the 8 most recently added products (highest catalog IDs;
+           the catalog has no createdAt field, so ID order is the newest-first signal).
+         - Best Sellers = the store's 5-star rated products (no sales-count field
+           exists in the catalog; the 5-star rating is the closest real signal),
+           excluding the New Arrivals so the two rows never show the same product. */
+      try {
+        var __ldNewGrid = document.getElementById('newarrivals-product-grid');
+        if (__ldNewGrid && window.products && window.products.length > 0 && window.__ldNewArrSig !== window.__ldProductsSignature) {
+          window.__ldNewArrSig = window.__ldProductsSignature;
+          var __ldNew = window.products.filter(function (p) { return p && Number(p.price) > 0; })
+            .sort(function (a, b) { return Number(b.id) - Number(a.id); })
+            .slice(0, 8);
+          if (__ldNew.length > 0 && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(__ldNewGrid, __ldNew, productCardHTML, '');
+          }
+        }
+      } catch (e) { /* new arrivals strip must never break the page */ }
+      try {
+        var __ldBestGrid = document.getElementById('bestsellers-product-grid');
+        if (__ldBestGrid && window.products && window.products.length > 0 && window.__ldBestSig !== window.__ldProductsSignature) {
+          window.__ldBestSig = window.__ldProductsSignature;
+          var __ldNewIds = {};
+          window.products.filter(function (p) { return p && Number(p.price) > 0; })
+            .sort(function (a, b) { return Number(b.id) - Number(a.id); })
+            .slice(0, 8)
+            .forEach(function (p) { __ldNewIds[p.id] = true; });
+          var __ldBest = window.products.filter(function (p) {
+            return p && Number(p.price) > 0 && String(p.rating || '').indexOf('⭐⭐⭐⭐⭐') >= 0 && !__ldNewIds[p.id];
+          }).sort(function (a, b) { return Number(a.id) - Number(b.id); })
+            .slice(0, 8);
+          if (__ldBest.length > 0 && typeof ldRenderGrid === 'function' && typeof productCardHTML === 'function') {
+            ldRenderGrid(__ldBestGrid, __ldBest, productCardHTML, '');
+          }
+        }
+      } catch (e) { /* best sellers strip must never break the page */ }
+      /* DEAL OF THE DAY (additive, 2026-11-10): one spotlight product + a live
+         countdown to midnight, rendered once per catalog version into
+         #deal-of-the-day-inner. The product rotates daily: the pool is the top 7
+         by real discount, picked by day-of-year, so a new deal shows every day.
+         Prices, discount and savings are computed live from the catalog. */
+      try {
+        var __ldDealBox = document.getElementById('deal-of-the-day-inner');
+        if (__ldDealBox && window.products && window.products.length > 0 && window.__ldDealSig !== window.__ldProductsSignature) {
+          window.__ldDealSig = window.__ldProductsSignature;
+          var __ldPool = window.products.filter(function (p) { return p && Number(p.price) > 0 && Number(p.oldPrice) > Number(p.price); })
+            .map(function (p) { return { p: p, d: (Number(p.oldPrice) - Number(p.price)) / Number(p.oldPrice) }; })
+            .sort(function (a, b) { return b.d - a.d; })
+            .slice(0, 7)
+            .map(function (x) { return x.p; });
+          if (__ldPool.length > 0) {
+            var __ldNow = new Date();
+            var __ldDayNum = Math.floor((__ldNow - new Date(__ldNow.getFullYear(), 0, 0)) / 86400000);
+            var __ldDeal = __ldPool[__ldDayNum % __ldPool.length];
+            var __ldDisc = Math.round((Number(__ldDeal.oldPrice) - Number(__ldDeal.price)) / Number(__ldDeal.oldPrice) * 100);
+            var __ldSave = Math.round(Number(__ldDeal.oldPrice) - Number(__ldDeal.price));
+            var __ldImg = (typeof ldImg === 'function') ? ldImg(__ldDeal.img || __ldDeal.image || (__ldDeal.images && __ldDeal.images[0]) || '', 600) : (__ldDeal.img || '');
+            var __ldId = JSON.stringify(__ldDeal.id);
+            var __ldName = String(__ldDeal.name || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            __ldDealBox.innerHTML =
+              '<div class="ld-deal-img"><img src="' + String(__ldImg).replace(/"/g, '&quot;') + '" alt=""></div>' +
+              '<div class="ld-deal-info">' +
+                '<span class="ld-deal-badge">DEAL OF THE DAY</span>' +
+                '<span class="ld-deal-save">Save Rs ' + __ldSave + '</span>' +
+                '<h3>' + __ldName + '</h3>' +
+                '<div class="ld-deal-price"><span class="ld-deal-now">Rs ' + Number(__ldDeal.price) + '</span>' +
+                '<span class="ld-deal-was">Rs ' + Number(__ldDeal.oldPrice) + '</span>' +
+                '<span class="ld-deal-off">' + __ldDisc + '% OFF</span></div>' +
+                '<div class="ld-deal-count"><span class="ld-deal-count-label">Hurry &mdash; deal ends tonight</span>' +
+                '<div class="ld-deal-timer"><div class="ld-deal-t"><b id="ld-deal-hh">00</b><span>Hours</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-mm">00</b><span>Minutes</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-ss">00</b><span>Seconds</span></div></div></div>' +
+                '<button class="ld-deal-btn" onclick="showProductDetail(' + __ldId + ')">Shop Now &rarr;</button>' +
+                '<span class="ld-deal-note">A new deal every day &mdash; check back tomorrow.</span>' +
+              '</div>';
+            (function(){
+              function tick(){
+                var n = new Date();
+                var end = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1, 0, 0, 0);
+                var s = Math.max(0, Math.floor((end - n) / 1000));
+                var hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+                var hEl = document.getElementById('ld-deal-hh'),
+                    mEl = document.getElementById('ld-deal-mm'),
+                    sEl = document.getElementById('ld-deal-ss');
+                if(hEl) hEl.textContent = (hh < 10 ? '0' : '') + hh;
+                if(mEl) mEl.textContent = (mm < 10 ? '0' : '') + mm;
+                if(sEl) sEl.textContent = (ss < 10 ? '0' : '') + ss;
+              }
+              tick();
+              setInterval(tick, 1000);
+            })();
+          }
+        }
+      } catch (e) { /* deal of the day must never break the page */ }
 
     }
 
@@ -13145,6 +13502,18 @@ padding: 22px;
 
 </style>
   
+
+<!-- PRODUCT IMAGES CLEAR (2026-11-10): the premium 3D card layer put a
+     72%-white gloss gradient (.product-card:before, z-index:1) ON TOP of
+     the whole card, so a milky white veil sat over every product photo.
+     It also tilted each photo in 3D (perspective + translateZ), which
+     softens the render on phones. This additive override removes the
+     veil and renders each photo flat and crisp. No other card styling
+     (border, shadow, hover zoom, badges, wishlist) is changed. -->
+<style id="ld-product-image-clear-css">
+  .product-card:before{display:none !important;}
+  .product-image-wrap>img{transform:none !important;}
+</style>
 
 <style id="ld-related-premium-v1">
 .ld-related-section{--ld-related-blue:#3BB4EC;margin:34px 0 20px!important;padding:clamp(16px,2.4vw,28px)!important;border:1px solid rgba(59,180,236,.18)!important;border-radius:26px!important;background:radial-gradient(circle at 100% 0%,rgba(59,180,236,.10),transparent 34%),linear-gradient(145deg,#f8fcff 0%,#fff 58%,#f5fbff 100%)!important;box-shadow:0 14px 38px rgba(20,23,26,.055),inset 0 1px 0 #fff!important;overflow:hidden}
