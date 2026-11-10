@@ -6,10 +6,10 @@
 
 <title>LumaDeals AI</title>
 <meta name="description" content="Meet LumaDeals AI — your smart shopping assistant for finding the best deals online in Pakistan at Luma Deals.">
-<link rel="canonical" href="https://www.lumadeals.shop/luma-ai.html">
+<link rel="canonical" href="https://ai.lumadeals.shop/">
 <meta property="og:title" content="LumaDeals AI - Smart Shopping Assistant">
 <meta property="og:description" content="Meet LumaDeals AI — your smart shopping assistant for finding the best deals online in Pakistan at Luma Deals.">
-<meta property="og:url" content="https://www.lumadeals.shop/luma-ai.html">
+<meta property="og:url" content="https://ai.lumadeals.shop/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://www.lumadeals.shop/luma-deals-logo.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -2276,6 +2276,161 @@ body {
   -webkit-tap-highlight-color: transparent !important;
 }
 </style>
+
+<style id="ld-ai-light-look">
+/* ============================================================
+   LumaDeals AI — LIGHT PREMIUM LOOK
+   Matches lumadeals.shop (white + brand #3BB4EC / #14171A).
+   Additive override layer: sits after the main dark theme,
+   so it wins at equal specificity without touching it.
+   ============================================================ */
+
+/* Page background + base text */
+body {
+  color: #14171A;
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(59, 180, 236, .13),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(59, 180, 236, .06),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f4f8fb 100%
+    );
+}
+
+/* Soft background orbs */
+.ai-orb {
+  opacity: .13;
+}
+
+.ai-orb.two {
+  background: #7ccdee;
+}
+
+/* Topbar -> white, like the store navbar */
+.luma-ai-topbar {
+  background: rgba(255, 255, 255, .94);
+  border-bottom: 1px solid #e6eef3;
+  box-shadow:
+    0 6px 24px rgba(20, 23, 26, .07),
+    inset 0 -1px 0 rgba(255, 255, 255, .6);
+}
+
+.luma-brand-text strong {
+  color: #14171A;
+}
+
+.luma-brand-text span {
+  color: rgba(20, 23, 26, .55);
+}
+
+.back-button {
+  border-color: #dbe7ee;
+  background: #ffffff;
+  color: #14171A;
+  box-shadow: 0 4px 14px rgba(20, 23, 26, .06);
+}
+
+/* Hero heading -> dark with blue accent
+   (was a white gradient, invisible on a light page) */
+.ai-hero h1 {
+  background: linear-gradient(
+    100deg,
+    #14171A 20%,
+    #0e7490 55%,
+    #3bb4ec 85%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.ai-hero p {
+  color: rgba(20, 23, 26, .62);
+}
+
+/* Aurora core: soften the glow for a light page */
+.luma-ai-glow {
+  opacity: .55;
+}
+
+/* Message scrollbar */
+#luma-ai-messages::-webkit-scrollbar-thumb {
+  background: rgba(59, 180, 236, .35);
+}
+
+#luma-ai-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 180, 236, .55);
+}
+
+/* AI message bubble -> white card */
+.luma-ai-message.ai {
+  background: #ffffff;
+  border: 1px solid #e6eef3;
+  color: #14171A;
+  box-shadow: 0 8px 22px rgba(20, 23, 26, .07);
+}
+
+/* User message bubble -> brand blue, white text */
+.luma-ai-message.user {
+  background: linear-gradient(135deg, #3bb4ec, #269dcc);
+  color: #ffffff;
+  border: 1px solid rgba(59, 180, 236, .35);
+  box-shadow: 0 8px 22px rgba(59, 180, 236, .28);
+}
+
+/* Error message -> light red */
+.luma-ai-message.error {
+  background: rgba(220, 38, 38, .08);
+  border: 1px solid rgba(220, 38, 38, .25);
+  color: #b91c1c;
+}
+
+/* Input bar -> white */
+.luma-ai-input-area {
+  background: rgba(255, 255, 255, .97);
+  border: 1px solid #d7e5ee;
+  box-shadow:
+    0 12px 36px rgba(20, 23, 26, .10),
+    0 0 0 4px rgba(59, 180, 236, .06);
+}
+
+#luma-ai-input {
+  color: #14171A;
+}
+
+#luma-ai-input::placeholder {
+  color: rgba(20, 23, 26, .42);
+}
+
+/* Product cards -> white */
+.luma-ai-product-card {
+  background: #ffffff;
+  border: 1px solid #e6eef3;
+  box-shadow: 0 8px 22px rgba(20, 23, 26, .07);
+}
+
+.luma-ai-product-name {
+  color: #14171A;
+}
+
+/* Live caption (voice mode) -> readable on light */
+#luma-live-caption {
+  background: rgba(255, 255, 255, .95);
+  color: #14171A;
+  border: 1px solid #e6eef3;
+  box-shadow: 0 8px 22px rgba(20, 23, 26, .08);
+}
+</style>
 </head>
 
 
@@ -2425,6 +2580,15 @@ body {
 /* =========================
    LUMADEALS AI JAVASCRIPT
 ========================= */
+
+/* API base: the ai.lumadeals.shop subdomain is a separate
+   deployment with no backend, so from there the AI calls the
+   main site's API. Everywhere else (main site, Vercel preview)
+   it uses its own deployment's API via a relative path. */
+const LUMA_API_BASE =
+  window.location.hostname === "ai.lumadeals.shop"
+    ? "https://www.lumadeals.shop"
+    : "";
 
 let lumaAIHistory = [];
 
@@ -2627,7 +2791,7 @@ async function sendLumaAIMessage() {
 
     const response =
       await fetch(
-        "/api/chat",
+        LUMA_API_BASE + "/api/chat",
         {
 
           method: "POST",
@@ -2669,21 +2833,18 @@ async function sendLumaAIMessage() {
     }
 
 
-    addLumaAIMessage(
-  "AI Error: " + (error.message || "Unknown error"),
-  "error"
-);
+    const reply =
+      data.reply ||
+      "Sorry, I could not generate a reply. Please try again.";
 
-console.error("FULL LumaDeals AI ERROR:", error);
+    addLumaAIMessage(reply, "ai");
 
-if (
-  Array.isArray(data.products) &&
-  data.products.length > 0
-) {
-  addLumaAIProducts(
-    data.products
-  );
-}
+    if (
+      Array.isArray(data.products) &&
+      data.products.length > 0
+    ) {
+      addLumaAIProducts(data.products);
+    }
 
 
     lumaAIHistory.push(
@@ -2866,7 +3027,7 @@ async function toggleLumaVoice() {
     /* GET EPHEMERAL TOKEN */
 
     const tokenResponse =
-      await fetch("/api/live-token", {
+      await fetch(LUMA_API_BASE + "/api/live-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -3335,7 +3496,7 @@ async function handleLumaLiveMessage(message) {
 
             const response =
               await fetch(
-                "/api/products?q=" +
+                LUMA_API_BASE + "/api/products?q=" +
                 encodeURIComponent(query)
               );
 
