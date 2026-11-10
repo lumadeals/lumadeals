@@ -2287,6 +2287,40 @@ LumaDeals AI
         </div>
       </section>
 
+      <!-- SALE BANNER (home): "Up to 20% Off", between About and FAQ.
+           Static copy as the owner specified. No invented deadline — no "limited time"
+           or countdown here; the Deal of the Day above already carries the urgency. -->
+      <style id="ld-sale-banner-css">
+        .ld-sale-banner{margin:26px 50px 8px;}
+        .ld-sale-banner-inner{
+          border-radius:24px;
+          background:radial-gradient(520px 260px at 85% -10%,rgba(255,255,255,.28),transparent 60%),linear-gradient(115deg,#3BB4EC 0%,#0e86b8 55%,#0a5e85 100%);
+          border:1px solid rgba(255,255,255,.35);
+          box-shadow:0 22px 48px rgba(14,134,184,.28),inset 0 1px 0 rgba(255,255,255,.35);
+          padding:38px 36px;
+          text-align:center;
+          color:#ffffff;
+        }
+        .ld-sale-banner-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:8px;}
+        .ld-sale-banner h2{margin:0 0 10px;color:#ffffff;font-size:40px;font-weight:800;letter-spacing:-.8px;line-height:1.1;}
+        .ld-sale-banner p{margin:0 auto 20px;color:rgba(255,255,255,.92);font-size:15px;line-height:1.6;max-width:520px;}
+        .ld-sale-banner-btn{display:inline-block;border:none;cursor:pointer;background:#ffffff;color:#0a5e85;font-size:15px;font-weight:800;padding:13px 28px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.18);text-decoration:none;}
+        .ld-sale-banner-btn:hover{filter:brightness(.96);}
+        @media (max-width:860px){
+          .ld-sale-banner{margin:18px 12px 8px;}
+          .ld-sale-banner-inner{padding:28px 20px;border-radius:20px;}
+          .ld-sale-banner h2{font-size:30px;}
+        }
+      </style>
+      <section class="ld-sale-banner" id="sale-banner">
+        <div class="ld-sale-banner-inner">
+          <span class="ld-sale-banner-eyebrow">Storewide Sale</span>
+          <h2>Up to 20% Off</h2>
+          <p>Real discounts on trending products across the store &mdash; no code needed.</p>
+          <button class="ld-sale-banner-btn" onclick="showPage('shop')">Shop the Sale &rarr;</button>
+        </div>
+      </section>
+
       <!-- FAQ (home): quick answers, copied from the real FAQ page (/faq.html).
            Six of the most common questions; the full list lives on the FAQ page. -->
       <section class="ld-faq-home">
