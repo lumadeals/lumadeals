@@ -6165,7 +6165,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           var __ldCatList = Object.keys(__ldCats).map(function (k) { return __ldCats[k]; }).sort(function (a, b) { return b.count - a.count; });
           __ldCatGrid.innerHTML = __ldCatList.map(function (cat) {
             var __ldName = String(cat.name).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-            var __ldCat = JSON.stringify(cat.name);
+            var __ldCat = JSON.stringify(cat.name).replace(/"/g, '&quot;');
             var __ldImg = String(cat.img).replace(/"/g, '&quot;');
             var __ldCount = cat.count + (cat.count === 1 ? ' product' : ' products');
             return '<div class="ld-cat-tile" role="button" tabindex="0" onclick="filterByCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();filterByCategory(' + __ldCat + ');}">' +
