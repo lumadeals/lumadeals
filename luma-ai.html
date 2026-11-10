@@ -4104,10 +4104,16 @@ function arrayBufferToBase64(buffer) {
    The live caption used to flash the whole sentence on every
    transcription chunk (fast, jumpy, hard to follow) and wrap to
    several lines. The user asked for it to be SLOW and IN LINE.
-   This reveals the caption word by word (~180ms per word) so it
+   This reveals the caption word by word (~800ms per word) so it
    reads at a calm pace, and the CSS layer keeps it on one line.
    New text that continues the shown words just extends the queue;
-   a correction or a new speaker restarts from the beginning.
+   a correction that shortens the text drops the stale words, and
+   a new speaker restarts from the beginning.
+   Punctuation-safe: words are compared ignoring trailing
+   punctuation (Latin and Urdu), so a word gaining a comma or
+   question mark ("Hello" -> "Hello,") is the SAME word — it never
+   splits off as a lone "," and never makes the caption blank out
+   and restart. That was the bug that kept it feeling unsettled.
    ========================================= */
 let lumaCaptionWords = [];
 let lumaCaptionShown = 0;
@@ -4121,45 +4127,47 @@ function lumaTypeCaption(prefix, fullText) {
   const words = fullText.split(/\s+/).filter(Boolean);
   if (!words.length) return;
 
-  const queuedText = lumaCaptionWords.join(" ");
+  // A word is the same word even if it gains punctuation
+  // ("Hello" -> "Hello,", "today" -> "today?"). Compare ignoring
+  // trailing punctuation (Latin and Urdu) so a comma, period or
+  // question mark never splits off as a lone word and never
+  // forces the caption to blank out and restart.
+  const base = (w) => w.replace(/[.,!?;:؟،۔؛]+$/, "");
 
-  // Extension: the new text continues the queued text (the usual
-  // case as the AI speaks) — just queue the new words.
-  const isExtension =
-    lumaCaptionPrefix === prefix &&
-    queuedText.length > 0 &&
-    fullText.indexOf(queuedText) === 0 &&
-    fullText.length > queuedText.length;
-
-  if (isExtension) {
-    const extra = fullText
-      .slice(queuedText.length)
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean);
-    lumaCaptionWords = lumaCaptionWords.concat(extra);
+  if (lumaCaptionPrefix !== prefix) {
+    // Different speaker ("You:" <-> "LumaDeals AI:"): clean restart.
+    lumaCaptionWords = words;
+    lumaCaptionShown = 0;
+    lumaCaptionPrefix = prefix;
   } else {
-    // New sentence, correction, or different speaker: restart the
-    // queue with the new text — but keep the leading words that
-    // are already correctly shown, so the caption does not re-type
-    // what is already visible. (A correction that shortens the
-    // text must drop the stale words, not keep them.)
-    let keep = 0;
-    if (lumaCaptionPrefix === prefix) {
-      while (
-        keep < lumaCaptionShown &&
-        keep < words.length &&
-        lumaCaptionWords[keep] === words[keep]
-      ) {
-        keep++;
-      }
+    // Same speaker: merge the new words into the queue.
+    // Count the leading words that are unchanged (punctuation
+    // aside). Everything up to that point is already correct and
+    // stays shown; the queue becomes the new words, so a word that
+    // gained punctuation is replaced in place instead of splitting,
+    // and a correction that shortens the text drops the stale words.
+    let common = 0;
+    while (
+      common < lumaCaptionWords.length &&
+      common < words.length &&
+      base(lumaCaptionWords[common]) === base(words[common])
+    ) {
+      common++;
     }
     lumaCaptionWords = words;
-    lumaCaptionShown = keep;
-    lumaCaptionPrefix = prefix;
-    caption.textContent =
-      prefix + words.slice(0, keep).join(" ");
+    if (lumaCaptionShown > common) {
+      lumaCaptionShown = common;
+    }
   }
+
+  // Show the first word right away so the caption never sits empty
+  // while someone is talking; the rest reveal one by one, slowly.
+  if (lumaCaptionShown === 0 && lumaCaptionWords.length > 0) {
+    lumaCaptionShown = 1;
+  }
+  caption.textContent =
+    lumaCaptionPrefix +
+    lumaCaptionWords.slice(0, lumaCaptionShown).join(" ");
 
   caption.classList.add("show");
 
@@ -4175,7 +4183,7 @@ function lumaTypeCaption(prefix, fullText) {
     caption.textContent =
       lumaCaptionPrefix +
       lumaCaptionWords.slice(0, lumaCaptionShown).join(" ");
-  }, 400);
+  }, 800);
 }
 
 async function handleLumaLiveMessage(message) {
