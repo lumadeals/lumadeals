@@ -75,6 +75,14 @@ export default async function handler(req, res) {
           config: {
             responseModalities: ["AUDIO"],
 
+            speechConfig: {
+              voiceConfig: {
+                prebuiltVoiceConfig: {
+                  voiceName: "Kore"
+                }
+              }
+            },
+
             tools: [
               {
                 functionDeclarations: [
