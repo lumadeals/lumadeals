@@ -5,7 +5,7 @@ const PROJECT_ID = "luma-deals";
 /* Models to try in order. gemini-3.8-flash is the one the Gemini API
    itself recommends, but it can return 503 (high demand); gemini-2.0-flash
    is the fallback workhorse. */
-const MODELS = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"];
+const MODELS = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash"];
 
 async function generateWithFallback(ai, contents) {
   let lastError = null;
