@@ -2944,6 +2944,34 @@ input:focus-visible {
   }
 }
 </style>
+
+<style id="ld-ai-caption-fix">
+/* ============================================================
+   LumaDeals AI — CAPTION FIX
+   User report 2026-11-10 (phone screenshot): the live caption
+   showed garbled text and was hard to follow. Two fixes:
+   (1) IN LINE: the caption wrapped to several lines and the
+       pill jumped in height. Force a single line — long text
+       truncates with an ellipsis instead of wrapping.
+   (2) SLOW: the caption flashed the whole sentence on every
+       transcription chunk. The JS typewriter (lumaTypeCaption)
+       now reveals it word by word (~180ms per word) so it reads
+       at a calm pace. This layer only pins the single-line
+       layout; the typewriter lives in the voice JS.
+   Note: the WORDS themselves come from Google's Live speech
+   transcription — the recognizer can still mis-hear a word.
+   The slow reveal means the user reads settled words, not a
+   flashing interim guess, which is the most the page can do.
+   Additive layer only; no chat, voice or page logic touched
+   beyond routing the three caption updates through the
+   typewriter.
+   ============================================================ */
+#luma-live-caption {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+</style>
 </head>
 
 
@@ -4070,6 +4098,86 @@ function arrayBufferToBase64(buffer) {
 /* =========================================
    HANDLE GEMINI RESPONSE
    ========================================= */
+
+/* =========================================
+   SLOW TYPEWRITER CAPTION
+   The live caption used to flash the whole sentence on every
+   transcription chunk (fast, jumpy, hard to follow) and wrap to
+   several lines. The user asked for it to be SLOW and IN LINE.
+   This reveals the caption word by word (~180ms per word) so it
+   reads at a calm pace, and the CSS layer keeps it on one line.
+   New text that continues the shown words just extends the queue;
+   a correction or a new speaker restarts from the beginning.
+   ========================================= */
+let lumaCaptionWords = [];
+let lumaCaptionShown = 0;
+let lumaCaptionPrefix = "";
+let lumaCaptionTypeTimer = null;
+
+function lumaTypeCaption(prefix, fullText) {
+  const caption = document.getElementById("luma-live-caption");
+  if (!caption) return;
+
+  const words = fullText.split(/\s+/).filter(Boolean);
+  if (!words.length) return;
+
+  const queuedText = lumaCaptionWords.join(" ");
+
+  // Extension: the new text continues the queued text (the usual
+  // case as the AI speaks) — just queue the new words.
+  const isExtension =
+    lumaCaptionPrefix === prefix &&
+    queuedText.length > 0 &&
+    fullText.indexOf(queuedText) === 0 &&
+    fullText.length > queuedText.length;
+
+  if (isExtension) {
+    const extra = fullText
+      .slice(queuedText.length)
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    lumaCaptionWords = lumaCaptionWords.concat(extra);
+  } else {
+    // New sentence, correction, or different speaker: restart the
+    // queue with the new text — but keep the leading words that
+    // are already correctly shown, so the caption does not re-type
+    // what is already visible. (A correction that shortens the
+    // text must drop the stale words, not keep them.)
+    let keep = 0;
+    if (lumaCaptionPrefix === prefix) {
+      while (
+        keep < lumaCaptionShown &&
+        keep < words.length &&
+        lumaCaptionWords[keep] === words[keep]
+      ) {
+        keep++;
+      }
+    }
+    lumaCaptionWords = words;
+    lumaCaptionShown = keep;
+    lumaCaptionPrefix = prefix;
+    caption.textContent =
+      prefix + words.slice(0, keep).join(" ");
+  }
+
+  caption.classList.add("show");
+
+  if (lumaCaptionTypeTimer) return; // already typing
+
+  lumaCaptionTypeTimer = setInterval(function () {
+    if (lumaCaptionShown >= lumaCaptionWords.length) {
+      clearInterval(lumaCaptionTypeTimer);
+      lumaCaptionTypeTimer = null;
+      return;
+    }
+    lumaCaptionShown++;
+    caption.textContent =
+      lumaCaptionPrefix +
+      lumaCaptionWords.slice(0, lumaCaptionShown).join(" ");
+  }, 180);
+}
+
 async function handleLumaLiveMessage(message) {
 
   try {
@@ -4268,8 +4376,7 @@ if (
     document.getElementById("luma-live-caption");
 
   if (caption && text) {
-    caption.textContent = "You: " + text;
-    caption.classList.add("show");
+    lumaTypeCaption("You: ", text);
   }
 }
 
@@ -4289,11 +4396,7 @@ if (
     document.getElementById("luma-live-caption");
 
   if (caption && text) {
-
-    clearTimeout(window.lumaCaptionTimer);
-
-    caption.textContent = "You: " + text;
-    caption.classList.add("show");
+    lumaTypeCaption("You: ", text);
   }
   }
     /* =====================================
@@ -4317,14 +4420,7 @@ if (
         );
 
       if (caption && text) {
-
-        caption.textContent =
-          "LumaDeals AI: " + text;
-
-        caption.classList.add(
-          "show"
-        );
-
+        lumaTypeCaption("LumaDeals AI: ", text);
       }
 
     }
