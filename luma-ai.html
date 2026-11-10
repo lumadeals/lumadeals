@@ -2955,7 +2955,7 @@ input:focus-visible {
        truncates with an ellipsis instead of wrapping.
    (2) SLOW: the caption flashed the whole sentence on every
        transcription chunk. The JS typewriter (lumaTypeCaption)
-       now reveals it word by word (~180ms per word) so it reads
+       now reveals it word by word (~400ms per word) so it reads
        at a calm pace. This layer only pins the single-line
        layout; the typewriter lives in the voice JS.
    Note: the WORDS themselves come from Google's Live speech
@@ -4175,7 +4175,7 @@ function lumaTypeCaption(prefix, fullText) {
     caption.textContent =
       lumaCaptionPrefix +
       lumaCaptionWords.slice(0, lumaCaptionShown).join(" ");
-  }, 180);
+  }, 400);
 }
 
 async function handleLumaLiveMessage(message) {
