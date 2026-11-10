@@ -1,7 +1,33 @@
 import { GoogleGenAI } from "@google/genai";
 
 const PROJECT_ID = "luma-deals";
-const MODEL = "gemini-3.8-flash";
+
+/* Models to try in order. gemini-3.8-flash is the one the Gemini API
+   itself recommends, but it can return 503 (high demand); gemini-2.0-flash
+   is the fallback workhorse. */
+const MODELS = ["gemini-3.8-flash", "gemini-2.0-flash"];
+
+async function generateWithFallback(ai, contents) {
+  let lastError = null;
+
+  for (const model of MODELS) {
+    try {
+      return await ai.models.generateContent({
+        model,
+        contents,
+        config: {
+          systemInstruction: SYSTEM_INSTRUCTION,
+          tools: [{ functionDeclarations: [searchProductsTool] }]
+        }
+      });
+    } catch (error) {
+      lastError = error;
+      console.error(`Model ${model} failed:`, error?.message || error);
+    }
+  }
+
+  throw lastError || new Error("AI request failed.");
+}
 
 const ALLOWED_ORIGINS = [
   "https://ai.lumadeals.shop",
@@ -252,14 +278,7 @@ export default async function handler(req, res) {
       parts: [{ text: message }]
     });
 
-    let response = await ai.models.generateContent({
-      model: MODEL,
-      contents,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        tools: [{ functionDeclarations: [searchProductsTool] }]
-      }
-    });
+    let response = await generateWithFallback(ai, contents);
 
     let foundProducts = [];
 
@@ -307,14 +326,7 @@ export default async function handler(req, res) {
         parts: functionResponseParts
       });
 
-      response = await ai.models.generateContent({
-        model: MODEL,
-        contents,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          tools: [{ functionDeclarations: [searchProductsTool] }]
-        }
-      });
+      response = await generateWithFallback(ai, contents);
     }
 
     const reply =
