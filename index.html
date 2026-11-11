@@ -14261,5 +14261,24 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 }
 </style>
 
+
+<style id="ld-promo-v3">
+/* PROMO BAR v3 (2026-11-11): stack the product photo ABOVE the text so the
+   photo never overlaps or crowds the heading. Photo is centred in its 3D
+   frame; text gets the full tile width below it. Mobile tiles are full
+   width (1 column) so nothing is squeezed. */
+#page-home .ld-3d-promo-card{flex-direction:column;align-items:center;text-align:center;gap:0;padding:24px 20px 22px;min-height:0;}
+#page-home .ld-3d-promo-img{order:-1;width:160px;margin:0 auto 18px;}
+#page-home .ld-3d-promo-img img{height:140px;}
+#page-home .ld-3d-promo-text{width:100%;}
+#page-home .ld-3d-promo-card p{max-width:340px;margin-left:auto;margin-right:auto;}
+#page-home .ld-3d-promo-card h3{font-size:clamp(24px,2.6vw,32px);}
+@media (max-width:860px){
+  #page-home .ld-3d-promo{grid-template-columns:minmax(0,1fr) !important;}
+  #page-home .ld-3d-promo-img{width:150px;}
+  #page-home .ld-3d-promo-img img{height:132px;}
+}
+</style>
+
 </body>
 </html>
