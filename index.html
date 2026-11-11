@@ -14384,5 +14384,28 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 }
 </style>
 
+
+<style id="ld-wishlist-pro-v2">
+/* WISHLIST PAGE — STRUCTURAL REDESIGN (2026-11-11). v1 only changed colours;
+   this block changes the LAYOUT. Colours from v1 are kept. */
+/* 1. HEADER: centred hero instead of text-left / count-right. */
+#page-wishlist .ld-wishlist-header{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;padding:40px 28px 36px;}
+#page-wishlist .ld-wishlist-header:after{right:50%;top:-120px;transform:translateX(50%);}
+#page-wishlist .ld-wishlist-heading{display:flex;flex-direction:column;align-items:center;}
+#page-wishlist .ld-wishlist-heading p{max-width:520px;}
+#page-wishlist .ld-wishlist-count{margin-top:22px;}
+/* 2. TOOLBAR: a raised card instead of a plain row with a bottom border. */
+#page-wishlist .ld-wishlist-toolbar{margin:0 0 18px;padding:15px 18px;border:1px solid #e0edf2;border-bottom:1px solid #e0edf2;border-radius:16px;background:linear-gradient(180deg,#fff,#f7fcfe);box-shadow:0 8px 20px rgba(25,94,121,.06);}
+/* 3. EMPTY STATE: horizontal split on desktop (visual left, text right). */
+@media (min-width:861px){
+  #page-wishlist .ld-wishlist-empty{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 34px;min-height:260px;padding:44px 42px;text-align:left;}
+  #page-wishlist .ld-wishlist-empty-art{grid-row:1 / span 4;grid-column:1;margin-bottom:0;}
+  #page-wishlist .ld-wishlist-empty-kicker{grid-column:2;}
+  #page-wishlist .ld-wishlist-empty h2{grid-column:2;}
+  #page-wishlist .ld-wishlist-empty p{grid-column:2;margin-bottom:22px;}
+  #page-wishlist .ld-wishlist-empty button{grid-column:2;justify-self:start;}
+}
+</style>
+
 </body>
 </html>
