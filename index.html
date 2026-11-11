@@ -2184,15 +2184,19 @@ LumaDeals AI
     </section>
 
     <!-- FEATURED PRODUCTS: top 8 by real discount, rendered live from Firestore -->
-    <section class="ld-featured">
+    <section class="ld-featured ld-featured-spotlight">
       <div class="home-section-heading">
         <div>
           <span>TOP SAVINGS</span>
           <h2>Featured Products</h2>
         </div>
-        <button onclick="showPage('shop')">
-          View All &rarr;
-        </button>
+        <div class="ld-3d-featured-actions">
+          <button type="button" class="ld-3d-featured-arrow" aria-label="Previous featured products" onclick="document.getElementById('featured-product-grid').scrollBy({left:-320,behavior:'smooth'})">&larr;</button>
+          <button type="button" class="ld-3d-featured-arrow" aria-label="Next featured products" onclick="document.getElementById('featured-product-grid').scrollBy({left:320,behavior:'smooth'})">&rarr;</button>
+          <button onclick="showPage('shop')">
+            View All &rarr;
+          </button>
+        </div>
       </div>
       <p class="ld-section-sub">Handpicked deals with the biggest savings in the store &mdash; rendered live from our product catalog, so prices and discounts are always current.</p>
       <div class="product-grid" id="featured-product-grid"></div>
@@ -14161,6 +14165,33 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
   #page-home .ld-3d-testimonials{margin:22px 12px 8px;}
   #page-home .ld-3d-testimonials-head{flex-direction:column;align-items:flex-start;gap:8px;}
   #page-home .ld-3d-testimonials-grid{grid-template-columns:minmax(0,1fr);}
+}
+</style>
+
+
+<style id="ld-featured-3d-v1">
+/* FEATURED PRODUCTS 3D REDESIGN (2026-11-11): dark spotlight band, 3D cards,
+   scroll arrows. Scoped to #page-home .ld-featured-spotlight / #featured-product-grid
+   so All Products and other grids are untouched. */
+#page-home .ld-featured-spotlight{position:relative;overflow:hidden;margin:26px 50px 10px;padding:30px 28px 24px;border-radius:24px;background:linear-gradient(135deg,#10151c 0%,#16222e 48%,#0d3a56 100%);box-shadow:0 24px 48px rgba(10,25,40,.35),inset 0 1px 0 rgba(255,255,255,.12);}
+#page-home .ld-featured-spotlight::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-130px;top:-150px;background:radial-gradient(circle,rgba(59,180,236,.30),rgba(59,180,236,0) 68%);pointer-events:none;}
+#page-home .ld-featured-spotlight .home-section-heading{position:relative;margin-bottom:10px;}
+#page-home .ld-featured-spotlight .home-section-heading span{color:#7bd8fb;}
+#page-home .ld-featured-spotlight .home-section-heading h2{color:#fff;}
+#page-home .ld-featured-spotlight .ld-section-sub{position:relative;color:rgba(255,255,255,.72);}
+#page-home .ld-3d-featured-actions{position:relative;display:flex;align-items:center;gap:10px;}
+#page-home .ld-3d-featured-arrow{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);color:#fff;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.20);transition:background .25s ease,transform .25s ease;}
+#page-home .ld-3d-featured-arrow:hover{background:#3bb4ec;transform:translateY(-2px);}
+#page-home .ld-3d-featured-actions button:last-child{box-shadow:0 8px 18px rgba(0,0,0,.30);}
+#featured-product-grid .product-card{flex:0 0 300px !important;width:300px !important;max-width:300px !important;border-radius:18px !important;background:linear-gradient(180deg,#ffffff,#f4f9fc) !important;border:1px solid rgba(255,255,255,.65) !important;box-shadow:0 16px 34px rgba(0,0,0,.42),0 4px 0 rgba(0,0,0,.22) !important;transition:transform .35s ease,box-shadow .35s ease !important;}
+#featured-product-grid .product-card:hover{transform:translateY(-8px) perspective(900px) rotateY(-3deg) !important;box-shadow:0 30px 55px rgba(0,0,0,.50),0 6px 0 rgba(59,180,236,.45) !important;}
+#featured-product-grid .product-card img{transition:transform .45s ease;}
+#featured-product-grid .product-card:hover img{transform:scale(1.06);}
+@media (max-width:860px){
+  #page-home .ld-featured-spotlight{margin:18px 12px 8px;padding:22px 14px 18px;border-radius:20px;}
+  #featured-product-grid .product-card{flex-basis:260px !important;width:260px !important;max-width:260px !important;}
+  #page-home .ld-3d-featured-arrow{width:36px;height:36px;font-size:15px;}
+  #page-home .ld-3d-featured-actions{gap:8px;}
 }
 </style>
 
