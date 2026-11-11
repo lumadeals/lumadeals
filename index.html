@@ -2152,16 +2152,40 @@ LumaDeals AI
          (Wireless Earbuds), so the tile says 26% -- not 40%. -->
     <section class="ld-3d-promo" aria-label="Promotions">
       <a class="ld-3d-promo-card ld-3d-promo-flash" href="#" onclick="ldShopCategory('electronics');return false;">
-        <span class="ld-3d-promo-eyebrow">&#9889; FLASH SALE</span>
-        <h3>Tech Deals<br>Up to 26% Off</h3>
-        <p>Smart gadgets, earbuds &amp; cameras at special prices.</p>
-        <span class="ld-3d-promo-btn">Shop Now &rarr;</span>
+        <div class="ld-3d-promo-text">
+          <span class="ld-3d-promo-eyebrow">&#9889; FLASH SALE</span>
+          <h3>Tech Deals<br>Up to 26% Off</h3>
+          <p>Wireless Earbuds with ANC &mdash; <strong>Rs 1,350</strong> <s>Rs 1,820</s></p>
+          <span class="ld-3d-promo-btn">Shop Now &rarr;</span>
+        </div>
+        <div class="ld-3d-promo-img">
+          <img src="images/electronics/earbuds-anc-white-1.jpg" alt="Wireless Earbuds with ANC" loading="lazy">
+          <span class="ld-3d-promo-off">26% OFF</span>
+        </div>
       </a>
       <a class="ld-3d-promo-card ld-3d-promo-kitchen" href="#" onclick="ldShopCategory('kitchen');return false;">
-        <span class="ld-3d-promo-eyebrow">&#10022; NEW ARRIVALS</span>
-        <h3>Kitchen<br>Essentials</h3>
-        <p>Chef-grade tools for the modern kitchen.</p>
-        <span class="ld-3d-promo-btn">Explore &rarr;</span>
+        <div class="ld-3d-promo-text">
+          <span class="ld-3d-promo-eyebrow">&#10022; NEW ARRIVALS</span>
+          <h3>Kitchen<br>Essentials</h3>
+          <p>Silicone Dish Washing Gloves &mdash; <strong>Rs 899</strong> <s>Rs 1,290</s></p>
+          <span class="ld-3d-promo-btn">Explore &rarr;</span>
+        </div>
+        <div class="ld-3d-promo-img">
+          <img src="images/kitchen/dish-washing-gloves.jpg" alt="Silicone Dish Washing Gloves" loading="lazy">
+          <span class="ld-3d-promo-off">30% OFF</span>
+        </div>
+      </a>
+      <a class="ld-3d-promo-card ld-3d-promo-toys" href="#" onclick="ldShopCategory('toys');return false;">
+        <div class="ld-3d-promo-text">
+          <span class="ld-3d-promo-eyebrow">&#9733; KIDS &amp; TOYS</span>
+          <h3>Toys &amp; Kids<br>Up to 38% Off</h3>
+          <p>Kids Riding Car &mdash; <strong>Rs 2,360</strong> <s>Rs 3,780</s></p>
+          <span class="ld-3d-promo-btn">Shop Toys &rarr;</span>
+        </div>
+        <div class="ld-3d-promo-img">
+          <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car" loading="lazy">
+          <span class="ld-3d-promo-off">38% OFF</span>
+        </div>
       </a>
     </section>
 
@@ -14216,8 +14240,49 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 </style>
 
 
+<style id="ld-promo-v2">
+/* PROMO BAR v2 (2026-11-11): 3 tiles with real product photos in floating 3D
+   frames + a new Toys & Kids tile (store's biggest discount, 38%). The photo
+   frame is tilted with a deep shadow and straightens + lifts on hover. */
+#page-home .ld-3d-promo{grid-template-columns:repeat(3,minmax(0,1fr));}
+#page-home .ld-3d-promo-card{display:flex;align-items:center;gap:16px;padding:26px 22px;min-height:230px;}
+#page-home .ld-3d-promo-text{position:relative;flex:1;min-width:0;}
+#page-home .ld-3d-promo-card p{max-width:none;}
+#page-home .ld-3d-promo-card p strong{color:#fff;}
+#page-home .ld-3d-promo-card p s{color:rgba(255,255,255,.72);font-size:12.5px;}
+#page-home .ld-3d-promo-img{position:relative;flex:none;width:150px;background:#fff;border-radius:16px;padding:6px;box-shadow:0 16px 32px rgba(0,0,0,.38),0 3px 0 rgba(0,0,0,.18);transform:rotate(3deg);transition:transform .35s ease,box-shadow .35s ease;}
+#page-home .ld-3d-promo-img img{display:block;width:100%;height:138px;object-fit:cover;border-radius:12px;}
+#page-home .ld-3d-promo-card:hover .ld-3d-promo-img{transform:rotate(0deg) translateY(-5px) scale(1.04);box-shadow:0 24px 44px rgba(0,0,0,.45),0 4px 0 rgba(0,0,0,.16);}
+#page-home .ld-3d-promo-off{position:absolute;top:-8px;right:-6px;z-index:2;background:linear-gradient(135deg,#ff4d4d,#ef3340);color:#fff;font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;box-shadow:0 6px 14px rgba(239,68,68,.4);transform:rotate(4deg);}
+#page-home .ld-3d-promo-toys{background:linear-gradient(135deg,#6d28d9 0%,#a855f7 48%,#ec4899 100%);}
+#page-home .ld-3d-promo-toys .ld-3d-promo-btn{color:#7c3aed;}
+@media (max-width:860px){
+  #page-home .ld-3d-promo{grid-template-columns:minmax(0,1fr);}
+  #page-home .ld-3d-promo-card{min-height:0;padding:20px 18px;}
+  #page-home .ld-3d-promo-img{width:112px;}
+  #page-home .ld-3d-promo-img img{height:100px;}
+  #page-home .ld-3d-promo-card h3{font-size:24px;}
+}
+</style>
 
 
+<style id="ld-promo-v3">
+/* PROMO BAR v3 (2026-11-11): stack the product photo ABOVE the text so the
+   photo never overlaps or crowds the heading. Photo is centred in its 3D
+   frame; text gets the full tile width below it. Mobile tiles are full
+   width (1 column) so nothing is squeezed. */
+#page-home .ld-3d-promo-card{flex-direction:column;align-items:center;text-align:center;gap:0;padding:24px 20px 22px;min-height:0;}
+#page-home .ld-3d-promo-img{order:-1;width:160px;margin:0 auto 18px;}
+#page-home .ld-3d-promo-img img{height:140px;}
+#page-home .ld-3d-promo-text{width:100%;}
+#page-home .ld-3d-promo-card p{max-width:340px;margin-left:auto;margin-right:auto;}
+#page-home .ld-3d-promo-card h3{font-size:clamp(24px,2.6vw,32px);}
+@media (max-width:860px){
+  #page-home .ld-3d-promo{grid-template-columns:minmax(0,1fr) !important;}
+  #page-home .ld-3d-promo-img{width:150px;}
+  #page-home .ld-3d-promo-img img{height:132px;}
+}
+</style>
 
 
 <style id="ld-topbar-v2">
@@ -14288,11 +14353,6 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
   .promo-bar-neon .promo-text{font-size:14px !important;}
   .promo-bar-neon .promo-off{font-size:15px !important;padding:7px 14px !important;}
   .ld-3d-topbar-cta{display:none !important;}
-}
-/* PROMO TILES: force 1 column up to 1100px — the 860px breakpoint was not
-   matching the user's viewport, so the tiles stayed 3-across and cramped. */
-@media (max-width:1100px){
-  #page-home .ld-3d-promo{grid-template-columns:minmax(0,1fr) !important;}
 }
 </style>
 
