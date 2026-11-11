@@ -2768,7 +2768,7 @@ LumaDeals AI
           <p>All the products you love, together in one place.</p>
         </div>
         <div class="ld-wishlist-count" aria-live="polite">
-          <span class="ld-wishlist-count-icon" aria-hidden="true">♡</span>
+          <span class="ld-wishlist-count-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
           <span><strong id="ld-wishlist-count">0</strong><small>Saved items</small></span>
         </div>
       </header>
@@ -7235,7 +7235,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         container.innerHTML = `
           <div class="ld-wishlist-empty">
             <div class="ld-wishlist-empty-art" aria-hidden="true">
-              <span class="ld-wishlist-empty-heart">♡</span>
+              <span class="ld-wishlist-empty-heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
               <i></i><b></b><em></em>
             </div>
             <span class="ld-wishlist-empty-kicker">A LITTLE SPACE FOR THINGS YOU LOVE</span>
@@ -7284,7 +7284,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       if (!wishlistProducts.length) {
         container.innerHTML = `
           <div class="ld-wishlist-empty ld-wishlist-unavailable">
-            <div class="ld-wishlist-empty-art" aria-hidden="true"><span class="ld-wishlist-empty-heart">♡</span></div>
+            <div class="ld-wishlist-empty-art" aria-hidden="true"><span class="ld-wishlist-empty-heart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span></div>
             <h2>Your saved items are syncing</h2>
             <p>We couldn’t match these saved items to the current product list. Please try again shortly.</p>
             <button type="button" onclick="showWishlist()">Try Again</button>
@@ -14404,6 +14404,20 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
   #page-wishlist .ld-wishlist-empty h2{grid-column:2;}
   #page-wishlist .ld-wishlist-empty p{grid-column:2;margin-bottom:22px;}
   #page-wishlist .ld-wishlist-empty button{grid-column:2;justify-self:start;}
+}
+</style>
+
+
+<style id="ld-wishlist-heart-svg">
+/* PROFESSIONAL SVG HEART (2026-11-11): the text glyph was cartoonish, so the
+   heart is now a clean solid SVG. fill:currentColor keeps the existing
+   colours (white in the count card, rose-red in the empty state). */
+#page-wishlist .ld-wishlist-count-icon svg,#page-wishlist .ld-wishlist-empty-heart svg{display:block;fill:currentColor;}
+#page-wishlist .ld-wishlist-count-icon svg{width:24px;height:24px;}
+#page-wishlist .ld-wishlist-empty-heart svg{width:56px;height:56px;}
+@media (max-width:700px){
+  #page-wishlist .ld-wishlist-count-icon svg{width:20px;height:20px;}
+  #page-wishlist .ld-wishlist-empty-heart svg{width:48px;height:48px;}
 }
 </style>
 
