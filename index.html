@@ -14170,25 +14170,29 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 
 
 <style id="ld-featured-3d-v1">
-/* FEATURED PRODUCTS 3D REDESIGN (2026-11-11): dark spotlight band, 3D cards,
-   scroll arrows. Scoped to #page-home .ld-featured-spotlight / #featured-product-grid
-   so All Products and other grids are untouched. */
-#page-home .ld-featured-spotlight{position:relative;overflow:hidden;margin:26px 50px 10px;padding:30px 28px 24px;border-radius:24px;background:linear-gradient(135deg,#10151c 0%,#16222e 48%,#0d3a56 100%);box-shadow:0 24px 48px rgba(10,25,40,.35),inset 0 1px 0 rgba(255,255,255,.12);}
-#page-home .ld-featured-spotlight::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-130px;top:-150px;background:radial-gradient(circle,rgba(59,180,236,.30),rgba(59,180,236,0) 68%);pointer-events:none;}
+/* FEATURED PRODUCTS 3D REDESIGN v2 (2026-11-11): light premium panel + 3D cards
+   + scroll arrows. v1's dark band was too heavy -- replaced with a soft light
+   panel that matches the site. Scoped to .ld-featured-spotlight /
+   #featured-product-grid so Best Sellers, New Arrivals and All Products
+   are untouched. */
+#page-home .ld-featured-spotlight{position:relative;overflow:hidden;margin:26px 50px 10px;padding:30px 28px 24px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#eef6fb);border:1px solid #dbe9f2;box-shadow:0 18px 38px rgba(15,45,65,.10),inset 0 1px 0 #fff;}
+#page-home .ld-featured-spotlight::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;right:-130px;top:-150px;background:radial-gradient(circle,rgba(59,180,236,.14),rgba(59,180,236,0) 68%);pointer-events:none;}
 #page-home .ld-featured-spotlight .home-section-heading{position:relative;margin-bottom:10px;}
-#page-home .ld-featured-spotlight .home-section-heading span{color:#7bd8fb;}
-#page-home .ld-featured-spotlight .home-section-heading h2{color:#fff;}
-#page-home .ld-featured-spotlight .ld-section-sub{position:relative;color:rgba(255,255,255,.72);}
+#page-home .ld-featured-spotlight .home-section-heading span{color:#0284c7;}
+#page-home .ld-featured-spotlight .home-section-heading h2{color:#14171A;}
+#page-home .ld-featured-spotlight .ld-section-sub{position:relative;color:#64748b;}
 #page-home .ld-3d-featured-actions{position:relative;display:flex;align-items:center;gap:10px;}
-#page-home .ld-3d-featured-arrow{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);color:#fff;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.20);transition:background .25s ease,transform .25s ease;}
-#page-home .ld-3d-featured-arrow:hover{background:#3bb4ec;transform:translateY(-2px);}
-#page-home .ld-3d-featured-actions button:last-child{box-shadow:0 8px 18px rgba(0,0,0,.30);}
-#featured-product-grid .product-card{flex:0 0 300px !important;width:300px !important;max-width:300px !important;border-radius:18px !important;background:linear-gradient(180deg,#ffffff,#f4f9fc) !important;border:1px solid rgba(255,255,255,.65) !important;box-shadow:0 16px 34px rgba(0,0,0,.42),0 4px 0 rgba(0,0,0,.22) !important;transition:transform .35s ease,box-shadow .35s ease !important;}
-#featured-product-grid .product-card:hover{transform:translateY(-8px) perspective(900px) rotateY(-3deg) !important;box-shadow:0 30px 55px rgba(0,0,0,.50),0 6px 0 rgba(59,180,236,.45) !important;}
+#page-home .ld-3d-featured-arrow{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid #d7e5ee;background:#fff;color:#0e86b8;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(15,45,65,.12),inset 0 1px 0 #fff;transition:background .25s ease,transform .25s ease,color .25s ease;}
+#page-home .ld-3d-featured-arrow:hover{background:#3bb4ec;color:#fff;transform:translateY(-2px);}
+#page-home .ld-3d-featured-actions button:last-child{box-shadow:0 6px 14px rgba(15,45,65,.10);}
+#featured-product-grid .product-card{flex:0 0 300px !important;width:300px !important;max-width:300px !important;border-radius:18px !important;background:linear-gradient(180deg,#ffffff,#f4f9fc) !important;border:1px solid #e2ecf2 !important;box-shadow:0 12px 28px rgba(15,45,65,.14),0 3px 0 rgba(15,45,65,.06) !important;transition:transform .35s ease,box-shadow .35s ease !important;}
+#featured-product-grid .product-card:hover{transform:translateY(-8px) perspective(900px) rotateY(-3deg) !important;box-shadow:0 24px 44px rgba(15,45,65,.20),0 5px 0 rgba(59,180,236,.35) !important;}
 #featured-product-grid .product-card img{transition:transform .45s ease;}
 #featured-product-grid .product-card:hover img{transform:scale(1.06);}
 @media (max-width:860px){
   #page-home .ld-featured-spotlight{margin:18px 12px 8px;padding:22px 14px 18px;border-radius:20px;}
+  #page-home .ld-featured-spotlight .home-section-heading{flex-direction:column;align-items:flex-start;gap:12px;}
+  #page-home .ld-3d-featured-actions{width:100%;}
   #featured-product-grid .product-card{flex-basis:260px !important;width:260px !important;max-width:260px !important;}
   #page-home .ld-3d-featured-arrow{width:36px;height:36px;font-size:15px;}
   #page-home .ld-3d-featured-actions{gap:8px;}
