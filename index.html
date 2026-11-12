@@ -1864,14 +1864,20 @@ LumaDeals AI
 
 
     </section>
-      <style id="ld-topcat-v2">
-        /* Top Shop by Category — professional directory look (2026-11-13, v2).
-           Horizontal rows in a 2-column grid (desktop) / single column
-           (mobile). Rounded-square photo thumbnails, name + live product
-           count, and a chevron that turns brand-blue and rotates when the
-           category is expanded. Replaces ld-topcat-v1 (circular photos). */
+      <style id="ld-topcat-v3">
+        /* Top Shop by Category — professional directory look (2026-11-13, v3).
+           Fixes v2: the original stylesheet sets an explicit fixed height on
+           .category-card (148px desktop / 132px mobile), which v2 never
+           overrode — that is why the rows rendered tall and empty. v3 forces
+           height:auto so rows are compact and content-driven. Also restyles
+           the active state: the original turns the whole card solid blue
+           with white text, which made the subtitle unreadable under v2's
+           colours — active is now a light blue tint with dark text.
+           Hides the original decorative ::before/::after blobs (made for
+           the old square cards). */
         .home-feature-section .category-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
-        .home-feature-section .category-card{aspect-ratio:auto;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;text-align:left;padding:14px 16px;border-radius:16px;}
+        .home-feature-section .category-card{aspect-ratio:auto;height:auto;min-height:0;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;text-align:left;padding:14px 16px;border-radius:16px;background:#ffffff;}
+        .home-feature-section .category-card::before,.home-feature-section .category-card::after{display:none;}
         .home-feature-section .category-icon{width:64px;height:64px;margin:0;border-radius:14px;overflow:hidden;background:#f4f8fb;border:1px solid #e6eef3;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .25s ease;}
         .home-feature-section .category-icon img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
         .home-feature-section .category-icon svg{width:32px;height:32px;flex-shrink:0;}
@@ -1881,12 +1887,15 @@ LumaDeals AI
         .home-feature-section .category-go{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#f0f9ff;color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;transition:transform .3s ease,background .25s ease,color .25s ease;}
         .home-feature-section .category-card:hover .category-go{background:#3BB4EC;color:#ffffff;}
         .home-feature-section .category-card:hover .category-icon img{transform:scale(1.08);}
-        .home-feature-section .category-card.active{border-color:#3BB4EC;box-shadow:0 8px 22px rgba(59,180,236,.16);}
+        .home-feature-section .category-card.active{height:auto;min-height:0;background:#f0f9ff;border-color:#3BB4EC;color:#14171A;box-shadow:0 8px 22px rgba(59,180,236,.16);transform:none;}
+        .home-feature-section .category-card.active h3{color:#14171A;}
+        .home-feature-section .category-card.active p{color:#64748b;}
+        .home-feature-section .category-card.active .category-icon{background:#ffffff;}
         .home-feature-section .category-card.active .category-go{background:#3BB4EC;color:#ffffff;transform:rotate(90deg);}
         @media (max-width:860px){
           .home-feature-section .category-showcase{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;}
           .home-feature-section .category-icon{width:56px;height:56px;border-radius:12px;}
-          .home-feature-section .category-card{padding:12px 14px;gap:12px;}
+          .home-feature-section .category-card{height:auto;min-height:0;padding:12px 14px;gap:12px;}
         }
       </style>
 
