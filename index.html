@@ -1155,7 +1155,7 @@
       Coming Soon!
     </span>
 
-    <a class="ld-3d-topbar-cta" href="#" onclick="showPage('shop');return false;">Shop Now &rarr;</a>
+    <a class="ld-3d-topbar-cta" href="#" onclick="showPage('shop');return false;" data-translate="shopNow">Shop Now &rarr;</a>
 </div>
   <header class="navbar">
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
@@ -1166,7 +1166,7 @@
     </div>
 
     <div class="search-box" style="position:relative;">
-      <input type="text" id="search-input" placeholder="Search Products..." aria-label="Search products"
+      <input type="text" id="search-input" placeholder="Search Products..." aria-label="Search products" data-translate-placeholder="searchPlaceholder"
         onkeypress="if(event.key==='Enter') searchProducts()" oninput="showSuggestions()" autocomplete="off">
       <button type="button" id="voice-search-btn" onclick="startVoiceSearch()"
         style="background:none; border:none; cursor:pointer; padding:0 10px; display:flex; align-items:center; justify-content:center;">
@@ -1187,7 +1187,7 @@
       <div class="profile-wrapper">
         <button class="profile-button" onclick="showPage('profile')">
           <div class="profile-avatar" id="header-profile-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <span class="profile-label">Profile</span>
+          <span class="profile-label" data-translate="profile">Profile</span>
         </button>
 
 
@@ -1198,20 +1198,20 @@
   <section id="page-order-tracking" class="page">
     <div class="ld-track-page">
       <button class="ld-track-back" onclick="showPage('orders')">← Back to My Orders</button>
-      <header class="ld-track-hero"><span>LUMA DEALS · ORDER CENTER</span><h1>Track Your Order</h1><p>Follow your order journey from confirmation to delivery.</p></header>
+      <header class="ld-track-hero"><span>LUMA DEALS · ORDER CENTER</span><h1 data-translate="trackOrder">Track Your Order</h1><p>Follow your order journey from confirmation to delivery.</p></header>
       <div id="ld-track-content"><div class="ld-track-empty">Choose <b>View Full Tracking</b> from My Orders to see your delivery progress.</div></div>
     </div>
   </section>
   <!-- ORDERS -->
       <div class="icon" onclick="bnNavigate('orders', this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-        <span>Orders</span>
+        <span data-translate="orders">Orders</span>
       </div>
 
       <!-- WISHLIST -->
       <div class="icon" onclick="showPage('wishlist'); showWishlist();">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-        <span>Wishlist</span>
+        <span data-translate="wishlist">Wishlist</span>
       </div>
 
     </div>
@@ -1600,11 +1600,11 @@
     <hr>
 
     <ul class="mobile-main-links">
-      <li onclick="showPage('home'); toggleSidebar();"><i aria-hidden="true" class="fas fa-house"></i><span>Home</span></li>
-      <li onclick="showPage('shop'); toggleSidebar();"><i aria-hidden="true" class="fas fa-cart-shopping"></i><span>Shop</span></li>
-      <li onclick="showPage('about'); toggleSidebar();"><i aria-hidden="true" class="fas fa-circle-info"></i><span>About Us</span></li>
-      <li onclick="showPage('contact'); toggleSidebar();"><i aria-hidden="true" class="fas fa-envelope"></i><span>Contact</span></li>
-      <li onclick="showPage('login'); toggleSidebar();"><i aria-hidden="true" class="fas fa-user"></i><span>Login</span></li>
+      <li onclick="showPage('home'); toggleSidebar();"><i aria-hidden="true" class="fas fa-house"></i><span data-translate="home">Home</span></li>
+      <li onclick="showPage('shop'); toggleSidebar();"><i aria-hidden="true" class="fas fa-cart-shopping"></i><span data-translate="shop">Shop</span></li>
+      <li onclick="showPage('about'); toggleSidebar();"><i aria-hidden="true" class="fas fa-circle-info"></i><span data-translate="about">About Us</span></li>
+      <li onclick="showPage('contact'); toggleSidebar();"><i aria-hidden="true" class="fas fa-envelope"></i><span data-translate="contact">Contact</span></li>
+      <li onclick="showPage('login'); toggleSidebar();"><i aria-hidden="true" class="fas fa-user"></i><span data-translate="login">Login</span></li>
     </ul>
    <div class="sidebar-footer">
 <button onclick="window.location.href='https://www.lumadeals.shop/luma-ai.html'" class="sidebar-whatsapp-btn">
@@ -1635,11 +1635,11 @@
   <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
   <nav class="main-nav">
     <ul>
-      <li onclick="showPage('home')">Home</li>
-      <li onclick="showPage('shop')">Shop</li>
-      <li onclick="showPage('about')">About Us</li>
-      <li onclick="showPage('contact')">Contact</li>
-      <li onclick="showPage('login')">Login</li>
+      <li onclick="showPage('home')" data-translate="home">Home</li>
+      <li onclick="showPage('shop')" data-translate="shop">Shop</li>
+      <li onclick="showPage('about')" data-translate="about">About Us</li>
+      <li onclick="showPage('contact')" data-translate="contact">Contact</li>
+      <li onclick="showPage('login')" data-translate="login">Login</li>
 <li>
 <button
 type="button"
@@ -1815,6 +1815,25 @@ LumaDeals AI
           .home-feature-section{display:none !important;}
         }
       </style>
+      <style id="ld-detail-thumb-fit-v1">
+        /* Product-detail thumbnails — make the image FIT its box (2026-11-13).
+           The older rule #detail-thumbnails img forces every thumbnail image
+           to 80x80px with object-fit:cover, which is bigger than the
+           .ld-detail-thumb box (62px desktop, 44-54px on phones) and crops
+           the product. This override (higher specificity + !important) sizes
+           the image to the thumb's content box and uses object-fit:contain
+           so the whole product is visible, never cropped or overflowing. */
+        #detail-thumbnails .ld-detail-thumb img{
+          width:100% !important;
+          height:100% !important;
+          min-width:0 !important;
+          min-height:0 !important;
+          max-width:100% !important;
+          max-height:100% !important;
+          object-fit:contain !important;
+          object-position:center !important;
+        }
+      </style>
       <script>
       /* Mobile pill nav indicator (2026-11-13): slides the white dome + blue
          circle to the active bottom-nav button and shows that button's icon
@@ -1980,11 +1999,11 @@ LumaDeals AI
 <section class="ld-premium-hero" aria-label="Luma Deals featured products">
   <div class="ld-premium-hero-inner">
     <div class="ld-hero-copy">
-      <span class="ld-hero-eyebrow">Luma Deals &bull; Online Shopping in Pakistan</span>
-      <h1>Quality Products. <em>Honest Prices.</em> Delivered to You.</h1>
-      <p class="ld-hero-sub">Handpicked electronics, fashion, home essentials and more &mdash; with cash on delivery across Pakistan.</p>
-      <button class="ld-hero-cta" onclick="showPage('shop')">Shop Now <span aria-hidden="true">&rarr;</span></button>
-      <div class="ld-hero-trust"><span>Cash on Delivery</span><span>Easy Returns</span><span>Nationwide Delivery</span></div>
+      <span class="ld-hero-eyebrow" data-translate="heroEyebrow">Luma Deals &bull; Online Shopping in Pakistan</span>
+      <h1 data-translate="heroTitle">Quality Products. <em>Honest Prices.</em> Delivered to You.</h1>
+      <p class="ld-hero-sub" data-translate="heroSub">Handpicked electronics, fashion, home essentials and more &mdash; with cash on delivery across Pakistan.</p>
+      <button class="ld-hero-cta" onclick="showPage('shop')"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
+      <div class="ld-hero-trust"><span data-translate="cashOnDelivery">Cash on Delivery</span><span data-translate="easyReturns">Easy Returns</span><span>Nationwide Delivery</span></div>
     </div>
     <div class="ld-hero-show">
       <div class="ld-rotator-viewport" id="ld-rotator-viewport" role="region" aria-roledescription="carousel" aria-label="Featured products">
@@ -1993,7 +2012,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Wireless Earbuds with ANC &amp; Water Resistant White</h2>
           <p class="ld-rotator-price">Rs 1,350 <s>Rs 1,820</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(67)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(67)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=67" onclick="event.preventDefault(); showProductDetail(67)" title="Wireless Earbuds with ANC &amp; Water Resistant White">
           <img src="images/electronics/earbuds-anc-white-1.jpg" alt="Wireless Earbuds with ANC and Water Resistant White" width="600" height="590" fetchpriority="high">
@@ -2004,7 +2023,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Push Vegetable Cutter Multi-Use Kitchen</h2>
           <p class="ld-rotator-price">Rs 1,399 <s>Rs 1,789</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(51)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(51)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=51" onclick="event.preventDefault(); showProductDetail(51)" title="Push Vegetable Cutter Multi-Use Kitchen">
           <img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Push Vegetable Cutter Multi-Use Kitchen" width="1080" height="1095">
@@ -2015,7 +2034,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Men's Black Quartz Watch Lightweight Casual Wear</h2>
           <p class="ld-rotator-price">Rs 1,899 <s>Rs 2,570</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(65)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(65)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=65" onclick="event.preventDefault(); showProductDetail(65)" title="Men's Black Quartz Watch Lightweight Casual Wear">
           <img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Men's Black Quartz Watch Lightweight Casual Wear" width="800" height="800">
@@ -2026,7 +2045,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>3D Islamic Calligraphy Wall Clock Black Modern Art</h2>
           <p class="ld-rotator-price">Rs 999 <s>Rs 1,250</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(71)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(71)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=71" onclick="event.preventDefault(); showProductDetail(71)" title="3D Islamic Calligraphy Wall Clock Black Modern Art">
           <img src="images/home-living/Bismillah-Clock-1.jpg" alt="3D Islamic Calligraphy Wall Clock Black Modern Art" width="1080" height="1080">
@@ -2037,7 +2056,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>2 Pcs Women's Unstitched Chikankari Embroidered Suit</h2>
           <p class="ld-rotator-price">Rs 2,699 <s>Rs 3,359</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(79)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(79)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=79" onclick="event.preventDefault(); showProductDetail(79)" title="2 Pcs Women's Unstitched Chikankari Embroidered Suit">
           <img src="https://res.cloudinary.com/szx9toyu/image/upload/f_auto,q_auto,w_600/v1792002277/luma-deals/products/zegepchmrbupmys3kvmw.webp" alt="2 Pcs Women's Unstitched Chikankari Embroidered Suit" width="1067" height="1600">
@@ -2048,7 +2067,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Kids Riding Car Red Yellow ABS Plastic</h2>
           <p class="ld-rotator-price">Rs 2,360 <s>Rs 3,780</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(38)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(38)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=38" onclick="event.preventDefault(); showProductDetail(38)" title="Kids Riding Car Red Yellow ABS Plastic">
           <img src="images/toys/kids-riding-car.jpg" alt="Kids Riding Car Red Yellow ABS Plastic" width="657" height="713">
@@ -2059,7 +2078,7 @@ LumaDeals AI
           <span class="ld-hero-eyebrow">Featured Product</span>
           <h2>Eventone-C Whitening Face Cream</h2>
           <p class="ld-rotator-price">Rs 599 <s>Rs 799</s></p>
-          <button class="ld-hero-cta" type="button" onclick="showProductDetail(11)">Shop Now <span aria-hidden="true">&rarr;</span></button>
+          <button class="ld-hero-cta" type="button" onclick="showProductDetail(11)"><span data-translate="shopNow">Shop Now</span> <span aria-hidden="true">&rarr;</span></button>
         </div>
         <a class="ld-rotator-img" href="/?page=product-detail&amp;id=11" onclick="event.preventDefault(); showProductDetail(11)" title="Eventone-C Whitening Face Cream">
           <img src="images/Beauty/eventone-c.jpg" alt="Eventone-C Whitening Face Cream" width="1080" height="1080">
@@ -2242,7 +2261,7 @@ LumaDeals AI
       </div>
       <div class="ld-3d-stat">
         <strong>100%</strong>
-        <span>Cash on Delivery</span>
+        <span data-translate="cashOnDelivery">Cash on Delivery</span>
       </div>
     </section>
 
@@ -2250,13 +2269,13 @@ LumaDeals AI
     <section class="ld-featured ld-featured-spotlight">
       <div class="home-section-heading">
         <div>
-          <span>TOP SAVINGS</span>
-          <h2>Featured Products</h2>
+          <span data-translate="topSavings">TOP SAVINGS</span>
+          <h2 data-translate="featuredProducts">Featured Products</h2>
         </div>
         <div class="ld-3d-featured-actions">
           <button type="button" class="ld-3d-featured-arrow" aria-label="Previous featured products" onclick="document.getElementById('featured-product-grid').scrollBy({left:-320,behavior:'smooth'})">&larr;</button>
           <button type="button" class="ld-3d-featured-arrow" aria-label="Next featured products" onclick="document.getElementById('featured-product-grid').scrollBy({left:320,behavior:'smooth'})">&rarr;</button>
-          <button onclick="showPage('shop')">
+          <button onclick="showPage('shop')" data-translate="viewAll">
             View All &rarr;
           </button>
         </div>
@@ -2270,11 +2289,11 @@ LumaDeals AI
 
       <div class="home-section-heading">
         <div>
-          <span>EXPLORE OUR COLLECTIONS</span>
-          <h2>Shop by Category</h2>
+          <span data-translate="exploreCollections">EXPLORE OUR COLLECTIONS</span>
+          <h2 data-translate="shopByCategory">Shop by Category</h2>
         </div>
 
-        <button onclick="showPage('shop')">
+        <button onclick="showPage('shop')" data-translate="viewAll">
           View All →
         </button>
       </div>
@@ -2286,64 +2305,64 @@ LumaDeals AI
         <!-- ELECTRONICS -->
         <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">          <div class="category-avatar"><img src="images/electronics/mini-wifi-camera-1.jpg" alt="Electronics" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Electronics</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="electronics">Electronics</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- FASHION -->
         <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">          <div class="category-avatar"><img src="images/fashion/Watch-2-1.jpg" alt="Fashion" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Fashion</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="fashion">Fashion</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- HOME -->
         <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">          <div class="category-avatar"><img src="images/home-living/Bismillah-Clock-1.jpg" alt="Home" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Home</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="homeCategory">Home</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- BEAUTY -->
         <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">          <div class="category-avatar"><img src="images/Beauty/ponds-flawless.jpg" alt="Beauty" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Beauty</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="beauty">Beauty</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- KITCHEN -->
         <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">          <div class="category-avatar"><img src="images/kitchen/dish-washing-gloves.jpg" alt="Kitchen" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Kitchen</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="kitchen">Kitchen</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- TOYS -->
         <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">          <div class="category-avatar"><img src="images/toys/rc-car-blue.jpg" alt="Toys" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Toys</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="toys">Toys</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- BOUTIQUE -->
         <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">          <div class="category-avatar"><img src="images/boutique/brown-arabic-lawn-1-1.jpg" alt="Boutique" loading="lazy"></div>
           <div class="category-meta">
-            <h3>Boutique</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="boutique">Boutique</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
         <!-- HAND MADE -->
         <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">          <div class="category-avatar category-avatar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
           <div class="category-meta">
-            <h3>Hand Made</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
+            <h3 data-translate="handMade">Hand Made</h3>
+            <span class="category-explore" data-translate="exploreCollection">Explore collection &rarr;</span>
           </div>
         </div>
 
@@ -2479,7 +2498,7 @@ LumaDeals AI
 
     <!-- ALL PRODUCTS -->
     <section class="products-section">
-      <h2 id="home-products-heading">All Products</h2>
+      <h2 id="home-products-heading" data-translate="allProducts">All Products</h2>
       <div class="product-grid" id="home-product-grid"></div>
     </section>
 
@@ -2492,9 +2511,9 @@ LumaDeals AI
         <div class="home-section-heading">
           <div>
             <span>MOST LOVED</span>
-            <h2>Best Sellers</h2>
+            <h2 data-translate="bestSellers">Best Sellers</h2>
           </div>
-          <button onclick="showPage('shop')">View All &rarr;</button>
+          <button onclick="showPage('shop')" data-translate="viewAll">View All &rarr;</button>
         </div>
         <p class="ld-section-sub">Our highest-rated products &mdash; the ones customers love most. Rendered live from our product catalog, so prices and discounts are always current.</p>
         <div class="product-grid" id="bestsellers-product-grid"></div>
@@ -2507,9 +2526,9 @@ LumaDeals AI
         <div class="home-section-heading">
           <div>
             <span>JUST IN</span>
-            <h2>New Arrivals</h2>
+            <h2 data-translate="newArrivals">New Arrivals</h2>
           </div>
-          <button onclick="showPage('shop')">View All &rarr;</button>
+          <button onclick="showPage('shop')" data-translate="viewAll">View All &rarr;</button>
         </div>
         <p class="ld-section-sub">The newest additions to our store. Rendered live from our product catalog, so prices and discounts are always current.</p>
         <div class="product-grid" id="newarrivals-product-grid"></div>
@@ -2612,7 +2631,7 @@ LumaDeals AI
         <div class="home-section-heading">
           <div>
             <span>HELP CENTER</span>
-            <h2>Frequently Asked Questions</h2>
+            <h2 data-translate="faq">Frequently Asked Questions</h2>
           </div>
         </div>
         <p class="ld-section-sub">Quick answers to common questions about shopping with Luma Deals.</p>
@@ -2775,9 +2794,9 @@ LumaDeals AI
         <div class="home-section-heading">
           <div>
             <span>Browse by Category</span>
-            <h2>Shop by Category</h2>
+            <h2 data-translate="shopByCategory">Shop by Category</h2>
           </div>
-          <button onclick="showPage('shop')">View All &rarr;</button>
+          <button onclick="showPage('shop')" data-translate="viewAll">View All &rarr;</button>
         </div>
         <div class="ld-cat-grid" id="ld-cat-grid"></div>
       </section>
@@ -3020,7 +3039,7 @@ LumaDeals AI
       </div>
       <div class="discount" id="detail-discount"></div>
       <div class="quantity-wrapper">
-        <span class="qty-text">Quantity:</span>
+        <span class="qty-text" data-translate="quantity">Quantity:</span>
         <div class="qty-selector">
           <button class="qty-btn" onclick="decreaseQty()">−</button>
           <input type="text" id="qty-input" value="0" readonly>
@@ -3028,9 +3047,9 @@ LumaDeals AI
         </div>
       </div>
 
-      <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn">Add to Cart</button>
+      <button class="add-cart-btn" style="margin-top:20px;" id="detail-addcart-btn" data-translate="addToCart">Add to Cart</button>
       <div class="ld-detail-description-panel" style="margin-top:25px; padding-top:20px; border-top:1px solid #eee;">
-        <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;">Product Description</h3>
+        <h3 style="font-size:16px; margin-bottom:10px; color:#14171A;" data-translate="productDescription">Product Description</h3>
         <p id="detail-description" style="color:#555; line-height:1.7; font-size:14px;"></p>
       </div>
       <div class="ld-detail-benefits-panel" style="margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
@@ -3231,7 +3250,7 @@ LumaDeals AI
 
     <!-- Cart Header -->
     <div class="cart-header">
-      <h3>Your Cart</h3>
+      <h3 data-translate="yourCart">Your Cart</h3>
       <span onclick="toggleCart()">✖</span>
     </div>
 
@@ -3242,11 +3261,11 @@ LumaDeals AI
     <div class="cart-total">
 
       <p>
-        Total: Rs <span id="cart-total">0</span>
+        <span data-translate="total">Total:</span> Rs <span id="cart-total">0</span>
       </p>
 
       <!-- Checkout Button -->
-      <button class="checkout-btn" onclick="showCheckoutForm()">
+      <button class="checkout-btn" data-translate="checkout" onclick="showCheckoutForm()">
         Checkout
       </button>
 
@@ -3656,7 +3675,7 @@ LumaDeals AI
         <div class="account-card" onclick="showPage('notifications')"><div class="account-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><div><h3 data-translate="notifications">Notifications</h3><p>Manage your shopping notifications.</p></div></div>
         <div class="account-card" onclick="showPage('help')"><div class="account-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.3 1.8c-1.2 1.1-1.9 1.5-1.9 3M12 17.5h.01"/></svg></div><div><h3 data-translate="help">Help & Support</h3><p>Get help with your Luma Deals account.</p></div></div>
       </div>
-      <div class="ld-account-signout"><div><strong>Want to leave?</strong><span>You can securely sign out of your account.</span></div><button class="profile-logout-btn" onclick="logoutFromProfile()">Log Out</button></div>
+      <div class="ld-account-signout"><div><strong>Want to leave?</strong><span>You can securely sign out of your account.</span></div><button class="profile-logout-btn" onclick="logoutFromProfile()" data-translate="logout">Log Out</button></div>
     </div>
   </section>
 
@@ -3665,7 +3684,7 @@ LumaDeals AI
   <section id="page-edit-profile" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
@@ -3701,7 +3720,7 @@ LumaDeals AI
   <section id="page-security" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
@@ -3751,15 +3770,15 @@ LumaDeals AI
   <section id="page-language" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
       <div class="settings-header">
         <div class="settings-icon">🌐</div>
         <div>
-          <h2>Language</h2>
-          <p>Select your preferred language.</p>
+          <h2 data-translate="language">Language</h2>
+          <p data-translate="selectLanguage">Select your preferred language.</p>
         </div>
       </div>
 
@@ -3770,7 +3789,7 @@ LumaDeals AI
             <strong>English</strong>
             <p>Use Luma Deals in English.</p>
           </div>
-          <input type="radio" name="language" value="English" checked onchange="saveLanguage('English')">
+          <input type="radio" name="language" value="English" checked onclick="saveLanguage('English')">
         </label>
 
         <label class="option-row">
@@ -3778,7 +3797,7 @@ LumaDeals AI
             <strong>اردو</strong>
             <p>Use Luma Deals in Urdu.</p>
           </div>
-          <input type="radio" name="language" value="Urdu" onchange="saveLanguage('Urdu')">
+          <input type="radio" name="language" value="Urdu" onclick="saveLanguage('Urdu')">
         </label>
 
       </div>
@@ -3791,7 +3810,7 @@ LumaDeals AI
   <section id="page-appearance" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
@@ -3839,7 +3858,7 @@ LumaDeals AI
   <section id="page-notifications" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
@@ -3887,7 +3906,7 @@ LumaDeals AI
   <section id="page-help" class="page">
     <div class="settings-page">
 
-      <button class="back-settings" onclick="showPage('profile')">
+      <button class="back-settings" onclick="showPage('profile')" data-translate="backToMyAccount">
         ← Back to My Account
       </button>
 
@@ -4089,7 +4108,7 @@ LumaDeals AI
   <section id="page-orders" class="page">
     <div class="products-section ld-orders-shell">
       <div class="ld-orders-heading">
-        <div><span class="ld-orders-eyebrow">LUMA DEALS · YOUR ACCOUNT</span><h2>My Orders</h2><p>Track your purchases, check delivery progress and view order details.</p></div>
+        <div><span class="ld-orders-eyebrow">LUMA DEALS · YOUR ACCOUNT</span><h2 data-translate="myOrders">My Orders</h2><p>Track your purchases, check delivery progress and view order details.</p></div>
         <div class="ld-orders-heading-icon" aria-hidden="true">📦</div>
       </div>
       <div id="orders-list" class="ld-orders-list"><p class="ld-orders-message">Loading your orders...</p></div>
@@ -4320,7 +4339,7 @@ LumaDeals AI
 
         <button
           class="add-cart-btn"
-          onclick="event.stopPropagation(); addToCart(${productId}, 1)"
+          onclick="event.stopPropagation(); addToCart(${productId}, 1)" data-translate="addToCart"
         >
           🛒 Add to Cart
         </button>
@@ -4966,9 +4985,9 @@ LumaDeals AI
       if (cartContent) {
         cartContent.classList.remove('checkout-mode');
         cartContent.innerHTML = `
-          <div class="cart-header"><h3>Your Cart</h3><span onclick="toggleCart()">✖</span></div>
+          <div class="cart-header"><h3 data-translate="yourCart">Your Cart</h3><span onclick="toggleCart()">✖</span></div>
           <div id="cart-items"></div>
-          <div class="cart-total"><p>Total: Rs <span id="cart-total">0</span></p><button class="checkout-btn" onclick="showCheckoutForm()">Checkout</button></div>`;
+          <div class="cart-total"><p><span data-translate="total">Total:</span> Rs <span id="cart-total">0</span></p><button class="checkout-btn" data-translate="checkout" onclick="showCheckoutForm()">Checkout</button></div>`;
         updateCart();
         cartContent.classList.add('active');
       }
@@ -5022,7 +5041,7 @@ LumaDeals AI
           document.getElementById('home-products-heading');
 
         if (homeHeading) {
-          homeHeading.innerText = 'All Products';
+          homeHeading.innerText = (typeof translations !== 'undefined' && (function(){try{return localStorage.getItem('lumaLanguage');}catch(e){return null;}})() === 'Urdu') ? translations.ur.allProducts : 'All Products';
         }
 
         const shopHeading =
@@ -6487,17 +6506,17 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
             __ldDealBox.innerHTML =
               '<div class="ld-deal-img"><img src="' + String(__ldImg).replace(/"/g, '&quot;') + '" alt=""></div>' +
               '<div class="ld-deal-info">' +
-                '<span class="ld-deal-badge">DEAL OF THE DAY</span>' +
-                '<span class="ld-deal-save">Save Rs ' + __ldSave + '</span>' +
+                '<span class="ld-deal-badge" data-translate="dealOfTheDay">DEAL OF THE DAY</span>' +
+                '<span class="ld-deal-save"><span data-translate="save">Save</span> Rs ' + __ldSave + '</span>' +
                 '<h3>' + __ldName + '</h3>' +
                 '<div class="ld-deal-price"><span class="ld-deal-now">Rs ' + Number(__ldDeal.price) + '</span>' +
                 '<span class="ld-deal-was">Rs ' + Number(__ldDeal.oldPrice) + '</span>' +
                 '<span class="ld-deal-off">' + __ldDisc + '% OFF</span></div>' +
-                '<div class="ld-deal-count"><span class="ld-deal-count-label">Hurry &mdash; deal ends tonight</span>' +
-                '<div class="ld-deal-timer"><div class="ld-deal-t"><b id="ld-deal-hh">00</b><span>Hours</span></div><span>:</span>' +
-                '<div class="ld-deal-t"><b id="ld-deal-mm">00</b><span>Minutes</span></div><span>:</span>' +
-                '<div class="ld-deal-t"><b id="ld-deal-ss">00</b><span>Seconds</span></div></div></div>' +
-                '<button class="ld-deal-btn" onclick="showProductDetail(' + __ldId + ')">Shop Now &rarr;</button>' +
+                '<div class="ld-deal-count"><span class="ld-deal-count-label" data-translate="hurryDealEnds">Hurry &mdash; deal ends tonight</span>' +
+                '<div class="ld-deal-timer"><div class="ld-deal-t"><b id="ld-deal-hh">00</b><span data-translate="hours">Hours</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-mm">00</b><span data-translate="minutes">Minutes</span></div><span>:</span>' +
+                '<div class="ld-deal-t"><b id="ld-deal-ss">00</b><span data-translate="seconds">Seconds</span></div></div></div>' +
+                '<button class="ld-deal-btn" data-translate="shopNow" onclick="showProductDetail(' + __ldId + ')">Shop Now &rarr;</button>' +
                 '<span class="ld-deal-note">A new deal every day &mdash; check back tomorrow.</span>' +
               '</div>';
             (function(){
@@ -6537,8 +6556,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
             if (!__ldCats[c].img) __ldCats[c].img = (typeof ldImg === 'function') ? ldImg(p.img || p.image || (p.images && p.images[0]) || '', 500) : (p.img || '');
           });
           var __ldCatList = Object.keys(__ldCats).map(function (k) { return __ldCats[k]; }).sort(function (a, b) { return b.count - a.count; });
+          var __ldCatUr = { 'Electronics': 'الیکٹرانکس', 'Fashion': 'فیشن', 'Home': 'گھر', 'Beauty': 'خوبصورتی', 'Kitchen': 'باورچی خانہ', 'Toys': 'کھلونے', 'Boutique': 'بوتیک', 'Hand Made': 'ہاتھ سے بنی' };
+          var __ldLang = (typeof localStorage !== 'undefined') ? localStorage.getItem('lumaLanguage') : null;
           __ldCatGrid.innerHTML = __ldCatList.map(function (cat) {
-            var __ldName = String(cat.name).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            var __ldDisp = (__ldLang === 'Urdu' && __ldCatUr[cat.name]) ? __ldCatUr[cat.name] : cat.name;
+            var __ldName = String(__ldDisp).replace(/&/g, '&amp;').replace(/</g, '&lt;');
             var __ldCat = JSON.stringify(cat.name).replace(/"/g, '&quot;');
             var __ldImg = String(cat.img).replace(/"/g, '&quot;');
             var __ldCount = cat.count + (cat.count === 1 ? ' product' : ' products');
@@ -9066,6 +9088,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         price: "Price",
         discount: "Discount",
         language: "Language",
+        selectLanguage: "Select your preferred language.",
+        explore: "Explore",
+        footerAbout: "Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.",
+        shopAllProducts: "Shop All Products",
+        selectLanguage: "Select your preferred language.",
         appearance: "Appearance",
         help: "Help & Support",
         editProfile: "Edit Profile",
@@ -9081,7 +9108,50 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         cod: "100% Cash on Delivery: Shop with complete peace of mind — pay only when your order arrives at your doorstep.",
         trendingProducts: "Curated Trending Products: We stay ahead of trends to bring you unique, high-quality items.",
         whatsappSupport: "Direct WhatsApp Support: No complicated ticket systems — chat with us directly and place orders instantly.",
-        customerFirst: "Customer-First Approach: Every product passes our strict quality checks before it reaches you."
+        customerFirst: "Customer-First Approach: Every product passes our strict quality checks before it reaches you.",
+        shopNow: "Shop Now →",
+        viewAll: "View All",
+        dealOfTheDay: "DEAL OF THE DAY",
+        save: "Save",
+        hours: "Hours",
+        minutes: "Minutes",
+        seconds: "Seconds",
+        hurryDealEnds: "Hurry — deal ends tonight",
+        featuredProducts: "Featured Products",
+        topSavings: "TOP SAVINGS",
+        shopByCategory: "Shop by Category",
+        exploreCollections: "EXPLORE OUR COLLECTIONS",
+        exploreCollection: "Explore collection",
+        bestSellers: "Best Sellers",
+        newArrivals: "New Arrivals",
+        faq: "Frequently Asked Questions",
+        quantity: "Quantity",
+        productDescription: "Product Description",
+        yourCart: "Your Cart",
+        total: "Total",
+        placeOrder: "Place Order",
+        myOrders: "My Orders",
+        trackOrder: "Track Your Order",
+        settings: "Settings",
+        backToMyAccount: "Back to My Account",
+        allProducts: "All Products",
+        categories: "Categories",
+        electronics: "Electronics",
+        fashion: "Fashion",
+        homeCategory: "Home",
+        beauty: "Beauty",
+        kitchen: "Kitchen",
+        toys: "Toys",
+        boutique: "Boutique",
+        handMade: "Hand Made",
+        freeDelivery: "Free Delivery",
+        cashOnDelivery: "Cash on Delivery",
+        easyReturns: "Easy Returns",
+        securePayment: "Secure Payment",
+        searchPlaceholder: "Search Products...",
+        heroTitle: "Quality Products. <em>Honest Prices.</em> Delivered to You.",
+        heroSub: "Handpicked electronics, fashion, home essentials and more — with cash on delivery across Pakistan.",
+        heroEyebrow: "Luma Deals • Online Shopping in Pakistan"
 
       },
 
@@ -9103,6 +9173,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         price: "قیمت",
         discount: "رعایت",
         language: "زبان",
+        selectLanguage: "اپنی پسندیدہ زبان منتخب کریں۔",
+        explore: "دریافت کریں",
+        footerAbout: "لوما ڈیلز پر روزمرہ کی ضروریات، فیشن، الیکٹرانکس، گھر کی اشیاء اور مزید دریافت کریں۔ مصنوعات دیکھیں اور اپنی روزمرہ کی ضروریات کے لیے ڈیلز تلاش کریں۔",
+        shopAllProducts: "تمام مصنوعات خریدیں",
+        selectLanguage: "اپنی پسندیدہ زبان منتخب کریں۔",
         appearance: "ظاہری شکل",
         help: "مدد اور معاونت",
         editProfile: "پروفائل میں ترمیم",
@@ -9118,7 +9193,50 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         cod: "100% کیش آن ڈیلیوری: مکمل اطمینان کے ساتھ خریداری کریں — ادائیگی صرف اس وقت کریں جب آپ کا آرڈر آپ کی دہلیز پر پہنچ جائے۔",
         trendingProducts: "منتخب کردہ جدید مصنوعات: ہم جدید رجحانات پر نظر رکھتے ہیں تاکہ آپ کے لیے منفرد اور اعلیٰ معیار کی مصنوعات لائیں۔",
         whatsappSupport: "براہِ راست واٹس ایپ سپورٹ: پیچیدہ ٹکٹ سسٹم کی ضرورت نہیں — ہم سے براہِ راست چیٹ کریں اور فوراً آرڈر دیں۔",
-        customerFirst: "صارفین کو اولین ترجیح: ہر پروڈکٹ آپ تک پہنچنے سے پہلے ہمارے سخت معیار کی جانچ سے گزرتی ہے۔"
+        customerFirst: "صارفین کو اولین ترجیح: ہر پروڈکٹ آپ تک پہنچنے سے پہلے ہمارے سخت معیار کی جانچ سے گزرتی ہے۔",
+        shopNow: "ابھی خریداری کریں →",
+        viewAll: "سب دیکھیں",
+        dealOfTheDay: "آج کی ڈیل",
+        save: "بچت",
+        hours: "گھنٹے",
+        minutes: "منٹ",
+        seconds: "سیکنڈ",
+        hurryDealEnds: "جلدی کریں — ڈیل آج رات ختم ہو رہی ہے",
+        featuredProducts: "نمایاں مصنوعات",
+        topSavings: "بہترین بچت",
+        shopByCategory: "زمرے کے لحاظ سے خریداری کریں",
+        exploreCollections: "ہمارے مجموعے دیکھیں",
+        exploreCollection: "مجموعہ دیکھیں",
+        bestSellers: "سب سے زیادہ فروخت ہونے والی",
+        newArrivals: "نئی آمد",
+        faq: "اکثر پوچھے جانے والے سوالات",
+        quantity: "مقدار",
+        productDescription: "مصنوعات کی تفصیل",
+        yourCart: "آپ کی کارٹ",
+        total: "کل",
+        placeOrder: "آرڈر کریں",
+        myOrders: "میرے آرڈرز",
+        trackOrder: "اپنا آرڈر ٹریک کریں",
+        settings: "ترتیبات",
+        backToMyAccount: "میرے اکاؤنٹ پر واپس جائیں",
+        allProducts: "تمام مصنوعات",
+        categories: "زمرے",
+        electronics: "الیکٹرانکس",
+        fashion: "فیشن",
+        homeCategory: "گھر",
+        beauty: "خوبصورتی",
+        kitchen: "باورچی خانہ",
+        toys: "کھلونے",
+        boutique: "بوتیک",
+        handMade: "ہاتھ سے بنی",
+        freeDelivery: "مفت ڈیلیوری",
+        cashOnDelivery: "کیش آن ڈیلیوری",
+        easyReturns: "آسان واپسی",
+        securePayment: "محفوظ ادائیگی",
+        searchPlaceholder: "مصنوعات تلاش کریں...",
+        heroTitle: "معیاری مصنوعات۔ <em>ایماندارانہ قیمتیں۔</em> آپ تک پہنچائی گئیں۔",
+        heroSub: "منتخب کردہ الیکٹرانکس، فیشن، گھر کی ضروری اشیاء اور مزید — پاکستان بھر میں کیش آن ڈیلیوری کے ساتھ۔",
+        heroEyebrow: "لوما ڈیلز • پاکستان میں آن لائن شاپنگ"
       }
     };
 
@@ -9134,9 +9252,68 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         const key = el.getAttribute("data-translate");
 
         if (translations[lang][key]) {
-          el.textContent = translations[lang][key];
+          if (translations[lang][key].indexOf("<") !== -1) {
+            el.innerHTML = translations[lang][key];
+          } else {
+            el.textContent = translations[lang][key];
+          }
         }
       });
+
+      document.querySelectorAll("[data-translate-placeholder]").forEach(function (el) {
+        const key = el.getAttribute("data-translate-placeholder");
+
+        if (translations[lang][key]) {
+          el.placeholder = translations[lang][key];
+        }
+      });
+
+      // Keep the Language settings radio in sync with the active language,
+      // so a radio that only *looks* selected can never block a switch.
+      document.querySelectorAll('input[type="radio"][name="language"]').forEach(function (r) {
+        r.checked = (r.value === language);
+      });
+    }
+
+    // Translate content that renders later (product grids, Deal of the Day,
+    // cart) as soon as it appears, so it never stays English until the next switch.
+    function ldTranslateEl(el, lang) {
+      var key = el.getAttribute("data-translate");
+      if (key && translations[lang] && translations[lang][key]) {
+        if (translations[lang][key].indexOf("<") !== -1) {
+          el.innerHTML = translations[lang][key];
+        } else {
+          el.textContent = translations[lang][key];
+        }
+      }
+      var pkey = el.getAttribute("data-translate-placeholder");
+      if (pkey && translations[lang] && translations[lang][pkey]) {
+        el.placeholder = translations[lang][pkey];
+      }
+    }
+    function ldCurrentLang() {
+      var saved = null;
+      try { saved = localStorage.getItem("lumaLanguage"); } catch (e) {}
+      return saved === "Urdu" ? "ur" : "en";
+    }
+    if (typeof MutationObserver !== "undefined" && document.body) {
+      var ldLangObserver = new MutationObserver(function (mutations) {
+        var lang = ldCurrentLang();
+        mutations.forEach(function (mut) {
+          mut.addedNodes.forEach(function (node) {
+            if (node.nodeType !== 1) return;
+            if (node.hasAttribute && (node.hasAttribute("data-translate") || node.hasAttribute("data-translate-placeholder"))) {
+              ldTranslateEl(node, lang);
+            }
+            if (node.querySelectorAll) {
+              node.querySelectorAll("[data-translate], [data-translate-placeholder]").forEach(function (el) {
+                ldTranslateEl(el, lang);
+              });
+            }
+          });
+        });
+      });
+      ldLangObserver.observe(document.body, { childList: true, subtree: true });
     }
     document.addEventListener("DOMContentLoaded", function () {
       const savedLanguage = localStorage.getItem("lumaLanguage");
@@ -13323,7 +13500,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           <a class="ld-footer-logo" href="#" onclick="showPage('home');return false;" aria-label="Luma Deals home">
             <span class="ld-footer-brand-lockup"><img class="ld-footer-logo-image" src="/images/assets/favicon.png" alt="" width="44" height="44" loading="lazy"><span class="ld-footer-wordmark">LUMA<span>DEALS</span></span></span>
           </a>
-          <p class="ld-footer-about">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
+          <p class="ld-footer-about" data-translate="footerAbout">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
           <p class="ld-footer-pay">Payment: <strong>Cash on Delivery</strong> available across Pakistan.</p>
           <div class="footer-socials ld-footer-socials">
             <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on TikTok"><i aria-hidden="true" class="fa-brands fa-tiktok"></i></a>
@@ -13332,25 +13509,25 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           </div>
         </section>
         <nav class="ld-footer-column" aria-label="Explore Luma Deals">
-          <h4>Explore</h4>
-          <a href="#" onclick="showPage('home');return false;">Home</a>
-          <a href="#" onclick="showPage('shop');return false;">Shop All Products</a>
-          <a href="#" onclick="showPage('about');return false;">About Us</a>
-          <a href="#" onclick="showPage('contact');return false;">Contact Us</a>
-          <a href="/faq.html">Frequently Asked Questions</a>
+          <h4 data-translate="explore">Explore</h4>
+          <a href="#" onclick="showPage('home');return false;" data-translate="home">Home</a>
+          <a href="#" onclick="showPage('shop');return false;" data-translate="shopAllProducts">Shop All Products</a>
+          <a href="#" onclick="showPage('about');return false;" data-translate="about">About Us</a>
+          <a href="#" onclick="showPage('contact');return false;" data-translate="contact">Contact Us</a>
+          <a href="/faq.html" data-translate="faq">Frequently Asked Questions</a>
           <a href="/shipping-policy.html">Shipping &amp; Delivery</a>
           <a href="/return-policy.html">Returns &amp; Exchanges</a>
           <a href="/terms.html">Terms &amp; Conditions</a>
         </nav>
         <nav class="ld-footer-column" aria-label="Customer account">
-          <h4>My Account</h4>
+          <h4 data-translate="myAccount">My Account</h4>
           <a href="#" onclick="showPage('login');return false;">Sign In / Register</a>
-          <a href="#" onclick="showPage('orders');return false;">My Orders</a>
-          <a href="#" onclick="showPage('wishlist');return false;">My Wishlist</a>
-          <a href="#" onclick="showPage('profile');return false;">My Profile</a>
+          <a href="#" onclick="showPage('orders');return false;" data-translate="myOrders">My Orders</a>
+          <a href="#" onclick="showPage('wishlist');return false;" data-translate="wishlist">My Wishlist</a>
+          <a href="#" onclick="showPage('profile');return false;" data-translate="profile">My Profile</a>
         </nav>
         <section class="ld-footer-column ld-footer-contact">
-          <h4>Get in Touch</h4>
+          <h4 data-translate="getInTouch">Get in Touch</h4>
           <a href="tel:+923376454384"><span class="ld-footer-contact-icon">☎</span> +92 337 6454384</a>
           <a href="mailto:info.lumadeals@gmail.com"><span class="ld-footer-contact-icon">✉</span> info.lumadeals@gmail.com</a>
           <p><span class="ld-footer-contact-icon">⌖</span> Karachi, Pakistan</p>
