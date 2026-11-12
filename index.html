@@ -1815,6 +1815,25 @@ LumaDeals AI
           .home-feature-section{display:none !important;}
         }
       </style>
+      <style id="ld-detail-thumb-fit-v1">
+        /* Product-detail thumbnails — make the image FIT its box (2026-11-13).
+           The older rule #detail-thumbnails img forces every thumbnail image
+           to 80x80px with object-fit:cover, which is bigger than the
+           .ld-detail-thumb box (62px desktop, 44-54px on phones) and crops
+           the product. This override (higher specificity + !important) sizes
+           the image to the thumb's content box and uses object-fit:contain
+           so the whole product is visible, never cropped or overflowing. */
+        #detail-thumbnails .ld-detail-thumb img{
+          width:100% !important;
+          height:100% !important;
+          min-width:0 !important;
+          min-height:0 !important;
+          max-width:100% !important;
+          max-height:100% !important;
+          object-fit:contain !important;
+          object-position:center !important;
+        }
+      </style>
       <script>
       /* Mobile pill nav indicator (2026-11-13): slides the white dome + blue
          circle to the active bottom-nav button and shows that button's icon
