@@ -3777,8 +3777,8 @@ LumaDeals AI
       <div class="settings-header">
         <div class="settings-icon">🌐</div>
         <div>
-          <h2>Language</h2>
-          <p>Select your preferred language.</p>
+          <h2 data-translate="language">Language</h2>
+          <p data-translate="selectLanguage">Select your preferred language.</p>
         </div>
       </div>
 
@@ -3789,7 +3789,7 @@ LumaDeals AI
             <strong>English</strong>
             <p>Use Luma Deals in English.</p>
           </div>
-          <input type="radio" name="language" value="English" checked onchange="saveLanguage('English')">
+          <input type="radio" name="language" value="English" checked onclick="saveLanguage('English')">
         </label>
 
         <label class="option-row">
@@ -3797,7 +3797,7 @@ LumaDeals AI
             <strong>اردو</strong>
             <p>Use Luma Deals in Urdu.</p>
           </div>
-          <input type="radio" name="language" value="Urdu" onchange="saveLanguage('Urdu')">
+          <input type="radio" name="language" value="Urdu" onclick="saveLanguage('Urdu')">
         </label>
 
       </div>
@@ -5041,7 +5041,7 @@ LumaDeals AI
           document.getElementById('home-products-heading');
 
         if (homeHeading) {
-          homeHeading.innerText = 'All Products';
+          homeHeading.innerText = (typeof translations !== 'undefined' && (function(){try{return localStorage.getItem('lumaLanguage');}catch(e){return null;}})() === 'Urdu') ? translations.ur.allProducts : 'All Products';
         }
 
         const shopHeading =
@@ -9088,6 +9088,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         price: "Price",
         discount: "Discount",
         language: "Language",
+        selectLanguage: "Select your preferred language.",
+        explore: "Explore",
+        footerAbout: "Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.",
+        shopAllProducts: "Shop All Products",
+        selectLanguage: "Select your preferred language.",
         appearance: "Appearance",
         help: "Help & Support",
         editProfile: "Edit Profile",
@@ -9168,6 +9173,11 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
         price: "قیمت",
         discount: "رعایت",
         language: "زبان",
+        selectLanguage: "اپنی پسندیدہ زبان منتخب کریں۔",
+        explore: "دریافت کریں",
+        footerAbout: "لوما ڈیلز پر روزمرہ کی ضروریات، فیشن، الیکٹرانکس، گھر کی اشیاء اور مزید دریافت کریں۔ مصنوعات دیکھیں اور اپنی روزمرہ کی ضروریات کے لیے ڈیلز تلاش کریں۔",
+        shopAllProducts: "تمام مصنوعات خریدیں",
+        selectLanguage: "اپنی پسندیدہ زبان منتخب کریں۔",
         appearance: "ظاہری شکل",
         help: "مدد اور معاونت",
         editProfile: "پروفائل میں ترمیم",
@@ -9257,6 +9267,53 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           el.placeholder = translations[lang][key];
         }
       });
+
+      // Keep the Language settings radio in sync with the active language,
+      // so a radio that only *looks* selected can never block a switch.
+      document.querySelectorAll('input[type="radio"][name="language"]').forEach(function (r) {
+        r.checked = (r.value === language);
+      });
+    }
+
+    // Translate content that renders later (product grids, Deal of the Day,
+    // cart) as soon as it appears, so it never stays English until the next switch.
+    function ldTranslateEl(el, lang) {
+      var key = el.getAttribute("data-translate");
+      if (key && translations[lang] && translations[lang][key]) {
+        if (translations[lang][key].indexOf("<") !== -1) {
+          el.innerHTML = translations[lang][key];
+        } else {
+          el.textContent = translations[lang][key];
+        }
+      }
+      var pkey = el.getAttribute("data-translate-placeholder");
+      if (pkey && translations[lang] && translations[lang][pkey]) {
+        el.placeholder = translations[lang][pkey];
+      }
+    }
+    function ldCurrentLang() {
+      var saved = null;
+      try { saved = localStorage.getItem("lumaLanguage"); } catch (e) {}
+      return saved === "Urdu" ? "ur" : "en";
+    }
+    if (typeof MutationObserver !== "undefined" && document.body) {
+      var ldLangObserver = new MutationObserver(function (mutations) {
+        var lang = ldCurrentLang();
+        mutations.forEach(function (mut) {
+          mut.addedNodes.forEach(function (node) {
+            if (node.nodeType !== 1) return;
+            if (node.hasAttribute && (node.hasAttribute("data-translate") || node.hasAttribute("data-translate-placeholder"))) {
+              ldTranslateEl(node, lang);
+            }
+            if (node.querySelectorAll) {
+              node.querySelectorAll("[data-translate], [data-translate-placeholder]").forEach(function (el) {
+                ldTranslateEl(el, lang);
+              });
+            }
+          });
+        });
+      });
+      ldLangObserver.observe(document.body, { childList: true, subtree: true });
     }
     document.addEventListener("DOMContentLoaded", function () {
       const savedLanguage = localStorage.getItem("lumaLanguage");
@@ -13443,7 +13500,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           <a class="ld-footer-logo" href="#" onclick="showPage('home');return false;" aria-label="Luma Deals home">
             <span class="ld-footer-brand-lockup"><img class="ld-footer-logo-image" src="/images/assets/favicon.png" alt="" width="44" height="44" loading="lazy"><span class="ld-footer-wordmark">LUMA<span>DEALS</span></span></span>
           </a>
-          <p class="ld-footer-about">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
+          <p class="ld-footer-about" data-translate="footerAbout">Discover everyday essentials, fashion, electronics, home picks and more at Luma Deals. Explore products and find deals for your everyday needs.</p>
           <p class="ld-footer-pay">Payment: <strong>Cash on Delivery</strong> available across Pakistan.</p>
           <div class="footer-socials ld-footer-socials">
             <a href="https://www.tiktok.com/@luma.deals0?_r=1&_t=ZS-98m5NWHRKU8" target="_blank" rel="noopener noreferrer" aria-label="Luma Deals on TikTok"><i aria-hidden="true" class="fa-brands fa-tiktok"></i></a>
@@ -13452,25 +13509,25 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
           </div>
         </section>
         <nav class="ld-footer-column" aria-label="Explore Luma Deals">
-          <h4>Explore</h4>
-          <a href="#" onclick="showPage('home');return false;">Home</a>
-          <a href="#" onclick="showPage('shop');return false;">Shop All Products</a>
-          <a href="#" onclick="showPage('about');return false;">About Us</a>
-          <a href="#" onclick="showPage('contact');return false;">Contact Us</a>
-          <a href="/faq.html">Frequently Asked Questions</a>
+          <h4 data-translate="explore">Explore</h4>
+          <a href="#" onclick="showPage('home');return false;" data-translate="home">Home</a>
+          <a href="#" onclick="showPage('shop');return false;" data-translate="shopAllProducts">Shop All Products</a>
+          <a href="#" onclick="showPage('about');return false;" data-translate="about">About Us</a>
+          <a href="#" onclick="showPage('contact');return false;" data-translate="contact">Contact Us</a>
+          <a href="/faq.html" data-translate="faq">Frequently Asked Questions</a>
           <a href="/shipping-policy.html">Shipping &amp; Delivery</a>
           <a href="/return-policy.html">Returns &amp; Exchanges</a>
           <a href="/terms.html">Terms &amp; Conditions</a>
         </nav>
         <nav class="ld-footer-column" aria-label="Customer account">
-          <h4>My Account</h4>
+          <h4 data-translate="myAccount">My Account</h4>
           <a href="#" onclick="showPage('login');return false;">Sign In / Register</a>
-          <a href="#" onclick="showPage('orders');return false;">My Orders</a>
-          <a href="#" onclick="showPage('wishlist');return false;">My Wishlist</a>
-          <a href="#" onclick="showPage('profile');return false;">My Profile</a>
+          <a href="#" onclick="showPage('orders');return false;" data-translate="myOrders">My Orders</a>
+          <a href="#" onclick="showPage('wishlist');return false;" data-translate="wishlist">My Wishlist</a>
+          <a href="#" onclick="showPage('profile');return false;" data-translate="profile">My Profile</a>
         </nav>
         <section class="ld-footer-column ld-footer-contact">
-          <h4>Get in Touch</h4>
+          <h4 data-translate="getInTouch">Get in Touch</h4>
           <a href="tel:+923376454384"><span class="ld-footer-contact-icon">☎</span> +92 337 6454384</a>
           <a href="mailto:info.lumadeals@gmail.com"><span class="ld-footer-contact-icon">✉</span> info.lumadeals@gmail.com</a>
           <p><span class="ld-footer-contact-icon">⌖</span> Karachi, Pakistan</p>
