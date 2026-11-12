@@ -1875,9 +1875,10 @@ LumaDeals AI
       <style id="ld-mobilenav-pill-v1">
         /* Mobile bottom navigation — floating royal-blue pill with a moving
            white dome + blue circle on the active icon (2026-11-13).
-           Matches the Figma reference the user sent: pill bar, royal blue
-           #2E3BFF, icon-only buttons, and a white dome that slides to
-           whichever button is active. Mobile only (max-width 768px).
+           Matches the Figma reference the user sent: pill bar, icon-only
+           buttons, and a white dome that slides to whichever button is
+           active. Colour is the website brand cyan #3BB4EC (the Figma
+           reference used royal blue #2E3BFF). Mobile only (max-width 768px).
            The 5 destinations (Home, Shop, Orders, Wishlist, Profile) and
            bnNavigate() behaviour are unchanged; only the look changes.
            Emoji icons are replaced with clean SVG icons. */
@@ -1889,10 +1890,10 @@ LumaDeals AI
             left:16px; right:16px;
             bottom:calc(14px + env(safe-area-inset-bottom, 0px));
             height:64px;
-            background:#2E3BFF;
+            background:#3BB4EC;
             border:none;
             border-radius:999px;
-            box-shadow:0 10px 28px rgba(46,59,255,.35),0 2px 8px rgba(15,23,42,.12);
+            box-shadow:0 10px 28px rgba(59,180,236,.35),0 2px 8px rgba(15,23,42,.12);
             z-index:999;
             align-items:center;
             justify-content:space-around;
@@ -1908,7 +1909,7 @@ LumaDeals AI
             flex-direction:row;
             align-items:center;
             justify-content:center;
-            color:rgba(255,255,255,.62);
+            color:rgba(255,255,255,.78);
             background:transparent;
             font-size:0;
             gap:0;
@@ -1929,18 +1930,18 @@ LumaDeals AI
           .bottom-navbar.ld-pill .bn-item .bn-label{display:none;}
           .bottom-navbar.ld-pill .bn-item::after{display:none;}
           .bottom-navbar.ld-pill .bn-item:active{transform:scale(.92);}
-          .bottom-navbar.ld-pill .bn-item.active{color:rgba(255,255,255,.62);}
+          .bottom-navbar.ld-pill .bn-item.active{color:rgba(255,255,255,.78);}
           .bottom-navbar.ld-pill .bn-item.active .bn-icon{transform:none;}
           /* Reset the old raised Orders circle — all 5 items are equal now. */
           .bottom-navbar.ld-pill .bn-orders{
             position:relative;top:0;background:transparent;
-            color:rgba(255,255,255,.62) !important;
+            color:rgba(255,255,255,.78) !important;
             width:auto;height:100%;border-radius:0;box-shadow:none;flex:1;
             transform:none;
           }
           .bottom-navbar.ld-pill .bn-orders .bn-icon{font-size:0;}
           .bottom-navbar.ld-pill .bn-orders.active{
-            background:transparent;color:rgba(255,255,255,.62) !important;
+            background:transparent;color:rgba(255,255,255,.78) !important;
             transform:none;box-shadow:none;
           }
           .bottom-navbar.ld-pill .bn-orders:active{transform:scale(.92);}
@@ -1959,7 +1960,7 @@ LumaDeals AI
           }
           .bottom-navbar.ld-pill .bn-indicator .bn-indicator-dot{
             width:46px;height:46px;border-radius:50%;
-            background:#2E3BFF;
+            background:#3BB4EC;
             display:flex;align-items:center;justify-content:center;
             color:#ffffff;
           }
