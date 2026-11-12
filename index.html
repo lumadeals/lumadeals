@@ -1660,185 +1660,6 @@ LumaDeals AI
   <!-- HOME -->
   <section id="page-home" class="page active">
 
-    <!-- SHOP BY CATEGORY -->
-    <section class="home-feature-section">
-
-      <div class="home-section-heading">
-        <div>
-          <span>EXPLORE OUR COLLECTIONS</span>
-          <h2>Shop by Category</h2>
-        </div>
-
-        <button onclick="showPage('shop')">
-          View All →
-        </button>
-      </div>
-
-
-      <!-- CATEGORY ROW -->
-      <div class="category-showcase">
-
-        <!-- ELECTRONICS -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">          <div class="category-avatar"><img src="images/electronics/mini-wifi-camera-1.jpg" alt="Electronics" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Electronics</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- FASHION -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">          <div class="category-avatar"><img src="images/fashion/Watch-2-1.jpg" alt="Fashion" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Fashion</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- HOME -->
-        <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">          <div class="category-avatar"><img src="images/home-living/Bismillah-Clock-1.jpg" alt="Home" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Home</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- BEAUTY -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">          <div class="category-avatar"><img src="images/Beauty/ponds-flawless.jpg" alt="Beauty" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Beauty</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- KITCHEN -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">          <div class="category-avatar"><img src="images/kitchen/dish-washing-gloves.jpg" alt="Kitchen" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Kitchen</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- TOYS -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">          <div class="category-avatar"><img src="images/toys/rc-car-blue.jpg" alt="Toys" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Toys</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- BOUTIQUE -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">          <div class="category-avatar"><img src="images/boutique/brown-arabic-lawn-1-1.jpg" alt="Boutique" loading="lazy"></div>
-          <div class="category-meta">
-            <h3>Boutique</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-        <!-- HAND MADE -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">          <div class="category-avatar category-avatar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
-          <div class="category-meta">
-            <h3>Hand Made</h3>
-            <span class="category-explore">Explore collection &rarr;</span>
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- ==========================================
-     CATEGORY SUBCATEGORIES
-     ========================================== -->
-
-      <div id="category-subcategories" class="category-subcategories">
-
-
-
-        <!-- BEAUTY -->
-        <div class="subcategory-group" data-category="Beauty">
-          <button onclick="filterCategorySubcategory('Beauty','All',event)">All Beauty</button>
-          <button onclick="filterCategorySubcategory('Beauty','Skincare',event)">Skincare</button>
-          <button onclick="filterCategorySubcategory('Beauty','Makeup',event)">Makeup</button>
-          <button onclick="filterCategorySubcategory('Beauty','Hair Care',event)">Hair Care</button>
-          <button onclick="filterCategorySubcategory('Beauty','Fragrance',event)">Fragrance</button>
-          <button onclick="filterCategorySubcategory('Beauty','Personal Care',event)">Personal Care</button>
-        </div>
-
-        <!-- KITCHEN -->
-        <div class="subcategory-group" data-category="Kitchen">
-          <button onclick="filterCategorySubcategory('Kitchen','All',event)">All Kitchen</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Cookware',event)">Cookware</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Appliances',event)">Kitchen
-            Appliances</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Dining',event)">Dining</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Storage',event)">Kitchen Storage</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Tools & Gadgets',event)">Tools & Gadgets</button>
-        </div>
-
-        <!-- TOYS -->
-        <div class="subcategory-group" data-category="Toys">
-          <button onclick="filterCategorySubcategory('Toys','All',event)">All Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Educational Toys',event)">Educational Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Games',event)">Games</button>
-          <button onclick="filterCategorySubcategory('Toys','Outdoor Toys',event)">Outdoor Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">Kids Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">Puzzles</button>
-        </div>
-
-        <!-- HOME -->
-        <div class="subcategory-group" data-category="Home">
-          <button onclick="filterCategorySubcategory('Home','All',event)">All Home</button>
-          <button onclick="filterCategorySubcategory('Home','Home Decor',event)">Home Decor</button>
-          <button onclick="filterCategorySubcategory('Home','Lighting',event)">Lighting</button>
-          <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">Storage &
-            Organization</button>
-          <button onclick="filterCategorySubcategory('Home','Bedding',event)">Bedding</button>
-          <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">Garden & Outdoor</button>
-          <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">Cleaning &
-            Household</button>
-        </div>
-
-        <!-- FASHION -->
-        <div class="subcategory-group" data-category="Fashion">
-          <button onclick="filterCategorySubcategory('Fashion','All',event)">All Fashion</button>
-          <button onclick="filterCategorySubcategory('Fashion','Men',event)">Men</button>
-          <button onclick="filterCategorySubcategory('Fashion','Women',event)">Women</button>
-          <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">Shoes</button>
-          <button onclick="filterCategorySubcategory('Fashion','Bags',event)">Bags</button>
-          <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
-        </div>
-
-        <!-- ELECTRONICS -->
-        <div class="subcategory-group" data-category="Electronics">
-          <button onclick="filterCategorySubcategory('Electronics','All',event)">All Electronics</button>
-          <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">Mobile
-            Accessories</button>
-          <button onclick="filterCategorySubcategory('Electronics','Audio',event)">Audio</button>
-          <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
-        </div>
-
-        <!-- BOUTIQUE -->
-        <div class="subcategory-group" data-category="Boutique">
-          <button onclick="filterCategorySubcategory('Boutique','All',event)">All Boutique</button>
-          <button onclick="filterCategorySubcategory('Boutique','Clothing',event)">Clothing</button>
-          <button onclick="filterCategorySubcategory('Boutique','Jewelry',event)">Jewelry</button>
-          <button onclick="filterCategorySubcategory('Boutique','Accessories',event)">Accessories</button>
-          <button onclick="filterCategorySubcategory('Boutique','Handbags',event)">Handbags</button>
-        </div>
-
-        <!-- HAND MADE -->
-        <div class="subcategory-group" data-category="Hand Made">
-          <button onclick="filterCategorySubcategory('Hand Made','All',event)">All Hand Made</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Decor',event)">Handmade Decor</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Jewelry',event)">Handmade Jewelry</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Gifts',event)">Handmade Gifts</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Crafts',event)">Crafts</button>
-        </div>
-
-      </div>
-
-
-
-    </section>
       <style id="ld-topcat-v7">
         /* Top Shop by Category — compact text tiles + small round avatar
            (2026-11-13, v7). User: "add the avatar for categories, don't
@@ -1991,6 +1812,7 @@ LumaDeals AI
         @media (max-width:768px){
           header.navbar .nav-icons{display:none !important;}
           .bottom-navbar.ld-pill{display:flex !important;}
+          .home-feature-section{display:none !important;}
         }
       </style>
       <script>
@@ -2149,7 +1971,12 @@ LumaDeals AI
 </style>
 
 
-<!-- PREMIUM HERO BANNER: real Luma Deals products, real image URLs, real prices -->
+      <!-- DEAL OF THE DAY — moved to the top of the hero banner (2026-11-13). -->
+      <section class="ld-deal-day" id="deal-of-the-day">
+        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
+      </section>
+
+      <!-- PREMIUM HERO BANNER: real Luma Deals products, real image URLs, real prices -->
 <section class="ld-premium-hero" aria-label="Luma Deals featured products">
   <div class="ld-premium-hero-inner">
     <div class="ld-hero-copy">
@@ -2438,6 +2265,186 @@ LumaDeals AI
       <div class="product-grid" id="featured-product-grid"></div>
     </section>
 
+      <!-- SHOP BY CATEGORY — moved below Featured Products (2026-11-13). Desktop only. -->
+      <section class="home-feature-section">
+
+      <div class="home-section-heading">
+        <div>
+          <span>EXPLORE OUR COLLECTIONS</span>
+          <h2>Shop by Category</h2>
+        </div>
+
+        <button onclick="showPage('shop')">
+          View All →
+        </button>
+      </div>
+
+
+      <!-- CATEGORY ROW -->
+      <div class="category-showcase">
+
+        <!-- ELECTRONICS -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">          <div class="category-avatar"><img src="images/electronics/mini-wifi-camera-1.jpg" alt="Electronics" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Electronics</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- FASHION -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">          <div class="category-avatar"><img src="images/fashion/Watch-2-1.jpg" alt="Fashion" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Fashion</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- HOME -->
+        <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">          <div class="category-avatar"><img src="images/home-living/Bismillah-Clock-1.jpg" alt="Home" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Home</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- BEAUTY -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">          <div class="category-avatar"><img src="images/Beauty/ponds-flawless.jpg" alt="Beauty" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Beauty</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- KITCHEN -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">          <div class="category-avatar"><img src="images/kitchen/dish-washing-gloves.jpg" alt="Kitchen" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Kitchen</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- TOYS -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">          <div class="category-avatar"><img src="images/toys/rc-car-blue.jpg" alt="Toys" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Toys</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- BOUTIQUE -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">          <div class="category-avatar"><img src="images/boutique/brown-arabic-lawn-1-1.jpg" alt="Boutique" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Boutique</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- HAND MADE -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">          <div class="category-avatar category-avatar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
+          <div class="category-meta">
+            <h3>Hand Made</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+     CATEGORY SUBCATEGORIES
+     ========================================== -->
+
+      <div id="category-subcategories" class="category-subcategories">
+
+
+
+        <!-- BEAUTY -->
+        <div class="subcategory-group" data-category="Beauty">
+          <button onclick="filterCategorySubcategory('Beauty','All',event)">All Beauty</button>
+          <button onclick="filterCategorySubcategory('Beauty','Skincare',event)">Skincare</button>
+          <button onclick="filterCategorySubcategory('Beauty','Makeup',event)">Makeup</button>
+          <button onclick="filterCategorySubcategory('Beauty','Hair Care',event)">Hair Care</button>
+          <button onclick="filterCategorySubcategory('Beauty','Fragrance',event)">Fragrance</button>
+          <button onclick="filterCategorySubcategory('Beauty','Personal Care',event)">Personal Care</button>
+        </div>
+
+        <!-- KITCHEN -->
+        <div class="subcategory-group" data-category="Kitchen">
+          <button onclick="filterCategorySubcategory('Kitchen','All',event)">All Kitchen</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Cookware',event)">Cookware</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Appliances',event)">Kitchen
+            Appliances</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Dining',event)">Dining</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Storage',event)">Kitchen Storage</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Tools & Gadgets',event)">Tools & Gadgets</button>
+        </div>
+
+        <!-- TOYS -->
+        <div class="subcategory-group" data-category="Toys">
+          <button onclick="filterCategorySubcategory('Toys','All',event)">All Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Educational Toys',event)">Educational Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Games',event)">Games</button>
+          <button onclick="filterCategorySubcategory('Toys','Outdoor Toys',event)">Outdoor Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">Kids Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">Puzzles</button>
+        </div>
+
+        <!-- HOME -->
+        <div class="subcategory-group" data-category="Home">
+          <button onclick="filterCategorySubcategory('Home','All',event)">All Home</button>
+          <button onclick="filterCategorySubcategory('Home','Home Decor',event)">Home Decor</button>
+          <button onclick="filterCategorySubcategory('Home','Lighting',event)">Lighting</button>
+          <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">Storage &
+            Organization</button>
+          <button onclick="filterCategorySubcategory('Home','Bedding',event)">Bedding</button>
+          <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">Garden & Outdoor</button>
+          <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">Cleaning &
+            Household</button>
+        </div>
+
+        <!-- FASHION -->
+        <div class="subcategory-group" data-category="Fashion">
+          <button onclick="filterCategorySubcategory('Fashion','All',event)">All Fashion</button>
+          <button onclick="filterCategorySubcategory('Fashion','Men',event)">Men</button>
+          <button onclick="filterCategorySubcategory('Fashion','Women',event)">Women</button>
+          <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">Shoes</button>
+          <button onclick="filterCategorySubcategory('Fashion','Bags',event)">Bags</button>
+          <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
+        </div>
+
+        <!-- ELECTRONICS -->
+        <div class="subcategory-group" data-category="Electronics">
+          <button onclick="filterCategorySubcategory('Electronics','All',event)">All Electronics</button>
+          <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">Mobile
+            Accessories</button>
+          <button onclick="filterCategorySubcategory('Electronics','Audio',event)">Audio</button>
+          <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
+        </div>
+
+        <!-- BOUTIQUE -->
+        <div class="subcategory-group" data-category="Boutique">
+          <button onclick="filterCategorySubcategory('Boutique','All',event)">All Boutique</button>
+          <button onclick="filterCategorySubcategory('Boutique','Clothing',event)">Clothing</button>
+          <button onclick="filterCategorySubcategory('Boutique','Jewelry',event)">Jewelry</button>
+          <button onclick="filterCategorySubcategory('Boutique','Accessories',event)">Accessories</button>
+          <button onclick="filterCategorySubcategory('Boutique','Handbags',event)">Handbags</button>
+        </div>
+
+        <!-- HAND MADE -->
+        <div class="subcategory-group" data-category="Hand Made">
+          <button onclick="filterCategorySubcategory('Hand Made','All',event)">All Hand Made</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Decor',event)">Handmade Decor</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Jewelry',event)">Handmade Jewelry</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Gifts',event)">Handmade Gifts</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Crafts',event)">Crafts</button>
+        </div>
+
+      </div>
+
+
+
+    </section>
+
     <!-- FEATURED ROW SNAP: CSS scroll-snap alone did not engage on wheel scroll
          (QA round 1: row rested mid-card), so a small JS snap backs it up.
          On scroll end it snaps to the nearest card's left edge. The 2px dead
@@ -2551,9 +2558,7 @@ LumaDeals AI
           .ld-deal-t b{font-size:22px;}
         }
       </style>
-      <section class="ld-deal-day" id="deal-of-the-day">
-        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
-      </section>
+      
 
       <!-- ABOUT LUMA DEALS (home): our story, copied from the real About page (#page-about).
            No new claims — the same intro and goal text as the About page. -->
