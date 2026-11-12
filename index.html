@@ -1186,7 +1186,7 @@
       <!-- PROFILE -->
       <div class="profile-wrapper">
         <button class="profile-button" onclick="showPage('profile')">
-          <div class="profile-avatar" id="header-profile-avatar">👤</div>
+          <div class="profile-avatar" id="header-profile-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
           <span class="profile-label">Profile</span>
         </button>
 
@@ -1204,13 +1204,13 @@
   </section>
   <!-- ORDERS -->
       <div class="icon" onclick="bnNavigate('orders', this)">
-        📦
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
         <span>Orders</span>
       </div>
 
       <!-- WISHLIST -->
       <div class="icon" onclick="showPage('wishlist'); showWishlist();">
-        ❤️
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
         <span>Wishlist</span>
       </div>
 
@@ -1660,178 +1660,207 @@ LumaDeals AI
   <!-- HOME -->
   <section id="page-home" class="page active">
 
-    <!-- SHOP BY CATEGORY -->
-    <section class="home-feature-section">
-
-      <div class="home-section-heading">
-        <div>
-          <span>EXPLORE</span>
-          <h2>Shop by Category</h2>
-        </div>
-
-        <button onclick="showPage('shop')">
-          View All →
-        </button>
-      </div>
-
-
-      <!-- CATEGORY ROW -->
-      <div class="category-showcase">
-
-
-
-        <!-- BEAUTY -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">
-          <div class="category-icon">💄</div>
-          <h3>Beauty <span class="category-arrow">⌄</span></h3>
-          <p>Beauty & care</p>
-        </div>
-
-        <!-- KITCHEN -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">
-          <div class="category-icon">🍳</div>
-          <h3>Kitchen <span class="category-arrow">⌄</span></h3>
-          <p>Kitchen essentials</p>
-        </div>
-
-        <!-- TOYS -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">
-          <div class="category-icon">🧸</div>
-          <h3>Toys <span class="category-arrow">⌄</span></h3>
-          <p>Fun for everyone</p>
-        </div>
-
-        <!-- HOME -->
-        <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">
-          <div class="category-icon">🏠</div>
-          <h3>Home <span class="category-arrow">⌄</span></h3>
-          <p>Make life comfortable</p>
-        </div>
-
-        <!-- FASHION -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">
-          <div class="category-icon">👕</div>
-          <h3>Fashion <span class="category-arrow">⌄</span></h3>
-          <p>Style for everyone</p>
-        </div>
-        <!-- ELECTRONICS -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">
-          <div class="category-icon">📱</div>
-          <h3>Electronics <span class="category-arrow">⌄</span></h3>
-          <p>Smart technology</p>
-        </div>
-
-        <!-- BOUTIQUE -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">
-          <div class="category-icon">👜</div>
-          <h3>Boutique <span class="category-arrow">⌄</span></h3>
-          <p>Premium collection</p>
-        </div>
-
-        <!-- HAND MADE -->
-        <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">
-          <div class="category-icon">🖐️</div>
-          <h3>Hand Made <span class="category-arrow">⌄</span></h3>
-          <p>Made with care</p>
-        </div>
-
-      </div>
-
-
-      <!-- ==========================================
-     CATEGORY SUBCATEGORIES
-     ========================================== -->
-
-      <div id="category-subcategories" class="category-subcategories">
-
-
-
-        <!-- BEAUTY -->
-        <div class="subcategory-group" data-category="Beauty">
-          <button onclick="filterCategorySubcategory('Beauty','All',event)">💄 All Beauty</button>
-          <button onclick="filterCategorySubcategory('Beauty','Skincare',event)">🧴 Skincare</button>
-          <button onclick="filterCategorySubcategory('Beauty','Makeup',event)">💄 Makeup</button>
-          <button onclick="filterCategorySubcategory('Beauty','Hair Care',event)">💇 Hair Care</button>
-          <button onclick="filterCategorySubcategory('Beauty','Fragrance',event)">🌸 Fragrance</button>
-          <button onclick="filterCategorySubcategory('Beauty','Personal Care',event)">🧼 Personal Care</button>
-        </div>
-
-        <!-- KITCHEN -->
-        <div class="subcategory-group" data-category="Kitchen">
-          <button onclick="filterCategorySubcategory('Kitchen','All',event)">🍳 All Kitchen</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Cookware',event)">🍲 Cookware</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Appliances',event)">⚡ Kitchen
-            Appliances</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Dining',event)">🍽️ Dining</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Storage',event)">🗄️ Kitchen Storage</button>
-          <button onclick="filterCategorySubcategory('Kitchen','Tools & Gadgets',event)">🔧 Tools & Gadgets</button>
-        </div>
-
-        <!-- TOYS -->
-        <div class="subcategory-group" data-category="Toys">
-          <button onclick="filterCategorySubcategory('Toys','All',event)">🧸 All Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Educational Toys',event)">📚 Educational Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Games',event)">🎮 Games</button>
-          <button onclick="filterCategorySubcategory('Toys','Outdoor Toys',event)">⚽ Outdoor Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">🧸 Kids Toys</button>
-          <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">🧩 Puzzles</button>
-        </div>
-
-        <!-- HOME -->
-        <div class="subcategory-group" data-category="Home">
-          <button onclick="filterCategorySubcategory('Home','All',event)">🏠 All Home</button>
-          <button onclick="filterCategorySubcategory('Home','Home Decor',event)">🖼️ Home Decor</button>
-          <button onclick="filterCategorySubcategory('Home','Lighting',event)">💡 Lighting</button>
-          <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">🗄️ Storage &
-            Organization</button>
-          <button onclick="filterCategorySubcategory('Home','Bedding',event)">🛏️ Bedding</button>
-          <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">🪴 Garden & Outdoor</button>
-          <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">🧹 Cleaning &
-            Household</button>
-        </div>
-
-        <!-- FASHION -->
-        <div class="subcategory-group" data-category="Fashion">
-          <button onclick="filterCategorySubcategory('Fashion','All',event)">👕 All Fashion</button>
-          <button onclick="filterCategorySubcategory('Fashion','Men',event)">👨 Men</button>
-          <button onclick="filterCategorySubcategory('Fashion','Women',event)">👩 Women</button>
-          <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">👟 Shoes</button>
-          <button onclick="filterCategorySubcategory('Fashion','Bags',event)">👜 Bags</button>
-          <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
-        </div>
-
-        <!-- ELECTRONICS -->
-        <div class="subcategory-group" data-category="Electronics">
-          <button onclick="filterCategorySubcategory('Electronics','All',event)">📱 All Electronics</button>
-          <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">🔌 Mobile
-            Accessories</button>
-          <button onclick="filterCategorySubcategory('Electronics','Audio',event)">🎧 Audio</button>
-          <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
-        </div>
-
-        <!-- BOUTIQUE -->
-        <div class="subcategory-group" data-category="Boutique">
-          <button onclick="filterCategorySubcategory('Boutique','All',event)">👜 All Boutique</button>
-          <button onclick="filterCategorySubcategory('Boutique','Clothing',event)">👗 Clothing</button>
-          <button onclick="filterCategorySubcategory('Boutique','Jewelry',event)">💎 Jewelry</button>
-          <button onclick="filterCategorySubcategory('Boutique','Accessories',event)">👜 Accessories</button>
-          <button onclick="filterCategorySubcategory('Boutique','Handbags',event)">👝 Handbags</button>
-        </div>
-
-        <!-- HAND MADE -->
-        <div class="subcategory-group" data-category="Hand Made">
-          <button onclick="filterCategorySubcategory('Hand Made','All',event)">🖐️ All Hand Made</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Decor',event)">🏺 Handmade Decor</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Jewelry',event)">💎 Handmade Jewelry</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Handmade Gifts',event)">🎁 Handmade Gifts</button>
-          <button onclick="filterCategorySubcategory('Hand Made','Crafts',event)">🧶 Crafts</button>
-        </div>
-
-      </div>
-
-
-
-    </section>
+      <style id="ld-topcat-v7">
+        /* Top Shop by Category — compact text tiles + small round avatar
+           (2026-11-13, v7). User: "add the avatar for categories, don't
+           change the look or size". A 40px circular avatar sits on the left
+           of the text; the tile keeps the v6 compact size (~same height),
+           padding, type, 4-column grid and card look. Photos are reused
+           only as small circular avatars (not large tiles).
+           Hidden entirely on mobile (max-width 768px) — user's order.
+           Functionality unchanged: clicking a tile still toggles the
+           subcategory panel; filtering and category names untouched. */
+        .home-feature-section .category-showcase{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+        .home-feature-section .category-card{flex:none;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:12px;aspect-ratio:auto;height:auto;min-height:0;text-align:left;padding:16px 18px;background:#ffffff;border:1px solid #e8edf2;border-radius:14px;overflow:hidden;box-shadow:0 2px 6px rgba(15,23,42,.05),0 6px 16px rgba(15,23,42,.05);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;cursor:pointer;}
+        .home-feature-section .category-card::before,.home-feature-section .category-card::after{display:none;}
+        .home-feature-section .category-avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#f4f8fb;}
+        .home-feature-section .category-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+        .home-feature-section .category-avatar-icon{display:flex;align-items:center;justify-content:center;background:#f0f9ff;}
+        .home-feature-section .category-avatar-icon svg{width:22px;height:22px;flex-shrink:0;}
+        .home-feature-section .category-meta{flex:1;min-width:0;}
+        .home-feature-section .category-card h3{font-size:15px;line-height:1.3;margin:0 0 4px;color:#14171A;}
+        .home-feature-section .category-explore{display:block;font-size:12px;line-height:1.4;color:#64748b;margin:0;}
+        .home-feature-section .category-card:hover{transform:translateY(-3px);border-color:#bfe6f8;box-shadow:0 6px 14px rgba(15,23,42,.08),0 12px 26px rgba(15,23,42,.10);}
+        .home-feature-section .category-card:hover .category-explore{color:#0284c7;}
+        .home-feature-section .category-card.active{height:auto;min-height:0;background:#ffffff;border-color:#3BB4EC;color:#14171A;box-shadow:0 0 0 3px rgba(59,180,236,.18),0 8px 20px rgba(59,180,236,.16);transform:translateY(-2px);}
+        .home-feature-section .category-card.active h3{color:#14171A;}
+        .home-feature-section .category-card.active .category-explore{color:#0284c7;}
+        @media (max-width:1000px){
+          .home-feature-section .category-showcase{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+        }
+        /* Mobile only: hide the whole top Shop by Category section. */
+        @media (max-width:768px){
+          .home-feature-section{display:none !important;}
+        }
+      </style>
+      <style id="ld-mobilenav-pill-v1">
+        /* Mobile bottom navigation — floating royal-blue pill with a moving
+           white dome + blue circle on the active icon (2026-11-13).
+           Matches the Figma reference the user sent: pill bar, icon-only
+           buttons, and a white dome that slides to whichever button is
+           active. Colour is the website brand cyan #3BB4EC (the Figma
+           reference used royal blue #2E3BFF). Mobile only (max-width 768px).
+           The 5 destinations (Home, Shop, Orders, Wishlist, Profile) and
+           bnNavigate() behaviour are unchanged; only the look changes.
+           Emoji icons are replaced with clean SVG icons. */
+        .bottom-navbar.ld-pill{display:none;}
+        @media (max-width:768px){
+          .bottom-navbar.ld-pill{
+            display:flex;
+            position:fixed;
+            left:16px; right:16px;
+            bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+            height:64px;
+            background:#3BB4EC;
+            border:none;
+            border-radius:999px;
+            box-shadow:0 10px 28px rgba(59,180,236,.35),0 2px 8px rgba(15,23,42,.12);
+            z-index:999;
+            align-items:center;
+            justify-content:space-around;
+            padding:0 6px;
+            animation:bnSlideUp .4s ease;
+          }
+          body{padding-bottom:calc(100px + env(safe-area-inset-bottom, 0px));}
+          .bottom-navbar.ld-pill .bn-item{
+            position:relative;
+            flex:1;
+            height:100%;
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            justify-content:center;
+            color:rgba(255,255,255,.78);
+            background:transparent;
+            font-size:0;
+            gap:0;
+            cursor:pointer;
+            z-index:1;
+            transition:color .25s ease;
+          }
+          .bottom-navbar.ld-pill .bn-item .bn-icon{
+            display:flex;align-items:center;justify-content:center;
+            font-size:0;line-height:1;
+            transform:none;
+          }
+          .bottom-navbar.ld-pill .bn-item .bn-icon svg{
+            width:24px;height:24px;display:block;
+            fill:none;stroke:currentColor;stroke-width:2;
+            stroke-linecap:round;stroke-linejoin:round;
+          }
+          .bottom-navbar.ld-pill .bn-item .bn-label{display:none;}
+          .bottom-navbar.ld-pill .bn-item::after{display:none;}
+          .bottom-navbar.ld-pill .bn-item:active{transform:scale(.92);}
+          .bottom-navbar.ld-pill .bn-item.active{color:rgba(255,255,255,.78);}
+          .bottom-navbar.ld-pill .bn-item.active .bn-icon{transform:none;}
+          /* Reset the old raised Orders circle — all 5 items are equal now. */
+          .bottom-navbar.ld-pill .bn-orders{
+            position:relative;top:0;background:transparent;
+            color:rgba(255,255,255,.78) !important;
+            width:auto;height:100%;border-radius:0;box-shadow:none;flex:1;
+            transform:none;
+          }
+          .bottom-navbar.ld-pill .bn-orders .bn-icon{font-size:0;}
+          .bottom-navbar.ld-pill .bn-orders.active{
+            background:transparent;color:rgba(255,255,255,.78) !important;
+            transform:none;box-shadow:none;
+          }
+          .bottom-navbar.ld-pill .bn-orders:active{transform:scale(.92);}
+          /* The moving white dome + blue circle (active indicator). */
+          .bottom-navbar.ld-pill .bn-indicator{
+            position:absolute;
+            top:-20px;left:0;
+            width:60px;height:60px;
+            border-radius:50%;
+            background:#ffffff;
+            z-index:2;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 16px rgba(15,23,42,.20);
+            pointer-events:none;
+            transition:left .38s cubic-bezier(.34,1.3,.64,1);
+          }
+          .bottom-navbar.ld-pill .bn-indicator .bn-indicator-dot{
+            width:46px;height:46px;border-radius:50%;
+            background:#3BB4EC;
+            display:flex;align-items:center;justify-content:center;
+            color:#ffffff;
+          }
+          .bottom-navbar.ld-pill .bn-indicator .bn-indicator-dot svg{
+            width:24px;height:24px;display:block;
+            fill:none;stroke:currentColor;stroke-width:2;
+            stroke-linecap:round;stroke-linejoin:round;
+          }
+        }
+      </style>
+      <style id="ld-header-icons-v1">
+        /* Desktop header icons — clean outline SVGs (2026-11-13).
+           Replaces the emoji (Profile 👤, Orders 📦, Wishlist ❤️) with the
+           same outline icons used in the mobile pill nav. Sizes unchanged:
+           Orders/Wishlist 18px (matches the old .icon font-size), Profile
+           16px inside the existing 30px cyan circle. Colours unchanged
+           (dark #0f172a for Orders/Wishlist, white on cyan for Profile). */
+        .nav-icons .icon svg{width:18px;height:18px;display:block;margin:0 auto;}
+        .profile-avatar svg{width:16px;height:16px;display:block;}
+      </style>
+      <style id="ld-mobile-header-fix-v1">
+        /* Mobile header/nav fix (2026-11-13).
+           On phones the desktop header icons (Profile / Orders / Wishlist)
+           must stay hidden — the floating pill bar is the mobile nav.
+           The older base rule sets .nav-icons{display:flex !important}, so
+           this override uses a more specific selector and comes later in
+           the document to win. The pill bar is forced visible on mobile. */
+        @media (max-width:768px){
+          header.navbar .nav-icons{display:none !important;}
+          .bottom-navbar.ld-pill{display:flex !important;}
+          .home-feature-section{display:none !important;}
+        }
+      </style>
+      <script>
+      /* Mobile pill nav indicator (2026-11-13): slides the white dome + blue
+         circle to the active bottom-nav button and shows that button's icon
+         (white) inside it. Hooks into the existing bnNavigate() flow via a
+         bubbled click listener (bnNavigate runs first, then this re-positions). */
+      (function(){
+        var firstRun = true;
+        function ldMovePillIndicator(){
+          var bar = document.querySelector('.bottom-navbar.ld-pill');
+          if(!bar) return;
+          var active = bar.querySelector('.bn-item.active') || bar.querySelector('.bn-item');
+          var ind = bar.querySelector('.bn-indicator');
+          if(!active || !ind) return;
+          var cx = active.offsetLeft + active.offsetWidth / 2;
+          var left = cx - 30; /* half of the 60px white circle */
+          if(firstRun){
+            ind.style.transition = 'none';
+            ind.style.left = left + 'px';
+            void ind.offsetWidth; /* force reflow so the jump is instant */
+            ind.style.transition = '';
+            firstRun = false;
+          } else {
+            ind.style.left = left + 'px';
+          }
+          var dot = ind.querySelector('.bn-indicator-dot');
+          var svg = active.querySelector('.bn-icon svg');
+          if(dot && svg){
+            dot.innerHTML = '';
+            dot.appendChild(svg.cloneNode(true));
+          }
+        }
+        function ldInitPill(){
+          var bar = document.querySelector('.bottom-navbar.ld-pill');
+          if(!bar) return;
+          ldMovePillIndicator();
+          bar.addEventListener('click', function(){ setTimeout(ldMovePillIndicator, 30); });
+          window.addEventListener('resize', ldMovePillIndicator);
+          setTimeout(ldMovePillIndicator, 300);
+        }
+        if(document.readyState === 'loading'){
+          document.addEventListener('DOMContentLoaded', ldInitPill);
+        } else {
+          ldInitPill();
+        }
+      })();
+      </script>
 
 
 
@@ -1942,7 +1971,12 @@ LumaDeals AI
 </style>
 
 
-<!-- PREMIUM HERO BANNER: real Luma Deals products, real image URLs, real prices -->
+      <!-- DEAL OF THE DAY — moved to the top of the hero banner (2026-11-13). -->
+      <section class="ld-deal-day" id="deal-of-the-day">
+        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
+      </section>
+
+      <!-- PREMIUM HERO BANNER: real Luma Deals products, real image URLs, real prices -->
 <section class="ld-premium-hero" aria-label="Luma Deals featured products">
   <div class="ld-premium-hero-inner">
     <div class="ld-hero-copy">
@@ -2231,6 +2265,186 @@ LumaDeals AI
       <div class="product-grid" id="featured-product-grid"></div>
     </section>
 
+      <!-- SHOP BY CATEGORY — moved below Featured Products (2026-11-13). Desktop only. -->
+      <section class="home-feature-section">
+
+      <div class="home-section-heading">
+        <div>
+          <span>EXPLORE OUR COLLECTIONS</span>
+          <h2>Shop by Category</h2>
+        </div>
+
+        <button onclick="showPage('shop')">
+          View All →
+        </button>
+      </div>
+
+
+      <!-- CATEGORY ROW -->
+      <div class="category-showcase">
+
+        <!-- ELECTRONICS -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">          <div class="category-avatar"><img src="images/electronics/mini-wifi-camera-1.jpg" alt="Electronics" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Electronics</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- FASHION -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">          <div class="category-avatar"><img src="images/fashion/Watch-2-1.jpg" alt="Fashion" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Fashion</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- HOME -->
+        <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">          <div class="category-avatar"><img src="images/home-living/Bismillah-Clock-1.jpg" alt="Home" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Home</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- BEAUTY -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">          <div class="category-avatar"><img src="images/Beauty/ponds-flawless.jpg" alt="Beauty" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Beauty</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- KITCHEN -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">          <div class="category-avatar"><img src="images/kitchen/dish-washing-gloves.jpg" alt="Kitchen" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Kitchen</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- TOYS -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">          <div class="category-avatar"><img src="images/toys/rc-car-blue.jpg" alt="Toys" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Toys</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- BOUTIQUE -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">          <div class="category-avatar"><img src="images/boutique/brown-arabic-lawn-1-1.jpg" alt="Boutique" loading="lazy"></div>
+          <div class="category-meta">
+            <h3>Boutique</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+        <!-- HAND MADE -->
+        <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">          <div class="category-avatar category-avatar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
+          <div class="category-meta">
+            <h3>Hand Made</h3>
+            <span class="category-explore">Explore collection &rarr;</span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+     CATEGORY SUBCATEGORIES
+     ========================================== -->
+
+      <div id="category-subcategories" class="category-subcategories">
+
+
+
+        <!-- BEAUTY -->
+        <div class="subcategory-group" data-category="Beauty">
+          <button onclick="filterCategorySubcategory('Beauty','All',event)">All Beauty</button>
+          <button onclick="filterCategorySubcategory('Beauty','Skincare',event)">Skincare</button>
+          <button onclick="filterCategorySubcategory('Beauty','Makeup',event)">Makeup</button>
+          <button onclick="filterCategorySubcategory('Beauty','Hair Care',event)">Hair Care</button>
+          <button onclick="filterCategorySubcategory('Beauty','Fragrance',event)">Fragrance</button>
+          <button onclick="filterCategorySubcategory('Beauty','Personal Care',event)">Personal Care</button>
+        </div>
+
+        <!-- KITCHEN -->
+        <div class="subcategory-group" data-category="Kitchen">
+          <button onclick="filterCategorySubcategory('Kitchen','All',event)">All Kitchen</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Cookware',event)">Cookware</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Appliances',event)">Kitchen
+            Appliances</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Dining',event)">Dining</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Kitchen Storage',event)">Kitchen Storage</button>
+          <button onclick="filterCategorySubcategory('Kitchen','Tools & Gadgets',event)">Tools & Gadgets</button>
+        </div>
+
+        <!-- TOYS -->
+        <div class="subcategory-group" data-category="Toys">
+          <button onclick="filterCategorySubcategory('Toys','All',event)">All Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Educational Toys',event)">Educational Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Games',event)">Games</button>
+          <button onclick="filterCategorySubcategory('Toys','Outdoor Toys',event)">Outdoor Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Kids Toys',event)">Kids Toys</button>
+          <button onclick="filterCategorySubcategory('Toys','Puzzles',event)">Puzzles</button>
+        </div>
+
+        <!-- HOME -->
+        <div class="subcategory-group" data-category="Home">
+          <button onclick="filterCategorySubcategory('Home','All',event)">All Home</button>
+          <button onclick="filterCategorySubcategory('Home','Home Decor',event)">Home Decor</button>
+          <button onclick="filterCategorySubcategory('Home','Lighting',event)">Lighting</button>
+          <button onclick="filterCategorySubcategory('Home','Storage & Organization',event)">Storage &
+            Organization</button>
+          <button onclick="filterCategorySubcategory('Home','Bedding',event)">Bedding</button>
+          <button onclick="filterCategorySubcategory('Home','Garden & Outdoor',event)">Garden & Outdoor</button>
+          <button onclick="filterCategorySubcategory('Home','Cleaning & Household',event)">Cleaning &
+            Household</button>
+        </div>
+
+        <!-- FASHION -->
+        <div class="subcategory-group" data-category="Fashion">
+          <button onclick="filterCategorySubcategory('Fashion','All',event)">All Fashion</button>
+          <button onclick="filterCategorySubcategory('Fashion','Men',event)">Men</button>
+          <button onclick="filterCategorySubcategory('Fashion','Women',event)">Women</button>
+          <button onclick="filterCategorySubcategory('Fashion','Shoes',event)">Shoes</button>
+          <button onclick="filterCategorySubcategory('Fashion','Bags',event)">Bags</button>
+          <button onclick="filterCategorySubcategory('Fashion','Watches',event)">⌚ Watches</button>
+        </div>
+
+        <!-- ELECTRONICS -->
+        <div class="subcategory-group" data-category="Electronics">
+          <button onclick="filterCategorySubcategory('Electronics','All',event)">All Electronics</button>
+          <button onclick="filterCategorySubcategory('Electronics','Mobile Accessories',event)">Mobile
+            Accessories</button>
+          <button onclick="filterCategorySubcategory('Electronics','Audio',event)">Audio</button>
+          <button onclick="filterCategorySubcategory('Electronics','Smart Devices',event)">⌚ Smart Devices</button>
+        </div>
+
+        <!-- BOUTIQUE -->
+        <div class="subcategory-group" data-category="Boutique">
+          <button onclick="filterCategorySubcategory('Boutique','All',event)">All Boutique</button>
+          <button onclick="filterCategorySubcategory('Boutique','Clothing',event)">Clothing</button>
+          <button onclick="filterCategorySubcategory('Boutique','Jewelry',event)">Jewelry</button>
+          <button onclick="filterCategorySubcategory('Boutique','Accessories',event)">Accessories</button>
+          <button onclick="filterCategorySubcategory('Boutique','Handbags',event)">Handbags</button>
+        </div>
+
+        <!-- HAND MADE -->
+        <div class="subcategory-group" data-category="Hand Made">
+          <button onclick="filterCategorySubcategory('Hand Made','All',event)">All Hand Made</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Decor',event)">Handmade Decor</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Jewelry',event)">Handmade Jewelry</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Handmade Gifts',event)">Handmade Gifts</button>
+          <button onclick="filterCategorySubcategory('Hand Made','Crafts',event)">Crafts</button>
+        </div>
+
+      </div>
+
+
+
+    </section>
+
     <!-- FEATURED ROW SNAP: CSS scroll-snap alone did not engage on wheel scroll
          (QA round 1: row rested mid-card), so a small JS snap backs it up.
          On scroll end it snaps to the nearest card's left edge. The 2px dead
@@ -2344,9 +2558,7 @@ LumaDeals AI
           .ld-deal-t b{font-size:22px;}
         }
       </style>
-      <section class="ld-deal-day" id="deal-of-the-day">
-        <div class="ld-deal-day-inner" id="deal-of-the-day-inner"></div>
-      </section>
+      
 
       <!-- ABOUT LUMA DEALS (home): our story, copied from the real About page (#page-about).
            No new claims — the same intro and goal text as the About page. -->
@@ -3285,27 +3497,23 @@ LumaDeals AI
   <!-- End Cart Sidebar -->
 
 
-  <div class="bottom-navbar">
+  <div class="bottom-navbar ld-pill">
     <div class="bn-item active" data-page="home" onclick="bnNavigate('home', this)">
-      <span class="bn-icon">🏠</span>
-      <span class="bn-label" data-translate="home">Home</span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
     </div>
     <div class="bn-item" data-page="shop" onclick="bnNavigate('shop', this)">
-      <span class="bn-icon">🛍️</span>
-      <span class="bn-label" data-translate="shop">Shop</span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
     </div>
     <div class="bn-item bn-orders" data-page="orders" onclick="bnNavigate('orders', this)">
-      <span class="bn-icon">📦</span>
-      <span class="bn-label" data-translate="orders">Orders</span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
     </div>
     <div class="bn-item" data-page="wishlist" onclick="bnNavigate('wishlist', this)">
-      <span class="bn-icon">❤️</span>
-      <span class="bn-label" data-translate="wishlist">Wishlist</span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
     </div>
     <div class="bn-item" data-page="profile" onclick="bnNavigate('profile', this)">
-      <span class="bn-icon">👤</span>
-      <span class="bn-label" data-translate="profile">Profile</span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
     </div>
+    <div class="bn-indicator" aria-hidden="true"><span class="bn-indicator-dot"></span></div>
   </div>
   <!-- =========================================
      LUMA DEALS — PROFILE PAGES
@@ -8301,7 +8509,7 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
       if (!user) {
 
         if (headerAvatar) {
-          headerAvatar.innerHTML = "👤";
+          headerAvatar.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
         }
 
         if (menuAvatar) {
