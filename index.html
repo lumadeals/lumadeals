@@ -1981,6 +1981,18 @@ LumaDeals AI
         .nav-icons .icon svg{width:18px;height:18px;display:block;margin:0 auto;}
         .profile-avatar svg{width:16px;height:16px;display:block;}
       </style>
+      <style id="ld-mobile-header-fix-v1">
+        /* Mobile header/nav fix (2026-11-13).
+           On phones the desktop header icons (Profile / Orders / Wishlist)
+           must stay hidden — the floating pill bar is the mobile nav.
+           The older base rule sets .nav-icons{display:flex !important}, so
+           this override uses a more specific selector and comes later in
+           the document to win. The pill bar is forced visible on mobile. */
+        @media (max-width:768px){
+          header.navbar .nav-icons{display:none !important;}
+          .bottom-navbar.ld-pill{display:flex !important;}
+        }
+      </style>
       <script>
       /* Mobile pill nav indicator (2026-11-13): slides the white dome + blue
          circle to the active bottom-nav button and shows that button's icon
