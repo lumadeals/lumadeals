@@ -2544,7 +2544,10 @@ LumaDeals AI
         .ld-category-showcase .home-section-heading h2{margin:0;color:#14171A;font-size:24px;font-weight:800;}
         .ld-category-showcase .home-section-heading button{border:1px solid #dbe7ee;background:#ffffff;color:#0284c7;font-size:13px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap;}
         .ld-category-showcase .home-section-heading button:hover{border-color:#3BB4EC;color:#0e86b8;}
-        .ld-cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+        /* Bento mosaic (2026-11-12): the largest category is a 2x2 feature tile,
+           the rest are 1x1 tiles, and a wide dark "View All" tile closes the grid.
+           This is a layout change, not a recolour. */
+        .ld-cat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;grid-auto-flow:dense;}
         .ld-cat-tile{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;background:#f4f8fb;border:1px solid #e6eef3;box-shadow:0 6px 18px rgba(15,45,65,.07);transition:transform .3s ease,box-shadow .3s ease;}
         .ld-cat-tile:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(15,45,65,.14);}
         .ld-cat-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease;}
@@ -2552,11 +2555,25 @@ LumaDeals AI
         .ld-cat-overlay{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(180deg,transparent,rgba(10,20,28,.72));color:#ffffff;text-align:left;}
         .ld-cat-overlay h3{margin:0;color:#ffffff;font-size:17px;font-weight:800;line-height:1.25;}
         .ld-cat-overlay span{display:block;margin-top:2px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;}
+        .ld-cat-featured{grid-column:span 2;grid-row:span 2;aspect-ratio:auto;}
+        .ld-cat-featured .ld-cat-overlay{padding:44px 20px 18px;}
+        .ld-cat-featured .ld-cat-overlay h3{font-size:26px;}
+        .ld-cat-featured .ld-cat-overlay span{font-size:13px;}
+        .ld-cat-overlay .ld-cat-shopnow{display:inline-block;margin-top:10px;background:#3BB4EC;color:#ffffff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;}
+        .ld-cat-arrow{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);color:#14171A;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+        .ld-cat-viewall{grid-column:span 2;aspect-ratio:auto;background:#14171A;border:1px solid #14171A;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;padding:20px 22px;color:#ffffff;text-align:left;}
+        .ld-cat-viewall h3{margin:0;color:#ffffff;font-size:19px;font-weight:800;line-height:1.25;}
+        .ld-cat-viewall span{color:rgba(255,255,255,.75);font-size:13px;font-weight:600;}
+        .ld-cat-viewall .ld-cat-viewall-arrow{margin-top:6px;color:#3BB4EC;font-size:14px;font-weight:800;}
         @media (max-width:860px){
           .ld-category-showcase{margin:18px 12px 8px;}
-          .ld-cat-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+          .ld-cat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
           .ld-category-showcase .home-section-heading h2{font-size:20px;}
           .ld-cat-overlay h3{font-size:15px;}
+          .ld-cat-featured{grid-column:span 2;aspect-ratio:16/10;}
+          .ld-cat-featured .ld-cat-overlay h3{font-size:20px;}
+          .ld-cat-viewall{grid-column:span 2;aspect-ratio:16/7;}
+          .ld-cat-viewall h3{font-size:17px;}
         }
       </style>
       <section class="ld-category-showcase" id="category-showcase">
@@ -6329,16 +6346,22 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
             if (!__ldCats[c].img) __ldCats[c].img = (typeof ldImg === 'function') ? ldImg(p.img || p.image || (p.images && p.images[0]) || '', 500) : (p.img || '');
           });
           var __ldCatList = Object.keys(__ldCats).map(function (k) { return __ldCats[k]; }).sort(function (a, b) { return b.count - a.count; });
-          __ldCatGrid.innerHTML = __ldCatList.map(function (cat) {
+          __ldCatGrid.innerHTML = __ldCatList.map(function (cat, idx) {
             var __ldName = String(cat.name).replace(/&/g, '&amp;').replace(/</g, '&lt;');
             var __ldCat = JSON.stringify(cat.name).replace(/"/g, '&quot;');
             var __ldImg = String(cat.img).replace(/"/g, '&quot;');
             var __ldCount = cat.count + (cat.count === 1 ? ' product' : ' products');
-            return '<div class="ld-cat-tile" role="button" tabindex="0" onclick="ldShopCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();ldShopCategory(' + __ldCat + ');}">' +
-              '<img src="' + __ldImg + '" alt="" loading="lazy" decoding="async">' +
-              '<div class="ld-cat-overlay"><h3>' + __ldName + '</h3><span>' + __ldCount + '</span></div>' +
+            var __ldFeatured = idx === 0;
+            var __ldCls = 'ld-cat-tile' + (__ldFeatured ? ' ld-cat-featured' : '');
+            var __ldShopNow = __ldFeatured ? '<span class="ld-cat-shopnow">Shop now &rarr;</span>' : '';
+            var __ldArrow = __ldFeatured ? '' : '<span class="ld-cat-arrow" aria-hidden="true">&rarr;</span>';
+            return '<div class="' + __ldCls + '" role="button" tabindex="0" onclick="ldShopCategory(' + __ldCat + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();ldShopCategory(' + __ldCat + ');}\">' +
+              '<img src="' + __ldImg + '" alt="" loading="lazy" decoding="async">' + __ldArrow +
+              '<div class="ld-cat-overlay"><h3>' + __ldName + '</h3><span>' + __ldCount + '</span>' + __ldShopNow + '</div>' +
               '</div>';
-          }).join('');
+          }).join('') +
+            '<div class="ld-cat-tile ld-cat-viewall" role="button" tabindex="0" onclick="showPage(\'shop\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();showPage(\'shop\');}">' +
+            '<h3>View All Products</h3><span>Browse the full store</span><span class="ld-cat-viewall-arrow">Shop all &rarr;</span></div>';
         }
       } catch (e) { /* category showcase must never break the page */ }
 
