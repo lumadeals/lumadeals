@@ -1897,6 +1897,12 @@ LumaDeals AI
           .home-feature-section .category-icon{width:56px;height:56px;border-radius:12px;}
           .home-feature-section .category-card{height:auto;min-height:0;padding:12px 14px;gap:12px;}
         }
+        /* Mobile only (2026-11-13): hide the whole top Shop by Category
+           section on phones/tablets. Desktop keeps the redesigned rows.
+           The lower photo-tile showcase stays visible on mobile. */
+        @media (max-width:768px){
+          .home-feature-section{display:none !important;}
+        }
       </style>
 
 
