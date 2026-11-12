@@ -2959,6 +2959,7 @@ LumaDeals AI
       <form class="contact-form" autocomplete="off" onsubmit="submitLogin(event)">
         <input type="email" id="login-email" placeholder="Email Address" autocomplete="off" required>
         <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" required>
+        <p id="login-error" role="alert" style="display:none; margin: 2px 0 10px; padding: 10px 12px; border-radius: 8px; background: #fef2f2; color: #b91c1c; font-size: 13px; line-height: 1.5; text-align: left;"></p>
         <p style="text-align:right; margin: -8px 0 10px;"><a href="javascript:void(0)"
             onclick="showPage('forgot-password')" style="font-size:13px; color:#3BB4EC;">Forgot Password?</a></p>
         <button type="submit">Login</button>
@@ -6559,6 +6560,29 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
        then cached products, then live products). A DCL filterCat call
        rendered an empty state that the loader then overwrote in the same
        dispatch — wasted work with no visible purpose. */
+    function showLoginError(error) {
+      var el = document.getElementById('login-error');
+      if (!el) return;
+      var msg = 'Login failed. Please try again.';
+      if (error && error.code) {
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+          msg = 'Wrong email or password. Please try again.';
+        } else if (error.code === 'auth/user-not-found') {
+          msg = 'No account found with this email. Please sign up first.';
+        } else if (error.code === 'auth/too-many-requests') {
+          msg = 'Too many failed attempts. Please try again later.';
+        } else if (error.code === 'auth/network-request-failed') {
+          msg = 'Network error. Please check your connection and try again.';
+        } else if (error.message) {
+          msg = error.message;
+        }
+      } else if (error && error.message) {
+        msg = error.message;
+      }
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
     function submitLogin(event) {
       event.preventDefault();
       const email = document.getElementById('login-email').value;
@@ -6566,11 +6590,10 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
 
       window.firebaseSignIn(window.firebaseAuth, email, password)
         .then((userCredential) => {
-          alert('Login successful!');
           showPage('home'); // ya jahan bhi login ke baad bhejna hai
         })
         .catch((error) => {
-          alert('Login failed: ' + error.message);
+          showLoginError(error);
         });
     }
 
@@ -6583,11 +6606,10 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
     function signInWithGoogle() {
       window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider)
         .then((result) => {
-          alert('Google login successful!');
           showPage('home');
         })
         .catch((error) => {
-          alert('Google login failed: ' + error.message);
+          showLoginError(error);
         });
     }
 
