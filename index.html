@@ -1683,56 +1683,88 @@ LumaDeals AI
         <!-- BEAUTY -->
         <div class="category-card" onclick="toggleCategorySubcategories('Beauty', event)">
           <div class="category-icon"><img src="images/Beauty/eventone-c.jpg" alt="Beauty" loading="lazy"></div>
-          <h3>Beauty <span class="category-arrow">⌄</span></h3>
-          <p>Beauty & care</p>
+
+          <div class="category-meta">
+            <h3>Beauty</h3>
+            <p>23 products · Beauty &amp; care</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- KITCHEN -->
         <div class="category-card" onclick="toggleCategorySubcategories('Kitchen', event)">
           <div class="category-icon"><img src="images/kitchen/vegetable-cutter-multiuse.jpg" alt="Kitchen" loading="lazy"></div>
-          <h3>Kitchen <span class="category-arrow">⌄</span></h3>
-          <p>Kitchen essentials</p>
+
+          <div class="category-meta">
+            <h3>Kitchen</h3>
+            <p>14 products · Kitchen essentials</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- TOYS -->
         <div class="category-card" onclick="toggleCategorySubcategories('Toys', event)">
           <div class="category-icon"><img src="images/toys/kids-riding-car.jpg" alt="Toys" loading="lazy"></div>
-          <h3>Toys <span class="category-arrow">⌄</span></h3>
-          <p>Fun for everyone</p>
+
+          <div class="category-meta">
+            <h3>Toys</h3>
+            <p>20 products · Fun for everyone</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- HOME -->
         <div class="category-card home-category-card" onclick="toggleCategorySubcategories('Home', event)">
           <div class="category-icon"><img src="images/home-living/home-clock-1-1.jpg" alt="Home" loading="lazy"></div>
-          <h3>Home <span class="category-arrow">⌄</span></h3>
-          <p>Make life comfortable</p>
+
+          <div class="category-meta">
+            <h3>Home</h3>
+            <p>4 products · Make life comfortable</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- FASHION -->
         <div class="category-card" onclick="toggleCategorySubcategories('Fashion', event)">
           <div class="category-icon"><img src="images/fashion/mens-black-quartz-watch-2.jpg" alt="Fashion" loading="lazy"></div>
-          <h3>Fashion <span class="category-arrow">⌄</span></h3>
-          <p>Style for everyone</p>
+
+          <div class="category-meta">
+            <h3>Fashion</h3>
+            <p>2 products · Style for everyone</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
         <!-- ELECTRONICS -->
         <div class="category-card" onclick="toggleCategorySubcategories('Electronics', event)">
           <div class="category-icon"><img src="images/electronics/earbuds-anc-white-1.jpg" alt="Electronics" loading="lazy"></div>
-          <h3>Electronics <span class="category-arrow">⌄</span></h3>
-          <p>Smart technology</p>
+
+          <div class="category-meta">
+            <h3>Electronics</h3>
+            <p>2 products · Smart technology</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- BOUTIQUE -->
         <div class="category-card" onclick="toggleCategorySubcategories('Boutique', event)">
           <div class="category-icon"><img src="https://res.cloudinary.com/szx9toyu/image/upload/v1791955688/luma-deals/products/srywwlkmvdwylifgklir.webp" alt="Boutique" loading="lazy"></div>
-          <h3>Boutique <span class="category-arrow">⌄</span></h3>
-          <p>Premium collection</p>
+
+          <div class="category-meta">
+            <h3>Boutique</h3>
+            <p>16 products · Premium collection</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
         <!-- HAND MADE -->
         <div class="category-card" onclick="toggleCategorySubcategories('Hand Made', event)">
           <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
-          <h3>Hand Made <span class="category-arrow">⌄</span></h3>
-          <p>Made with care</p>
+
+          <div class="category-meta">
+            <h3>Hand Made</h3>
+            <p>Made with care</p>
+          </div>
+          <span class="category-go" aria-hidden="true">&rsaquo;</span>
         </div>
 
       </div>
@@ -1832,23 +1864,29 @@ LumaDeals AI
 
 
     </section>
-      <style id="ld-topcat-v1">
-        /* Top Shop by Category (2026-11-12): real product photos in circular
-           frames replace the emoji icons; cards get a cleaner premium look.
-           Layout change + real photos, not a recolour. Overrides the
-           minified .category-card rules above (later block wins). */
-        .home-feature-section .category-showcase{gap:16px;}
-        .home-feature-section .category-card{aspect-ratio:auto;padding:20px 8px 18px;border-radius:20px;}
-        .home-feature-section .category-icon{width:76px;height:76px;margin:0 auto 12px;border-radius:50%;overflow:hidden;background:#f4f8fb;border:2px solid #e6eef3;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .25s ease;}
+      <style id="ld-topcat-v2">
+        /* Top Shop by Category — professional directory look (2026-11-13, v2).
+           Horizontal rows in a 2-column grid (desktop) / single column
+           (mobile). Rounded-square photo thumbnails, name + live product
+           count, and a chevron that turns brand-blue and rotates when the
+           category is expanded. Replaces ld-topcat-v1 (circular photos). */
+        .home-feature-section .category-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+        .home-feature-section .category-card{aspect-ratio:auto;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;text-align:left;padding:14px 16px;border-radius:16px;}
+        .home-feature-section .category-icon{width:64px;height:64px;margin:0;border-radius:14px;overflow:hidden;background:#f4f8fb;border:1px solid #e6eef3;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .25s ease;}
         .home-feature-section .category-icon img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
-        .home-feature-section .category-icon svg{width:38px;height:38px;flex-shrink:0;}
-        .home-feature-section .category-card:hover .category-icon{border-color:#3BB4EC;}
-        .home-feature-section .category-card:hover .category-icon img{transform:scale(1.1);}
-        .home-feature-section .category-card h3{font-size:14px;margin-bottom:4px;}
-        .home-feature-section .category-card p{font-size:11px !important;}
-        @media (max-width:600px){
-          .home-feature-section .category-icon{width:64px;height:64px;}
-          .home-feature-section .category-card{padding:16px 6px 14px;}
+        .home-feature-section .category-icon svg{width:32px;height:32px;flex-shrink:0;}
+        .home-feature-section .category-meta{flex:1;min-width:0;}
+        .home-feature-section .category-card h3{font-size:15px;margin:0 0 3px;color:#14171A;white-space:normal;}
+        .home-feature-section .category-card p{font-size:12px !important;color:#64748b;margin:0;}
+        .home-feature-section .category-go{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#f0f9ff;color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;transition:transform .3s ease,background .25s ease,color .25s ease;}
+        .home-feature-section .category-card:hover .category-go{background:#3BB4EC;color:#ffffff;}
+        .home-feature-section .category-card:hover .category-icon img{transform:scale(1.08);}
+        .home-feature-section .category-card.active{border-color:#3BB4EC;box-shadow:0 8px 22px rgba(59,180,236,.16);}
+        .home-feature-section .category-card.active .category-go{background:#3BB4EC;color:#ffffff;transform:rotate(90deg);}
+        @media (max-width:860px){
+          .home-feature-section .category-showcase{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;}
+          .home-feature-section .category-icon{width:56px;height:56px;border-radius:12px;}
+          .home-feature-section .category-card{padding:12px 14px;gap:12px;}
         }
       </style>
 
