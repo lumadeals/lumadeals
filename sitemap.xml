@@ -2,51 +2,103 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.lumadeals.shop/</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/?page=shop</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Electronics</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Kitchen</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Beauty</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Toys</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Home</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Fashion</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Boutique</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lumadeals.shop/?page=shop&amp;category=Kids</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.lumadeals.shop/?page=about</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/?page=contact</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.lumadeals.shop/luma-ai.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://www.lumadeals.shop/privacy.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/faq.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/return-policy.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/shipping-policy.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://www.lumadeals.shop/terms.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
