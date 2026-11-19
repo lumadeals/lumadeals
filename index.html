@@ -9517,6 +9517,19 @@ const houseStreet = [house, street].filter(Boolean).join(", ");
          cart, checkout, wishlist, ...) fall back to the home canonical —
          never a self-canonical, which would mint indexable duplicates. */
       var canon = canonicals[pageId] || 'https://www.lumadeals.shop/';
+      /* SEO: on a category URL, keep the category canonical the head script
+         set at first paint. updatePageTitle runs before the products load,
+         and the category meta is only restored seconds later once Firestore
+         returns — overwriting here let Google's render snapshot catch the
+         bare shop URL, so category pages stayed "Alternative page with
+         proper canonical tag" (Search Console, crawled 16 Nov 2026). */
+      if (pageId === 'shop') {
+        try {
+          var _cat = new URLSearchParams(window.location.search).get('category');
+          var _known = { 'electronics': 1, 'kitchen': 1, 'beauty': 1, 'toys': 1, 'home': 1, 'fashion': 1, 'boutique': 1 };
+          if (_cat && _known[String(_cat).trim().toLowerCase()]) canon = 'https://www.lumadeals.shop/?page=shop&category=' + encodeURIComponent((typeof ldCategoryDisplayName === 'function') ? ldCategoryDisplayName(_cat) : _cat);
+        } catch (e) { /* keep the shop canonical */ }
+      }
       function setMeta(attr, val, content) {
         var el = document.querySelector('meta[' + attr + '="' + val + '"]');
         if (el) el.setAttribute('content', content);
