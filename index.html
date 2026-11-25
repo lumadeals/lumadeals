@@ -1920,6 +1920,16 @@
 .product-image-wrap img{height:100%;background:#ffffff;border-radius:10px;}
 .product-card{border-color:#e3ebf1 !important;box-shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.08) !important;}
 .product-card:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(15,23,42,.06),0 18px 38px rgba(2,132,199,.18) !important;}
+
+/* ---- Verified badge: always visible next to the product name ----
+   The card title (h4) is a 2-line-clamped -webkit-box, so the badge span
+   used to land on a clipped third line and never rendered. Lay the title
+   out as flex instead: the name keeps its 2-line truncation, the badge
+   stays put at the top-right of the name. */
+.product-card .product-info h4{display:flex !important;align-items:flex-start;gap:5px;}
+.product-card .product-info h4 a{flex:1 1 auto;min-width:0;display:-webkit-box !important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.product-card .product-info h4 .verified-badge{flex:0 0 auto;width:17px;height:17px;margin-top:1px;}
+.product-card .product-info h4 .verified-badge svg{display:block;width:17px;height:17px;}
 .product-grid{gap:26px;}
 .skeleton-img{height:auto;aspect-ratio:1/1;}
 @media (max-width:640px){.product-grid{gap:16px;}}
