@@ -633,11 +633,11 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
 
   <div class="card">
     <div class="ct">Import products</div>
-    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL(s) — for several photos put the URLs separated by | and all of them will show in the gallery, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional).</p>
+    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL(s) — for several photos put the URLs separated by | and all of them will show in the gallery, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional), subcategory (optional — must be one the website already offers for that category), discount % (optional — 15, 20 or 25; the original price is worked out from it).</p>
     <p class="help"><b>Automated collection from Markaz is disabled:</b> Markaz Terms §2.A forbid automated access (robots, scrapers, data-gathering tools) without Markaz's prior express permission. This importer imports products from details you supply. Auto-collect can be enabled after Markaz grants express permission, or via Markaz's sanctioned dropshipping portal.</p>
     <div class="grid">
       <div class="field"><label>Batch size (products per run)</label><select id="mk-batchSize"><option value="10">10</option><option value="50">50</option><option value="100">100</option></select></div>
-      <div class="field"><label>Default category</label><select id="mk-defaultCategory"><option value="Beauty">Beauty</option><option value="Boutique">Boutique</option><option value="Electronics" selected>Electronics</option><option value="Fashion">Fashion</option><option value="Home">Home</option><option value="Kitchen">Kitchen</option><option value="Toys">Toys</option></select></div>
+      <div class="field"><label>Default category</label><select id="mk-defaultCategory"><option value="Beauty">Beauty</option><option value="Boutique">Boutique</option><option value="Electronics" selected>Electronics</option><option value="Fashion">Fashion</option><option value="Home">Home</option><option value="Kitchen">Kitchen</option><option value="Toys">Toys</option><option value="Hand Made">Hand Made</option></select></div>
       <div class="field full"><label>Products (one per line)</label><textarea id="mk-paste" rows="8" placeholder="https://www.markaz.app/... , Product title , 2569 , https://.../image.jpg , Electronics"></textarea></div>
     </div>
     <button type="button" class="btn" id="mk-previewBtn">Preview import</button>
@@ -3140,7 +3140,7 @@ onAuthStateChanged(
    block, before the closing script tag)
    ========================================= */
 
-const MK_CATEGORIES = ["Beauty", "Boutique", "Electronics", "Fashion", "Home", "Kitchen", "Toys"];
+const MK_CATEGORIES = ["Beauty", "Boutique", "Electronics", "Fashion", "Home", "Kitchen", "Toys", "Hand Made"];
 const MK_DEFAULT_MARGIN = 25;
 const MK_HISTORY_KEY = "mk-import-history";
 const MK_MARGIN_KEY = "mk-margin";
@@ -3371,6 +3371,17 @@ function mkParsePaste() {
     const brand = cols[6] || "";
     const specs = cols[7] || "";
     const popularity = cols[8] || "";
+    const subcategory = cols[9] || "";
+    const discRaw = (cols[10] || "").replace(/[^0-9.]/g, "");
+    const discNum = Number(discRaw);
+    const discountPct = discNum > 0 && discNum < 90 ? discNum : 0;
+    if (subcategory) {
+      const allowed = (typeof PP_SUBCATEGORIES !== "undefined" && PP_SUBCATEGORIES[category]) || [];
+      if (allowed.indexOf(subcategory) === -1) {
+        failures.push({ line: line, reason: "Subcategory \"" + subcategory + "\" is not offered for category " + category + "." });
+        continue;
+      }
+    }
     if (!url || url.indexOf("http") !== 0) {
       failures.push({ line: line, reason: "Missing or invalid Markaz URL." });
       continue;
@@ -3387,15 +3398,26 @@ function mkParsePaste() {
       failures.push({ line: line, reason: "Missing or invalid image URL." });
       continue;
     }
+    const proposedPrice = mkProposedPrice(markazPrice);
+    let oldPrice = proposedPrice;
+    let discount = "0%";
+    if (discountPct > 0) {
+      oldPrice = Math.round(proposedPrice / (1 - discountPct / 100));
+      discount = Math.round((oldPrice - proposedPrice) / oldPrice * 100) + "%";
+    }
     rows.push({
       markazUrl: url,
       markazId: mkMarkazIdFromUrl(url),
       title: title,
       markazPrice: markazPrice,
-      proposedPrice: mkProposedPrice(markazPrice),
+      proposedPrice: proposedPrice,
+      oldPrice: oldPrice,
+      discount: discount,
+      discountPct: discountPct,
       imageUrl: imageUrl,
       imageUrls: imageUrls,
       category: category,
+      subcategory: subcategory,
       stock: stock,
       brand: brand,
       specs: specs,
@@ -3430,6 +3452,8 @@ function mkPreviewImport() {
       + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Image</th>'
       + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Title (editable)</th>'
       + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Category</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Subcategory</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Discount</th>'
       + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Markaz price</th>'
       + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Proposed price (editable)</th>'
       + "</tr></thead><tbody>";
@@ -3441,6 +3465,8 @@ function mkPreviewImport() {
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><img src="' + mkEsc(row.imageUrl) + '" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\'">' + (row.imageUrls && row.imageUrls.length > 1 ? '<br><span style="font-size:12px">+' + (row.imageUrls.length - 1) + ' more image(s)</span>' : '') + '</td>'
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><input data-mk-preview="name" data-mk-idx="' + idx + '" value="' + mkEsc(row.title) + '" style="width:100%"></td>'
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><select data-mk-preview="category" data-mk-idx="' + idx + '">' + opts + "</select></td>"
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5">' + mkEsc(row.subcategory || "—") + "</td>"
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5">' + mkEsc(row.discount || "0%") + "</td>"
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5">Rs ' + mkEsc(String(row.markazPrice)) + "</td>"
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><input data-mk-preview="price" data-mk-idx="' + idx + '" type="number" min="0" step="1" value="' + row.proposedPrice + '" style="width:90px"></td>'
         + "</tr>";
@@ -3513,6 +3539,12 @@ async function mkImportPreviewed() {
         report.failed.push({ title: row.title, reason: "Title or price became empty after editing." });
         continue;
       }
+      let finalOld = price;
+      let finalDisc = "0%";
+      if (row.discountPct > 0) {
+        finalOld = Math.round(price / (1 - row.discountPct / 100));
+        finalDisc = Math.round((finalOld - price) / finalOld * 100) + "%";
+      }
       mkStatus("Importing " + (i + 1) + " of " + mkPreviewRows.length + ": " + name, "success", "mk-importStatus");
       const imgUrls = [];
       let needsReview = false;
@@ -3533,10 +3565,10 @@ async function mkImportPreviewed() {
         id: nextId,
         name: name,
         price: price,
-        oldPrice: price,
-        discount: "0%",
+        oldPrice: finalOld,
+        discount: finalDisc,
         category: category,
-        subcategory: "",
+        subcategory: row.subcategory || "",
         description: "",
         images: imgUrls.length ? imgUrls : [imgUrl],
         img: imgUrl,
@@ -3733,7 +3765,8 @@ var PP_SUBCATEGORIES = {
   "Fashion": ["Men", "Women", "Shoes", "Bags", "Watches"],
   "Home": ["Home Decor", "Lighting", "Storage & Organization", "Bedding", "Garden & Outdoor", "Cleaning & Household"],
   "Kitchen": ["Cookware", "Kitchen Appliances", "Dining", "Kitchen Storage", "Tools & Gadgets"],
-  "Toys": ["Educational Toys", "Games", "Outdoor Toys", "Kids Toys", "Puzzles"]
+  "Toys": ["Educational Toys", "Games", "Outdoor Toys", "Kids Toys", "Puzzles"],
+  "Hand Made": ["Handmade Decor", "Handmade Jewelry", "Handmade Gifts", "Crafts"]
 };
 
 function ppSubOptions(category, selected) {
