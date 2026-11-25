@@ -579,6 +579,21 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
   <button type="button" class="btn" id="toggleBulkBtn" style="margin-top:10px"> Open Bulk Add (up to 10 products)</button>
 </div>
 
+<!-- PART 1: toggle card -->
+<div class="card" style="margin-bottom:18px">
+  <div class="ct"> Markaz Product Importer</div>
+  <p class="help">Import products from Markaz for review. Everything you import stays pending until you approve it — nothing appears on the public website before approval.</p>
+  <button type="button" class="btn" id="mk-toggleBtn" style="margin-top:10px"> Open Markaz Product Importer</button>
+</div>
+
+<!-- PART 1: toggle card -->
+<div class="card" style="margin-bottom:18px">
+  <div class="ct">Pending Products</div>
+  <p class="help">Review each imported product and approve or reject it. Only approved products appear on the public website.</p>
+  <p class="help"><b><span id="pp-toggleCount">–</span> products pending approval</b></p>
+  <button type="button" class="btn" id="pp-toggleBtn" style="margin-top:10px"> Open Pending Products</button>
+</div>
+
 <section id="bulkProductsSection" style="display:none">
   <div class="title"><h2>Bulk Add Products</h2><p>Select individual details and 1–7 images for each product. Only the products added as cards will be saved.</p></div>
   <div id="bulkProductCards"></div>
@@ -588,6 +603,83 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
     <button type="button" class="btn" id="closeBulkProductsBtn">Back to single product</button>
   </div>
   <div id="bulkStatus" class="status" style="display:none"></div>
+</section>
+
+<!-- PART 2: the importer section -->
+<section id="mk-section" style="display:none">
+  <div class="title"><h2>Markaz Product Importer</h2><p>Import Markaz products as pending, review them, then approve or reject. Approved products appear on the public website; pending and rejected products never do.</p></div>
+
+  <div class="card">
+    <div class="ct">Imported products</div>
+    <p class="help">Counts update automatically after every import, approval or rejection.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <div style="padding:10px 14px;border:1px solid #d8e2ea;border-radius:10px;background:#f8fbfd">Total imported<br><b id="mk-count-total">–</b></div>
+      <div style="padding:10px 14px;border:1px solid #d8e2ea;border-radius:10px;background:#f8fbfd">Pending<br><b id="mk-count-pending">–</b></div>
+      <div style="padding:10px 14px;border:1px solid #d8e2ea;border-radius:10px;background:#f8fbfd">Approved<br><b id="mk-count-approved">–</b></div>
+      <div style="padding:10px 14px;border:1px solid #d8e2ea;border-radius:10px;background:#f8fbfd">Rejected<br><b id="mk-count-rejected">–</b></div>
+    </div>
+    <button type="button" class="btn" id="mk-refreshCountsBtn" style="margin-top:10px">Refresh counts</button>
+  </div>
+
+  <div class="card">
+    <div class="ct">Profit margin</div>
+    <div class="grid">
+      <div class="field"><label>Default profit margin %</label><input id="mk-margin" type="number" min="0" max="200" step="1" value="25"></div>
+    </div>
+    <p class="help">Proposed price = Markaz price × (1 + margin ÷ 100), rounded to whole rupees. Saved in Firestore (config/importSettings) and on this device as a backup.</p>
+    <button type="button" class="btn" id="mk-saveMarginBtn">Save margin</button>
+    <div id="mk-marginStatus" class="status" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <div class="ct">Import products</div>
+    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL(s) — for several photos put the URLs separated by | and all of them will show in the gallery, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional).</p>
+    <p class="help"><b>Automated collection from Markaz is disabled:</b> Markaz Terms §2.A forbid automated access (robots, scrapers, data-gathering tools) without Markaz's prior express permission. This importer imports products from details you supply. Auto-collect can be enabled after Markaz grants express permission, or via Markaz's sanctioned dropshipping portal.</p>
+    <div class="grid">
+      <div class="field"><label>Batch size (products per run)</label><select id="mk-batchSize"><option value="10">10</option><option value="50">50</option><option value="100">100</option></select></div>
+      <div class="field"><label>Default category</label><select id="mk-defaultCategory"><option value="Beauty">Beauty</option><option value="Boutique">Boutique</option><option value="Electronics" selected>Electronics</option><option value="Fashion">Fashion</option><option value="Home">Home</option><option value="Kitchen">Kitchen</option><option value="Toys">Toys</option></select></div>
+      <div class="field full"><label>Products (one per line)</label><textarea id="mk-paste" rows="8" placeholder="https://www.markaz.app/... , Product title , 2569 , https://.../image.jpg , Electronics"></textarea></div>
+    </div>
+    <button type="button" class="btn" id="mk-previewBtn">Preview import</button>
+    <div id="mk-previewWrap" style="margin-top:14px"></div>
+    <div id="mk-importStatus" class="status" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <div class="ct">Review and approve imports</div>
+    <p class="help">Review each imported product with its full details, then approve or reject it in the Pending Products section. Only approved products appear on the public website.</p>
+    <button type="button" class="btn" id="pp-openPendingBtn" style="margin-top:10px">Open Pending Products</button>
+  </div>
+
+  <div class="card">
+    <div class="ct">Import history</div>
+    <p class="help">Reports from this device. The latest batch is also saved in Firestore (collection "imports") when the rules allow it.</p>
+    <div id="mk-historyWrap"></div>
+    <button type="button" class="btn" id="mk-closeBtn" style="margin-top:10px">Back to single product</button>
+  </div>
+</section>
+
+<!-- PART 2: the Pending Products section -->
+<section id="pp-section" style="display:none">
+  <div class="title"><h2>Pending Products</h2><p>Review each product's complete details, then approve or reject it. Only approved products appear on the public website.</p></div>
+
+  <div class="card" style="text-align:center;padding:22px 14px">
+    <div style="font-size:15px;color:#475569">Products Pending Approval</div>
+    <div id="pp-countBanner" style="font-size:30px;font-weight:800;color:#0b6fa4;margin-top:6px">0 Products Pending Approval</div>
+  </div>
+
+  <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
+    <button type="button" class="btn" id="pp-refreshBtn">Refresh</button>
+    <button type="button" class="btn" id="pp-closeBtn">Back to single product</button>
+  </div>
+
+  <div id="pp-listWrap"></div>
+  <div id="pp-listStatus" class="status" style="display:none"></div>
+
+  <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+    <button type="button" class="btn" id="pp-approveSelectedBtn">Approve selected</button>
+    <button type="button" class="btn" id="pp-rejectSelectedBtn">Reject selected</button>
+  </div>
 </section>
 
 <form id="productForm">
@@ -3040,6 +3132,849 @@ onAuthStateChanged(
   }
 );
   
+
+/* =========================================
+   MARKAZ PRODUCT IMPORTER
+   (insert at the end of the module script,
+   after the loadAdminOrders onAuthStateChanged
+   block, before the closing script tag)
+   ========================================= */
+
+const MK_CATEGORIES = ["Beauty", "Boutique", "Electronics", "Fashion", "Home", "Kitchen", "Toys"];
+const MK_DEFAULT_MARGIN = 25;
+const MK_HISTORY_KEY = "mk-import-history";
+const MK_MARGIN_KEY = "mk-margin";
+
+const mkSection = $("mk-section");
+let mkProducts = [];
+let mkFilter = "pending";
+let mkPreviewRows = [];
+let mkMarginLoaded = false;
+
+function mkStatus(message, type, target) {
+  showStatus(message, type, target);
+}
+
+function mkEsc(value) {
+  return escapeAdminHTML(value);
+}
+
+function mkRequireLogin() {
+  if (!auth.currentUser) {
+    showStatus("Please login first.", "error");
+    return false;
+  }
+  return true;
+}
+
+function mkNormTitle(title) {
+  return String(title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function mkMarkazIdFromUrl(url) {
+  const clean = String(url || "").split(/[?#]/)[0].replace(/\/+$/, "");
+  const seg = clean.split("/").pop() || "";
+  return seg || clean;
+}
+
+function mkMarginValue() {
+  const n = Math.round(Number($("mk-margin").value) || MK_DEFAULT_MARGIN);
+  return Math.max(0, Math.min(200, n));
+}
+
+function mkProposedPrice(markazPrice) {
+  return Math.round(Number(markazPrice || 0) * (1 + mkMarginValue() / 100));
+}
+
+function mkBadgeStyle(status) {
+  if (status === "approved") return "background:#d9f2e2;color:#14663a;";
+  if (status === "rejected") return "background:#fbe3e3;color:#8f1d1d;";
+  return "background:#fff3cd;color:#7a5b00;";
+}
+
+/* ---------- margin ---------- */
+
+async function mkLoadMargin() {
+  if (mkMarginLoaded) return;
+  mkMarginLoaded = true;
+  let n = null;
+  try {
+    const snap = await getDocs(collection(db, "config"));
+    snap.forEach(function (d) {
+      if (d.id === "importSettings") {
+        const v = d.data() && d.data().defaultMarginPct;
+        if (typeof v === "number" && isFinite(v)) n = Math.round(v);
+      }
+    });
+  } catch (e) {
+    n = null;
+  }
+  if (n === null) {
+    const saved = Number(localStorage.getItem(MK_MARGIN_KEY));
+    if (saved) n = saved;
+  }
+  if (n === null) n = MK_DEFAULT_MARGIN;
+  $("mk-margin").value = String(Math.max(0, Math.min(200, n)));
+}
+
+async function mkSaveMargin() {
+  if (!mkRequireLogin()) return;
+  const n = mkMarginValue();
+  $("mk-margin").value = String(n);
+  try { localStorage.setItem(MK_MARGIN_KEY, String(n)); } catch (e) {}
+  try {
+    await setDoc(doc(db, "config", "importSettings"), { defaultMarginPct: n }, { merge: true });
+    mkStatus("Margin saved: " + n + "% (Firestore config/importSettings + this device).", "success", "mk-marginStatus");
+  } catch (e) {
+    mkStatus("Margin saved on this device only (" + n + "%). Firestore save was not allowed: " + (e && e.message ? e.message : "unknown error"), "error", "mk-marginStatus");
+  }
+}
+
+/* ---------- data load ---------- */
+
+async function mkRefreshData() {
+  if (!mkRequireLogin()) return;
+  try {
+    const snap = await getDocs(collection(db, "products"));
+    mkProducts = [];
+    snap.forEach(function (d) {
+      const data = d.data() || {};
+      if (data.source === "markaz") {
+        mkProducts.push({ docId: d.id, data: data });
+      }
+    });
+    mkRenderCounts();
+    if (typeof ppRenderAll === "function") ppRenderAll();
+  } catch (e) {
+    mkStatus("Could not load imported products: " + (e && e.message ? e.message : "unknown error"), "error", "mk-importStatus");
+  }
+}
+
+function mkCounts() {
+  const c = { total: mkProducts.length, pending: 0, approved: 0, rejected: 0 };
+  mkProducts.forEach(function (p) {
+    if (p.data.status === "approved") c.approved++;
+    else if (p.data.status === "rejected") c.rejected++;
+    else c.pending++;
+  });
+  return c;
+}
+
+function mkRenderCounts() {
+  const c = mkCounts();
+  $("mk-count-total").textContent = String(c.total);
+  $("mk-count-pending").textContent = String(c.pending);
+  $("mk-count-approved").textContent = String(c.approved);
+  $("mk-count-rejected").textContent = String(c.rejected);
+
+}
+
+/* ---------- duplicate detection ---------- */
+
+function mkSignificantTokens(title) {
+  return mkNormTitle(title).split(" ").filter(function (w) { return w.length > 3; });
+}
+
+function mkCheckRow(row, batchSeen) {
+  if (batchSeen.markazIds.has(row.markazId)) {
+    return "Duplicate within this batch (same Markaz product).";
+  }
+  const rowUrls = row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl];
+  for (let u = 0; u < rowUrls.length; u++) {
+    if (batchSeen.imageUrls.has(rowUrls[u])) {
+      return "Duplicate within this batch (same image).";
+    }
+  }
+  if (batchSeen.titlePrice.has(mkNormTitle(row.title) + "|" + row.proposedPrice)) {
+    return "Duplicate within this batch (same title and price).";
+  }
+  for (let i = 0; i < mkProducts.length; i++) {
+    const ex = mkProducts[i].data;
+    if (ex.markazId && ex.markazId === row.markazId) {
+      return "Already imported (same Markaz product, Luma product #" + (ex.id || mkProducts[i].docId) + ").";
+    }
+  }
+  for (let i = 0; i < mkProducts.length; i++) {
+    const ex = mkProducts[i].data;
+    const imgs = Array.isArray(ex.images) ? ex.images : [];
+    let sameImage = false;
+    for (let u = 0; u < rowUrls.length; u++) {
+      if ((ex.img && ex.img === rowUrls[u]) || imgs.indexOf(rowUrls[u]) !== -1) { sameImage = true; break; }
+    }
+    if (sameImage) {
+      return "Same image already used by Luma product #" + (ex.id || mkProducts[i].docId) + ".";
+    }
+  }
+  for (let i = 0; i < mkProducts.length; i++) {
+    const ex = mkProducts[i].data;
+    const exTitle = mkNormTitle(ex.name || ex.originalName || "");
+    if (exTitle && exTitle === mkNormTitle(row.title) && Number(ex.price) === row.proposedPrice) {
+      return "Same title and price as Luma product #" + (ex.id || mkProducts[i].docId) + ".";
+    }
+  }
+  const rowTokens = mkSignificantTokens(row.title);
+  if (rowTokens.length >= 2) {
+    for (let i = 0; i < mkProducts.length; i++) {
+      const ex = mkProducts[i].data;
+      const exTokens = mkSignificantTokens(ex.name || ex.originalName || "");
+      if (!exTokens.length) continue;
+      const shared = rowTokens.filter(function (t) { return exTokens.indexOf(t) !== -1; }).length;
+      const overlap = shared / Math.min(rowTokens.length, exTokens.length);
+      const priceClose = Math.abs(Number(ex.price || 0) - row.proposedPrice) / Math.max(1, row.proposedPrice) <= 0.25;
+      if (overlap >= 0.6 && priceClose) {
+        return "Possible duplicate of Luma product #" + (ex.id || mkProducts[i].docId) + " (very similar title, close price) — skipped, please check it manually.";
+      }
+    }
+  }
+  return null;
+}
+
+/* ---------- intake + preview ---------- */
+
+function mkParsePaste() {
+  const text = $("mk-paste").value || "";
+  const lines = text.split(/\r?\n/);
+  const rows = [];
+  const failures = [];
+  const batchSize = Number($("mk-batchSize").value) || 10;
+  const defaultCategory = $("mk-defaultCategory").value || MK_CATEGORIES[0];
+  let processed = 0;
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li].trim();
+    if (!line) continue;
+    if (processed >= batchSize) {
+      failures.push({ line: line, reason: "Beyond this run's batch size (" + batchSize + ") — paste again in a new run." });
+      continue;
+    }
+    processed++;
+    const parts = line.indexOf("\t") !== -1 ? line.split("\t") : line.split(",");
+    const cols = parts.map(function (p) { return String(p || "").trim(); });
+    const url = cols[0] || "";
+    const title = cols[1] || "";
+    const priceRaw = (cols[2] || "").replace(/[^0-9.]/g, "");
+    const markazPrice = Number(priceRaw);
+    const imageUrls = [];
+    (cols[3] || "").split("|").forEach(function (u) {
+      const t = String(u || "").trim();
+      if (t && imageUrls.indexOf(t) === -1) imageUrls.push(t);
+    });
+    const imageUrl = imageUrls[0] || "";
+    let category = cols[4] || defaultCategory;
+    if (MK_CATEGORIES.indexOf(category) === -1) category = defaultCategory;
+    const stockRaw = (cols[5] || "").replace(/[^0-9]/g, "");
+    const stockNum = Number(stockRaw);
+    const stock = stockRaw !== "" && stockNum > 0 ? stockNum : null;
+    const brand = cols[6] || "";
+    const specs = cols[7] || "";
+    const popularity = cols[8] || "";
+    if (!url || url.indexOf("http") !== 0) {
+      failures.push({ line: line, reason: "Missing or invalid Markaz URL." });
+      continue;
+    }
+    if (!title) {
+      failures.push({ line: line, reason: "Missing title." });
+      continue;
+    }
+    if (!markazPrice || markazPrice <= 0) {
+      failures.push({ line: line, reason: "Missing or invalid Markaz price." });
+      continue;
+    }
+    if (!imageUrl || imageUrl.indexOf("http") !== 0) {
+      failures.push({ line: line, reason: "Missing or invalid image URL." });
+      continue;
+    }
+    rows.push({
+      markazUrl: url,
+      markazId: mkMarkazIdFromUrl(url),
+      title: title,
+      markazPrice: markazPrice,
+      proposedPrice: mkProposedPrice(markazPrice),
+      imageUrl: imageUrl,
+      imageUrls: imageUrls,
+      category: category,
+      stock: stock,
+      brand: brand,
+      specs: specs,
+      popularity: popularity
+    });
+  }
+  return { rows: rows, failures: failures };
+}
+
+function mkPreviewImport() {
+  if (!mkRequireLogin()) return;
+  const parsed = mkParsePaste();
+  const batchSeen = { markazIds: new Set(), imageUrls: new Set(), titlePrice: new Set() };
+  const importable = [];
+  const skipped = [];
+  parsed.rows.forEach(function (row) {
+    const reason = mkCheckRow(row, batchSeen);
+    if (reason) {
+      skipped.push({ row: row, reason: reason });
+      return;
+    }
+    batchSeen.markazIds.add(row.markazId);
+    (row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl]).forEach(function (u) { batchSeen.imageUrls.add(u); });
+    batchSeen.titlePrice.add(mkNormTitle(row.title) + "|" + row.proposedPrice);
+    importable.push(row);
+  });
+  mkPreviewRows = importable;
+  let html = "";
+  if (importable.length) {
+    html += '<table style="width:100%;border-collapse:collapse;font-size:14px">';
+    html += "<thead><tr>"
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Image</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Title (editable)</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Category</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Markaz price</th>'
+      + '<th style="text-align:left;padding:6px;border-bottom:1px solid #d8e2ea">Proposed price (editable)</th>'
+      + "</tr></thead><tbody>";
+    importable.forEach(function (row, idx) {
+      const opts = MK_CATEGORIES.map(function (c) {
+        return '<option value="' + mkEsc(c) + '"' + (c === row.category ? " selected" : "") + ">" + mkEsc(c) + "</option>";
+      }).join("");
+      html += "<tr>"
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><img src="' + mkEsc(row.imageUrl) + '" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\'">' + (row.imageUrls && row.imageUrls.length > 1 ? '<br><span style="font-size:12px">+' + (row.imageUrls.length - 1) + ' more image(s)</span>' : '') + '</td>'
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><input data-mk-preview="name" data-mk-idx="' + idx + '" value="' + mkEsc(row.title) + '" style="width:100%"></td>'
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><select data-mk-preview="category" data-mk-idx="' + idx + '">' + opts + "</select></td>"
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5">Rs ' + mkEsc(String(row.markazPrice)) + "</td>"
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><input data-mk-preview="price" data-mk-idx="' + idx + '" type="number" min="0" step="1" value="' + row.proposedPrice + '" style="width:90px"></td>'
+        + "</tr>";
+    });
+    html += "</tbody></table>";
+    html += '<p class="help" style="margin-top:10px">These ' + importable.length + ' product(s) will be imported as <b>pending</b>. Nothing becomes visible on the public website until you approve it in the dashboard below.</p>';
+    html += '<button type="button" class="btn" id="mk-importBtn" style="margin-top:6px">Import ' + importable.length + ' product(s) as pending</button>';
+  } else {
+    html += '<p class="help">No importable products in this preview. Check the skipped/failed rows below.</p>';
+  }
+  if (skipped.length) {
+    html += '<p class="help" style="margin-top:12px"><b>Skipped duplicates (' + skipped.length + '):</b></p><ul style="font-size:14px">';
+    skipped.forEach(function (s) {
+      html += "<li>" + mkEsc(s.row.title) + " — " + mkEsc(s.reason) + "</li>";
+    });
+    html += "</ul>";
+  }
+  if (parsed.failures.length) {
+    html += '<p class="help" style="margin-top:12px"><b>Rows that could not be used (' + parsed.failures.length + '):</b></p><ul style="font-size:14px">';
+    parsed.failures.forEach(function (f) {
+      html += "<li>" + mkEsc(f.line) + " — " + mkEsc(f.reason) + "</li>";
+    });
+    html += "</ul>";
+  }
+  $("mk-previewWrap").innerHTML = html;
+  const importBtn = $("mk-importBtn");
+  if (importBtn) importBtn.addEventListener("click", mkImportPreviewed);
+  mkStatus(
+    "Preview ready: " + importable.length + " importable, " + skipped.length + " skipped duplicates, " + parsed.failures.length + " unusable rows.",
+    importable.length ? "success" : "error",
+    "mk-importStatus"
+  );
+}
+
+/* ---------- image re-hosting ---------- */
+
+async function mkUploadImageFromUrl(imageUrl) {
+  const res = await fetch(imageUrl, { mode: "cors" });
+  if (!res.ok) throw new Error("Image download failed (HTTP " + res.status + ").");
+  const blob = await res.blob();
+  if (!blob.type || blob.type.indexOf("image/") !== 0) throw new Error("URL did not return an image.");
+  const file = new File([blob], "markaz-image", { type: blob.type });
+  return await uploadToCloudinary(file, 1);
+}
+
+/* ---------- import ---------- */
+
+async function mkImportPreviewed() {
+  if (!mkRequireLogin()) return;
+  const btn = $("mk-importBtn");
+  if (btn) btn.disabled = true;
+  const batchId = "MK-" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "-"
+    + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const report = { batchId: batchId, at: new Date().toISOString(), requested: mkPreviewRows.length, imported: 0, skipped: [], failed: [] };
+  try {
+    const existingSnap = await getDocs(collection(db, "products"));
+    let nextId = 0;
+    existingSnap.forEach(function (d) {
+      nextId = Math.max(nextId, Number(d.data().id) || 0);
+    });
+    for (let i = 0; i < mkPreviewRows.length; i++) {
+      const row = mkPreviewRows[i];
+      const nameInput = document.querySelector('[data-mk-preview="name"][data-mk-idx="' + i + '"]');
+      const catInput = document.querySelector('[data-mk-preview="category"][data-mk-idx="' + i + '"]');
+      const priceInput = document.querySelector('[data-mk-preview="price"][data-mk-idx="' + i + '"]');
+      const name = nameInput ? nameInput.value.trim() : row.title;
+      const category = catInput && MK_CATEGORIES.indexOf(catInput.value) !== -1 ? catInput.value : row.category;
+      const price = priceInput ? Math.max(0, Math.round(Number(priceInput.value) || 0)) : row.proposedPrice;
+      if (!name || !price) {
+        report.failed.push({ title: row.title, reason: "Title or price became empty after editing." });
+        continue;
+      }
+      mkStatus("Importing " + (i + 1) + " of " + mkPreviewRows.length + ": " + name, "success", "mk-importStatus");
+      const imgUrls = [];
+      let needsReview = false;
+      let reviewReason = "";
+      const srcUrls = row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl];
+      for (let k = 0; k < srcUrls.length; k++) {
+        try {
+          imgUrls.push(await mkUploadImageFromUrl(srcUrls[k]));
+        } catch (e) {
+          needsReview = true;
+          reviewReason = "image not re-hosted: " + (e && e.message ? e.message : "upload failed");
+          imgUrls.push(srcUrls[k]);
+        }
+      }
+      const imgUrl = imgUrls[0] || row.imageUrl;
+      nextId++;
+      const data = {
+        id: nextId,
+        name: name,
+        price: price,
+        oldPrice: price,
+        discount: "0%",
+        category: category,
+        subcategory: "",
+        description: "",
+        images: imgUrls.length ? imgUrls : [imgUrl],
+        img: imgUrl,
+        status: "pending",
+        source: "markaz",
+        markazId: row.markazId,
+        markazUrl: row.markazUrl,
+        markazPrice: row.markazPrice,
+        markazPriceType: "owner-supplied",
+        originalName: row.title,
+        importBatchId: batchId,
+        importedAt: serverTimestamp(),
+        createdBy: auth.currentUser.uid
+      };
+      if (row.stock != null) data.stock = row.stock;
+      if (row.brand) data.brand = row.brand;
+      if (row.specs) data.specs = row.specs;
+      if (row.popularity) data.popularity = row.popularity;
+      if (needsReview) {
+        data.needsReview = true;
+        data.reviewReason = reviewReason;
+      }
+      try {
+        await setDoc(doc(db, "products", String(nextId)), data);
+        report.imported++;
+      } catch (e) {
+        report.failed.push({ title: name, reason: "Firestore write failed: " + (e && e.message ? e.message : "unknown error") });
+      }
+    }
+  } catch (e) {
+    mkStatus("Import failed before writing: " + (e && e.message ? e.message : "unknown error"), "error", "mk-importStatus");
+    if (btn) btn.disabled = false;
+    return;
+  }
+  report.pendingCount = mkCounts().pending + report.imported;
+  mkSaveHistory(report);
+  try {
+    await setDoc(doc(db, "imports", batchId), {
+      batchId: batchId,
+      at: report.at,
+      requested: report.requested,
+      imported: report.imported,
+      skipped: report.skipped,
+      failed: report.failed,
+      pendingCount: report.pendingCount,
+      createdBy: auth.currentUser.uid
+    });
+  } catch (e) {
+    console.warn("mk: could not write imports/" + batchId, e);
+  }
+  mkRenderReport(report);
+  $("mk-paste").value = "";
+  mkPreviewRows = [];
+  await mkRefreshData();
+  mkRenderHistory();
+  mkStatus(
+    "Import finished: " + report.imported + " imported as pending, " + report.failed.length + " failed. Batch " + batchId + ".",
+    report.failed.length ? "error" : "success",
+    "mk-importStatus"
+  );
+}
+
+function mkRenderReport(report) {
+  let html = '<div class="card" style="margin-top:12px"><div class="ct">Batch ' + mkEsc(report.batchId) + "</div>"
+    + '<p class="help">Requested: ' + report.requested
+    + " • Imported (pending): " + report.imported
+    + " • Failed: " + report.failed.length
+    + " • Pending total now: " + report.pendingCount + "</p>";
+  if (report.failed.length) {
+    html += '<ul style="font-size:14px">';
+    report.failed.forEach(function (f) {
+      html += "<li>" + mkEsc(f.title) + " — " + mkEsc(f.reason) + "</li>";
+    });
+    html += "</ul>";
+  }
+  html += "</div>";
+  $("mk-previewWrap").innerHTML = html;
+}
+
+function mkSaveHistory(report) {
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(MK_HISTORY_KEY) || "[]"); } catch (e) { history = []; }
+  if (!Array.isArray(history)) history = [];
+  history.unshift(report);
+  history = history.slice(0, 20);
+  try { localStorage.setItem(MK_HISTORY_KEY, JSON.stringify(history)); } catch (e) {}
+}
+
+function mkRenderHistory() {
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(MK_HISTORY_KEY) || "[]"); } catch (e) { history = []; }
+  if (!Array.isArray(history) || !history.length) {
+    $("mk-historyWrap").innerHTML = '<p class="help">No imports yet on this device.</p>';
+    return;
+  }
+  let html = '<ul style="font-size:14px">';
+  history.forEach(function (r) {
+    html += "<li><b>" + mkEsc(r.batchId || "") + "</b> — " + mkEsc(String(r.at || ""))
+      + " • requested " + (r.requested || 0)
+      + " • imported " + (r.imported || 0)
+      + " • failed " + ((r.failed && r.failed.length) || 0)
+      + "</li>";
+  });
+  html += "</ul>";
+  $("mk-historyWrap").innerHTML = html;
+}
+
+/* ---------- section open/close + wiring ---------- */
+
+$("mk-toggleBtn").addEventListener("click", function () {
+  if (!mkRequireLogin()) return;
+  mkSection.style.display = "block";
+  $("productForm").style.display = "none";
+  $("mk-toggleBtn").style.display = "none";
+  $("toggleBulkBtn").style.display = "";
+  $("bulkProductsSection").style.display = "none";
+  $("pp-section").style.display = "none";
+  $("pp-toggleBtn").style.display = "";
+  mkLoadMargin();
+  mkRefreshData();
+  mkRenderHistory();
+  mkSection.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+$("mk-closeBtn").addEventListener("click", function () {
+  mkSection.style.display = "none";
+  $("productForm").style.display = "";
+  $("mk-toggleBtn").style.display = "";
+  $("toggleBulkBtn").style.display = "";
+  $("productForm").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+$("mk-saveMarginBtn").addEventListener("click", mkSaveMargin);
+$("mk-previewBtn").addEventListener("click", mkPreviewImport);
+$("mk-refreshCountsBtn").addEventListener("click", mkRefreshData);
+
+
+/* =========================================
+   PENDING PRODUCTS — simple approval section
+   (insert at the end of the module script,
+   after the Markaz importer code)
+   Reuses the panel helpers ($, showStatus,
+   escapeAdminHTML, auth, db, collection,
+   getDocs, doc, updateDoc, serverTimestamp)
+   and the importer state (MK_CATEGORIES,
+   mkProducts, mkRefreshData).
+   ========================================= */
+
+const ppSection = $("pp-section");
+
+function ppRequireLogin() {
+  if (!auth.currentUser) {
+    showStatus("Please login first.", "error");
+    return false;
+  }
+  return true;
+}
+
+/* Pending = imported Markaz products whose status is not
+   "approved" and not "rejected". A missing status counts
+   as pending. */
+function ppPending() {
+  return mkProducts.filter(function (p) {
+    return p.data.status !== "approved" && p.data.status !== "rejected";
+  });
+}
+
+function ppMarginFor(price, markazPrice) {
+  const m = Number(markazPrice);
+  const p = Number(price);
+  if (!m || m <= 0 || !p) return "—";
+  return String(Math.round((p - m) / m * 100)) + "%";
+}
+
+function ppImages(d) {
+  let imgs = [];
+  if (Array.isArray(d.images)) imgs = d.images.filter(Boolean);
+  if (!imgs.length && d.img) imgs = [d.img];
+  if (d.img && imgs.indexOf(d.img) === -1) imgs.unshift(d.img);
+  return imgs;
+}
+
+function ppRenderBanner() {
+  const n = ppPending().length;
+  $("pp-countBanner").textContent = n + (n === 1 ? " Product Pending Approval" : " Products Pending Approval");
+  $("pp-toggleCount").textContent = String(n);
+}
+
+function ppCardHTML(p) {
+  const d = p.data;
+  const imgs = ppImages(d);
+  const mainImg = imgs[0] || "";
+  const opts = MK_CATEGORIES.map(function (c) {
+    return '<option value="' + escapeAdminHTML(c) + '"' + (c === d.category ? " selected" : "") + ">" + escapeAdminHTML(c) + "</option>";
+  }).join("");
+  const thumbs = imgs.map(function (u, i) {
+    return '<img src="' + escapeAdminHTML(u) + '" alt="" data-pp-thumb="' + escapeAdminHTML(u) + '" style="width:56px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ' + (i === 0 ? "#0b6fa4" : "transparent") + '" onerror="this.style.display=\'none\'">';
+  }).join("");
+  let html = '<div class="card pp-card" data-pp-docid="' + escapeAdminHTML(p.docId) + '" style="margin-bottom:14px">';
+  html += '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">';
+  html += '<div style="width:220px;max-width:100%">';
+  if (mainImg) {
+    html += '<img class="pp-main" src="' + escapeAdminHTML(mainImg) + '" alt="" style="width:100%;border-radius:8px" onerror="this.style.display=\'none\'">';
+  } else {
+    html += '<p class="help">No image.</p>';
+  }
+  if (imgs.length > 1) {
+    html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">' + thumbs + "</div>";
+  }
+  html += "</div>";
+  html += '<div style="flex:1;min-width:240px">';
+  html += '<div class="field"><label>Product title (improved)</label><input data-pp-field="name" value="' + escapeAdminHTML(d.name || "") + '" style="width:100%"></div>';
+  html += '<p class="help">Original Markaz title: ' + escapeAdminHTML(d.originalName || d.name || "—") + "</p>";
+  html += '<div class="field"><label>Description</label><textarea data-pp-field="description" rows="3" style="width:100%">' + escapeAdminHTML(d.description || "") + "</textarea></div>";
+  html += '<div class="grid">';
+  html += '<div class="field"><label>Category</label><select data-pp-field="category">' + opts + "</select></div>";
+  html += '<div class="field"><label>Proposed selling price (PKR)</label><input data-pp-field="price" type="number" min="0" step="1" value="' + (Number(d.price) || 0) + '"></div>';
+  html += "</div>";
+  html += '<p class="help">Markaz price: ' + (d.markazPrice != null ? "Rs " + escapeAdminHTML(String(d.markazPrice)) : "Not provided")
+    + ' • Profit margin: <span class="pp-margin" data-pp-markaz="' + (d.markazPrice != null ? escapeAdminHTML(String(d.markazPrice)) : "") + '">' + ppMarginFor(d.price, d.markazPrice) + "</span>"
+    + " • Available stock: " + (d.stock != null ? escapeAdminHTML(String(d.stock)) : "Not provided") + "</p>";
+  if (d.brand) {
+    html += '<p class="help">Brand: ' + escapeAdminHTML(d.brand) + "</p>";
+  }
+  if (d.specs) {
+    html += '<p class="help">Specifications: ' + escapeAdminHTML(d.specs) + "</p>";
+  }
+  if (d.popularity) {
+    html += '<p class="help">Popularity: ' + escapeAdminHTML(d.popularity) + "</p>";
+  }
+  html += '<p class="help">Markaz: ' + (d.markazUrl ? '<a href="' + escapeAdminHTML(d.markazUrl) + '" target="_blank" rel="noopener">open listing</a>' : "—")
+    + " • Batch: " + escapeAdminHTML(d.importBatchId || "—")
+    + (d.needsReview ? " • Needs review: " + escapeAdminHTML(d.reviewReason || "yes") : "")
+    + "</p>";
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">';
+  html += '<button type="button" class="btn" data-pp-action="approve" style="background:#0284c7;color:#fff;font-weight:700;padding:10px 22px">APPROVE</button>';
+  html += '<button type="button" class="btn" data-pp-action="reject" style="background:#b91c1c;color:#fff;font-weight:700;padding:10px 22px">REJECT</button>';
+  html += '<button type="button" class="btn" data-pp-action="save">Save changes</button>';
+  html += '<label style="font-size:14px"><input type="checkbox" class="pp-select"> Select</label>';
+  html += "</div>";
+  html += "</div></div></div>";
+  return html;
+}
+
+function ppRenderList() {
+  const items = ppPending();
+  const wrap = $("pp-listWrap");
+  if (!items.length) {
+    wrap.innerHTML = '<p class="help">No products pending approval.</p>';
+    return;
+  }
+  let html = "";
+  items.forEach(function (p) {
+    html += ppCardHTML(p);
+  });
+  wrap.innerHTML = html;
+}
+
+function ppRenderAll() {
+  ppRenderBanner();
+  ppRenderList();
+}
+
+function ppCardInputs(cardEl) {
+  const q = function (field) { return cardEl.querySelector('[data-pp-field="' + field + '"]'); };
+  return {
+    name: q("name") ? q("name").value.trim() : "",
+    category: q("category") ? q("category").value : "",
+    price: q("price") ? Math.max(0, Math.round(Number(q("price").value) || 0)) : 0,
+    description: q("description") ? q("description").value.trim() : ""
+  };
+}
+
+async function ppSaveCard(cardEl, statusChange) {
+  if (!ppRequireLogin()) return false;
+  const docId = cardEl.getAttribute("data-pp-docid");
+  const v = ppCardInputs(cardEl);
+  if (!v.name) {
+    showStatus("Title cannot be empty.", "error", "pp-listStatus");
+    return false;
+  }
+  if (MK_CATEGORIES.indexOf(v.category) === -1) {
+    showStatus("Pick a valid category.", "error", "pp-listStatus");
+    return false;
+  }
+  const patch = { name: v.name, category: v.category, price: v.price, description: v.description };
+  if (statusChange === "approved") {
+    patch.status = "approved";
+    patch.approvedAt = serverTimestamp();
+    patch.approvedBy = auth.currentUser.uid;
+  } else if (statusChange === "rejected") {
+    patch.status = "rejected";
+    patch.rejectedAt = serverTimestamp();
+    patch.rejectedBy = auth.currentUser.uid;
+  }
+  await updateDoc(doc(db, "products", docId), patch);
+  return true;
+}
+
+async function ppCardAction(action, cardEl) {
+  if (!ppRequireLogin()) return;
+  if (action === "save") {
+    try {
+      const ok = await ppSaveCard(cardEl, null);
+      if (ok) {
+        showStatus("Changes saved.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Save failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+    return;
+  }
+  if (action === "approve") {
+    try {
+      const ok = await ppSaveCard(cardEl, "approved");
+      if (ok) {
+        showStatus("Product approved — it is now visible on the public website.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Approve failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+    return;
+  }
+  if (action === "reject") {
+    const reason = window.prompt("Reason for rejection (optional — leave blank for none):");
+    if (reason === null) return;
+    try {
+      const docId = cardEl.getAttribute("data-pp-docid");
+      const ok = await ppSaveCard(cardEl, "rejected");
+      if (ok && reason.trim()) {
+        await updateDoc(doc(db, "products", docId), { rejectionReason: reason.trim() });
+      }
+      if (ok) {
+        showStatus("Product rejected — it stays hidden from the public website.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Reject failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+  }
+}
+
+async function ppBulkAction(action) {
+  if (!ppRequireLogin()) return;
+  const checked = Array.from(document.querySelectorAll("#pp-listWrap .pp-select:checked"));
+  if (!checked.length) {
+    showStatus("Select at least one product first.", "error", "pp-listStatus");
+    return;
+  }
+  const n = checked.length;
+  const verb = action === "approved" ? "Approve" : "Reject";
+  const note = action === "approved"
+    ? "This will make them visible on the public website."
+    : "They will stay hidden from the public website.";
+  if (!window.confirm(verb + " " + n + " product" + (n === 1 ? "" : "s") + "? " + note)) return;
+  let done = 0;
+  let failed = 0;
+  for (let i = 0; i < checked.length; i++) {
+    const cardEl = checked[i].closest(".pp-card");
+    if (!cardEl) { failed++; continue; }
+    try {
+      const ok = await ppSaveCard(cardEl, action);
+      if (ok) done++;
+      else failed++;
+    } catch (e) {
+      failed++;
+    }
+  }
+  showStatus(
+    verb + "d " + done + " product(s)" + (failed ? ", " + failed + " failed." : "."),
+    failed ? "error" : "success",
+    "pp-listStatus"
+  );
+  await mkRefreshData();
+}
+
+/* ---------- section open/close + wiring ---------- */
+
+function ppOpenSection() {
+  if (!ppRequireLogin()) return;
+  ppSection.style.display = "block";
+  $("productForm").style.display = "none";
+  $("pp-toggleBtn").style.display = "none";
+  $("mk-toggleBtn").style.display = "";
+  $("toggleBulkBtn").style.display = "";
+  $("mk-section").style.display = "none";
+  $("bulkProductsSection").style.display = "none";
+  mkRefreshData();
+  ppSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function ppCloseSection() {
+  ppSection.style.display = "none";
+  $("productForm").style.display = "";
+  $("pp-toggleBtn").style.display = "";
+  $("mk-toggleBtn").style.display = "";
+  $("toggleBulkBtn").style.display = "";
+  $("productForm").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+$("pp-toggleBtn").addEventListener("click", ppOpenSection);
+$("pp-closeBtn").addEventListener("click", ppCloseSection);
+$("pp-openPendingBtn").addEventListener("click", ppOpenSection);
+$("pp-refreshBtn").addEventListener("click", function () { mkRefreshData(); });
+$("pp-approveSelectedBtn").addEventListener("click", function () { ppBulkAction("approved"); });
+$("pp-rejectSelectedBtn").addEventListener("click", function () { ppBulkAction("rejected"); });
+
+$("pp-listWrap").addEventListener("input", function (ev) {
+  const priceInput = ev.target && ev.target.closest ? ev.target.closest('[data-pp-field="price"]') : null;
+  if (!priceInput) return;
+  const cardEl = priceInput.closest(".pp-card");
+  const marginEl = cardEl ? cardEl.querySelector(".pp-margin") : null;
+  if (marginEl) {
+    marginEl.textContent = ppMarginFor(priceInput.value, marginEl.getAttribute("data-pp-markaz"));
+  }
+});
+
+$("pp-listWrap").addEventListener("click", function (ev) {
+  const thumb = ev.target && ev.target.closest ? ev.target.closest("[data-pp-thumb]") : null;
+  if (thumb) {
+    const cardEl = thumb.closest(".pp-card");
+    const main = cardEl ? cardEl.querySelector(".pp-main") : null;
+    if (main) {
+      main.src = thumb.getAttribute("data-pp-thumb");
+      const all = cardEl.querySelectorAll("[data-pp-thumb]");
+      all.forEach(function (t) { t.style.borderColor = "transparent"; });
+      thumb.style.borderColor = "#0b6fa4";
+    }
+    return;
+  }
+  const btn = ev.target && ev.target.closest ? ev.target.closest("[data-pp-action]") : null;
+  if (!btn) return;
+  const cardEl = btn.closest(".pp-card");
+  if (!cardEl) return;
+  ppCardAction(btn.getAttribute("data-pp-action"), cardEl);
+});
 </script>
 <script>
   if ('serviceWorker' in navigator) {
