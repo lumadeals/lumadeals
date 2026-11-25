@@ -3750,11 +3750,12 @@ function ppCardHTML(p) {
   html += '<div style="flex:1;min-width:240px">';
   html += '<div class="field"><label>Product title (improved)</label><input data-pp-field="name" value="' + escapeAdminHTML(d.name || "") + '" style="width:100%"></div>';
   html += '<p class="help">Original Markaz title: ' + escapeAdminHTML(d.originalName || d.name || "—") + "</p>";
-  html += '<div class="field"><label>Description</label><textarea data-pp-field="description" rows="3" style="width:100%">' + escapeAdminHTML(d.description || "") + "</textarea></div>";
+  html += '<div class="field"><label>Description</label><textarea data-pp-field="description" rows="3" style="width:100%">' + escapeAdminHTML(d.description || d.specs || "") + "</textarea></div>";
   html += '<div class="grid">';
   html += '<div class="field"><label>Category</label><select data-pp-field="category">' + opts + "</select></div>";
   html += '<div class="field"><label>Proposed selling price (PKR)</label><input data-pp-field="price" type="number" min="0" step="1" value="' + (Number(d.price) || 0) + '"></div>';
   html += "</div>";
+  html += '<div class="field"><label>Original price (optional, PKR) — set higher than the selling price to show a discount</label><input data-pp-field="oldPrice" type="number" min="0" step="1" value="' + (Number(d.oldPrice) || 0) + '"></div>';
   html += '<p class="help">Markaz price: ' + (d.markazPrice != null ? "Rs " + escapeAdminHTML(String(d.markazPrice)) : "Not provided")
     + ' • Profit margin: <span class="pp-margin" data-pp-markaz="' + (d.markazPrice != null ? escapeAdminHTML(String(d.markazPrice)) : "") + '">' + ppMarginFor(d.price, d.markazPrice) + "</span>"
     + " • Available stock: " + (d.stock != null ? escapeAdminHTML(String(d.stock)) : "Not provided") + "</p>";
@@ -3776,6 +3777,7 @@ function ppCardHTML(p) {
   html += '<button type="button" class="btn" data-pp-action="reject" style="background:#b91c1c;color:#fff;font-weight:700;padding:10px 22px">REJECT</button>';
   html += '<button type="button" class="btn" data-pp-action="save">Save changes</button>';
   html += '<label style="font-size:14px"><input type="checkbox" class="pp-select"> Select</label>';
+  html += '<label style="font-size:14px"><input type="checkbox" data-pp-field="verified"' + (d.verified ? " checked" : "") + '> Verified by Luma Deals</label>';
   html += "</div>";
   html += "</div></div></div>";
   return html;
@@ -3802,11 +3804,14 @@ function ppRenderAll() {
 
 function ppCardInputs(cardEl) {
   const q = function (field) { return cardEl.querySelector('[data-pp-field="' + field + '"]'); };
+  const verifiedEl = cardEl.querySelector('[data-pp-field="verified"]');
   return {
     name: q("name") ? q("name").value.trim() : "",
     category: q("category") ? q("category").value : "",
     price: q("price") ? Math.max(0, Math.round(Number(q("price").value) || 0)) : 0,
-    description: q("description") ? q("description").value.trim() : ""
+    oldPrice: q("oldPrice") ? Math.max(0, Math.round(Number(q("oldPrice").value) || 0)) : 0,
+    description: q("description") ? q("description").value.trim() : "",
+    verified: verifiedEl ? verifiedEl.checked : false
   };
 }
 
@@ -3822,7 +3827,9 @@ async function ppSaveCard(cardEl, statusChange) {
     showStatus("Pick a valid category.", "error", "pp-listStatus");
     return false;
   }
-  const patch = { name: v.name, category: v.category, price: v.price, description: v.description };
+  const effOld = v.oldPrice > v.price ? v.oldPrice : v.price;
+  const disc = v.oldPrice > v.price ? Math.round((v.oldPrice - v.price) / v.oldPrice * 100) + "%" : "0%";
+  const patch = { name: v.name, category: v.category, price: v.price, description: v.description, oldPrice: effOld, discount: disc, verified: v.verified };
   if (statusChange === "approved") {
     patch.status = "approved";
     patch.approvedAt = serverTimestamp();
