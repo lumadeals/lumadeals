@@ -678,6 +678,7 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
 
   <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
     <button type="button" class="btn" id="pp-approveSelectedBtn">Approve selected</button>
+    <button type="button" class="btn" id="pp-approveAllBtn">Approve all</button>
     <button type="button" class="btn" id="pp-rejectSelectedBtn">Reject selected</button>
   </div>
 </section>
@@ -3991,23 +3992,25 @@ async function ppCardAction(action, cardEl) {
   }
 }
 
-async function ppBulkAction(action) {
+async function ppBulkAction(action, all) {
   if (!ppRequireLogin()) return;
-  const checked = Array.from(document.querySelectorAll("#pp-listWrap .pp-select:checked"));
-  if (!checked.length) {
-    showStatus("Select at least one product first.", "error", "pp-listStatus");
+  const cards = all
+    ? Array.from(document.querySelectorAll("#pp-listWrap .pp-card"))
+    : Array.from(document.querySelectorAll("#pp-listWrap .pp-select:checked")).map(function (cb) { return cb.closest(".pp-card"); }).filter(Boolean);
+  if (!cards.length) {
+    showStatus(all ? "No pending products." : "Select at least one product first.", "error", "pp-listStatus");
     return;
   }
-  const n = checked.length;
+  const n = cards.length;
   const verb = action === "approved" ? "Approve" : "Reject";
   const note = action === "approved"
     ? "This will make them visible on the public website."
     : "They will stay hidden from the public website.";
-  if (!window.confirm(verb + " " + n + " product" + (n === 1 ? "" : "s") + "? " + note)) return;
+  if (!window.confirm(verb + (all ? " all " : " ") + n + " product" + (n === 1 ? "" : "s") + "? " + note)) return;
   let done = 0;
   let failed = 0;
-  for (let i = 0; i < checked.length; i++) {
-    const cardEl = checked[i].closest(".pp-card");
+  for (let i = 0; i < cards.length; i++) {
+    const cardEl = cards[i];
     if (!cardEl) { failed++; continue; }
     try {
       const ok = await ppSaveCard(cardEl, action);
@@ -4054,6 +4057,7 @@ $("pp-closeBtn").addEventListener("click", ppCloseSection);
 $("pp-openPendingBtn").addEventListener("click", ppOpenSection);
 $("pp-refreshBtn").addEventListener("click", function () { mkRefreshData(); });
 $("pp-approveSelectedBtn").addEventListener("click", function () { ppBulkAction("approved"); });
+$("pp-approveAllBtn").addEventListener("click", function () { ppBulkAction("approved", true); });
 $("pp-rejectSelectedBtn").addEventListener("click", function () { ppBulkAction("rejected"); });
 
 $("pp-listWrap").addEventListener("input", function (ev) {
