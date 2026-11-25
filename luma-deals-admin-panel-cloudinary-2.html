@@ -586,6 +586,14 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
   <button type="button" class="btn" id="mk-toggleBtn" style="margin-top:10px"> Open Markaz Product Importer</button>
 </div>
 
+<!-- PART 1: toggle card -->
+<div class="card" style="margin-bottom:18px">
+  <div class="ct">Pending Products</div>
+  <p class="help">Review each imported product and approve or reject it. Only approved products appear on the public website.</p>
+  <p class="help"><b><span id="pp-toggleCount">–</span> products pending approval</b></p>
+  <button type="button" class="btn" id="pp-toggleBtn" style="margin-top:10px"> Open Pending Products</button>
+</div>
+
 <section id="bulkProductsSection" style="display:none">
   <div class="title"><h2>Bulk Add Products</h2><p>Select individual details and 1–7 images for each product. Only the products added as cards will be saved.</p></div>
   <div id="bulkProductCards"></div>
@@ -625,7 +633,7 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
 
   <div class="card">
     <div class="ct">Import products</div>
-    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL, category (optional — uses the default category below when missing).</p>
+    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional).</p>
     <p class="help"><b>Automated collection from Markaz is disabled:</b> Markaz Terms §2.A forbid automated access (robots, scrapers, data-gathering tools) without Markaz's prior express permission. This importer imports products from details you supply. Auto-collect can be enabled after Markaz grants express permission, or via Markaz's sanctioned dropshipping portal.</p>
     <div class="grid">
       <div class="field"><label>Batch size (products per run)</label><select id="mk-batchSize"><option value="10">10</option><option value="50">50</option><option value="100">100</option></select></div>
@@ -638,23 +646,9 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
   </div>
 
   <div class="card">
-    <div class="ct">Pending Approval dashboard</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
-      <button type="button" class="btn mk-filterBtn" data-mk-filter="all">All (<span id="mk-tab-all">0</span>)</button>
-      <button type="button" class="btn mk-filterBtn" data-mk-filter="pending">Pending (<span id="mk-tab-pending">0</span>)</button>
-      <button type="button" class="btn mk-filterBtn" data-mk-filter="approved">Approved (<span id="mk-tab-approved">0</span>)</button>
-      <button type="button" class="btn mk-filterBtn" data-mk-filter="rejected">Rejected (<span id="mk-tab-rejected">0</span>)</button>
-    </div>
-    <div class="grid">
-      <div class="field"><label>Search</label><input id="mk-search" placeholder="Search title, batch or Markaz ID"></div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
-      <button type="button" class="btn" id="mk-approveSelectedBtn">Approve selected</button>
-      <button type="button" class="btn" id="mk-rejectSelectedBtn">Reject selected</button>
-      <button type="button" class="btn" id="mk-refreshListBtn">Refresh list</button>
-    </div>
-    <div id="mk-listWrap"></div>
-    <div id="mk-listStatus" class="status" style="display:none"></div>
+    <div class="ct">Review and approve imports</div>
+    <p class="help">Review each imported product with its full details, then approve or reject it in the Pending Products section. Only approved products appear on the public website.</p>
+    <button type="button" class="btn" id="pp-openPendingBtn" style="margin-top:10px">Open Pending Products</button>
   </div>
 
   <div class="card">
@@ -662,6 +656,29 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
     <p class="help">Reports from this device. The latest batch is also saved in Firestore (collection "imports") when the rules allow it.</p>
     <div id="mk-historyWrap"></div>
     <button type="button" class="btn" id="mk-closeBtn" style="margin-top:10px">Back to single product</button>
+  </div>
+</section>
+
+<!-- PART 2: the Pending Products section -->
+<section id="pp-section" style="display:none">
+  <div class="title"><h2>Pending Products</h2><p>Review each product's complete details, then approve or reject it. Only approved products appear on the public website.</p></div>
+
+  <div class="card" style="text-align:center;padding:22px 14px">
+    <div style="font-size:15px;color:#475569">Products Pending Approval</div>
+    <div id="pp-countBanner" style="font-size:30px;font-weight:800;color:#0b6fa4;margin-top:6px">0 Products Pending Approval</div>
+  </div>
+
+  <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
+    <button type="button" class="btn" id="pp-refreshBtn">Refresh</button>
+    <button type="button" class="btn" id="pp-closeBtn">Back to single product</button>
+  </div>
+
+  <div id="pp-listWrap"></div>
+  <div id="pp-listStatus" class="status" style="display:none"></div>
+
+  <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+    <button type="button" class="btn" id="pp-approveSelectedBtn">Approve selected</button>
+    <button type="button" class="btn" id="pp-rejectSelectedBtn">Reject selected</button>
   </div>
 </section>
 
@@ -3231,9 +3248,9 @@ async function mkRefreshData() {
       }
     });
     mkRenderCounts();
-    mkRenderList();
+    if (typeof ppRenderAll === "function") ppRenderAll();
   } catch (e) {
-    mkStatus("Could not load imported products: " + (e && e.message ? e.message : "unknown error"), "error", "mk-listStatus");
+    mkStatus("Could not load imported products: " + (e && e.message ? e.message : "unknown error"), "error", "mk-importStatus");
   }
 }
 
@@ -3253,16 +3270,7 @@ function mkRenderCounts() {
   $("mk-count-pending").textContent = String(c.pending);
   $("mk-count-approved").textContent = String(c.approved);
   $("mk-count-rejected").textContent = String(c.rejected);
-  $("mk-tab-all").textContent = String(c.total);
-  $("mk-tab-pending").textContent = String(c.pending);
-  $("mk-tab-approved").textContent = String(c.approved);
-  $("mk-tab-rejected").textContent = String(c.rejected);
-  const tabs = document.querySelectorAll(".mk-filterBtn");
-  tabs.forEach(function (btn) {
-    const active = btn.getAttribute("data-mk-filter") === mkFilter;
-    btn.style.outline = active ? "2px solid #0b6fa4" : "";
-    btn.style.fontWeight = active ? "700" : "";
-  });
+
 }
 
 /* ---------- duplicate detection ---------- */
@@ -3345,6 +3353,12 @@ function mkParsePaste() {
     const imageUrl = cols[3] || "";
     let category = cols[4] || defaultCategory;
     if (MK_CATEGORIES.indexOf(category) === -1) category = defaultCategory;
+    const stockRaw = (cols[5] || "").replace(/[^0-9]/g, "");
+    const stockNum = Number(stockRaw);
+    const stock = stockRaw !== "" && stockNum > 0 ? stockNum : null;
+    const brand = cols[6] || "";
+    const specs = cols[7] || "";
+    const popularity = cols[8] || "";
     if (!url || url.indexOf("http") !== 0) {
       failures.push({ line: line, reason: "Missing or invalid Markaz URL." });
       continue;
@@ -3368,7 +3382,11 @@ function mkParsePaste() {
       markazPrice: markazPrice,
       proposedPrice: mkProposedPrice(markazPrice),
       imageUrl: imageUrl,
-      category: category
+      category: category,
+      stock: stock,
+      brand: brand,
+      specs: specs,
+      popularity: popularity
     });
   }
   return { rows: rows, failures: failures };
@@ -3515,6 +3533,10 @@ async function mkImportPreviewed() {
         importedAt: serverTimestamp(),
         createdBy: auth.currentUser.uid
       };
+      if (row.stock != null) data.stock = row.stock;
+      if (row.brand) data.brand = row.brand;
+      if (row.specs) data.specs = row.specs;
+      if (row.popularity) data.popularity = row.popularity;
       if (needsReview) {
         data.needsReview = true;
         data.reviewReason = reviewReason;
@@ -3604,173 +3626,6 @@ function mkRenderHistory() {
   $("mk-historyWrap").innerHTML = html;
 }
 
-/* ---------- dashboard ---------- */
-
-function mkRowInputs(rowEl) {
-  const q = function (field) { return rowEl.querySelector('[data-mk-field="' + field + '"]'); };
-  return {
-    name: q("name") ? q("name").value.trim() : "",
-    category: q("category") ? q("category").value : "",
-    price: q("price") ? Math.max(0, Math.round(Number(q("price").value) || 0)) : 0,
-    description: q("description") ? q("description").value.trim() : ""
-  };
-}
-
-function mkRenderList() {
-  const search = mkNormTitle($("mk-search") ? $("mk-search").value : "");
-  const wrap = $("mk-listWrap");
-  const items = mkProducts.filter(function (p) {
-    if (mkFilter !== "all" && (p.data.status || "pending") !== mkFilter) return false;
-    if (!search) return true;
-    const hay = mkNormTitle((p.data.name || "") + " " + (p.data.originalName || "") + " " + (p.data.importBatchId || "") + " " + (p.data.markazId || ""));
-    return hay.indexOf(search) !== -1;
-  });
-  if (!items.length) {
-    wrap.innerHTML = '<p class="help">No products in this view yet.</p>';
-    return;
-  }
-  let html = "";
-  items.forEach(function (p) {
-    const d = p.data;
-    const status = d.status || "pending";
-    const opts = MK_CATEGORIES.map(function (c) {
-      return '<option value="' + mkEsc(c) + '"' + (c === d.category ? " selected" : "") + ">" + mkEsc(c) + "</option>";
-    }).join("");
-    const img = (Array.isArray(d.images) && d.images[0]) || d.img || "";
-    html += '<div class="card mk-row" data-mk-docid="' + mkEsc(p.docId) + '" style="margin-bottom:12px">'
-      + '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">'
-      + (img ? '<img src="' + mkEsc(img) + '" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:8px" onerror="this.style.display=\'none\'">' : "")
-      + '<div style="flex:1;min-width:220px">'
-      + '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
-      + '<input data-mk-field="name" value="' + mkEsc(d.name || "") + '" style="flex:1;min-width:180px">'
-      + '<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;' + mkBadgeStyle(status) + '">' + mkEsc(status) + "</span>"
-      + "</div>"
-      + '<div class="grid" style="margin-top:8px">'
-      + '<div class="field"><label>Category</label><select data-mk-field="category">' + opts + "</select></div>"
-      + '<div class="field"><label>Price (PKR)</label><input data-mk-field="price" type="number" min="0" step="1" value="' + (Number(d.price) || 0) + '"></div>'
-      + '<div class="field full"><label>Description</label><textarea data-mk-field="description" rows="2">' + mkEsc(d.description || "") + "</textarea></div>"
-      + "</div>"
-      + '<p class="help">Markaz: ' + (d.markazUrl ? '<a href="' + mkEsc(d.markazUrl) + '" target="_blank" rel="noopener">open listing</a>' : "—")
-      + " • Original Markaz price: Rs " + mkEsc(String(d.markazPrice != null ? d.markazPrice : "—"))
-      + " • Batch: " + mkEsc(d.importBatchId || "—")
-      + (d.needsReview ? " • Needs review: " + mkEsc(d.reviewReason || "yes") : "")
-      + "</p>"
-      + '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'
-      + '<button type="button" class="btn" data-mk-action="save">Save changes</button>'
-      + '<button type="button" class="btn" data-mk-action="approve">Approve</button>'
-      + '<button type="button" class="btn" data-mk-action="reject">Reject</button>'
-      + '<label style="font-size:14px"><input type="checkbox" class="mk-select"> Select</label>'
-      + "</div>"
-      + "</div></div></div>";
-  });
-  wrap.innerHTML = html;
-}
-
-async function mkSaveRow(rowEl, statusChange) {
-  if (!mkRequireLogin()) return false;
-  const docId = rowEl.getAttribute("data-mk-docid");
-  const v = mkRowInputs(rowEl);
-  if (!v.name) {
-    mkStatus("Title cannot be empty.", "error", "mk-listStatus");
-    return false;
-  }
-  if (MK_CATEGORIES.indexOf(v.category) === -1) {
-    mkStatus("Pick a valid category.", "error", "mk-listStatus");
-    return false;
-  }
-  const patch = { name: v.name, category: v.category, price: v.price, description: v.description };
-  if (statusChange === "approved") {
-    patch.status = "approved";
-    patch.approvedAt = serverTimestamp();
-    patch.approvedBy = auth.currentUser.uid;
-  } else if (statusChange === "rejected") {
-    patch.status = "rejected";
-    patch.rejectedAt = serverTimestamp();
-    patch.rejectedBy = auth.currentUser.uid;
-  }
-  await updateDoc(doc(db, "products", docId), patch);
-  return true;
-}
-
-async function mkRowAction(action, rowEl) {
-  if (!mkRequireLogin()) return;
-  if (action === "save") {
-    try {
-      const ok = await mkSaveRow(rowEl, null);
-      if (ok) {
-        mkStatus("Changes saved.", "success", "mk-listStatus");
-        await mkRefreshData();
-      }
-    } catch (e) {
-      mkStatus("Save failed: " + (e && e.message ? e.message : "unknown error"), "error", "mk-listStatus");
-    }
-    return;
-  }
-  if (action === "approve") {
-    try {
-      const ok = await mkSaveRow(rowEl, "approved");
-      if (ok) {
-        mkStatus("Product approved — it is now visible on the public website.", "success", "mk-listStatus");
-        await mkRefreshData();
-      }
-    } catch (e) {
-      mkStatus("Approve failed: " + (e && e.message ? e.message : "unknown error"), "error", "mk-listStatus");
-    }
-    return;
-  }
-  if (action === "reject") {
-    const reason = window.prompt("Reason for rejection (optional — leave blank for none):");
-    if (reason === null) return;
-    try {
-      const docId = rowEl.getAttribute("data-mk-docid");
-      const ok = await mkSaveRow(rowEl, "rejected");
-      if (ok && reason.trim()) {
-        await updateDoc(doc(db, "products", docId), { rejectionReason: reason.trim() });
-      }
-      if (ok) {
-        mkStatus("Product rejected — it stays hidden from the public website.", "success", "mk-listStatus");
-        await mkRefreshData();
-      }
-    } catch (e) {
-      mkStatus("Reject failed: " + (e && e.message ? e.message : "unknown error"), "error", "mk-listStatus");
-    }
-  }
-}
-
-async function mkBulkAction(action) {
-  if (!mkRequireLogin()) return;
-  const checked = Array.from(document.querySelectorAll("#mk-listWrap .mk-select:checked"));
-  if (!checked.length) {
-    mkStatus("Select at least one product first.", "error", "mk-listStatus");
-    return;
-  }
-  const n = checked.length;
-  const verb = action === "approved" ? "Approve" : "Reject";
-  const note = action === "approved"
-    ? "This will make them visible on the public website."
-    : "They will stay hidden from the public website.";
-  if (!window.confirm(verb + " " + n + " product" + (n === 1 ? "" : "s") + "? " + note)) return;
-  let done = 0;
-  let failed = 0;
-  for (let i = 0; i < checked.length; i++) {
-    const rowEl = checked[i].closest(".mk-row");
-    if (!rowEl) { failed++; continue; }
-    try {
-      const ok = await mkSaveRow(rowEl, action);
-      if (ok) done++;
-      else failed++;
-    } catch (e) {
-      failed++;
-    }
-  }
-  mkStatus(
-    verb + "d " + done + " product(s)" + (failed ? ", " + failed + " failed." : "."),
-    failed ? "error" : "success",
-    "mk-listStatus"
-  );
-  await mkRefreshData();
-}
-
 /* ---------- section open/close + wiring ---------- */
 
 $("mk-toggleBtn").addEventListener("click", function () {
@@ -3780,6 +3635,8 @@ $("mk-toggleBtn").addEventListener("click", function () {
   $("mk-toggleBtn").style.display = "none";
   $("toggleBulkBtn").style.display = "";
   $("bulkProductsSection").style.display = "none";
+  $("pp-section").style.display = "none";
+  $("pp-toggleBtn").style.display = "";
   mkLoadMargin();
   mkRefreshData();
   mkRenderHistory();
@@ -3797,26 +3654,308 @@ $("mk-closeBtn").addEventListener("click", function () {
 $("mk-saveMarginBtn").addEventListener("click", mkSaveMargin);
 $("mk-previewBtn").addEventListener("click", mkPreviewImport);
 $("mk-refreshCountsBtn").addEventListener("click", mkRefreshData);
-$("mk-refreshListBtn").addEventListener("click", mkRefreshData);
-$("mk-approveSelectedBtn").addEventListener("click", function () { mkBulkAction("approved"); });
-$("mk-rejectSelectedBtn").addEventListener("click", function () { mkBulkAction("rejected"); });
 
-document.querySelectorAll(".mk-filterBtn").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    mkFilter = btn.getAttribute("data-mk-filter") || "all";
-    mkRenderCounts();
-    mkRenderList();
+
+/* =========================================
+   PENDING PRODUCTS — simple approval section
+   (insert at the end of the module script,
+   after the Markaz importer code)
+   Reuses the panel helpers ($, showStatus,
+   escapeAdminHTML, auth, db, collection,
+   getDocs, doc, updateDoc, serverTimestamp)
+   and the importer state (MK_CATEGORIES,
+   mkProducts, mkRefreshData).
+   ========================================= */
+
+const ppSection = $("pp-section");
+
+function ppRequireLogin() {
+  if (!auth.currentUser) {
+    showStatus("Please login first.", "error");
+    return false;
+  }
+  return true;
+}
+
+/* Pending = imported Markaz products whose status is not
+   "approved" and not "rejected". A missing status counts
+   as pending. */
+function ppPending() {
+  return mkProducts.filter(function (p) {
+    return p.data.status !== "approved" && p.data.status !== "rejected";
   });
+}
+
+function ppMarginFor(price, markazPrice) {
+  const m = Number(markazPrice);
+  const p = Number(price);
+  if (!m || m <= 0 || !p) return "—";
+  return String(Math.round((p - m) / m * 100)) + "%";
+}
+
+function ppImages(d) {
+  let imgs = [];
+  if (Array.isArray(d.images)) imgs = d.images.filter(Boolean);
+  if (!imgs.length && d.img) imgs = [d.img];
+  if (d.img && imgs.indexOf(d.img) === -1) imgs.unshift(d.img);
+  return imgs;
+}
+
+function ppRenderBanner() {
+  const n = ppPending().length;
+  $("pp-countBanner").textContent = n + (n === 1 ? " Product Pending Approval" : " Products Pending Approval");
+  $("pp-toggleCount").textContent = String(n);
+}
+
+function ppCardHTML(p) {
+  const d = p.data;
+  const imgs = ppImages(d);
+  const mainImg = imgs[0] || "";
+  const opts = MK_CATEGORIES.map(function (c) {
+    return '<option value="' + escapeAdminHTML(c) + '"' + (c === d.category ? " selected" : "") + ">" + escapeAdminHTML(c) + "</option>";
+  }).join("");
+  const thumbs = imgs.map(function (u, i) {
+    return '<img src="' + escapeAdminHTML(u) + '" alt="" data-pp-thumb="' + escapeAdminHTML(u) + '" style="width:56px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ' + (i === 0 ? "#0b6fa4" : "transparent") + '" onerror="this.style.display=\'none\'">';
+  }).join("");
+  let html = '<div class="card pp-card" data-pp-docid="' + escapeAdminHTML(p.docId) + '" style="margin-bottom:14px">';
+  html += '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">';
+  html += '<div style="width:220px;max-width:100%">';
+  if (mainImg) {
+    html += '<img class="pp-main" src="' + escapeAdminHTML(mainImg) + '" alt="" style="width:100%;border-radius:8px" onerror="this.style.display=\'none\'">';
+  } else {
+    html += '<p class="help">No image.</p>';
+  }
+  if (imgs.length > 1) {
+    html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">' + thumbs + "</div>";
+  }
+  html += "</div>";
+  html += '<div style="flex:1;min-width:240px">';
+  html += '<div class="field"><label>Product title (improved)</label><input data-pp-field="name" value="' + escapeAdminHTML(d.name || "") + '" style="width:100%"></div>';
+  html += '<p class="help">Original Markaz title: ' + escapeAdminHTML(d.originalName || d.name || "—") + "</p>";
+  html += '<div class="field"><label>Description</label><textarea data-pp-field="description" rows="3" style="width:100%">' + escapeAdminHTML(d.description || "") + "</textarea></div>";
+  html += '<div class="grid">';
+  html += '<div class="field"><label>Category</label><select data-pp-field="category">' + opts + "</select></div>";
+  html += '<div class="field"><label>Proposed selling price (PKR)</label><input data-pp-field="price" type="number" min="0" step="1" value="' + (Number(d.price) || 0) + '"></div>';
+  html += "</div>";
+  html += '<p class="help">Markaz price: ' + (d.markazPrice != null ? "Rs " + escapeAdminHTML(String(d.markazPrice)) : "Not provided")
+    + ' • Profit margin: <span class="pp-margin" data-pp-markaz="' + (d.markazPrice != null ? escapeAdminHTML(String(d.markazPrice)) : "") + '">' + ppMarginFor(d.price, d.markazPrice) + "</span>"
+    + " • Available stock: " + (d.stock != null ? escapeAdminHTML(String(d.stock)) : "Not provided") + "</p>";
+  if (d.brand) {
+    html += '<p class="help">Brand: ' + escapeAdminHTML(d.brand) + "</p>";
+  }
+  if (d.specs) {
+    html += '<p class="help">Specifications: ' + escapeAdminHTML(d.specs) + "</p>";
+  }
+  if (d.popularity) {
+    html += '<p class="help">Popularity: ' + escapeAdminHTML(d.popularity) + "</p>";
+  }
+  html += '<p class="help">Markaz: ' + (d.markazUrl ? '<a href="' + escapeAdminHTML(d.markazUrl) + '" target="_blank" rel="noopener">open listing</a>' : "—")
+    + " • Batch: " + escapeAdminHTML(d.importBatchId || "—")
+    + (d.needsReview ? " • Needs review: " + escapeAdminHTML(d.reviewReason || "yes") : "")
+    + "</p>";
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">';
+  html += '<button type="button" class="btn" data-pp-action="approve" style="background:#0284c7;color:#fff;font-weight:700;padding:10px 22px">APPROVE</button>';
+  html += '<button type="button" class="btn" data-pp-action="reject" style="background:#b91c1c;color:#fff;font-weight:700;padding:10px 22px">REJECT</button>';
+  html += '<button type="button" class="btn" data-pp-action="save">Save changes</button>';
+  html += '<label style="font-size:14px"><input type="checkbox" class="pp-select"> Select</label>';
+  html += "</div>";
+  html += "</div></div></div>";
+  return html;
+}
+
+function ppRenderList() {
+  const items = ppPending();
+  const wrap = $("pp-listWrap");
+  if (!items.length) {
+    wrap.innerHTML = '<p class="help">No products pending approval.</p>';
+    return;
+  }
+  let html = "";
+  items.forEach(function (p) {
+    html += ppCardHTML(p);
+  });
+  wrap.innerHTML = html;
+}
+
+function ppRenderAll() {
+  ppRenderBanner();
+  ppRenderList();
+}
+
+function ppCardInputs(cardEl) {
+  const q = function (field) { return cardEl.querySelector('[data-pp-field="' + field + '"]'); };
+  return {
+    name: q("name") ? q("name").value.trim() : "",
+    category: q("category") ? q("category").value : "",
+    price: q("price") ? Math.max(0, Math.round(Number(q("price").value) || 0)) : 0,
+    description: q("description") ? q("description").value.trim() : ""
+  };
+}
+
+async function ppSaveCard(cardEl, statusChange) {
+  if (!ppRequireLogin()) return false;
+  const docId = cardEl.getAttribute("data-pp-docid");
+  const v = ppCardInputs(cardEl);
+  if (!v.name) {
+    showStatus("Title cannot be empty.", "error", "pp-listStatus");
+    return false;
+  }
+  if (MK_CATEGORIES.indexOf(v.category) === -1) {
+    showStatus("Pick a valid category.", "error", "pp-listStatus");
+    return false;
+  }
+  const patch = { name: v.name, category: v.category, price: v.price, description: v.description };
+  if (statusChange === "approved") {
+    patch.status = "approved";
+    patch.approvedAt = serverTimestamp();
+    patch.approvedBy = auth.currentUser.uid;
+  } else if (statusChange === "rejected") {
+    patch.status = "rejected";
+    patch.rejectedAt = serverTimestamp();
+    patch.rejectedBy = auth.currentUser.uid;
+  }
+  await updateDoc(doc(db, "products", docId), patch);
+  return true;
+}
+
+async function ppCardAction(action, cardEl) {
+  if (!ppRequireLogin()) return;
+  if (action === "save") {
+    try {
+      const ok = await ppSaveCard(cardEl, null);
+      if (ok) {
+        showStatus("Changes saved.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Save failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+    return;
+  }
+  if (action === "approve") {
+    try {
+      const ok = await ppSaveCard(cardEl, "approved");
+      if (ok) {
+        showStatus("Product approved — it is now visible on the public website.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Approve failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+    return;
+  }
+  if (action === "reject") {
+    const reason = window.prompt("Reason for rejection (optional — leave blank for none):");
+    if (reason === null) return;
+    try {
+      const docId = cardEl.getAttribute("data-pp-docid");
+      const ok = await ppSaveCard(cardEl, "rejected");
+      if (ok && reason.trim()) {
+        await updateDoc(doc(db, "products", docId), { rejectionReason: reason.trim() });
+      }
+      if (ok) {
+        showStatus("Product rejected — it stays hidden from the public website.", "success", "pp-listStatus");
+        await mkRefreshData();
+      }
+    } catch (e) {
+      showStatus("Reject failed: " + (e && e.message ? e.message : "unknown error"), "error", "pp-listStatus");
+    }
+  }
+}
+
+async function ppBulkAction(action) {
+  if (!ppRequireLogin()) return;
+  const checked = Array.from(document.querySelectorAll("#pp-listWrap .pp-select:checked"));
+  if (!checked.length) {
+    showStatus("Select at least one product first.", "error", "pp-listStatus");
+    return;
+  }
+  const n = checked.length;
+  const verb = action === "approved" ? "Approve" : "Reject";
+  const note = action === "approved"
+    ? "This will make them visible on the public website."
+    : "They will stay hidden from the public website.";
+  if (!window.confirm(verb + " " + n + " product" + (n === 1 ? "" : "s") + "? " + note)) return;
+  let done = 0;
+  let failed = 0;
+  for (let i = 0; i < checked.length; i++) {
+    const cardEl = checked[i].closest(".pp-card");
+    if (!cardEl) { failed++; continue; }
+    try {
+      const ok = await ppSaveCard(cardEl, action);
+      if (ok) done++;
+      else failed++;
+    } catch (e) {
+      failed++;
+    }
+  }
+  showStatus(
+    verb + "d " + done + " product(s)" + (failed ? ", " + failed + " failed." : "."),
+    failed ? "error" : "success",
+    "pp-listStatus"
+  );
+  await mkRefreshData();
+}
+
+/* ---------- section open/close + wiring ---------- */
+
+function ppOpenSection() {
+  if (!ppRequireLogin()) return;
+  ppSection.style.display = "block";
+  $("productForm").style.display = "none";
+  $("pp-toggleBtn").style.display = "none";
+  $("mk-toggleBtn").style.display = "";
+  $("toggleBulkBtn").style.display = "";
+  $("mk-section").style.display = "none";
+  $("bulkProductsSection").style.display = "none";
+  mkRefreshData();
+  ppSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function ppCloseSection() {
+  ppSection.style.display = "none";
+  $("productForm").style.display = "";
+  $("pp-toggleBtn").style.display = "";
+  $("mk-toggleBtn").style.display = "";
+  $("toggleBulkBtn").style.display = "";
+  $("productForm").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+$("pp-toggleBtn").addEventListener("click", ppOpenSection);
+$("pp-closeBtn").addEventListener("click", ppCloseSection);
+$("pp-openPendingBtn").addEventListener("click", ppOpenSection);
+$("pp-refreshBtn").addEventListener("click", function () { mkRefreshData(); });
+$("pp-approveSelectedBtn").addEventListener("click", function () { ppBulkAction("approved"); });
+$("pp-rejectSelectedBtn").addEventListener("click", function () { ppBulkAction("rejected"); });
+
+$("pp-listWrap").addEventListener("input", function (ev) {
+  const priceInput = ev.target && ev.target.closest ? ev.target.closest('[data-pp-field="price"]') : null;
+  if (!priceInput) return;
+  const cardEl = priceInput.closest(".pp-card");
+  const marginEl = cardEl ? cardEl.querySelector(".pp-margin") : null;
+  if (marginEl) {
+    marginEl.textContent = ppMarginFor(priceInput.value, marginEl.getAttribute("data-pp-markaz"));
+  }
 });
 
-$("mk-search").addEventListener("input", mkRenderList);
-
-$("mk-listWrap").addEventListener("click", function (ev) {
-  const btn = ev.target && ev.target.closest ? ev.target.closest("[data-mk-action]") : null;
+$("pp-listWrap").addEventListener("click", function (ev) {
+  const thumb = ev.target && ev.target.closest ? ev.target.closest("[data-pp-thumb]") : null;
+  if (thumb) {
+    const cardEl = thumb.closest(".pp-card");
+    const main = cardEl ? cardEl.querySelector(".pp-main") : null;
+    if (main) {
+      main.src = thumb.getAttribute("data-pp-thumb");
+      const all = cardEl.querySelectorAll("[data-pp-thumb]");
+      all.forEach(function (t) { t.style.borderColor = "transparent"; });
+      thumb.style.borderColor = "#0b6fa4";
+    }
+    return;
+  }
+  const btn = ev.target && ev.target.closest ? ev.target.closest("[data-pp-action]") : null;
   if (!btn) return;
-  const rowEl = btn.closest(".mk-row");
-  if (!rowEl) return;
-  mkRowAction(btn.getAttribute("data-mk-action"), rowEl);
+  const cardEl = btn.closest(".pp-card");
+  if (!cardEl) return;
+  ppCardAction(btn.getAttribute("data-pp-action"), cardEl);
 });
 </script>
 <script>
