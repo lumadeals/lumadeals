@@ -652,6 +652,21 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
   </div>
 
   <div class="card">
+    <div class="ct">Edit live product price</div>
+    <p class="help">Change the price of a product that is already live on the website (approved). Enter the product ID, load it to check it is the right product, then set the new price, original price and stock and save. The discount is recomputed from the two prices. Nothing is approved or rejected here — the product stays live.</p>
+    <div class="field"><label>Product ID</label><input id="lp-docId" type="text" inputmode="numeric" placeholder="e.g. 105"></div>
+    <button type="button" class="btn" id="lp-loadBtn" style="margin-top:10px">Load product</button>
+    <p class="help" id="lp-loadedLine" style="display:none"></p>
+    <div class="grid">
+      <div class="field"><label>Selling price (Rs)</label><input id="lp-price" type="number" min="1" step="1" placeholder="e.g. 2270"></div>
+      <div class="field"><label>Original price (Rs)</label><input id="lp-oldPrice" type="number" min="0" step="1" placeholder="e.g. 2671"></div>
+      <div class="field"><label>Stock</label><input id="lp-stock" type="number" min="0" step="1" placeholder="e.g. 100"></div>
+    </div>
+    <button type="button" class="btn" id="lp-saveBtn" style="margin-top:10px">Save new price</button>
+    <div id="lp-status" class="status" style="display:none"></div>
+  </div>
+
+  <div class="card">
     <div class="ct">Import history</div>
     <p class="help">Reports from this device. The latest batch is also saved in Firestore (collection "imports") when the rules allow it.</p>
     <div id="mk-historyWrap"></div>
@@ -1140,6 +1155,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   doc,
   setDoc,
   updateDoc,
@@ -4059,6 +4075,81 @@ $("pp-refreshBtn").addEventListener("click", function () { mkRefreshData(); });
 $("pp-approveSelectedBtn").addEventListener("click", function () { ppBulkAction("approved"); });
 $("pp-approveAllBtn").addEventListener("click", function () { ppBulkAction("approved", true); });
 $("pp-rejectSelectedBtn").addEventListener("click", function () { ppBulkAction("rejected"); });
+
+/* ---------- EDIT LIVE PRODUCT PRICE (lp-) ----------
+   The panel could only add products or edit pending ones. Approved
+   (live) products had no edit path. This small box loads a live
+   product by its Firestore doc id and saves a new price / original
+   price / stock, recomputing the discount exactly like ppSaveCard
+   does. It never changes status: the product stays live.
+   Requires getDoc in the Firestore import list. */
+
+async function lpLoad() {
+  if (!ppRequireLogin()) return;
+  const docId = $("lp-docId").value.trim();
+  if (!docId) {
+    showStatus("Enter a product ID first.", "error", "lp-status");
+    return;
+  }
+  try {
+    const snap = await getDoc(doc(db, "products", docId));
+    if (!snap.exists()) {
+      showStatus("No product with ID " + docId + " found.", "error", "lp-status");
+      return;
+    }
+    const d = snap.data();
+    $("lp-price").value = (d.price === undefined || d.price === null) ? "" : d.price;
+    $("lp-oldPrice").value = (d.oldPrice === undefined || d.oldPrice === null) ? "" : d.oldPrice;
+    $("lp-stock").value = (d.stock === undefined || d.stock === null) ? "" : d.stock;
+    const line = $("lp-loadedLine");
+    line.style.display = "";
+    line.textContent = (d.name || ("Product " + docId)) + " — currently Rs " + (d.price === undefined ? "—" : d.price) + " (was Rs " + (d.oldPrice === undefined ? "—" : d.oldPrice) + "), stock " + (d.stock === undefined ? "—" : d.stock) + ", status " + (d.status || "live") + ".";
+    showStatus("Loaded. Check the title above, then set the new price and save.", "success", "lp-status");
+  } catch (e) {
+    showStatus("Load failed: " + (e && e.message ? e.message : "unknown error"), "error", "lp-status");
+  }
+}
+
+async function lpSave() {
+  if (!ppRequireLogin()) return;
+  const docId = $("lp-docId").value.trim();
+  const price = Math.round(Number($("lp-price").value) || 0);
+  const oldPrice = Math.round(Number($("lp-oldPrice").value) || 0);
+  const stockRaw = $("lp-stock").value.trim();
+  if (!docId) {
+    showStatus("Enter a product ID first.", "error", "lp-status");
+    return;
+  }
+  if (!price || price <= 0) {
+    showStatus("Enter a selling price above Rs 0.", "error", "lp-status");
+    return;
+  }
+  if (oldPrice && oldPrice < price) {
+    showStatus("Original price cannot be below the selling price.", "error", "lp-status");
+    return;
+  }
+  const effOld = oldPrice > price ? oldPrice : price;
+  const disc = oldPrice > price ? Math.round((oldPrice - price) / oldPrice * 100) + "%" : "0%";
+  const patch = { price: price, oldPrice: effOld, discount: disc };
+  if (stockRaw !== "") {
+    const stock = Math.round(Number(stockRaw));
+    if (isNaN(stock) || stock < 0) {
+      showStatus("Stock must be 0 or more.", "error", "lp-status");
+      return;
+    }
+    patch.stock = stock;
+  }
+  try {
+    await updateDoc(doc(db, "products", docId), patch);
+    showStatus("Saved — product " + docId + " is now Rs " + price + (oldPrice > price ? " (was Rs " + oldPrice + ", " + disc + " off)" : "") + ". It stays live on the website.", "success", "lp-status");
+    await mkRefreshData();
+  } catch (e) {
+    showStatus("Save failed: " + (e && e.message ? e.message : "unknown error"), "error", "lp-status");
+  }
+}
+
+$("lp-loadBtn").addEventListener("click", lpLoad);
+$("lp-saveBtn").addEventListener("click", lpSave);
 
 $("pp-listWrap").addEventListener("input", function (ev) {
   const cardEl = ev.target && ev.target.closest ? ev.target.closest(".pp-card") : null;
