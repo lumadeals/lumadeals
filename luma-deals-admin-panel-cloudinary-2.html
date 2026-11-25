@@ -3723,6 +3723,40 @@ function ppDiscountFor(price, oldPrice) {
 /* Same blue verified seal as the storefront product card. */
 var PP_BADGE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;vertical-align:-3px"><path fill="#1877F2" d="M12 1.5 L14.2 3.1 L16.9 2.9 L18.1 5.3 L20.5 6.5 L20.3 9.2 L22 11.3 L20.3 13.5 L20.5 16.2 L18.1 17.4 L16.9 19.8 L14.2 19.6 L12 21.5 L9.8 19.6 L7.1 19.8 L5.9 17.4 L3.5 16.2 L3.7 13.5 L2 11.3 L3.7 9.2 L3.5 6.5 L5.9 5.3 L7.1 2.9 L9.8 3.1 Z"/><path d="M7.3 11.3 L10.3 14.2 L16.7 7.8" transform="translate(0, 1)" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+/* Subcategories the website already offers per category
+   (the shop's own subcategory filter buttons). The pending
+   card offers exactly these — nothing invented. */
+var PP_SUBCATEGORIES = {
+  "Beauty": ["Skincare", "Makeup", "Hair Care", "Fragrance", "Personal Care"],
+  "Boutique": ["Clothing", "Jewelry", "Accessories", "Handbags"],
+  "Electronics": ["Mobile Accessories", "Audio", "Smart Devices"],
+  "Fashion": ["Men", "Women", "Shoes", "Bags", "Watches"],
+  "Home": ["Home Decor", "Lighting", "Storage & Organization", "Bedding", "Garden & Outdoor", "Cleaning & Household"],
+  "Kitchen": ["Cookware", "Kitchen Appliances", "Dining", "Kitchen Storage", "Tools & Gadgets"],
+  "Toys": ["Educational Toys", "Games", "Outdoor Toys", "Kids Toys", "Puzzles"]
+};
+
+function ppSubOptions(category, selected) {
+  const list = PP_SUBCATEGORIES[category] || [];
+  let html = '<option value=""' + (!selected ? " selected" : "") + ">No subcategory</option>";
+  list.forEach(function (s) {
+    html += '<option value="' + escapeAdminHTML(s) + '"' + (s === selected ? " selected" : "") + ">" + escapeAdminHTML(s) + "</option>";
+  });
+  return html;
+}
+
+/* Rebuild the subcategory options when the category changes,
+   keeping the current choice when it still belongs to the
+   new category, otherwise resetting to "No subcategory". */
+function ppRefreshSubcategory(cardEl) {
+  const catEl = cardEl ? cardEl.querySelector('[data-pp-field="category"]') : null;
+  const subEl = cardEl ? cardEl.querySelector('[data-pp-field="subcategory"]') : null;
+  if (!catEl || !subEl) return;
+  const current = subEl.value;
+  const list = PP_SUBCATEGORIES[catEl.value] || [];
+  subEl.innerHTML = ppSubOptions(catEl.value, list.indexOf(current) !== -1 ? current : "");
+}
+
 /* Keep the card's "Store preview" line in sync with what the
    owner types/ticks: badge, stars and discount. */
 function ppRefreshPreview(cardEl) {
@@ -3785,6 +3819,7 @@ function ppCardHTML(p) {
   html += '<div class="field"><label>Description</label><textarea data-pp-field="description" rows="3" style="width:100%">' + escapeAdminHTML(d.description || d.specs || "") + "</textarea></div>";
   html += '<div class="grid">';
   html += '<div class="field"><label>Category</label><select data-pp-field="category">' + opts + "</select></div>";
+  html += '<div class="field"><label>Subcategory</label><select data-pp-field="subcategory">' + ppSubOptions(d.category, d.subcategory || "") + "</select></div>";
   html += '<div class="field"><label>Proposed selling price (PKR)</label><input data-pp-field="price" type="number" min="0" step="1" value="' + (Number(d.price) || 0) + '"></div>';
   html += '<div class="field"><label>Rating (stars) — shown on the store once set</label><select data-pp-field="rating">' + ratingOpts + "</select></div>";
   html += "</div>";
@@ -3841,6 +3876,7 @@ function ppCardInputs(cardEl) {
   return {
     name: q("name") ? q("name").value.trim() : "",
     category: q("category") ? q("category").value : "",
+    subcategory: q("subcategory") ? q("subcategory").value : "",
     price: q("price") ? Math.max(0, Math.round(Number(q("price").value) || 0)) : 0,
     oldPrice: q("oldPrice") ? Math.max(0, Math.round(Number(q("oldPrice").value) || 0)) : 0,
     description: q("description") ? q("description").value.trim() : "",
@@ -3863,7 +3899,7 @@ async function ppSaveCard(cardEl, statusChange) {
   }
   const effOld = v.oldPrice > v.price ? v.oldPrice : v.price;
   const disc = v.oldPrice > v.price ? Math.round((v.oldPrice - v.price) / v.oldPrice * 100) + "%" : "0%";
-  const patch = { name: v.name, category: v.category, price: v.price, description: v.description, oldPrice: effOld, discount: disc, verified: v.verified, rating: v.rating };
+  const patch = { name: v.name, category: v.category, subcategory: v.subcategory, price: v.price, description: v.description, oldPrice: effOld, discount: disc, verified: v.verified, rating: v.rating };
   if (statusChange === "approved") {
     patch.status = "approved";
     patch.approvedAt = serverTimestamp();
@@ -4003,6 +4039,8 @@ $("pp-listWrap").addEventListener("input", function (ev) {
 $("pp-listWrap").addEventListener("change", function (ev) {
   const cardEl = ev.target && ev.target.closest ? ev.target.closest(".pp-card") : null;
   if (!cardEl) return;
+  const catChanged = ev.target && ev.target.closest ? ev.target.closest('[data-pp-field="category"]') : null;
+  if (catChanged) ppRefreshSubcategory(cardEl);
   ppRefreshPreview(cardEl);
 });
 
