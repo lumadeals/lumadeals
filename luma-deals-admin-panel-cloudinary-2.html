@@ -633,7 +633,7 @@ Create a professional product with pricing, discount, reviews and Cloudinary ima
 
   <div class="card">
     <div class="ct">Import products</div>
-    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional).</p>
+    <p class="help">Paste one product per line. Columns, separated by tabs or commas: Markaz URL, title, Markaz price (PKR), image URL(s) — for several photos put the URLs separated by | and all of them will show in the gallery, category (optional — uses the default category below when missing), stock (optional), brand (optional), specifications (optional), popularity (optional).</p>
     <p class="help"><b>Automated collection from Markaz is disabled:</b> Markaz Terms §2.A forbid automated access (robots, scrapers, data-gathering tools) without Markaz's prior express permission. This importer imports products from details you supply. Auto-collect can be enabled after Markaz grants express permission, or via Markaz's sanctioned dropshipping portal.</p>
     <div class="grid">
       <div class="field"><label>Batch size (products per run)</label><select id="mk-batchSize"><option value="10">10</option><option value="50">50</option><option value="100">100</option></select></div>
@@ -3283,8 +3283,11 @@ function mkCheckRow(row, batchSeen) {
   if (batchSeen.markazIds.has(row.markazId)) {
     return "Duplicate within this batch (same Markaz product).";
   }
-  if (batchSeen.imageUrls.has(row.imageUrl)) {
-    return "Duplicate within this batch (same image).";
+  const rowUrls = row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl];
+  for (let u = 0; u < rowUrls.length; u++) {
+    if (batchSeen.imageUrls.has(rowUrls[u])) {
+      return "Duplicate within this batch (same image).";
+    }
   }
   if (batchSeen.titlePrice.has(mkNormTitle(row.title) + "|" + row.proposedPrice)) {
     return "Duplicate within this batch (same title and price).";
@@ -3298,7 +3301,11 @@ function mkCheckRow(row, batchSeen) {
   for (let i = 0; i < mkProducts.length; i++) {
     const ex = mkProducts[i].data;
     const imgs = Array.isArray(ex.images) ? ex.images : [];
-    if ((ex.img && ex.img === row.imageUrl) || imgs.indexOf(row.imageUrl) !== -1) {
+    let sameImage = false;
+    for (let u = 0; u < rowUrls.length; u++) {
+      if ((ex.img && ex.img === rowUrls[u]) || imgs.indexOf(rowUrls[u]) !== -1) { sameImage = true; break; }
+    }
+    if (sameImage) {
       return "Same image already used by Luma product #" + (ex.id || mkProducts[i].docId) + ".";
     }
   }
@@ -3350,7 +3357,12 @@ function mkParsePaste() {
     const title = cols[1] || "";
     const priceRaw = (cols[2] || "").replace(/[^0-9.]/g, "");
     const markazPrice = Number(priceRaw);
-    const imageUrl = cols[3] || "";
+    const imageUrls = [];
+    (cols[3] || "").split("|").forEach(function (u) {
+      const t = String(u || "").trim();
+      if (t && imageUrls.indexOf(t) === -1) imageUrls.push(t);
+    });
+    const imageUrl = imageUrls[0] || "";
     let category = cols[4] || defaultCategory;
     if (MK_CATEGORIES.indexOf(category) === -1) category = defaultCategory;
     const stockRaw = (cols[5] || "").replace(/[^0-9]/g, "");
@@ -3382,6 +3394,7 @@ function mkParsePaste() {
       markazPrice: markazPrice,
       proposedPrice: mkProposedPrice(markazPrice),
       imageUrl: imageUrl,
+      imageUrls: imageUrls,
       category: category,
       stock: stock,
       brand: brand,
@@ -3405,7 +3418,7 @@ function mkPreviewImport() {
       return;
     }
     batchSeen.markazIds.add(row.markazId);
-    batchSeen.imageUrls.add(row.imageUrl);
+    (row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl]).forEach(function (u) { batchSeen.imageUrls.add(u); });
     batchSeen.titlePrice.add(mkNormTitle(row.title) + "|" + row.proposedPrice);
     importable.push(row);
   });
@@ -3425,7 +3438,7 @@ function mkPreviewImport() {
         return '<option value="' + mkEsc(c) + '"' + (c === row.category ? " selected" : "") + ">" + mkEsc(c) + "</option>";
       }).join("");
       html += "<tr>"
-        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><img src="' + mkEsc(row.imageUrl) + '" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\'"></td>'
+        + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><img src="' + mkEsc(row.imageUrl) + '" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\'">' + (row.imageUrls && row.imageUrls.length > 1 ? '<br><span style="font-size:12px">+' + (row.imageUrls.length - 1) + ' more image(s)</span>' : '') + '</td>'
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><input data-mk-preview="name" data-mk-idx="' + idx + '" value="' + mkEsc(row.title) + '" style="width:100%"></td>'
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5"><select data-mk-preview="category" data-mk-idx="' + idx + '">' + opts + "</select></td>"
         + '<td style="padding:6px;border-bottom:1px solid #eef2f5">Rs ' + mkEsc(String(row.markazPrice)) + "</td>"
@@ -3501,15 +3514,20 @@ async function mkImportPreviewed() {
         continue;
       }
       mkStatus("Importing " + (i + 1) + " of " + mkPreviewRows.length + ": " + name, "success", "mk-importStatus");
-      let imgUrl = row.imageUrl;
+      const imgUrls = [];
       let needsReview = false;
       let reviewReason = "";
-      try {
-        imgUrl = await mkUploadImageFromUrl(row.imageUrl);
-      } catch (e) {
-        needsReview = true;
-        reviewReason = "image not re-hosted: " + (e && e.message ? e.message : "upload failed");
+      const srcUrls = row.imageUrls && row.imageUrls.length ? row.imageUrls : [row.imageUrl];
+      for (let k = 0; k < srcUrls.length; k++) {
+        try {
+          imgUrls.push(await mkUploadImageFromUrl(srcUrls[k]));
+        } catch (e) {
+          needsReview = true;
+          reviewReason = "image not re-hosted: " + (e && e.message ? e.message : "upload failed");
+          imgUrls.push(srcUrls[k]);
+        }
       }
+      const imgUrl = imgUrls[0] || row.imageUrl;
       nextId++;
       const data = {
         id: nextId,
@@ -3520,7 +3538,7 @@ async function mkImportPreviewed() {
         category: category,
         subcategory: "",
         description: "",
-        images: [imgUrl],
+        images: imgUrls.length ? imgUrls : [imgUrl],
         img: imgUrl,
         status: "pending",
         source: "markaz",
