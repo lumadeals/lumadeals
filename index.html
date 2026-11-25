@@ -620,6 +620,16 @@
        FIRESTORE PRODUCTS
        ========================= */
 
+    /* Premium Products stat: show the live catalog size. Called whenever
+       window.products is (re)set — from cache and from Firestore — so the
+       number grows automatically as new products are approved. Leaves the
+       hardcoded "81+" fallback untouched when no products are loaded. */
+    function ldUpdateProductCount() {
+      var el = document.getElementById("ld-stat-products");
+      if (!el || !window.products || !window.products.length) return;
+      el.textContent = window.products.length + "+";
+    }
+
     async function loadProductsFromFirestore() {
 
       const homeGrid =
@@ -682,6 +692,7 @@
             window.__ldCacheRenderGen = window.__ldRenderGen;
             window.__ldInitialRendered = true;
             renderedFromCache = true;
+            ldUpdateProductCount();
           }
         }
       } catch (e) { /* a corrupt cache must never break the page */ }
@@ -775,6 +786,7 @@
             filterCat(window.__ldCurrentCategory || 'All');
           }
           window.__ldInitialRendered = true;
+          ldUpdateProductCount();
 
         }
 
@@ -2272,17 +2284,20 @@
       </a>
     </section>
 
-    <!-- STATS BAR (3D, 2026-11-11): figures verified live 2026-11-11 --
-         81 products in the catalog, 4.3 average listing stars, COD offered.
-         1,000+ customers is the owner's figure, confirmed by the owner
-         2026-11-11 (replacing the earlier 50K+). -->
+    <!-- STATS BAR (3D, 2026-11-11): 4.3 average listing stars and COD
+         offered verified live 2026-11-11. 1,000+ customers is the owner's
+         figure, confirmed by the owner 2026-11-11 (replacing the earlier
+         50K+). Premium Products count is live since 2026-11-25: the
+         number in #ld-stat-products is set from the loaded catalog
+         (visible products only) by ldUpdateProductCount(); "81+" is only
+         the fallback shown before products load. -->
     <section class="ld-3d-stats" aria-label="Luma Deals in numbers">
       <div class="ld-3d-stat">
         <strong>1,000+</strong>
         <span>Happy Customers</span>
       </div>
       <div class="ld-3d-stat">
-        <strong>81+</strong>
+        <strong id="ld-stat-products">81+</strong>
         <span>Premium Products</span>
       </div>
       <div class="ld-3d-stat">
