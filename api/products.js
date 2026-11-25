@@ -99,11 +99,19 @@ export default async function handler(req, res) {
       };
     });
 
+    /* Markaz imports: pending/rejected products stay hidden.
+       Legacy products have no status field and stay visible. */
+    const visibleProducts = products.filter(
+      (product) =>
+        product.status !== "pending" &&
+        product.status !== "rejected"
+    );
+
     const query = normalize(
       req.query?.q || ""
     );
 
-    let filteredProducts = products;
+    let filteredProducts = visibleProducts;
 
     if (query) {
       const words = query

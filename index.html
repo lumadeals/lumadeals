@@ -721,11 +721,22 @@
 
         snapshot.forEach(function (doc) {
 
+          var __ldData = doc.data();
+
+          /* Markaz imports: pending/rejected products stay hidden.
+             Legacy products have no status field and stay visible. */
+          if (
+            __ldData.status === "pending" ||
+            __ldData.status === "rejected"
+          ) {
+            return;
+          }
+
           window.products.push({
 
             id: doc.id,
 
-            ...doc.data()
+            ...__ldData
 
           });
 

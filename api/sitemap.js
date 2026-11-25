@@ -37,6 +37,11 @@ export default async function handler(req, res) {
       const docs = data.documents || [];
     for (const doc of docs) {
       const fields = doc.fields || {};
+      /* Markaz imports: pending/rejected products stay out of the sitemap.
+         Legacy products have no status field and stay listed. */
+      const statusField = fields.status;
+      const statusValue = statusField && statusField.stringValue;
+      if (statusValue === "pending" || statusValue === "rejected") continue;
       const idField = fields.id;
       const id =
         idField && idField.stringValue !== undefined
