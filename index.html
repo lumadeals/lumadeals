@@ -1183,23 +1183,7 @@
     ⬇️ Install App
   </button>
 <div class="promo-bar-neon">
-    <div class="promo-glow"></div>
-
-    <span class="promo-icon">🚀</span>
-
-    <span class="promo-text">
-      We&rsquo;re Growing Fast &mdash;
-    </span>
-
-    <span class="promo-off">
-      5,000 Products
-    </span>
-
-    <span class="promo-text">
-      Coming Soon!
-    </span>
-
-    <a class="ld-3d-topbar-cta" href="/?page=shop" onclick="showPage('shop');return false;" data-translate="shopNow">Shop Now &rarr;</a>
+    <span class="ld-topbar-msg" id="ld-topbar-msg" aria-live="off"><span class="ld-topbar-dot" aria-hidden="true"></span><span id="ld-topbar-text">Shop Smart. Find Better Deals.</span></span>
 </div>
   <header class="navbar">
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
@@ -14869,6 +14853,32 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 </style>
 
 
+<style id="ld-topbar-v6">
+/* TOP PROMO BAR v6 (2026-11-26): premium rotating announcement bar.
+   Solid near-black background with a brand-blue accent, one message at a
+   time, fading and sliding up every 3.5s. Placed after v2-v5 so it wins
+   the cascade over the old gold-badge looks. */
+.promo-bar-neon{background:#14171A !important;background-size:100% 100% !important;animation:none !important;min-height:40px !important;padding:7px 16px !important;border:0 !important;border-bottom:1px solid rgba(255,255,255,.07) !important;box-shadow:none !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;}
+.promo-bar-neon::before{display:none !important;}
+.promo-bar-neon::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,rgba(59,180,236,.55) 30%,#3bb4ec 50%,rgba(59,180,236,.55) 70%,transparent) !important;pointer-events:none;}
+.ld-topbar-msg{display:inline-flex;align-items:center;justify-content:center;gap:9px;max-width:100%;color:#fff !important;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;letter-spacing:.35px;line-height:1.35;text-align:center;text-shadow:none !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .45s ease,transform .45s ease;}
+.ld-topbar-msg.ld-topbar-out{opacity:0;transform:translateY(10px);}
+.ld-topbar-dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#3bb4ec;box-shadow:0 0 8px rgba(59,180,236,.9);animation:ldTopbarPulse 2.6s ease-in-out infinite;}
+@keyframes ldTopbarPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.55;transform:scale(.8);}}
+@media (max-width:860px){
+  .promo-bar-neon{min-height:38px !important;padding:6px 12px !important;}
+  .ld-topbar-msg{font-size:12.5px !important;letter-spacing:.2px !important;}
+}
+@media (max-width:480px){
+  .ld-topbar-msg{white-space:normal !important;}
+}
+@media (prefers-reduced-motion:reduce){
+  .ld-topbar-msg{transition:none !important;}
+  .ld-topbar-dot{animation:none !important;}
+}
+</style>
+
+
 <style id="ld-wishlist-pro-v1">
 /* WISHLIST PAGE — PROFESSIONAL REDESIGN (2026-11-11). CSS-only: the header,
    toolbar and empty state get a premium 3D treatment. The count element,
@@ -14933,5 +14943,41 @@ body.dark-mode #page-wishlist .ld-wishlist-empty-art{background:linear-gradient(
 </style>
 
 <script data-cfasync="false" src="https://bicea.org/14/67a4c0b231d644c0722ae130b705192b"></script>
+
+<script id="ld-topbar-v6-js">
+/* TOP PROMO BAR v6 (2026-11-26): rotate the six announcement messages
+   every 3.5s with a fade + slide-up transition. Pauses while the mouse
+   hovers the bar; stays on the first message when the user prefers
+   reduced motion. */
+(function(){
+  var msgs=[
+    "Shop Smart. Find Better Deals.",
+    "Discover Trending Products at Great Prices.",
+    "Quality Products. Smarter Shopping.",
+    "Explore More. Save More.",
+    "Your Everyday Shopping, Made Better.",
+    "Welcome to Luma Deals \u2013 Your Smarter Shopping Destination."
+  ];
+  var box=document.getElementById("ld-topbar-msg");
+  var txt=document.getElementById("ld-topbar-text");
+  if(!box||!txt){return;}
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){return;}
+  var i=0,timer=null;
+  function next(){
+    box.classList.add("ld-topbar-out");
+    setTimeout(function(){
+      i=(i+1)%msgs.length;
+      txt.textContent=msgs[i];
+      box.classList.remove("ld-topbar-out");
+    },450);
+  }
+  timer=setInterval(next,3500);
+  var bar=box.parentNode;
+  if(bar&&bar.addEventListener){
+    bar.addEventListener("mouseenter",function(){if(timer){clearInterval(timer);timer=null;}});
+    bar.addEventListener("mouseleave",function(){if(!timer){timer=setInterval(next,3500);}});
+  }
+})();
+</script>
 </body>
 </html>
